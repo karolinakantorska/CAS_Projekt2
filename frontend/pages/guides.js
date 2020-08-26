@@ -1,9 +1,9 @@
-import Link from 'next.link';
+import Link from "next/link";
 
 const Guides = (props) => (
-<div>
-    <p>Our Guides</p>
-</div>
-)
+  <div>
+    <p>Guides</p>
+  </div>
+);
 
 export default Guides;
