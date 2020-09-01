@@ -1,9 +1,14 @@
-import Link from "next/link";
 
-const Guides = (props) => (
-  <div>
-    <p>Guides</p>
-  </div>
-);
+import GuidesList from '../components/GuidesList';
 
-export default Guides;
+// render props vs high order components
+
+const Guides = (props) => {
+  return (
+    <div>
+      <GuidesList />
+    </div>
+  )
+}
+
+export default Guides  ;

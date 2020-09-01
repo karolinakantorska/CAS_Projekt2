@@ -1,4 +1,5 @@
 import withApollo from 'next-with-apollo';
+import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { endpoint } from '../config';
 
@@ -9,8 +10,8 @@ export default withApollo (
             uri:'http://localhost:4000',
             cache: new InMemoryCache().restore(initialState|| {}) 
         });
-    },
-)
+    });
+
 /*
 function createClient ({ headers }) {
     return new ApolloClient({

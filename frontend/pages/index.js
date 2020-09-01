@@ -1,15 +1,8 @@
 import Link from "next/link";
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
+
+
 import withApollo from '../lib/withApollo';
 
-const QUERY = gql`
-  {
-    users {
-      name
-    }
-  }
-`;
 /*
 const Index = () => {
   const { loading, data } = useQuery(QUERY);
@@ -21,19 +14,12 @@ const Index = () => {
 };
 */
 
-const Home = props => {
-  const { loading, data } = useQuery(QUERY);
-  console.log(loading, data);
-  if (loading || !data) {
-    <div>
-      <p>loading... a Home Page</p>
-    </div>;
-  }
-  return (
+const Home = props => (
+
     <div>
       <p>Home Page</p>
     </div>
-  );
+
     
-};
+);
 export default Home;
