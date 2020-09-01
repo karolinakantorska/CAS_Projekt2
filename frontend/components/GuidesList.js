@@ -5,7 +5,9 @@ import { useQuery } from '@apollo/react-hooks';
 
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
-import apolloClientData from '../lib/withApollo';
+
+import Guide from './Guide';
+
 // render props vs high order components
 // render props:
 
@@ -33,7 +35,7 @@ const GuidesList = () => {
                         return (
                             <ul>
                                 {data.users.map(user => (
-                                    <li key={user.id}>{user.name} id: {user.id}</li>
+                                    <Guide item={user} key={user.id}/>
                                 ) 
                                 )}
                             </ul>

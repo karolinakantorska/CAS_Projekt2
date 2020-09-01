@@ -1,12 +1,12 @@
 import Page from '../components/Page';
 import App from "next/app";
 import apolloClientData from '../lib/withApollo';
+// import { ApolloProvider } from '@apollo/react-hooks';
 // import { ApolloProvider } from '@apollo/client';
-// import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloProvider } from 'react-apollo';
 
 class MyApp extends App {
-  
+  /*
     static async getInitialProps({ Component, ctx }) {
         let pageProps = {};
         // if component has props
@@ -17,7 +17,7 @@ class MyApp extends App {
         pageProps.query = ctx.query;
         return { pageProps };
     }
-    
+    */
   render() {
     const { Component, apollo, pageProps  } = this.props;
     console.log('apollo:' , apollo)

@@ -1,5 +1,4 @@
 import withApollo from 'next-with-apollo';
-import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { endpoint } from '../config';
 
