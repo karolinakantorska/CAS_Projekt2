@@ -10,6 +10,9 @@ const Nav = () => (
     <Link href="/guides">
       <a>MTB Guides</a>
     </Link>
+    <Link href="/create_guide">
+      <a>Add New MTB Guide</a>
+    </Link>
     <Link href="/user">
       <a>User</a>
     </Link>
@@ -20,7 +23,7 @@ const Nav = () => (
 const StyledNav = styled.nav`
     background: white;
     display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-columns: repeat(5,1fr) ;
 `;
 
 export default Nav;

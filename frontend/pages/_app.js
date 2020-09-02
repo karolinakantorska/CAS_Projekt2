@@ -1,9 +1,9 @@
 import Page from '../components/Page';
 import App from "next/app";
 import apolloClientData from '../lib/withApollo';
-// import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/react-hooks';
 // import { ApolloProvider } from '@apollo/client';
-import { ApolloProvider } from 'react-apollo';
+// import { ApolloProvider } from 'react-apollo';
 
 class MyApp extends App {
   /*
