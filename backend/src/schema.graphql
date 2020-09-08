@@ -7,7 +7,19 @@ type Mutation {
       name: String
       surname: String
       description: String
+      photo: String
+      bigPhoto: String
     ): User!
+    updateUser(
+      id: ID!
+      email: String
+      name: String
+      surname: String
+      description: String
+      photo: String
+      bigPhoto: String
+    ): User!
+
 }
 type User {
   id: ID!
@@ -15,4 +27,6 @@ type User {
   name: String
   surname: String
   description: String
+  photo: String
+  bigPhoto: String
 }

@@ -1,7 +1,6 @@
 {
   "name": "backend",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,7 +9,7 @@
     "prismaup": "npx prisma migrate save --experimental && npx prisma migrate up --experimental && npx prisma generate"
   },
   "keywords": [],
-  "author": "",
+  "author": "Karolina Kantorska",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^2.5.1",
@@ -20,5 +19,14 @@
   },
   "devDependencies": {
     "@prisma/cli": "^2.5.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karolinakantorska/CAS_Projekt2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/karolinakantorska/CAS_Projekt2/issues"
+  },
+  "homepage": "https://github.com/karolinakantorska/CAS_Projekt2#readme",
+  "description": ""
 }

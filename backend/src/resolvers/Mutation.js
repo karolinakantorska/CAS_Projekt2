@@ -5,6 +5,8 @@ function createUser(parent, args, context, info ) {
             name: args.name,
             surname: args.surname,
             description: args.description,
+            photo: args.photo,
+            bigPhoto: args.bigPhoto,
           },
         });
 }

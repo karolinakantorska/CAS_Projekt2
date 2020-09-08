@@ -10,12 +10,16 @@ const ADD_GUIDE = gql`
         $name: String!
         $surname: String
         $description: String
+        $photo: String
+        $bigPhoto: String
     ) {
         createUser(
             email: $email
             name: $name
             surname: $surname
             description: $description
+            photo: $photo
+            bigPhoto: $bigPhoto
         ) {
             name
             id
@@ -28,34 +32,65 @@ const CreateGuide = (props) => {
     const surname = useFormInput('');
     const email = useFormInput('');
     const description = useFormInput('');
+    const [photo, setPhoto] = useState('');
+    const [bigPhoto, setBigPhoto] = useState('');
+
     const [add_guide, { loading, error, called, data }] = useMutation(ADD_GUIDE);
-    /*
-    const [name, setName] = useState('');
-    function handleNameChange(e){
-        setName(e.target.value);
+
+    async function handlePhotoUpload(e) {
+        const data = new FormData();
+        data.append('file', e.target.files[0]);
+        data.append('upload_preset', 'MTBregistration');
+
+        const cloudinaryRes = await fetch(
+            'https://api.cloudinary.com/v1_1/karolinauploads/image/upload',
+            {
+                method: 'POST',
+                body: data
+            }
+        );
+        const file = await cloudinaryRes.json();
+        setPhoto(file.secure_url);
+        setBigPhoto(file.eager[0].secure_url);
+        console.log('photo url: ', file.secure_url);
+        console.log('photo url: ', file.eager[0].secure_url);
     }
-    */
+
     return (
         <div>
-            <form onSubmit={(e) => {
+            <form onSubmit={async (e) => {
                 e.preventDefault();
                 // TODO catche updates
                 // TODO displaying error
                 // TODO optimistic updates
                 // TODO maybe animation by loading
+
                 add_guide({
                      variables: {
                           email: email.value,
                           name: name.value, 
                           surname: surname.value, 
-                          description: description.value
+                          description: description.value,
+                          photo: photo,
+                          bigPhoto: bigPhoto,
                     }
-                }); 
+                });
                 Router.push({
                     pathname: '/guides'
                 }) 
-            }}>
+            }} 
+            >
                 <fieldset disabled={loading} aria-busy={loading}>
+                    <label htmlFor="photo">
+                        Photo:
+                    <input
+                            type="file"
+                            onChange={handlePhotoUpload}
+                            required
+                        />
+                        <p>{name.value}</p>
+                        {photo && <img src={photo} width='200'alt= "upload previev" />}
+                    </label>
                     <label htmlFor="name">
                         Name:
                     <input
@@ -90,7 +125,7 @@ const CreateGuide = (props) => {
                         Description:
                     <input
                             {...description}
-                            type="email"
+                            type="text"
                             required
                         />
                         <p>{description.value}</p>
@@ -98,7 +133,7 @@ const CreateGuide = (props) => {
                     <button type="submit">Submitt</button>
                 </fieldset>
             </form> 
-            {console.log('error:', error)}
+            {/*console.log('error:', error)*/}
         </div>
     )
 };
@@ -122,7 +157,6 @@ function useFormInput(initialValue) {
         onChange: handleChange
     };
 }
-
 export default CreateGuide;
 export { ADD_GUIDE }
 

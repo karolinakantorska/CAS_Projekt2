@@ -7,10 +7,17 @@ const Guide = (props) => (
     <div>
         <h4>MTB Guide:</h4>
         <p>name:</p>
-        <p>{props.item.name}</p>
+        <p>{props.user.name}</p>
+        <p>surname:</p>
+        <p>{props.user.surname}</p>
         <p>id:</p>
-        <p>{props.item.id}</p>
-
+        <p>{props.user.id}</p>
+        <p>email:</p>
+        <p>{props.user.email}</p>
+        <p>description:</p>
+        <p>{props.user.description}</p>
+        <p>image:</p>
+        <img src={props.user.photo} alt="Mountainbiker photo"/>
     </div>
 );
 /*
