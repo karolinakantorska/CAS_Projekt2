@@ -1,24 +1,29 @@
 import React from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
+import DeleteUser from './DeleteUser';
 
 const Guide = (props) => (
+  <div>
+    <h4>MTB Guide:</h4>
+    <p>name: {props.user.name}</p>
+    <p>surname: {props.user.surname}</p>
+    <p>id: {props.user.id}</p>
+    <p>email: {props.user.email}</p>
+    <p>description: {props.user.description}</p>
+    <p>image:</p>
+    <img src={props.user.photo} alt="Mountainbiker photo" />
+    <Link
+      href={{
+        pathname: "/booking_guide",
+        query: { id: props.user.id },
+      }}
+    >
+      <button>Edit</button>
+    </Link>
 
-    <div>
-        <h4>MTB Guide:</h4>
-        <p>name:</p>
-        <p>{props.user.name}</p>
-        <p>surname:</p>
-        <p>{props.user.surname}</p>
-        <p>id:</p>
-        <p>{props.user.id}</p>
-        <p>email:</p>
-        <p>{props.user.email}</p>
-        <p>description:</p>
-        <p>{props.user.description}</p>
-        <p>image:</p>
-        <img src={props.user.photo} alt="Mountainbiker photo"/>
-    </div>
+    <DeleteUser props={props}>Delete</DeleteUser>
+  </div>
 );
 /*
 const StyledNav = styled.nav`

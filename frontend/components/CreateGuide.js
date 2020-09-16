@@ -11,7 +11,7 @@ const ADD_GUIDE = gql`
         $surname: String
         $description: String
         $photo: String
-        $bigPhoto: String
+
     ) {
         createUser(
             email: $email
@@ -19,7 +19,6 @@ const ADD_GUIDE = gql`
             surname: $surname
             description: $description
             photo: $photo
-            bigPhoto: $bigPhoto
         ) {
             name
             id
@@ -51,9 +50,9 @@ const CreateGuide = (props) => {
         );
         const file = await cloudinaryRes.json();
         setPhoto(file.secure_url);
-        setBigPhoto(file.eager[0].secure_url);
-        console.log('photo url: ', file.secure_url);
-        console.log('photo url: ', file.eager[0].secure_url);
+        //setBigPhoto(file.eager[0].secure_url);
+        //console.log('photo url: ', file.secure_url);
+        //console.log('photo url: ', file.eager[0].secure_url);
     }
 
     return (
@@ -72,7 +71,7 @@ const CreateGuide = (props) => {
                           surname: surname.value, 
                           description: description.value,
                           photo: photo,
-                          bigPhoto: bigPhoto,
+                          //bigPhoto: bigPhoto,
                     }
                 });
                 Router.push({

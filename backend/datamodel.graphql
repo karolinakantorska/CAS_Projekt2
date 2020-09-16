@@ -1,0 +1,8 @@
+type User {
+  id: ID! @id
+  email: String! @unique
+  name: String
+  surname: String
+  description: String
+  photo: String
+}

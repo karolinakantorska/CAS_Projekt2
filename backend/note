@@ -1,0 +1,12 @@
+XHRPOSThttp://localhost:4000/
+[HTTP/1.1 400 Bad Request 0ms]
+
+    	
+    operationName	"ALL_GUIDES_QUERY"
+    query	"query ALL_GUIDES_QUERY {\n users {\n name\n surname\n description\n id\n photo\n bigPhoto\n __typename\n }\n}\n"
+    variables	{}
+
+    1
+
+    {"operationName":"ALL_GUIDES_QUERY","variables":{},"query":"query ALL_GUIDES_QUERY {\n  users {\n    name\n    surname\n    description\n    id\n    photo\n    bigPhoto\n    __typename\n  }\n}\n"}
+
