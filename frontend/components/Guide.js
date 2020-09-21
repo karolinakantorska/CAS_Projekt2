@@ -1,14 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import DeleteUser from './DeleteUser';
+import DeleteGuide from './DeleteGuide';
+
 
 const Guide = (props) => (
-  <div>
+  <StyledDiv>
     <h4>MTB Guide:</h4>
     <p>name: {props.user.name}</p>
     <p>surname: {props.user.surname}</p>
-    <p>id: {props.user.id}</p>
     <p>email: {props.user.email}</p>
     <p>description: {props.user.description}</p>
     <p>image:</p>
@@ -21,16 +21,15 @@ const Guide = (props) => (
     >
       <button>Edit</button>
     </Link>
-
-    <DeleteUser props={props}>Delete</DeleteUser>
-  </div>
+    <DeleteGuide id={props.user.id}>Delete</DeleteGuide>
+  </StyledDiv>
 );
-/*
-const StyledNav = styled.nav`
-    background: white;
-    display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
+
+const StyledDiv = styled.div`
+  border: 1px solid gray;
+  display: grid;
+  grid-template-columns: 1fr;
 `;
-*/
+
 
 export default Guide;

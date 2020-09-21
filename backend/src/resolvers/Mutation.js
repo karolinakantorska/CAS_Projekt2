@@ -34,7 +34,7 @@ const mutations = {
     const where = {id: args.id };
     // find user
     // passing gql querry
-    const user = await ctx.db.query.user({ where} , `{ id title}`);
+    const user = await ctx.db.query.user({ where} , `{ id}`);
     // check permission
     // TODO
     // delete

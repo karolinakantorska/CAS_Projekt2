@@ -1,3 +1,5 @@
+
+import Home from '../components/Home'
 import Link from "next/link";
 
 
@@ -14,12 +16,12 @@ const Index = () => {
 };
 */
 
-const Home = props => (
+const HomePage = props => (
 
     <div>
-      <p>Home Page</p>
+      <Home />
     </div>
 
     
 );
-export default Home;
+export default HomePage;
