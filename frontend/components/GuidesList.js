@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { gql, useQuery } from '@apollo/client';
 //import { useQuery } from '@apollo/react-hooks';
 //import gql from 'graphql-tag';
-import Guide from './Guide';
+import GuideCard from './GuideCard';
 
 // render props vs high order components
 // render props:
@@ -33,7 +33,7 @@ const GuidesList = () => {
             <h4>Guides:</h4>
             <ul>
               {data.users.map((user) => (
-                <Guide user={user} key={user.id} />
+                <GuideCard user={user} key={user.id} />
               ))}
             </ul>
           </div>

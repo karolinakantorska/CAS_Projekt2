@@ -1,6 +1,9 @@
 import React from "react";
 import { gql, useMutation} from "@apollo/client";
+import { useApolloClient } from "@apollo/client";
 import Router from "next/router";
+import styled from "styled-components";
+import { ALL_GUIDES_QUERY } from './GuidesList';
 
 
 const DELETE_USER = gql`
@@ -10,15 +13,33 @@ const DELETE_USER = gql`
         }
     }
 `;
-
 const DeleteGuide = (props) => {
-    const [
-      delete_user,
-      { loadingMutation, errorMutation, calledMutation, dataMutation },
-    ] = useMutation(DELETE_USER);
+  const client = useApolloClient();
+    const [delete_user, { loading, error, called, data }] = useMutation(
+      DELETE_USER,{
+        update(cache, payload) {
+          const deletedUserID = payload.data.deleteUser.id;
+          // Get the current guide list
+          const dataAll = cache.readQuery({ query: ALL_GUIDES_QUERY });
+          // spreading users to a new variable
+          const newDataAll = { ...dataAll };
+          // filter out a user by ID
+          newDataAll.users = newDataAll.users.filter(
+            (user) => user.id !== deletedUserID
+          );
+          client.writeQuery({
+            query: ALL_GUIDES_QUERY,
+            data: {
+              users: [...newDataAll.users],
+            },
+          });
+        },
+      }
+    );
+
   return (
     <div>
-      <button
+      <StyledButton
         onClick={async (e) => {
           e.preventDefault();
           delete_user({
@@ -27,9 +48,12 @@ const DeleteGuide = (props) => {
         }}
       >
         {props.children}
-      </button>
+      </StyledButton>
     </div>
   );
 } 
+const StyledButton = styled.button`
+width: 100%;
+`;
 
 export default DeleteGuide;

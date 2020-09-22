@@ -1,13 +1,12 @@
 import React from "react";
 import Link from "next/link";
 import styled from "styled-components";
-import UpdateGuide from "./UpdateGuide";
+import SingleGuideInfo from "./SingleGuideInfo";
 
 const BookingGuide = (props) => (
   <div>
     <h4>Book a MTB guide</h4>
-    
-    <UpdateGuide id={props.id} />
+    <SingleGuideInfo id={props.id} />
   </div>
 );
 /*

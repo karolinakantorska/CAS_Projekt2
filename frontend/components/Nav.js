@@ -10,11 +10,11 @@ const Nav = () => (
     <Link href="/guides">
       <a>MTB Guides</a>
     </Link>
-    <Link href="/create_guide">
+    <Link href="/add_guide">
       <a>Add New MTB Guide</a>
     </Link>
-    <Link href="/user">
-      <a>User</a>
+    <Link href="/signup">
+      <a>Signup</a>
     </Link>
 
   </StyledNav>

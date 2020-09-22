@@ -1,32 +1,51 @@
 import React, { useState } from 'react';
-import { gql, useMutation } from '@apollo/client'
+import { gql, useMutation, useQuery } from '@apollo/client'
 import Router from 'next/router'
 import Link from 'next/link';
 import styled from 'styled-components';
+//import ALL_GUIDES_QUERY from './GuidesList'
+
+const ALL_GUIDES_QUERY = gql`
+  query ALL_GUIDES_QUERY {
+    users {
+      id
+      email
+      name
+      surname
+      description
+      photo
+    }
+  }
+`;
 
 const ADD_GUIDE = gql`
-    mutation ADD_GUIDE(
-        $email: String!
-        $name: String!
-        $surname: String
-        $description: String
-        $photo: String
-
+  mutation ADD_GUIDE(
+    $email: String!
+    $name: String!
+    $surname: String
+    $description: String
+    $photo: String
+  ) {
+    createUser(
+      email: $email
+      name: $name
+      surname: $surname
+      description: $description
+      photo: $photo
     ) {
-        createUser(
-            email: $email
-            name: $name
-            surname: $surname
-            description: $description
-            photo: $photo
-        ) {
-            name
-            id
-        }
+      id
+      email
+      name
+      surname
+      description
+      photo
     }
-`
+  }
+`;
 
-const CreateGuide = (props) => {
+const AddGuide = (props) => {
+    const { loading: loadingAll, error: errorAll, data: dataAll } = useQuery(ALL_GUIDES_QUERY);
+    console.log("dataAll ", dataAll);
     const name = useFormInput('');
     const surname = useFormInput('');
     const email = useFormInput('');
@@ -34,7 +53,25 @@ const CreateGuide = (props) => {
     const [photo, setPhoto] = useState('');
     const [bigPhoto, setBigPhoto] = useState('');
 
-    const [add_guide, { loading, error, called, data }] = useMutation(ADD_GUIDE);
+    const [add_guide, { loading, error,  data }] = useMutation(ADD_GUIDE, {
+        update (cache,data) {
+          console.log("DATA NEW USER ", data.data.createUser);
+          // Get the current guide list
+          const dataAll = cache.readQuery({ query: ALL_GUIDES_QUERY });
+          // Create a new user
+          const newUser = {
+            ...data.data.createUser,
+          };
+          // Write back to the users list, appending the new user
+          cache.writeQuery({
+            query: ALL_GUIDES_QUERY,
+            data: {
+              users: [...dataAll.users, newUser],
+            },
+          });
+        }     
+    });
+
 
     async function handlePhotoUpload(e) {
         const data = new FormData();
@@ -156,6 +193,6 @@ function useFormInput(initialValue) {
         onChange: handleChange
     };
 }
-export default CreateGuide;
+export default AddGuide;
 export { ADD_GUIDE }
 

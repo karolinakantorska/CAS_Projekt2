@@ -3,19 +3,8 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import Router from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
-//TODO updating photo
-const ONE_USER_QUERRY = gql`
-  query ONE_USER_QUERRY($id: ID!) {
-    user(where: { id: $id }) {
-      id
-      email
-      name
-      surname
-      description
-      photo
-    }
-  }
-`;
+//TODO it forces me to update photo every time 
+
 const UPDATE_USER = gql`
   mutation UPDATE_USER(
     $id: ID!
@@ -43,6 +32,9 @@ const UPDATE_USER = gql`
 `;
 
 const UpdateGuide = (props) => {
+    const { loading, errorQuery, data } = useQuery(ONE_USER_QUERRY, {
+      variables: { id: id },
+    });
   const [photo, setPhoto] = useState("");
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -55,9 +47,7 @@ const UpdateGuide = (props) => {
     { loadingMutation, errorMutation, calledMutation, dataMutation },
   ] = useMutation(UPDATE_USER);
 
-  const { loading, errorQuery, data } = useQuery(ONE_USER_QUERRY, {
-    variables: { id: id },
-  });
+
     function handleNameChange(e) {
       setName(e.target.value);
     }
@@ -209,4 +199,5 @@ const StyledNav = styled.nav`
   
 
 export default UpdateGuide;
-export { UPDATE_USER }
+export { UPDATE_USER };
+export { ONE_USER_QUERRY };

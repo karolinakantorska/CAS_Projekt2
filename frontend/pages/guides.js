@@ -11,4 +11,4 @@ const Guides = (props) => {
   )
 }
 
-export default Guides  ;
+export default Guides;

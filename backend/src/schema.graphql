@@ -21,5 +21,6 @@ type Mutation {
     photo: String
   ): User!
   deleteUser(id: ID!): User
+  signup(email: String!, password: String!): User!
 }
 
