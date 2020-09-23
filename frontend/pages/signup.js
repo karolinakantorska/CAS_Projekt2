@@ -1,8 +1,11 @@
-import SignupPage from '../components/SignupPage';
+import SignupComponent from '../components/SignupComponent';
+import SigninComponent from '../components/SigninComponent';
+
 const Signup = (props) => {
   return (
     <div>
-      <SignupPage/>
+      <SignupComponent />
+      <SigninComponent />
     </div>
   );
 };

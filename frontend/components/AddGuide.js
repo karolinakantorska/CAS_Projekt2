@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { gql, useMutation, useQuery } from '@apollo/client'
-import Router from 'next/router'
+import { gql, useMutation, useQuery } from '@apollo/client';
+import Router from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 //import ALL_GUIDES_QUERY from './GuidesList'
@@ -96,7 +96,6 @@ const AddGuide = (props) => {
         <div>
             <form onSubmit={async (e) => {
                 e.preventDefault();
-                // TODO catche updates
                 // TODO displaying error
                 // TODO optimistic updates
                 // TODO maybe animation by loading
@@ -108,7 +107,6 @@ const AddGuide = (props) => {
                           surname: surname.value, 
                           description: description.value,
                           photo: photo,
-                          //bigPhoto: bigPhoto,
                     }
                 });
                 Router.push({
