@@ -1,14 +1,23 @@
 #import * from './generated/prisma.graphql'
-
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  permissions: String!
+  surname: String
+  description: String
+  photo: String
+}
 type Query {
-  users: [User!]!
+  users(where: UserWhereInput): [User!]!
   user(where: UserWhereUniqueInput!): User
   currentUser: User
 }
 type Mutation {
   createUser(
-    email: String
-    name: String
+    password: String!
+    email: String!
+    name: String!
     surname: String
     description: String
     photo: String
@@ -22,7 +31,7 @@ type Mutation {
     photo: String
   ): User!
   deleteUser(id: ID!): User
-  signup(email: String!, password: String!): User!
+  signup(email: String!, password: String!, name: String!): User!
   signin(email: String!, password: String!): User!
   signout: SuccessMesage
 }

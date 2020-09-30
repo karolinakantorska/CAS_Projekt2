@@ -1,62 +1,39 @@
 import React, { useState, useEffect } from "react";
 import Link from 'next/link';
-import { gql, useMutation, useQuery } from "@apollo/client";
 import styled from 'styled-components';
-import User from './User';
 import Signout from './Signout';
-import { isNullableType } from "graphql";
-
-const CURRENT_USER_QUERY = gql`
-  query CURRENT_USER_QUERY {
-    currentUser {
-      id
-      email
-      permissions
-    }
-  }
-`;
+import User from './User';
 
 
-const Nav = () => {
-const { loading, error, data } = useQuery(CURRENT_USER_QUERY, {});
-const [currentUser, setCurrentUser] = useState("");
-
-  useEffect(() => {
-    if (data && data.currentUser !== null) {
-      setCurrentUser(data.currentUser);
-    }
-  }, [loading, data]);
-
-if (loading) {
-  return <p>Loading</p>;
-}
+const Nav = (props) => {
 
 return (
-  <User email={currentUser.email}>
-    <StyledNav>
-      <Link href="/">
-        <a>Home</a>
-      </Link>
-      <Link href="/guides">
-        <a>MTB Guides</a>
-      </Link>
-      {currentUser ? (
+  <StyledNav>
+    <User>
+      {(currentUserPermission, currentUserName) => (
         <React.Fragment>
-          <Link href="/add_guide">
-            <a>Add New MTB Guide</a>
+          <p>User: {currentUserName}</p>
+          <Link href="/">
+            <a>Home</a>
           </Link>
-          <Signout />
-        </React.Fragment>
-      ) : null}
-      {!currentUser ? (
-        <React.Fragment>
-          <Link href="/signup">
-            <a>Signup|Signin</a>
+          <Link href="/guides">
+            <a>MTB Guides</a>
           </Link>
+          {props.currentUserPermission === "ADMIN" ? (
+            <Link href="/add_guide">
+              <a>Add New MTB Guide</a>
+            </Link>
+          ) : null}
+          {props.currentUserName ? <Signout /> : null}
+          {!props.currentUserName ? (
+            <Link href="/signup">
+              <a>Signup|Signin</a>
+            </Link>
+          ) : null}
         </React.Fragment>
-      ) : null}
-    </StyledNav>
-  </User>
+      )}
+    </User>
+  </StyledNav>
 );
 }
 const StyledNav = styled.nav`

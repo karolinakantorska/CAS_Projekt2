@@ -6,9 +6,9 @@ import GuidesList from '../components/GuidesList';
 const Guides = (props) => {
   return (
     <div>
-      <GuidesList />
+      <GuidesList  />
     </div>
-  )
+  );
 }
 
 export default Guides;

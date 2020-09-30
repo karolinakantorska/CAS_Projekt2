@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/karolina-kantorska/MTBreservation/dev
-# timestamp: Tue Sep 22 2020 14:27:44 GMT+0200 (Central European Summer Time)
+# timestamp: Wed Sep 23 2020 20:27:55 GMT+0200 (Central European Summer Time)
 
 type AggregateUser {
   count: Int!
@@ -84,7 +84,7 @@ type User implements Node {
   surname: String
   description: String
   photo: String
-  permissions: [Permission!]!
+  permissions: Permission!
 }
 
 """A connection to a list of items."""
@@ -107,11 +107,7 @@ input UserCreateInput {
   surname: String
   description: String
   photo: String
-  permissions: UserCreatepermissionsInput
-}
-
-input UserCreatepermissionsInput {
-  set: [Permission!]
+  permissions: Permission!
 }
 
 """An edge in a connection."""
@@ -142,6 +138,8 @@ enum UserOrderByInput {
   description_DESC
   photo_ASC
   photo_DESC
+  permissions_ASC
+  permissions_DESC
 }
 
 type UserPreviousValues {
@@ -154,7 +152,7 @@ type UserPreviousValues {
   surname: String
   description: String
   photo: String
-  permissions: [Permission!]!
+  permissions: Permission!
 }
 
 type UserSubscriptionPayload {
@@ -205,7 +203,7 @@ input UserUpdateInput {
   surname: String
   description: String
   photo: String
-  permissions: UserUpdatepermissionsInput
+  permissions: Permission
 }
 
 input UserUpdateManyMutationInput {
@@ -217,11 +215,7 @@ input UserUpdateManyMutationInput {
   surname: String
   description: String
   photo: String
-  permissions: UserUpdatepermissionsInput
-}
-
-input UserUpdatepermissionsInput {
-  set: [Permission!]
+  permissions: Permission
 }
 
 input UserWhereInput {
@@ -575,6 +569,16 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   photo_not_ends_with: String
+  permissions: Permission
+
+  """All values that are not equal to given value."""
+  permissions_not: Permission
+
+  """All values that are contained in given list."""
+  permissions_in: [Permission!]
+
+  """All values that are not contained in given list."""
+  permissions_not_in: [Permission!]
 }
 
 input UserWhereUniqueInput {

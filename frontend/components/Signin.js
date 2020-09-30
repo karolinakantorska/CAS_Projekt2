@@ -1,19 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import Router from "next/router";
-//TODO make importing queries work!
-//import CURRENT_USER_QUERY from './User';
+import { CURRENT_USER_QUERY } from "./User";
 
-const CURRENT_USER_QUERY = gql`
-  query CURRENT_USER_QUERY {
-    currentUser {
-      id
-      email
-      permissions
-    }
-  }
-`;
-// TODO add name to the user
 // TODO better error handling
 
 const SIGNIN_MUTATION = gql`
@@ -25,7 +14,7 @@ const SIGNIN_MUTATION = gql`
   }
 `;
 
-const SigninComponent = (props) => {
+const Signin = (props) => {
   const [signin, { loading, error, data }] = useMutation(SIGNIN_MUTATION, {
     refetchQueries: [{query: CURRENT_USER_QUERY}]
   });
@@ -46,8 +35,8 @@ const SigninComponent = (props) => {
         e.preventDefault();
         await signin({
           variables: {
-            email,
             password,
+            email,
           },
           
         });
@@ -68,4 +57,5 @@ const SigninComponent = (props) => {
   );
 };
 
-export default SigninComponent;
+export default Signin;
+

@@ -6,7 +6,6 @@ import { endpoint } from '../config';
 export default withApollo(({ headers }) => {
   return new ApolloClient({
     uri: "http://localhost:4000",
-    //        cache: new InMemoryCache().restore(initialState|| {})
     request: (operation) => {
       operation.setContext({
         fetchOptions: {

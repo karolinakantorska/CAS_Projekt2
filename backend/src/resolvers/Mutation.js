@@ -1,21 +1,39 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+function checkIfUserIsAnAdmin(ctx){
+    // check if is logged in
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to add the guide');
+    }
+    // check if user has ADMIN permission
+    console.log('request user: ', ctx.request.user.permissions);
+    if(ctx.request.user.permissions !== 'ADMIN'){
+       throw new Error(`You do not have ADMIN permission to create a guide`);
+    }
+}
+
 const mutations = {
   async createUser(parent, args, ctx, info) {
-    // TODO: Check if they are logged in
+    checkIfUserIsAnAdmin(ctx);
+    args.email = args.email.toLowerCase();
+    // hash their password
+    const password = await bcrypt.hash(args.password, 10);
     const user = await ctx.db.mutation.createUser(
       {
         data: {
           ...args,
+          password: password,
+          permissions: 'GUIDE',
         },
       },
       info
     );
-    console.log(user);
+
     return user;
   },
   updateUser(parent, args, ctx, info) {
+    checkIfUserIsAnAdmin(ctx);
     //copy of updates
     const updates = { ...args };
     //remove Id
@@ -34,6 +52,7 @@ const mutations = {
   },
 
   async deleteUser(parent, args, ctx, info) {
+    checkIfUserIsAnAdmin(ctx);
     const where = { id: args.id };
     // find user
     const user = await ctx.db.query.user({ where }, `{ id}`);
@@ -51,7 +70,7 @@ const mutations = {
         data: {
           ...args,
           password: password,
-          permissions: { set: ["USER"] },
+          permissions: 'USER',
         },
       },
       info
@@ -62,7 +81,7 @@ const mutations = {
     // set jwt as a cookie on the response
     ctx.response.cookie("token", token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24, // a day cookie
+      maxAge: 1000 * 60 * 60 * 24, // a day year cookie
     });
     return user;
   },
@@ -84,7 +103,7 @@ const mutations = {
     // TODO awoid repetition
     ctx.response.cookie("token", token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24, // a day cookie
+      maxAge: 1000 * 60 * 60 * 24, // a day year cookie
     });
     return user;
   },

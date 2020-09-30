@@ -9,7 +9,7 @@ const server = createServer();
 
 // express middlware to handle cookies (JWT)
 server.express.use(cookieParser());
-// TODO Use express middlware to populate current user
+
 // decode JWT to get user Id on each request
 server.express.use((req, res, next) => {
     const { token } = req.cookies;
@@ -22,6 +22,18 @@ server.express.use((req, res, next) => {
     }
     next();
 });
+// Crete express middlware to populate current user on each request
+server.express.use(async (req, res, next) => {
+  // if they aren't logged in, skip this
+  if (!req.userId) return next();
+  const user = await db.query.user(
+    { where: { id: req.userId } },
+    "{ id, permissions, email, name }"
+  );
+  req.user = user;
+  next();
+});
+
 
 server.start(
     {

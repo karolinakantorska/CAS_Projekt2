@@ -1,24 +1,20 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
+import { gql, useMutation, useQuery } from "@apollo/client";
 import Nav from './Nav';
 import Meta from './Meta';
-import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
-// render props vs high order components
+import { useContext } from "react";
 
-
-class Page extends Component {
-  
-    render() {
-
+const Page  = (props) => {
+ 
         return (
           <div>
             <Meta />
-            <Nav />
-            <div>{this.props.children}</div>
+            <Nav  />
+            <div>{props.children}</div>
           </div>
         );
-    }
-
 }
 
 export default Page;
+
+

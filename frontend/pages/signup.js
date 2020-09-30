@@ -1,11 +1,11 @@
 import SignupComponent from '../components/SignupComponent';
-import SigninComponent from '../components/SigninComponent';
+import Signin from '../components/Signin';
 
 const Signup = (props) => {
   return (
     <div>
       <SignupComponent />
-      <SigninComponent />
+      <Signin />
     </div>
   );
 };

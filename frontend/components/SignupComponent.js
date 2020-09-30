@@ -1,33 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import Router from "next/router";
-//TODO make importing queries work!
-//import CURRENT_USER_QUERY from './User';
+import { CURRENT_USER_QUERY } from "./User";
 
-const CURRENT_USER_QUERY = gql`
-  query CURRENT_USER_QUERY {
-    currentUser {
-      id
-      email
-      permissions
-    }
-  }
-`;
-
-// TODO add name to the user
 // TODO better error handling
 
 const SIGNUP_MUTATION = gql`
-  mutation SIGNUP_MUTATION (
+  mutation SIGNUP_MUTATION(
     $email: String!
     $password: String!
+    $name: String!
   ) {
-    signup (
-      email: $email,
-      password: $password,
-    ){
+    signup(email: $email, password: $password, name: $name) {
       id
       email
+      name
     }
   }
 `;
@@ -36,33 +23,40 @@ const SignupComponent = (props) => {
   const [signup, { loading, error, data }] = useMutation(SIGNUP_MUTATION, {
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
   });
-
-  const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
+  function handleEmailChange(e) {
+    setEmail(e.target.value);
+  }
   function handlePasswordChange(e) {
     setPassword(e.target.value);
   }
-  function handleEmailChange(e) {
-    setEmail(e.target.value);
+  function handleNameChange(e) {
+    setName(e.target.value);
   }
   return (
     <form
       method="post"
-      onSubmit={async(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
         await signup({
           variables: {
             email,
             password,
+            name,
           },
         });
-        setPassword('');
-        setEmail('');
+        setEmail("");
+        setPassword("");
+        setName("");
       }}
     >
       <fieldset disabled={loading} aria-busy={loading}>
         <h4>Signup for a account</h4>
+        <label>Name:</label>
+        <input value={name} onChange={handleNameChange} />
         <label>Email:</label>
         <input value={email} onChange={handleEmailChange} />
         <label>Password:</label>
