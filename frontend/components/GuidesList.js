@@ -1,11 +1,9 @@
 import React from 'react';
-import Link from 'next/link';
-import styled from 'styled-components';
+
 import { gql, useQuery } from '@apollo/client';
+
 import GuideCard from './GuideCard';
 import User from './User'
-import SingleGuideInfo from './SingleGuideInfo'
-import {Hallo} from './User'
 
 // render props vs high order components
 // render props:
@@ -35,6 +33,7 @@ const GuidesList = (props) => {
 
         return (
           <div>
+
             <User>
               {(currentUserPermission) => (
                 <div>

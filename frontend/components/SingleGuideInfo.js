@@ -54,11 +54,7 @@ const SingleGuideInfo = (props) => {
       <p>id:{props.id} </p>
       <label htmlFor="photo">Photo:</label>
       <img src={photo} alt="Mountainbiker photo" />
-      <h4>MTB Guide:</h4>
       <p>name: {name}</p>
-      <p>surname: {surname}</p>
-      <p>email: {email}</p>
-      <p>description: {description}</p>
     </div>
   );
 };
@@ -72,3 +68,4 @@ const StyledNav = styled.nav`
 */
 
 export default SingleGuideInfo;
+export {ONE_USER_QUERRY};
