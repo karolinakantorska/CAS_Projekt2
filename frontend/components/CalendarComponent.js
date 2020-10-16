@@ -5,34 +5,28 @@ import DateFns from "@date-io/date-fns";
 import startOfMonth from 'date-fns/startOfMonth';
 import getDaysInMonth from 'date-fns/getDaysInMonth';
 import addMonths from 'date-fns/addMonths';
+import addYears from 'date-fns/addYears';
 import format from "date-fns/format";
 import styled from 'styled-components';
 
 const CalendarComponent = () => {
-  const [firstDayOfMonth, setFirstDayOfMonth] = useState(format(startOfMonth(new Date()),'i'));
-  const [selectedMonth, setSelectedMonth] = useState(format((new Date()),'MMMM'));
-  const [selectedYear, setSelectedYear] = useState(format((new Date()),'y'));
-  const [daysInMonth, setDaysInMonth] = useState(getDaysInMonth(new Date()));
-  const [selectedDate, setDaysMonth] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedYear, setSelectedYear] = useState(format(selectedDate,'y'));
+  const [selectedMonth, setSelectedMonth] = useState(format(selectedDate,'MMMM'));
+  const [firstDayOfMonth, setFirstDayOfMonth] = useState(format(startOfMonth(selectedDate),'i'));
+  const [daysInMonth, setDaysInMonth] = useState(getDaysInMonth(selectedDate));
 
     const weekNames = weekEN();
-    const monthNames = monthEN();
 
     const currentYear = format((new Date()),'y');
     const currentMonth = format((new Date()),'MMMM');
     const currentDay = format((new Date()),'d');
 
-      useEffect(() => {
-        if (currentMonth === selectedMonth && currentYear === selectedYear ){
-          const highlitedParagraph = document.querySelector(`.day${currentDay}`);
-          highlitedParagraph.classList.add('highlight');
-          // TODO make class highlight work
-          highlitedParagraph.textContent += ' today';
-        }
-      });
-// fake data 1
-    const fakeData = {
-      21: [
+     // fake data 1
+    const fakeData2 = {
+
+ 
+          21: [
         {
         day: 21,
         guide: 'goofy',
@@ -52,22 +46,35 @@ const CalendarComponent = () => {
         day: 10,
         email: 'kotka@malpa',
         name: 'chyra',
-        time: 'AM'
+        time: 'AM',
+        guide: 'mickey',
       },{
         day: 10,
         email: 'mala@malpa',
         name: 'lila',
-        time: 'AM'
+        time: 'AM',
+        guide: 'mickey',
       },],
-      24: [{
-        day: 10,
-        email: 'kkota@malpa',
-        name: 'szybka',
-        time: 'DAY'
-      }]
-    }
-// fake data end
 
+    
+    }
+
+
+  const handleMonthChange = (i) => {
+    setSelectedDate(addMonths(selectedDate, i));
+  }
+  const handleYearChange = (i) => {
+    setSelectedDate(addYears(selectedDate, i));
+  }
+  const updateStateForSelectedData = () => {
+    setSelectedMonth(format(selectedDate,'MMMM'));
+    setSelectedYear(format(selectedDate,'y'));
+    setFirstDayOfMonth(format(startOfMonth(selectedDate),'i'));
+    setDaysInMonth(getDaysInMonth(selectedDate));
+  }
+useEffect(()=>{
+  updateStateForSelectedData();
+})
   const blankCells =[];
   for (let i=1; i< firstDayOfMonth; i++) {
     blankCells.push(i)
@@ -75,18 +82,16 @@ const CalendarComponent = () => {
 
   const daysInMonthArray =[];
   for (let i=1; i<= daysInMonth; i++){
-    daysInMonthArray.push(i)
+    daysInMonthArray.push(`${i}`)
   }
-
-   // console.log('blankCells' , blankCells.length )
 
   return (
     <div>
       <section>
-        <button>&#8592;</button>{selectedYear}<button>&#8594;</button>
+        <button onClick={() => handleYearChange(-1)} >&#8592;</button>{selectedYear}<button onClick={() => handleYearChange(1)}>&#8594;</button>
       </section>
       <section>
-        <button>&#8592;</button>{selectedMonth}<button>&#8594;</button>
+        <button onClick={() => {handleMonthChange(-1)}}>&#8592;</button>{selectedMonth}<button onClick={() => handleMonthChange(1)}>&#8594;</button>
       </section>
       <CalendarContainer>
       {weekNames.map(day => (
@@ -95,32 +100,33 @@ const CalendarComponent = () => {
       {blankCells.map(day => (
         <DaySpan key={day} className='empty-day_span'><p></p></DaySpan>
       ))}
+
       {daysInMonthArray.map(day => {
-        if (day in fakeData){
+        let highlightDayNr = '';
+        if (currentYear=== selectedYear && currentMonth===selectedMonth && day === currentDay ){
+          highlightDayNr = 'highlight';
+        }
+        if(fakeData2[day]){
           return (
-          <DaySpan key={day} className='day_span' >
-            <p  className={`day${day}`}>{day}</p>
-            {fakeData[day].map(entry => {
-              console.log(entry.time);
-              return(
-                <EntrySpan key={entry.guide, day, entry.time, entry.name }>
-                  <div className={entry.time}>
-                    <p>gast name: {entry.name}</p>
-                    <p>gast email:{entry.email}</p>
-                    <p>guide name:{entry.guide}</p>
-                  </div>
-                </EntrySpan>)
+              <DaySpan key={day} className='day_span'>
+                <p className={highlightDayNr}>{day}</p>
+                {fakeData2[day].map(entry => {
+                return (
+                  <EntrySpan className='entryContainer'>
+                    <div className={entry.time}>
+                      <p>gast name: ${entry.name}</p>
+                    </div>
+                  </EntrySpan>)
             })}
-          </DaySpan>
+              </DaySpan>
           )
         }
         return (
-          <DaySpan key={day} className='day_span'>
-            <p className={`day${day}`}>{day}</p>
-          </DaySpan>
+              <DaySpan key={day} className='day_span'>
+                <p className={highlightDayNr}>{day}</p>
+              </DaySpan>
           )
-      })
-    }
+        })}
       </CalendarContainer>
     </div>
   );
@@ -133,15 +139,15 @@ const CalendarContainer = styled.div`
 const DaySpan = styled.span`
     background: white;
     display: grid;
+    .highlight {
+      color: red;
+    }
+
 `;
 const EntrySpan = styled.span`
     background: white;
     font-size: 0.6rem;
-    & .highlight {
-      background: lightyellow;
-      font-size: 0.8rem;
-      color: red;
-    }
+
     & .AM {
       background: lightskyblue;
       border: 1px solid gray;
