@@ -110,6 +110,28 @@ const mutations = {
   signout(parent, args, ctx, info) {
     ctx.response.clearCookie('token');
     return { message: 'Goodbye!'};
+  },
+  async createReservation(parent, args, ctx, info){
+    const reservation = await ctx.db.mutation.createReservation(
+      {
+        data: {
+          year: args.year,
+          month: args.month,
+          day: args.day,
+          time: args.time,
+          guideID: args.guideID,
+          userName: args.userName,
+          userEmail: args.userEmail,
+          nrOfPeople: args.nrOfPeople,
+          description: args.description,
+          guide: {
+            connect: { id: args.guideID}
+          }
+        },
+      },
+      info
+    );
+    return reservation;
   }
 };
 

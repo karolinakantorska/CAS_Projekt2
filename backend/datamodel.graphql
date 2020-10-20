@@ -9,9 +9,28 @@ type User {
   description: String
   photo: String
   permissions: Permission!
+  reservations: [Reservation]! 
 }
 enum Permission {
   ADMIN
   GUIDE
   USER
+}
+type Reservation {
+  id: ID! @id
+  year: String!
+  month: String!
+  day: String!
+  time: Time
+  guide: User! #relationship to the User
+  guideID: ID
+  userName: String
+  userEmail: String
+  nrOfPeople: String
+  description: String
+}
+enum Time {
+  AM
+  PM
+  DAY
 }
