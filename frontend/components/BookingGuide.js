@@ -2,13 +2,13 @@ import React from "react";
 import Link from "next/link";
 import styled from "styled-components";
 import SingleGuideInfo from "./SingleGuideInfo";
-import ChooseDate from "./ChooseDate";
+import Calendar from "./CalendarComponent";
 
 const BookingGuide = (props) => (
   <div>
     <h4>Book a MTB guide</h4>
     <SingleGuideInfo id={props.id} />
-    <ChooseDate />
+    <Calendar />
   </div>
 );
 /*

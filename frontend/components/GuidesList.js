@@ -18,8 +18,7 @@ const ALL_GUIDES_QUERY = gql`
       photo
     }
   }
-`;
-
+`
 
 const GuidesList = (props) => {
     const { loading, error, data } = useQuery(ALL_GUIDES_QUERY, {
