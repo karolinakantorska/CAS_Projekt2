@@ -88,6 +88,7 @@ useEffect(()=>{
         if (currentYear=== selectedYear && currentMonth===selectedMonth && day === currentDay ){
           highlightDayNr = 'highlight';
         }
+        /*
         if (data.reservations) {
           console.log(data.reservations)
           return (
@@ -103,7 +104,7 @@ useEffect(()=>{
             </DaySpan>
           )
           
-    }
+    }/*
         /*
         if(fakeData2[day]){
           return (

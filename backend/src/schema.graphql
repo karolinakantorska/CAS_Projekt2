@@ -12,8 +12,9 @@ type Query {
   users(where: UserWhereInput): [User!]!
   user(where: UserWhereUniqueInput!): User
   currentUser: User
-  reservations(where: ReservationWhereInput): [Reservation!]!
-  reservation(where: ReservationWhereUniqueInput!): Reservation!
+  days: [Day]!
+  reservations: [Reservation]!
+
 }
 type Mutation {
   createUser(
@@ -35,18 +36,23 @@ type Mutation {
   deleteUser(id: ID!): User
   signup(email: String!, password: String!, name: String!): User!
   signin(email: String!, password: String!): User!
-  signout: SuccessMesage,
+  signout: SuccessMesage
+  createDay(day: String!): Day
   createReservation(
-    year: String!
-    month: String!
-    day: String!
     time: Time
     guideID: ID
+    dayID: ID
     userName: String
     userEmail: String
     nrOfPeople: String
     description: String
-  ) :Reservation
+  ): Reservation!
+
+
+
+
+
+  
   
 
 }
