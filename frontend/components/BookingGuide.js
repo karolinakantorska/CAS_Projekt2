@@ -8,7 +8,7 @@ const BookingGuide = (props) => (
   <div>
     <h4>Book a MTB guide</h4>
     <SingleGuideInfo id={props.id} />
-    <Calendar />
+    <Calendar guideId={props.id}/>
   </div>
 );
 /*

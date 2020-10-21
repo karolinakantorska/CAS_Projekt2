@@ -30,9 +30,7 @@ const SingleGuideInfo = (props) => {
   });
 
   useEffect(() => {
-
     if (!loading && data) {
-      console.log(data.user.name);
       setName(data.user.name);
       setEmail(data.user.email);
       setSurname(data.user.surname);

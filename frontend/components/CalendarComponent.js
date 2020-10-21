@@ -7,6 +7,7 @@ import addMonths from 'date-fns/addMonths';
 import addYears from 'date-fns/addYears';
 import format from "date-fns/format";
 import styled from 'styled-components';
+import Entry from './Entry'
 
 // existiing reservations Querry
 const DAYS_WITH_RESERVATIONS_QUERY = gql`
@@ -22,14 +23,12 @@ const DAYS_WITH_RESERVATIONS_QUERY = gql`
     }
   }
 `
-const CalendarComponent = () => {
+const CalendarComponent = (props) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedYear, setSelectedYear] = useState(format(selectedDate,'y'));
   const [selectedMonth, setSelectedMonth] = useState(format(selectedDate,'MMMM'));
   const [firstDayOfMonth, setFirstDayOfMonth] = useState(format(startOfMonth(selectedDate),'i'));
   const [daysInMonth, setDaysInMonth] = useState(getDaysInMonth(selectedDate));
-// TODO find a guide ID and delete this const
-  const guideID= 'ckfn05p6sm3ia0950mk1l61v6'
 // Calender
   const weekNames = weekEN();
   const currentYear = format((new Date()),'y');
@@ -65,7 +64,7 @@ useEffect(()=>{
   }
 // Reservations Query
     const { loading, error, data } = useQuery(DAYS_WITH_RESERVATIONS_QUERY, {
-      variables:{ year: selectedYear, month: selectedMonth, guideID }
+      variables:{ year: selectedYear, month: selectedMonth, guideID: props.guideId}
     });
     if (error) return <p>Error:{error}</p>
     if (loading) return <p>Loading...</p>;
@@ -76,7 +75,6 @@ useEffect(()=>{
       data.days.map(dayEntry=> {
         const { day, reservation } = dayEntry;
         reservations[day] = reservation
-
       })
       return reservations
     }
@@ -84,11 +82,22 @@ useEffect(()=>{
     
   return (
     <div>
+      <p>{props.guideId}</p>
       <section>
-        <button onClick={() => handleYearChange(-1)} >&#8592;</button>{selectedYear}<button onClick={() => handleYearChange(1)}>&#8594;</button>
+        {// button inactive in current month
+        ((currentYear=== selectedYear && currentMonth===selectedMonth))
+          ? <button  disabled >&#8592;</button>
+          : <button onClick={() => handleYearChange(-1)} >&#8592;</button>}
+        {selectedYear}
+        <button onClick={() => handleYearChange(1)}>&#8594;</button>
       </section>
       <section>
-        <button onClick={() => {handleMonthChange(-1)}}>&#8592;</button>{selectedMonth}<button onClick={() => handleMonthChange(1)}>&#8594;</button>
+        {// button inactive in current month
+        ((currentYear=== selectedYear && currentMonth===selectedMonth))
+          ? <button  disabled >&#8592;</button>
+          : <button onClick={() => handleMonthChange(-1)} >&#8592;</button>}
+        {selectedMonth}
+        <button onClick={() => handleMonthChange(1)}>&#8594;</button>
       </section>
       <CalendarContainer>
       {weekNames.map(day => (
@@ -99,31 +108,60 @@ useEffect(()=>{
       ))}
 
       {daysInMonthArray.map(day => {
-        let highlightDayNr = '';
+        let generated_className = '';
+        let disabled = false;
+        // if day is a current day becomes highlight
         if (currentYear=== selectedYear && currentMonth===selectedMonth && day === currentDay ){
-          highlightDayNr = 'highlight';
+          generated_className = 'highlight';
         }
+        // days before current day current day have inactive buttons
+        if (currentYear=== selectedYear && currentMonth===selectedMonth && day < Number(currentDay) ){
+          disabled = true;
+        }
+        // if there are reservations at the day
         if (reservations[day]) {
+          // if there is only one reservation at the day
+          if (reservations[day].length===1){
+            console.log(reservations[day][0]);
+            const {time, userName, userEmail, id} = reservations[day][0];
+            if(time==='PM'){
+              return(
+                <DaySpan key={day} className='day_span'>
+                <p className={generated_className}>{day}</p>
+                <button onClick={book} disabled={disabled} >Book AM Tour!</button>
+                <Entry time={time} userName={userName} userEmail={userEmail} id={id} />
+              </DaySpan>
+              )
+            }
+            if(time==='AM'){
+              return(
+                <DaySpan key={day} className='day_span'>
+                <p className={generated_className}>{day}</p>
+                <Entry time={time} userName={userName} userEmail={userEmail} id={id} />
+                <button onClick={book} disabled={disabled} >Book PM Tour!</button>
+              </DaySpan>
+              )
+            }
+
+          }
           return (
             <DaySpan key={day} className='day_span'>
-              <p className={highlightDayNr}>{day}</p>
+              <p className={generated_className}>{day}</p>
               {reservations[day].map(res => {
+                const {time, userName, userEmail, id} = res;
                 return(
-                  <EntrySpan className='entryContainer' key={res.id}>
-                    <div className={res.time}>
-                      <p>gast name: ${res.name}</p>
-                    </div>
-                  </EntrySpan>
+                  <Entry time={time} userName={userName} userEmail={userEmail} id={id} key={id} />
                 )
               })
               }
             </DaySpan>
           )
-    }
-
+        }
         return (
               <DaySpan key={day} className='day_span' onClick={book}>
-                <p  className={highlightDayNr}>{day}</p>
+                <p  className={generated_className}>{day}</p>
+                <button onClick={book} disabled={disabled} >Book AM Tour!</button>
+                <button onClick={book} disabled={disabled}>Book PM Tour!</button>
               </DaySpan>
           )
         })}
@@ -143,25 +181,7 @@ const DaySpan = styled.span`
       color: red;
     }
 `;
-const EntrySpan = styled.span`
-    background: white;
-    font-size: 0.6rem;
-    & .AM {
-      background: lightskyblue;
-      border: 1px solid gray;
-      padding: 0;
-    }
-    & .PM {
-      background: powderblue;
-      border: 1px solid gray;
-    }
-    & .AM::before {
-      content: "AM"
-    }
-    & .PM::before {
-      content: "AM"
-    }
-`;
+
 export default CalendarComponent;
 
 
