@@ -9,25 +9,27 @@ import format from "date-fns/format";
 import styled from 'styled-components';
 
 // existiing reservations Querry
-
-const RESERVATIONS_QUERY = gql`
-  query RESERVATIONS_QUERY($month: String!, $year: String! ) {
-    reservations(where: {year:$year, month:$month}) {
+const DAYS_WITH_RESERVATIONS_QUERY = gql`
+  query DAYS_WITH_RESERVATIONS_QUERY($year: String!, $month: String!, $guideID: ID) {
+    days(where: {year:$year, month:$month, reservation_every: {guideID:$guideID}}) {
       day
-      time
-      userName
-      userEmail
+      reservation{
+        id
+        time
+        userName
+        userEmail
+      }
     }
   }
 `
-
 const CalendarComponent = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedYear, setSelectedYear] = useState(format(selectedDate,'y'));
   const [selectedMonth, setSelectedMonth] = useState(format(selectedDate,'MMMM'));
   const [firstDayOfMonth, setFirstDayOfMonth] = useState(format(startOfMonth(selectedDate),'i'));
   const [daysInMonth, setDaysInMonth] = useState(getDaysInMonth(selectedDate));
-
+// TODO find a guide ID and delete this const
+  const guideID= 'ckfn05p6sm3ia0950mk1l61v6'
 // Calender
   const weekNames = weekEN();
   const currentYear = format((new Date()),'y');
@@ -61,11 +63,24 @@ useEffect(()=>{
   for (let i=1; i<= daysInMonth; i++){
     daysInMonthArray.push(`${i}`)
   }
-    const { loading, error, data } = useQuery(RESERVATIONS_QUERY, {
-      variables:{ year: '2020', month: 'Oktober'}
+// Reservations Query
+    const { loading, error, data } = useQuery(DAYS_WITH_RESERVATIONS_QUERY, {
+      variables:{ year: selectedYear, month: selectedMonth, guideID }
     });
     if (error) return <p>Error:{error}</p>
     if (loading) return <p>Loading...</p>;
+
+// Query data to simpler object
+    const reservationsQueryDataToArray =() =>{
+      const reservations= {};
+      data.days.map(dayEntry=> {
+        const { day, reservation } = dayEntry;
+        reservations[day] = reservation
+
+      })
+      return reservations
+    }
+    const reservations = reservationsQueryDataToArray();
     
   return (
     <div>
@@ -88,43 +103,27 @@ useEffect(()=>{
         if (currentYear=== selectedYear && currentMonth===selectedMonth && day === currentDay ){
           highlightDayNr = 'highlight';
         }
-        if (data.reservations) {
-          console.log(data.reservations)
+        if (reservations[day]) {
           return (
             <DaySpan key={day} className='day_span'>
               <p className={highlightDayNr}>{day}</p>
-              {data.reservations.map(res => {
-                console.log(Number(res.day))
+              {reservations[day].map(res => {
                 return(
-                  <p>tutaj</p>
+                  <EntrySpan className='entryContainer' key={res.id}>
+                    <div className={res.time}>
+                      <p>gast name: ${res.name}</p>
+                    </div>
+                  </EntrySpan>
                 )
               })
               }
             </DaySpan>
           )
-          
     }
-        /*
-        if(fakeData2[day]){
-          return (
-              <DaySpan key={day} className='day_span'>
-                <p className={highlightDayNr}>{day}</p>
-                {fakeData2[day].map(entry => {
-                return (
-                  <EntrySpan className='entryContainer'>
-                    <div className={entry.time}>
-                      <p>gast name: ${entry.name}</p>
-                    </div>
-                  </EntrySpan>)
-            })}
-              </DaySpan>
-          )
-        }
-        */
+
         return (
               <DaySpan key={day} className='day_span' onClick={book}>
                 <p  className={highlightDayNr}>{day}</p>
-
               </DaySpan>
           )
         })}
@@ -156,55 +155,13 @@ const EntrySpan = styled.span`
       background: powderblue;
       border: 1px solid gray;
     }
-    & .DAY {
-      background: lightsalmon;
-      border: 1px solid gray;
-    }
     & .AM::before {
       content: "AM"
     }
     & .PM::before {
       content: "AM"
     }
-    & .DAY::before {
-      content: "AM"
-    }
 `;
 export default CalendarComponent;
-/*
-     // fake data 1
-    const fakeData2 = {
-          21: [
-        {
-        day: 21,
-        guide: 'goofy',
-        email: 'kot@malpa',
-        name: 'modliszka',
-        time: 'AM'
-        },
-        {
-        day: 21,
-        guide: 'mickey',
-        email: 'kotka@malpa',
-        name: 'chyra',
-        time: 'PM'
-        },
-    ],
-      10: [{
-        day: 10,
-        email: 'kotka@malpa',
-        name: 'chyra',
-        time: 'AM',
-        guide: 'mickey',
-      },{
-        day: 10,
-        email: 'mala@malpa',
-        name: 'lila',
-        time: 'AM',
-        guide: 'mickey',
-      },],
 
-    
-    }
-*/
 

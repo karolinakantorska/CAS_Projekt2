@@ -111,28 +111,52 @@ const mutations = {
     ctx.response.clearCookie('token');
     return { message: 'Goodbye!'};
   },
-  async createReservation(parent, args, ctx, info){
-    const reservation = await ctx.db.mutation.createReservation(
+  async createDay(parent, args, ctx, info){
+    const day = await ctx.db.mutation.createDay(
       {
         data: {
           year: args.year,
           month: args.month,
           day: args.day,
+        },
+      },
+      info
+    );
+    return day;
+  },
+  async createDay(parent, args, ctx, info){
+    const day = await ctx.db.mutation.createDay(
+      {
+        data: {
+          year: args.year,
+          month: args.month,
+          day: args.day,
+        },
+      },
+      info
+    );
+    return day;
+  },
+  async createReservation(parent, args, ctx, info){
+    const reservation = await ctx.db.mutation.createReservation(
+      {
+        data: {
           time: args.time,
           guideID: args.guideID,
           userName: args.userName,
           userEmail: args.userEmail,
           nrOfPeople: args.nrOfPeople,
           description: args.description,
-          guide: {
-            connect: { id: args.guideID}
-          }
-        },
+          guide: {connect: {id: args.guideID}},
+          day: {
+            connect: {id: args.dayID}
+          },
+        }
       },
       info
     );
     return reservation;
-  }
+  },
 };
 
 module.exports = mutations;
