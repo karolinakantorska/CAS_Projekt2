@@ -1,10 +1,10 @@
-import AddGuide from "../components/AddGuide";
+import AddGuide from '../components/AddGuide';
 
 const add_guide = (props) => (
-    <div>
-        <p>Add new MTB Guide</p>
-        <AddGuide />
-    </div>
+  <div>
+    <p>Add new MTB Guide</p>
+    <AddGuide />
+  </div>
 );
 
 export default add_guide;

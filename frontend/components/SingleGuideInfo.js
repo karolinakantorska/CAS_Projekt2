@@ -1,28 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { gql, useMutation, useQuery } from "@apollo/client";
-import Router from "next/router";
-import Link from "next/link";
-import styled from "styled-components";
-
-const ONE_USER_QUERRY = gql`
-  query ONE_USER_QUERRY($id: ID!) {
-    user(where: { id: $id }) {
-      id
-      email
-      name
-      surname
-      description
-      photo
-    }
-  }
-`;
+import React, { useState, useEffect } from 'react';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import Router from 'next/router';
+import Link from 'next/link';
+import styled from 'styled-components';
+import ONE_USER_QUERRY from '../graphgl/queries/ONE_USER_QUERRY';
 
 const SingleGuideInfo = (props) => {
-  const [photo, setPhoto] = useState("");
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [description, setDescription] = useState("");
+  const [photo, setPhoto] = useState('');
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [email, setEmail] = useState('');
+  const [description, setDescription] = useState('');
   const id = props.id;
 
   const { loading, errorQuery, data } = useQuery(ONE_USER_QUERRY, {
@@ -38,7 +26,6 @@ const SingleGuideInfo = (props) => {
       setPhoto(data.user.photo);
       document.title = `MTB Engardin | ${data.user.name} ${data.user.surname}`;
     }
-
   }, [loading, data]);
 
   if (loading) {
@@ -66,4 +53,4 @@ const StyledNav = styled.nav`
 */
 
 export default SingleGuideInfo;
-export {ONE_USER_QUERRY};
+

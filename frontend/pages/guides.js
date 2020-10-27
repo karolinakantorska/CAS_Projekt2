@@ -1,4 +1,3 @@
-
 import GuidesList from '../components/GuidesList';
 
 // render props vs high order components
@@ -6,9 +5,9 @@ import GuidesList from '../components/GuidesList';
 const Guides = (props) => {
   return (
     <div>
-      <GuidesList  />
+      <GuidesList />
     </div>
   );
-}
+};
 
 export default Guides;

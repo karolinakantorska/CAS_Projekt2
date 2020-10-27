@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { gql, useMutation, useQuery } from "@apollo/client";
-import ReactDOM from "react-dom";
-import Button from "@material-ui/core/Button";
-import DateFnsUtils from "@date-io/date-fns";
-import format from "date-fns/format";
+import React, { useState, useEffect } from 'react';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import ReactDOM from 'react-dom';
+import Button from '@material-ui/core/Button';
+import DateFnsUtils from '@date-io/date-fns';
+import format from 'date-fns/format';
 
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-
-
+import {
+  DatePicker,
+  MuiPickersUtilsProvider,
+} from '@material-ui/pickers';
 
 const ChooseDate = (props) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-
 
   return (
     <div>
@@ -27,7 +27,7 @@ const ChooseDate = (props) => {
 
       <p>
         Selected Date:
-        <strong>{format(selectedDate, "	EEEE do MMMM yyyy")}</strong>
+        <strong>{format(selectedDate, '	EEEE do MMMM yyyy')}</strong>
       </p>
       <h4>Choose Time:</h4>
       <p>Morning / Aftenoon</p>
@@ -37,6 +37,5 @@ const ChooseDate = (props) => {
     </div>
   );
 };
-
 
 export default ChooseDate;

@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { gql, useMutation, useQuery } from "@apollo/client";
-import { CURRENT_USER_QUERY } from "./User";
-
-const SIGN_OUT_MUTATION = gql`
-  mutation SIGN_OUT_MUTATION {
-    signout {
-      message
-    }
-  }
-`;
+import React, { useState, useEffect } from 'react';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import { useRouter } from 'next/router';
+import SIGN_OUT_MUTATION from '../graphgl/mutations/SIGN_OUT_MUTATION';
+import CURRENT_USER_QUERY from '../graphgl/queries/CURRENT_USER_QUERY';
 
 const Signout = (props) => {
-  const [signout, { loading, error, data }] = useMutation(SIGN_OUT_MUTATION, {
-    refetchQueries: [{ query: CURRENT_USER_QUERY }],
-    
-  });
-  return <button onClick={signout}>Sign Out</button>;
+  const [signout, { loading, error, data }] = useMutation(
+    SIGN_OUT_MUTATION,
+    {
+      refetchQueries: [{ query: CURRENT_USER_QUERY }],
+    },
+  );
+  const router = useRouter();
+  const handleSignout=() =>{
+    signout();
+    router.push('/signup_page');
+  }
+  return <a onClick={handleSignout}>Sign Out</a>;
 };
 
 export default Signout;

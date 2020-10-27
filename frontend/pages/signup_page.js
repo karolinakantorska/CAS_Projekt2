@@ -1,7 +1,7 @@
-import SignupComponent from '../components/SignupComponent';
+import SignupComponent from '../components/Signup';
 import Signin from '../components/Signin';
 
-const Signup = (props) => {
+const Signup_page = (props) => {
   return (
     <div>
       <SignupComponent />
@@ -10,4 +10,4 @@ const Signup = (props) => {
   );
 };
 
-export default Signup;
+export default Signup_page;

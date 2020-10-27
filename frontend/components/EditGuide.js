@@ -3,80 +3,56 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import Router from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
-//TODO it forces me to update photo every time 
-
-const UPDATE_USER = gql`
-  mutation UPDATE_USER(
-    $id: ID!
-    $email: String
-    $name: String
-    $surname: String
-    $description: String
-    $photo: String
-  ) {
-    updateUser(
-      id: $id
-      email: $email
-      name: $name
-      surname: $surname
-      description: $description
-      photo: $photo
-    ) {
-      email
-      name
-      surname
-      description
-      photo
-    }
-  }
-`;
+import UPDATE_GUIDE from '../graphgl/mutations/UPDATE_GUIDE';
+import ONE_USER_QUERRY from '../graphgl/queries/ONE_USER_QUERRY';
+//TODO it forces me to update photo every time
 
 const UpdateGuide = (props) => {
-    const { loading, errorQuery, data } = useQuery(ONE_USER_QUERRY, {
-      variables: { id: id },
-    });
-  const [photo, setPhoto] = useState("");
-  const [name, setName] = useState("");
-  const [surname, setSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [description, setDescription] = useState("");
-  const id = props.id;
+   const id = props.id;
+  const { loading, errorQuery, data } = useQuery(ONE_USER_QUERRY, {
+    variables: { id: id },
+  });
+  const [photo, setPhoto] = useState('');
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [email, setEmail] = useState('');
+  const [description, setDescription] = useState('');
+ 
 
   const [
     updateUser,
     { loadingMutation, errorMutation, calledMutation, dataMutation },
-  ] = useMutation(UPDATE_USER);
+  ] = useMutation(UPDATE_GUIDE);
 
+  function handleNameChange(e) {
+    setName(e.target.value);
+  }
 
-    function handleNameChange(e) {
-      setName(e.target.value);
-    }
+  function handleSurnameChange(e) {
+    setSurname(e.target.value);
+  }
 
-    function handleSurnameChange(e) {
-      setSurname(e.target.value);
-    }
+  function handleEmailChange(e) {
+    setEmail(e.target.value);
+  }
 
-    function handleEmailChange(e) {
-      setEmail(e.target.value);
-    }
-
-    function handleDescriptionChange(e) {
-      setDescription(e.target.value);
-    }
-    async function updateGuide(e, updateGuideMutation) {
-      e.preventDefault();
-      console.log("updating Guide");
-      const res = await updateGuideMutation({
-        variables: {
-          id,
-        },
-      });
-      console.log("Updated");
-    }
+  function handleDescriptionChange(e) {
+    setDescription(e.target.value);
+  }
+  async function updateGuide(e, updateGuideMutation) {
+    e.preventDefault();
+    console.log('updating Guide');
+    const res = await updateGuideMutation({
+      variables: {
+        id,
+      },
+    });
+    console.log('Updated');
+  }
 
   useEffect(() => {
     if (!loading && data) {
-      console.log(data.user.name);
+      //console.log(data.user.name);
       setName(data.user.name);
       setEmail(data.user.email);
       setSurname(data.user.surname);
@@ -84,22 +60,22 @@ const UpdateGuide = (props) => {
       setPhoto(data.user.photo);
     }
   }, [loading, data]);
-      async function handlePhotoUpload(e) {
-        const data = new FormData();
-        data.append("file", e.target.files[0]);
-        data.append("upload_preset", "MTBregistration");
+  async function handlePhotoUpload(e) {
+    const data = new FormData();
+    data.append('file', e.target.files[0]);
+    data.append('upload_preset', 'MTBregistration');
 
-        const cloudinaryRes = await fetch(
-          "https://api.cloudinary.com/v1_1/karolinauploads/image/upload",
-          {
-            method: "POST",
-            body: data,
-          }
-        );
-        const file = await cloudinaryRes.json();
-        setPhoto(file.secure_url);
-        //console.log('photo url: ', file.secure_url);
-      }
+    const cloudinaryRes = await fetch(
+      'https://api.cloudinary.com/v1_1/karolinauploads/image/upload',
+      {
+        method: 'POST',
+        body: data,
+      },
+    );
+    const file = await cloudinaryRes.json();
+    setPhoto(file.secure_url);
+    //console.log('photo url: ', file.secure_url);
+  }
 
   if (loading) {
     return <p>"Loading..." </p>;
@@ -131,15 +107,21 @@ const UpdateGuide = (props) => {
             },
           });
           Router.push({
-            pathname: "/guides",
+            pathname: '/guides',
           });
         }}
       >
-        <fieldset disabled={loadingMutation} aria-busy={loadingMutation}>
+        <fieldset
+          disabled={loadingMutation}
+          aria-busy={loadingMutation}
+        >
           <img src={photo} alt="Mountainbiker photo" />
           <label htmlFor="photo">
             Photo:
-            <input type="file" onChange={handlePhotoUpload} required />
+            <input
+              type="file"
+              onChange={handlePhotoUpload}
+            />
           </label>
           <label htmlFor="name">
             Name:
@@ -186,7 +168,7 @@ const UpdateGuide = (props) => {
       </form>
     </div>
   );
-};;
+};
 // TODO use context use themes
 /*
 const StyledNav = styled.nav`
@@ -196,8 +178,5 @@ const StyledNav = styled.nav`
 `;
 */
 
-  
-
 export default UpdateGuide;
-export { UPDATE_USER };
-export { ONE_USER_QUERRY };
+
