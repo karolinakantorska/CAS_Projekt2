@@ -20,8 +20,12 @@
     "babel-install": "^2.1.0",
     "babel-plugin-styled-components": "^1.11.1",
     "date-fns": "^2.16.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
+    "jest": "^26.6.1",
+    "jest-transform-graphql": "^2.1.0",
     "next": "9.3.5",
     "next-router": "^1.3.6",
     "next-with-apollo": "^5.1.0",
@@ -41,6 +45,17 @@
     "eslint-plugin-jsx-a11y": "^6.3.0",
     "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.0"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/jest.setup.js",
+    "testPathIgnorePatterns": [
+      "<rootDir>/.next/",
+      "<rootDir>/node_modules/"
+    ],
+    "transform": {
+      "\\.(gql|graphql)$": "jest-transform-graphql",
+      ".*": "babel-jest"
+    }
   },
   "babel": {
     "env": {
