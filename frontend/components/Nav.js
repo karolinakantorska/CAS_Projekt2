@@ -16,7 +16,7 @@ const Nav = (props) => {
           <Link href="/guides">
             <a>MTB Guides</a>
           </Link>
-          {props.currentUserPermission === 'ADMIN' ? (
+          {currentUserPermission === 'ADMIN' ? (
             <Link href="/add_guide">
               <a>Add New MTB Guide</a>
             </Link>
