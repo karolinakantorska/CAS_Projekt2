@@ -12,8 +12,8 @@ type Query {
   users(where: UserWhereInput): [User!]!
   user(where: UserWhereUniqueInput!): User
   currentUser: User
-  days(where: DayWhereInput): [Day]!
-  day(where: DayWhereUniqueInput!): Day
+  reservations(where: ReservationWhereInput): [Reservation]!
+  reservation(where: ReservationWhereUniqueInput!): Reservation
 }
 type Mutation {
   createUser(
@@ -35,17 +35,31 @@ type Mutation {
   deleteUser(id: ID!): User
   signup(email: String!, password: String!, name: String!): User!
   signin(email: String!, password: String!): User!
-  signout: SuccessMesage,
-  createDay(year: String!, month: String!, day: String!): Day!
-  createReservation(
+  signout: SuccessMesage
+  createReservation(  
+    reservationID: String!
+    year: String!
+    month: String!
+    day: String!
     time: Time
     guideID: ID
-    dayID: ID
     userName: String
     userEmail: String
     nrOfPeople: String
-    description: String
-  ): Reservation!
+    description: String): Reservation!
+  updateReservation(
+    id: ID!
+    reservationID: String
+    year: String
+    month: String
+    day: String
+    time: Time
+    guideID: ID
+    userName: String
+    userEmail: String
+    nrOfPeople: String
+    description: String): Reservation
+  deleteReservation(id: ID!): Reservation
 }
 type SuccessMesage {
   message: String

@@ -18,7 +18,6 @@ const UpdateGuide = (props) => {
   const [email, setEmail] = useState('');
   const [description, setDescription] = useState('');
  
-
   const [
     updateUser,
     { loadingMutation, errorMutation, calledMutation, dataMutation },

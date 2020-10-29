@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { Router, useRouter } from 'next/router';
 import Link from 'next/link';
-import { weekEN, monthEN } from '../lib/utils';
+import { weekDaysEN, monthEN } from '../lib/utils';
 import startOfMonth from 'date-fns/startOfMonth';
 import getDaysInMonth from 'date-fns/getDaysInMonth';
 import addMonths from 'date-fns/addMonths';
@@ -12,7 +12,8 @@ import styled from 'styled-components';
 import Entry from './Entry';
 import User from './User';
 import CalendarMenu from './CalendarMenu';
-import DAYS_WITH_RESERVATIONS_QUERY from '../graphgl/queries/DAYS_WITH_RESERVATIONS_QUERY';
+import MONTHS_RESERVATIONS_QUERY from '../graphgl/queries/MONTHS_RESERVATIONS_QUERY';
+
 
 const Calendar = (props) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -30,7 +31,7 @@ const Calendar = (props) => {
   );
   const { guideId } = props;
   // Calender
-  const weekNames = weekEN();
+  const weekNames = weekDaysEN();
   const currentYear = format(new Date(), 'y');
   const currentMonth = format(new Date(), 'MMMM');
   const currentDay = format(new Date(), 'd');
@@ -83,8 +84,9 @@ const Calendar = (props) => {
     daysInMonthArray.push(`${i}`);
   }
   // Reservations Query
+
   const { loading, error, data } = useQuery(
-    DAYS_WITH_RESERVATIONS_QUERY,
+    MONTHS_RESERVATIONS_QUERY,
     {
       variables: {
         year: selectedYear,
@@ -95,17 +97,39 @@ const Calendar = (props) => {
   );
   if (error) return <p>Error:{error}</p>;
   if (loading) return <p>Loading...</p>;
-  // Query data transformed to simpler object
-  const reservationsQueryDataToArray = () => {
-    const reservations = {};
-    data.days.map((dayEntry) => {
-      const { day, reservation } = dayEntry;
-      reservations[day] = reservation;
-    });
-    return reservations;
-  };
-  const reservations = reservationsQueryDataToArray();
+  console.log(data);
+  /*
 
+​​​reservations: [{}]
+   {…}
+__typename: "Reservation"
+​​
+day: "29"
+​​​guide: Object { name: "k", email: "k@r", __typename: "User" }
+​​
+month: "November"
+​​
+reservationID: "2020November29"
+​​
+time: "PM"
+​
+year: "2020"
+*/
+  // Query data transformed to simpler object
+/*
+  const reservationsQueryDataToArray = () => {
+    const reservationTransformed = {};
+    data.reservations.map((booking) => {
+      const { day } = booking;
+      reservationTransformed[day] = booking;
+    });
+    console.log(reservationTransformed);
+    return reservationTransformed;
+  };
+reservationsQueryDataToArray();
+  //const reservations = reservationsQueryDataToArray();
+   */
+  const reservations = {};
   return (
     <User>
       {(currentUserPermission, currentUserName, currentUserEmail) => (

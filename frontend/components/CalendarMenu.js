@@ -9,7 +9,6 @@ const CalendarMenu = (props) => {
     handleMonthChange,
     handleYearChange,
   } = props;
-
     
   return (
     <section>

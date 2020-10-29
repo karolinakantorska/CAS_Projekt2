@@ -9,6 +9,7 @@ const ONE_USER_QUERRY = gql`
       surname
       description
       photo
+      #reservations
     }
   }
 `;

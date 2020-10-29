@@ -6,16 +6,7 @@ import DeleteGuide from './DeleteGuide';
 const Guide = (props) => {
   const { currentUserPermission } = props;
   const { id, email, name, surname, description, photo } = props.user;
-  const linkToBook =(
-    <Link
-          href={{
-            pathname: '/booking_guide',
-            query: { id: id, guideName: name },
-          }}
-        >
-          <button>Book Me!</button>
-        </Link>
-  )
+
   return (
     <StyledDiv>
       <h4>MTB Guide:</h4>
@@ -34,10 +25,26 @@ const Guide = (props) => {
           <a>Logg in to book Me!</a>
         </Link>
       )}
-      {currentUserPermission === 'USER' && { linkToBook }}
+      {currentUserPermission === 'USER' && (
+        <Link
+          href={{
+            pathname: '/booking_guide',
+            query: { id: id, guideName: name },
+          }}
+        >
+          <button>Book Me!</button>
+        </Link>
+      )}
       {currentUserPermission === 'ADMIN' && (
         <React.Fragment>
-          {linkToBook}
+          <Link
+            href={{
+              pathname: '/booking_guide',
+              query: { id: id, guideName: name },
+            }}
+          >
+            <button>Book Me!</button>
+          </Link>
           <Link
             href={{
               pathname: '/edit_guide',

@@ -16,19 +16,15 @@ enum Permission {
   GUIDE
   USER
 }
-type Day {
+type Reservation {
   id: ID! @id
+  reservationID: String! @unique
   year: String!
   month: String!
   day: String!
-  reservation: [Reservation] #relationship to the Reservation
-}
-type Reservation {
-  id: ID! @id
   time: Time
   guide: User! #relationship to the User - GUIDE
   guideID: ID
-  day: Day! #relationship to the Day
   userName: String
   userEmail: String
   nrOfPeople: String

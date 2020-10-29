@@ -1,9 +1,5 @@
 # source: https://eu1.prisma.sh/karolina-kantorska/MTBreservation/dev
-# timestamp: Wed Oct 21 2020 09:28:31 GMT+0200 (Central European Summer Time)
-
-type AggregateDay {
-  count: Int!
-}
+# timestamp: Thu Oct 29 2020 13:21:23 GMT+0100 (Central European Standard Time)
 
 type AggregateReservation {
   count: Int!
@@ -18,150 +14,191 @@ type BatchPayload {
   count: Long!
 }
 
-type Day implements Node {
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values.
+Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long
+
+type Mutation {
+  createUser(data: UserCreateInput!): User!
+  createReservation(data: ReservationCreateInput!): Reservation!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateReservation(data: ReservationUpdateInput!, where: ReservationWhereUniqueInput!): Reservation
+  deleteUser(where: UserWhereUniqueInput!): User
+  deleteReservation(where: ReservationWhereUniqueInput!): Reservation
+  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertReservation(where: ReservationWhereUniqueInput!, create: ReservationCreateInput!, update: ReservationUpdateInput!): Reservation!
+  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateManyReservations(data: ReservationUpdateManyMutationInput!, where: ReservationWhereInput): BatchPayload!
+  deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyReservations(where: ReservationWhereInput): BatchPayload!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+"""An object with an ID"""
+interface Node {
+  """The id of the object."""
   id: ID!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+enum Permission {
+  ADMIN
+  GUIDE
+  USER
+}
+
+type Query {
+  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  reservations(where: ReservationWhereInput, orderBy: ReservationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reservation]!
+  user(where: UserWhereUniqueInput!): User
+  reservation(where: ReservationWhereUniqueInput!): Reservation
+  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  reservationsConnection(where: ReservationWhereInput, orderBy: ReservationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReservationConnection!
+
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
+}
+
+type Reservation implements Node {
+  id: ID!
+  reservationID: String!
   year: String!
   month: String!
   day: String!
-  reservation(where: ReservationWhereInput, orderBy: ReservationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reservation!]
+  time: Time
+  guide: User!
+  guideID: ID
+  userName: String
+  userEmail: String
+  nrOfPeople: String
+  description: String
 }
 
 """A connection to a list of items."""
-type DayConnection {
+type ReservationConnection {
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
   """A list of edges."""
-  edges: [DayEdge]!
-  aggregate: AggregateDay!
+  edges: [ReservationEdge]!
+  aggregate: AggregateReservation!
 }
 
-input DayCreateInput {
+input ReservationCreateInput {
   id: ID
+  reservationID: String!
   year: String!
   month: String!
   day: String!
-  reservation: ReservationCreateManyWithoutDayInput
+  time: Time
+  guideID: ID
+  userName: String
+  userEmail: String
+  nrOfPeople: String
+  description: String
+  guide: UserCreateOneWithoutReservationsInput!
 }
 
-input DayCreateOneWithoutReservationInput {
-  create: DayCreateWithoutReservationInput
-  connect: DayWhereUniqueInput
+input ReservationCreateManyWithoutGuideInput {
+  create: [ReservationCreateWithoutGuideInput!]
+  connect: [ReservationWhereUniqueInput!]
 }
 
-input DayCreateWithoutReservationInput {
+input ReservationCreateWithoutGuideInput {
   id: ID
+  reservationID: String!
   year: String!
   month: String!
   day: String!
+  time: Time
+  guideID: ID
+  userName: String
+  userEmail: String
+  nrOfPeople: String
+  description: String
 }
 
 """An edge in a connection."""
-type DayEdge {
+type ReservationEdge {
   """The item at the end of the edge."""
-  node: Day!
+  node: Reservation!
 
   """A cursor for use in pagination."""
   cursor: String!
 }
 
-enum DayOrderByInput {
+enum ReservationOrderByInput {
   id_ASC
   id_DESC
+  reservationID_ASC
+  reservationID_DESC
   year_ASC
   year_DESC
   month_ASC
   month_DESC
   day_ASC
   day_DESC
+  time_ASC
+  time_DESC
+  guideID_ASC
+  guideID_DESC
+  userName_ASC
+  userName_DESC
+  userEmail_ASC
+  userEmail_DESC
+  nrOfPeople_ASC
+  nrOfPeople_DESC
+  description_ASC
+  description_DESC
 }
 
-type DayPreviousValues {
+type ReservationPreviousValues {
   id: ID!
+  reservationID: String!
   year: String!
   month: String!
   day: String!
+  time: Time
+  guideID: ID
+  userName: String
+  userEmail: String
+  nrOfPeople: String
+  description: String
 }
 
-type DaySubscriptionPayload {
-  mutation: MutationType!
-  node: Day
-  updatedFields: [String!]
-  previousValues: DayPreviousValues
-}
-
-input DaySubscriptionWhereInput {
+input ReservationScalarWhereInput {
   """Logical AND on all given filters."""
-  AND: [DaySubscriptionWhereInput!]
+  AND: [ReservationScalarWhereInput!]
 
   """Logical OR on all given filters."""
-  OR: [DaySubscriptionWhereInput!]
+  OR: [ReservationScalarWhereInput!]
 
   """Logical NOT on all given filters combined by AND."""
-  NOT: [DaySubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
-  mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: DayWhereInput
-}
-
-input DayUpdateInput {
-  year: String
-  month: String
-  day: String
-  reservation: ReservationUpdateManyWithoutDayInput
-}
-
-input DayUpdateManyMutationInput {
-  year: String
-  month: String
-  day: String
-}
-
-input DayUpdateOneRequiredWithoutReservationInput {
-  create: DayCreateWithoutReservationInput
-  connect: DayWhereUniqueInput
-  update: DayUpdateWithoutReservationDataInput
-  upsert: DayUpsertWithoutReservationInput
-}
-
-input DayUpdateWithoutReservationDataInput {
-  year: String
-  month: String
-  day: String
-}
-
-input DayUpsertWithoutReservationInput {
-  update: DayUpdateWithoutReservationDataInput!
-  create: DayCreateWithoutReservationInput!
-}
-
-input DayWhereInput {
-  """Logical AND on all given filters."""
-  AND: [DayWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [DayWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [DayWhereInput!]
+  NOT: [ReservationScalarWhereInput!]
   id: ID
 
   """All values that are not equal to given value."""
@@ -202,6 +239,46 @@ input DayWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  reservationID: String
+
+  """All values that are not equal to given value."""
+  reservationID_not: String
+
+  """All values that are contained in given list."""
+  reservationID_in: [String!]
+
+  """All values that are not contained in given list."""
+  reservationID_not_in: [String!]
+
+  """All values less than the given value."""
+  reservationID_lt: String
+
+  """All values less than or equal the given value."""
+  reservationID_lte: String
+
+  """All values greater than the given value."""
+  reservationID_gt: String
+
+  """All values greater than or equal the given value."""
+  reservationID_gte: String
+
+  """All values containing the given string."""
+  reservationID_contains: String
+
+  """All values not containing the given string."""
+  reservationID_not_contains: String
+
+  """All values starting with the given string."""
+  reservationID_starts_with: String
+
+  """All values not starting with the given string."""
+  reservationID_not_starts_with: String
+
+  """All values ending with the given string."""
+  reservationID_ends_with: String
+
+  """All values not ending with the given string."""
+  reservationID_not_ends_with: String
   year: String
 
   """All values that are not equal to given value."""
@@ -322,244 +399,6 @@ input DayWhereInput {
 
   """All values not ending with the given string."""
   day_not_ends_with: String
-  reservation_every: ReservationWhereInput
-  reservation_some: ReservationWhereInput
-  reservation_none: ReservationWhereInput
-}
-
-input DayWhereUniqueInput {
-  id: ID
-}
-
-"""
-The `Long` scalar type represents non-fractional signed whole numeric values.
-Long can represent values between -(2^63) and 2^63 - 1.
-"""
-scalar Long
-
-type Mutation {
-  createUser(data: UserCreateInput!): User!
-  createDay(data: DayCreateInput!): Day!
-  createReservation(data: ReservationCreateInput!): Reservation!
-  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-  updateDay(data: DayUpdateInput!, where: DayWhereUniqueInput!): Day
-  updateReservation(data: ReservationUpdateInput!, where: ReservationWhereUniqueInput!): Reservation
-  deleteUser(where: UserWhereUniqueInput!): User
-  deleteDay(where: DayWhereUniqueInput!): Day
-  deleteReservation(where: ReservationWhereUniqueInput!): Reservation
-  upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
-  upsertDay(where: DayWhereUniqueInput!, create: DayCreateInput!, update: DayUpdateInput!): Day!
-  upsertReservation(where: ReservationWhereUniqueInput!, create: ReservationCreateInput!, update: ReservationUpdateInput!): Reservation!
-  updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
-  updateManyDays(data: DayUpdateManyMutationInput!, where: DayWhereInput): BatchPayload!
-  updateManyReservations(data: ReservationUpdateManyMutationInput!, where: ReservationWhereInput): BatchPayload!
-  deleteManyUsers(where: UserWhereInput): BatchPayload!
-  deleteManyDays(where: DayWhereInput): BatchPayload!
-  deleteManyReservations(where: ReservationWhereInput): BatchPayload!
-}
-
-enum MutationType {
-  CREATED
-  UPDATED
-  DELETED
-}
-
-"""An object with an ID"""
-interface Node {
-  """The id of the object."""
-  id: ID!
-}
-
-"""Information about pagination in a connection."""
-type PageInfo {
-  """When paginating forwards, are there more items?"""
-  hasNextPage: Boolean!
-
-  """When paginating backwards, are there more items?"""
-  hasPreviousPage: Boolean!
-
-  """When paginating backwards, the cursor to continue."""
-  startCursor: String
-
-  """When paginating forwards, the cursor to continue."""
-  endCursor: String
-}
-
-enum Permission {
-  ADMIN
-  GUIDE
-  USER
-}
-
-type Query {
-  users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
-  days(where: DayWhereInput, orderBy: DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Day]!
-  reservations(where: ReservationWhereInput, orderBy: ReservationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reservation]!
-  user(where: UserWhereUniqueInput!): User
-  day(where: DayWhereUniqueInput!): Day
-  reservation(where: ReservationWhereUniqueInput!): Reservation
-  usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
-  daysConnection(where: DayWhereInput, orderBy: DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DayConnection!
-  reservationsConnection(where: ReservationWhereInput, orderBy: ReservationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReservationConnection!
-
-  """Fetches an object given its ID"""
-  node(
-    """The ID of an object"""
-    id: ID!
-  ): Node
-}
-
-type Reservation implements Node {
-  id: ID!
-  time: Time
-  guide: User!
-  guideID: ID
-  day: Day!
-  userName: String
-  userEmail: String
-  nrOfPeople: String
-  description: String
-}
-
-"""A connection to a list of items."""
-type ReservationConnection {
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """A list of edges."""
-  edges: [ReservationEdge]!
-  aggregate: AggregateReservation!
-}
-
-input ReservationCreateInput {
-  id: ID
-  time: Time
-  guideID: ID
-  userName: String
-  userEmail: String
-  nrOfPeople: String
-  description: String
-  guide: UserCreateOneWithoutReservationsInput!
-  day: DayCreateOneWithoutReservationInput!
-}
-
-input ReservationCreateManyWithoutDayInput {
-  create: [ReservationCreateWithoutDayInput!]
-  connect: [ReservationWhereUniqueInput!]
-}
-
-input ReservationCreateManyWithoutGuideInput {
-  create: [ReservationCreateWithoutGuideInput!]
-  connect: [ReservationWhereUniqueInput!]
-}
-
-input ReservationCreateWithoutDayInput {
-  id: ID
-  time: Time
-  guideID: ID
-  userName: String
-  userEmail: String
-  nrOfPeople: String
-  description: String
-  guide: UserCreateOneWithoutReservationsInput!
-}
-
-input ReservationCreateWithoutGuideInput {
-  id: ID
-  time: Time
-  guideID: ID
-  userName: String
-  userEmail: String
-  nrOfPeople: String
-  description: String
-  day: DayCreateOneWithoutReservationInput!
-}
-
-"""An edge in a connection."""
-type ReservationEdge {
-  """The item at the end of the edge."""
-  node: Reservation!
-
-  """A cursor for use in pagination."""
-  cursor: String!
-}
-
-enum ReservationOrderByInput {
-  id_ASC
-  id_DESC
-  time_ASC
-  time_DESC
-  guideID_ASC
-  guideID_DESC
-  userName_ASC
-  userName_DESC
-  userEmail_ASC
-  userEmail_DESC
-  nrOfPeople_ASC
-  nrOfPeople_DESC
-  description_ASC
-  description_DESC
-}
-
-type ReservationPreviousValues {
-  id: ID!
-  time: Time
-  guideID: ID
-  userName: String
-  userEmail: String
-  nrOfPeople: String
-  description: String
-}
-
-input ReservationScalarWhereInput {
-  """Logical AND on all given filters."""
-  AND: [ReservationScalarWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [ReservationScalarWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [ReservationScalarWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
   time: Time
 
   """All values that are not equal to given value."""
@@ -812,6 +651,10 @@ input ReservationSubscriptionWhereInput {
 }
 
 input ReservationUpdateInput {
+  reservationID: String
+  year: String
+  month: String
+  day: String
   time: Time
   guideID: ID
   userName: String
@@ -819,10 +662,13 @@ input ReservationUpdateInput {
   nrOfPeople: String
   description: String
   guide: UserUpdateOneRequiredWithoutReservationsInput
-  day: DayUpdateOneRequiredWithoutReservationInput
 }
 
 input ReservationUpdateManyDataInput {
+  reservationID: String
+  year: String
+  month: String
+  day: String
   time: Time
   guideID: ID
   userName: String
@@ -832,24 +678,16 @@ input ReservationUpdateManyDataInput {
 }
 
 input ReservationUpdateManyMutationInput {
+  reservationID: String
+  year: String
+  month: String
+  day: String
   time: Time
   guideID: ID
   userName: String
   userEmail: String
   nrOfPeople: String
   description: String
-}
-
-input ReservationUpdateManyWithoutDayInput {
-  create: [ReservationCreateWithoutDayInput!]
-  connect: [ReservationWhereUniqueInput!]
-  set: [ReservationWhereUniqueInput!]
-  disconnect: [ReservationWhereUniqueInput!]
-  delete: [ReservationWhereUniqueInput!]
-  update: [ReservationUpdateWithWhereUniqueWithoutDayInput!]
-  updateMany: [ReservationUpdateManyWithWhereNestedInput!]
-  deleteMany: [ReservationScalarWhereInput!]
-  upsert: [ReservationUpsertWithWhereUniqueWithoutDayInput!]
 }
 
 input ReservationUpdateManyWithoutGuideInput {
@@ -869,40 +707,22 @@ input ReservationUpdateManyWithWhereNestedInput {
   data: ReservationUpdateManyDataInput!
 }
 
-input ReservationUpdateWithoutDayDataInput {
-  time: Time
-  guideID: ID
-  userName: String
-  userEmail: String
-  nrOfPeople: String
-  description: String
-  guide: UserUpdateOneRequiredWithoutReservationsInput
-}
-
 input ReservationUpdateWithoutGuideDataInput {
+  reservationID: String
+  year: String
+  month: String
+  day: String
   time: Time
   guideID: ID
   userName: String
   userEmail: String
   nrOfPeople: String
   description: String
-  day: DayUpdateOneRequiredWithoutReservationInput
-}
-
-input ReservationUpdateWithWhereUniqueWithoutDayInput {
-  where: ReservationWhereUniqueInput!
-  data: ReservationUpdateWithoutDayDataInput!
 }
 
 input ReservationUpdateWithWhereUniqueWithoutGuideInput {
   where: ReservationWhereUniqueInput!
   data: ReservationUpdateWithoutGuideDataInput!
-}
-
-input ReservationUpsertWithWhereUniqueWithoutDayInput {
-  where: ReservationWhereUniqueInput!
-  update: ReservationUpdateWithoutDayDataInput!
-  create: ReservationCreateWithoutDayInput!
 }
 
 input ReservationUpsertWithWhereUniqueWithoutGuideInput {
@@ -960,6 +780,166 @@ input ReservationWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
+  reservationID: String
+
+  """All values that are not equal to given value."""
+  reservationID_not: String
+
+  """All values that are contained in given list."""
+  reservationID_in: [String!]
+
+  """All values that are not contained in given list."""
+  reservationID_not_in: [String!]
+
+  """All values less than the given value."""
+  reservationID_lt: String
+
+  """All values less than or equal the given value."""
+  reservationID_lte: String
+
+  """All values greater than the given value."""
+  reservationID_gt: String
+
+  """All values greater than or equal the given value."""
+  reservationID_gte: String
+
+  """All values containing the given string."""
+  reservationID_contains: String
+
+  """All values not containing the given string."""
+  reservationID_not_contains: String
+
+  """All values starting with the given string."""
+  reservationID_starts_with: String
+
+  """All values not starting with the given string."""
+  reservationID_not_starts_with: String
+
+  """All values ending with the given string."""
+  reservationID_ends_with: String
+
+  """All values not ending with the given string."""
+  reservationID_not_ends_with: String
+  year: String
+
+  """All values that are not equal to given value."""
+  year_not: String
+
+  """All values that are contained in given list."""
+  year_in: [String!]
+
+  """All values that are not contained in given list."""
+  year_not_in: [String!]
+
+  """All values less than the given value."""
+  year_lt: String
+
+  """All values less than or equal the given value."""
+  year_lte: String
+
+  """All values greater than the given value."""
+  year_gt: String
+
+  """All values greater than or equal the given value."""
+  year_gte: String
+
+  """All values containing the given string."""
+  year_contains: String
+
+  """All values not containing the given string."""
+  year_not_contains: String
+
+  """All values starting with the given string."""
+  year_starts_with: String
+
+  """All values not starting with the given string."""
+  year_not_starts_with: String
+
+  """All values ending with the given string."""
+  year_ends_with: String
+
+  """All values not ending with the given string."""
+  year_not_ends_with: String
+  month: String
+
+  """All values that are not equal to given value."""
+  month_not: String
+
+  """All values that are contained in given list."""
+  month_in: [String!]
+
+  """All values that are not contained in given list."""
+  month_not_in: [String!]
+
+  """All values less than the given value."""
+  month_lt: String
+
+  """All values less than or equal the given value."""
+  month_lte: String
+
+  """All values greater than the given value."""
+  month_gt: String
+
+  """All values greater than or equal the given value."""
+  month_gte: String
+
+  """All values containing the given string."""
+  month_contains: String
+
+  """All values not containing the given string."""
+  month_not_contains: String
+
+  """All values starting with the given string."""
+  month_starts_with: String
+
+  """All values not starting with the given string."""
+  month_not_starts_with: String
+
+  """All values ending with the given string."""
+  month_ends_with: String
+
+  """All values not ending with the given string."""
+  month_not_ends_with: String
+  day: String
+
+  """All values that are not equal to given value."""
+  day_not: String
+
+  """All values that are contained in given list."""
+  day_in: [String!]
+
+  """All values that are not contained in given list."""
+  day_not_in: [String!]
+
+  """All values less than the given value."""
+  day_lt: String
+
+  """All values less than or equal the given value."""
+  day_lte: String
+
+  """All values greater than the given value."""
+  day_gt: String
+
+  """All values greater than or equal the given value."""
+  day_gte: String
+
+  """All values containing the given string."""
+  day_contains: String
+
+  """All values not containing the given string."""
+  day_not_contains: String
+
+  """All values starting with the given string."""
+  day_starts_with: String
+
+  """All values not starting with the given string."""
+  day_not_starts_with: String
+
+  """All values ending with the given string."""
+  day_ends_with: String
+
+  """All values not ending with the given string."""
+  day_not_ends_with: String
   time: Time
 
   """All values that are not equal to given value."""
@@ -1171,16 +1151,15 @@ input ReservationWhereInput {
   """All values not ending with the given string."""
   description_not_ends_with: String
   guide: UserWhereInput
-  day: DayWhereInput
 }
 
 input ReservationWhereUniqueInput {
   id: ID
+  reservationID: String
 }
 
 type Subscription {
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
-  day(where: DaySubscriptionWhereInput): DaySubscriptionPayload
   reservation(where: ReservationSubscriptionWhereInput): ReservationSubscriptionPayload
 }
 

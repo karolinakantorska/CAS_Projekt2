@@ -1,4 +1,4 @@
-export const weekEN = () => {
+export const weekDaysEN = () => {
   const week = [];
   for (let i = 0; i < 7; i++) {
     week.push(

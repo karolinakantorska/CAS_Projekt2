@@ -9,7 +9,6 @@ const Query = {
     //  }
     return ctx.db.query.users({}, info);
   },
-
   user: forwardTo("db"),
   currentUser(parent, args, ctx, info) {
     // check if is logged in
@@ -23,8 +22,8 @@ const Query = {
       info
     );
   },
-  days: forwardTo("db"),
-  day: forwardTo("db"),
+  reservations: forwardTo("db"),
+  reservation: forwardTo("db"),
 };
 
 module.exports = Query;

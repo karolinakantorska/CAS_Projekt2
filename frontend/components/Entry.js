@@ -15,10 +15,10 @@ const Entry = (props) => {
         {currentUserPermission === 'USER' && <p>already booked!</p>}
         {(currentUserPermission === 'ADMIN' ||
           currentUserPermission === 'GUIDE') && (
-          <React.Fragment>
-            <p>gast name: ${userName}</p>
-            <p>gast email: ${userEmail}</p>
-          </React.Fragment>
+          <span>
+            <p>gast name: {userName}</p>
+            <p>gast email: {userEmail}</p>
+          </span>
         )}
       </div>
     </EntrySpan>
