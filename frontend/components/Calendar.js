@@ -12,7 +12,6 @@ import styled from 'styled-components';
 import Entry from './Entry';
 import User from './User';
 import CalendarMenu from './CalendarMenu';
-import MONTHS_RESERVATIONS_QUERY from '../graphgl/queries/MONTHS_RESERVATIONS_QUERY';
 
 
 const Calendar = (props) => {
@@ -84,7 +83,7 @@ const Calendar = (props) => {
     daysInMonthArray.push(`${i}`);
   }
   // Reservations Query
-
+/*
   const { loading, error, data } = useQuery(
     MONTHS_RESERVATIONS_QUERY,
     {
@@ -98,23 +97,8 @@ const Calendar = (props) => {
   if (error) return <p>Error:{error}</p>;
   if (loading) return <p>Loading...</p>;
   console.log(data);
-  /*
+  */
 
-​​​reservations: [{}]
-   {…}
-__typename: "Reservation"
-​​
-day: "29"
-​​​guide: Object { name: "k", email: "k@r", __typename: "User" }
-​​
-month: "November"
-​​
-reservationID: "2020November29"
-​​
-time: "PM"
-​
-year: "2020"
-*/
   // Query data transformed to simpler object
 /*
   const reservationsQueryDataToArray = () => {

@@ -24,7 +24,7 @@ const mutations = {
         data: {
           ...args,
           password: password,
-          permissions: 'GUIDE',
+          permissions: "GUIDE",
         },
       },
       info
@@ -70,7 +70,7 @@ const mutations = {
         data: {
           ...args,
           password: password,
-          permissions: 'USER',
+          permissions: "USER",
         },
       },
       info
@@ -85,10 +85,10 @@ const mutations = {
     });
     return user;
   },
-  async signin(parent,  {email, password }, ctx, info) {
+  async signin(parent, { email, password }, ctx, info) {
     // is there a user with this email
-    const user = await ctx.db.query.user({ where: { email }});
-    if (!user){
+    const user = await ctx.db.query.user({ where: { email } });
+    if (!user) {
       throw new Error(`There is no user with this email: ${email}`);
     }
     // if the pass is proper
@@ -108,47 +108,62 @@ const mutations = {
     return user;
   },
   signout(parent, args, ctx, info) {
-    ctx.response.clearCookie('token');
-    return { message: 'Goodbye!'};
+    ctx.response.clearCookie("token");
+    return { message: "Goodbye!" };
   },
-  // reservations
-  async createReservation(parent, args, ctx, info){
-    const reservation = await ctx.db.mutation.createReservation(
+  // days
+  async createDay(parent, args, ctx, info) {
+    const day = await ctx.db.mutation.createDay(
       {
         data: {
-          reservationID: args.reservationID,
           year: args.year,
           month: args.month,
           day: args.day,
-          time: args.time,
+        }
+      },
+      info
+    );
+    return day
+  },
+  // reservations
+  async createReservation(parent, args, ctx, info) {
+    const reservation = await ctx.db.mutation.createReservation(
+      {
+        data: {
           guideID: args.guideID,
+          dayID: args.dayID,
           userName: args.userName,
           userEmail: args.userEmail,
           nrOfPeople: args.nrOfPeople,
           description: args.description,
           guide: {
-            connect: {id: args.guideID}
+            connect: { id: args.guideID },
           },
-        }
+          day: {
+            connect: { id: args.dayID },
+          },
+        },
       },
       info
     );
     return reservation;
   },
-  async updateReservation(parent, args, ctx, info){
-    const updates = { ...args };
-    delete updates.id;
-    const reservation =  await ctx.db.mutation.updateReservation(
-      
+  async updateReservation(parent, args, ctx, info) {
+    const reservation = await ctx.db.mutation.updateReservation(
       {
-        data: updates,
+        guideID: args.guideID,
+        dayID: args.dayID,
+        userName: args.userName,
+        userEmail: args.userEmail,
+        nrOfPeople: args.nrOfPeople,
+        description: args.description,
         where: {
           id: args.id,
         },
       },
       info
     );
-    return reservation
+    return reservation;
   },
   async deleteReservation(parent, args, ctx, info) {
     const where = { id: args.id };

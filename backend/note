@@ -1,12 +1,28 @@
 XHRPOSThttp://localhost:4000/
-[HTTP/1.1 400 Bad Request 0ms]
+[HTTP/1.1 400 Bad Request 199ms]
 
-    	
-    operationName	"ALL_GUIDES_QUERY"
-    query	"query ALL_GUIDES_QUERY {\n users {\n name\n surname\n description\n id\n photo\n bigPhoto\n __typename\n }\n}\n"
-    variables	{}
-
+     
     1
 
-    {"operationName":"ALL_GUIDES_QUERY","variables":{},"query":"query ALL_GUIDES_QUERY {\n  users {\n    name\n    surname\n    description\n    id\n    photo\n    bigPhoto\n    __typename\n  }\n}\n"}
+    {"errors":[{"message":"Field \"createUser\" argument \"permissions\" of type \"Permission!\" is required but not provided.","locations":[{"line":2,"column":3}]}]}
+
+XHRPOSThttp://localhost:4000/
+[HTTP/1.1 400 Bad Request 229ms]
+
+    	
+    operationName	"ADD_GUIDE"
+    query	"mutation ADD_GUIDE($email: String!, $password: String!, $name: String!, $surname: String, $description: String, $photo: String) {\n createUser(\n email: $email\n password: $password\n name: $name\n surname: $surname\n description: $description\n photo: $photo\n ) {\n id\n email\n name\n surname\n description\n photo\n __typename\n }\n}\n"
+    variables	{…}
+    description	""
+    email	"k@e"
+    name	"k"
+    password	"k"
+    permissions	"GUIDE"
+    photo	"https://res.cloudinary.com/karolinauploads/image/upload/v1604006332/images/u9xep7v5k5f3xdkwtmol.jpg"
+    surname	"k"
+
+     
+    1
+
+    {"operationName":"ADD_GUIDE","variables":{"password":"k","email":"k@e","name":"k","surname":"k","description":"","photo":"https://res.cloudinary.com/karolinauploads/image/upload/v1604006332/images/u9xep7v5k5f3xdkwtmol.jpg","permissions":"GUIDE"},"query":"mutation ADD_GUIDE($email: String!, $password: String!, $name: String!, $surname: String, $description: String, $photo: String) {\n  createUser(\n    email: $email\n    password: $password\n    name: $name\n    surname: $surname\n    description: $description\n    photo: $photo\n  ) {\n    id\n    email\n    name\n    surname\n    description\n    photo\n    __typename\n  }\n}\n"}
 

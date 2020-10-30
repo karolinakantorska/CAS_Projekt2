@@ -22,6 +22,8 @@ const Query = {
       info
     );
   },
+  days: forwardTo("db"),
+  day: forwardTo("db"),
   reservations: forwardTo("db"),
   reservation: forwardTo("db"),
 };
