@@ -6,9 +6,7 @@ const DAY_QUERY = gql`
       id
       year
       month
-      day
       reservations {
-        guideID
         userName
         time
       }

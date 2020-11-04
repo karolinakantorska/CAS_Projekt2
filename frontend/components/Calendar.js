@@ -91,8 +91,8 @@ const Calendar = (props) => {
   );
   if (error) return <p>Error:{error}</p>;
   if (loading) return <p>Loading...</p>;
-  console.log('data: ',data);
-  console.log('data.days: ',data.days);
+  //console.log('data: ',data);
+  //console.log('data.days: ',data.days);
   
   // Query data transformed 
   const reservationsQueryDataToArray = () => {

@@ -3,6 +3,7 @@ import { gql, useMutation, useQuery, useLazyQuery } from '@apollo/client';
 import User from './User';
 import DAY_QUERY from '../graphgl/queries/DAY_QUERY';
 import CREATE_DAY from '../graphgl/mutations/CREATE_DAY'; 
+import CREATE_RESERVATION from '../graphgl/mutations/CREATE_RESERVATION';
 
 const BookingConfirmation = (props) => {
   const {
@@ -16,25 +17,49 @@ const BookingConfirmation = (props) => {
   const [time, setTime] = useState('');
   const [description, setDescription] = useState('');
   const [nrOfPeople, setNrOfPeople] = useState(1);
-
-  const [create_day, { loading, error, data }] = useMutation(
-    CREATE_DAY)
+  let existingDayID = '';
+    const { loading, error, data: dataDay  } = useQuery(DAY_QUERY, {
+      variables: {
+        year,
+        month,
+        day
+      },
+    });
+    console.log(dataDay);
+  const [create_day, {  data }] = useMutation(CREATE_DAY)
+  const [create_reservation, { data: dataReservation }] = useMutation(CREATE_RESERVATION);
 
  function handleSubmitt(userName, userEmail) {
-   create_day({
-     variables: {
-       year,
-       month,
-       day,
-       time,
-       userName,
-       userEmail,
-       nrOfPeople,
-       description,
-       id: guideId,
-     },
-   });
-  
+   if (dataDay.days.length > 0) {
+     existingDayID = dataDay.days[0].id;
+     console.log(existingDayID);
+     create_reservation({
+       variables: {
+         time,
+         userName,
+         userEmail,
+         nrOfPeople,
+         description,
+         guideId: guideId,
+         id: existingDayID,
+       },
+     });
+   }
+   if (dataDay.days.length === 0) {
+     create_day({
+       variables: {
+         year,
+         month,
+         day,
+         time,
+         userName,
+         userEmail,
+         nrOfPeople,
+         description,
+         id: guideId,
+       },
+     });
+   }
  }
   function handleDescriptionChange(e) {
     setDescription(e.target.value);
@@ -52,7 +77,6 @@ const BookingConfirmation = (props) => {
         currentUserPermission,
         currentUserName,
         currentUserEmail,
-        currentUserId,
       ) => (
         <fieldset>
           <p>

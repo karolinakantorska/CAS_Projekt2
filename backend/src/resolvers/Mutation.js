@@ -123,6 +123,17 @@ const mutations = {
       }
     )
     return day
+  },
+  async createReservation(parent, args, ctx, info){
+    console.log(args)
+    const reservation = await ctx.db.mutation.createReservation(
+      {
+        data:{
+          ...args
+        }
+      }
+    )
+    return reservation;
   }
 };
 

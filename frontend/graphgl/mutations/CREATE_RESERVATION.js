@@ -2,15 +2,35 @@ import { gql } from '@apollo/client';
 
 const CREATE_RESERVATION = gql`
   mutation CREATE_RESERVATION(
-    $year: String!
-    $month: String!
-    $day: String!
+    $time: Time
+    $userName: String
+    $userEmail: String
+    $nrOfPeople: String
+    $description: String
+    $guideId: ID
+    $id: ID
   ) {
-    createDay(year: $year, month: $month, day: $day) {
-      id
-      year
-      month
-      day
+    createDay(
+      #data: {
+      time: $time
+      userName: $userName
+      userEmail: $userEmail
+      nrOfPeople: $nrOfPeople
+      description: $description
+      guide: { connect: { guideId: $guideId } }
+      relatedDay: { connect: { id: $id} } #}
+    ) {
+      time
+      userName
+      userEmail
+      nrOfPeople
+      description
+      guide {
+        guideId
+      }
+      relatedDay {
+        id
+      }
     }
   }
 `;
