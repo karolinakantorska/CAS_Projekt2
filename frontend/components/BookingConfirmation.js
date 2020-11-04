@@ -17,22 +17,22 @@ const BookingConfirmation = (props) => {
   const [time, setTime] = useState('');
   const [description, setDescription] = useState('');
   const [nrOfPeople, setNrOfPeople] = useState(1);
-  let existingDayID = '';
+  
     const { loading, error, data: dataDay  } = useQuery(DAY_QUERY, {
       variables: {
         year,
         month,
-        day
+        day,
+        id: guideId
       },
     });
-    console.log(dataDay);
+
   const [create_day, {  data }] = useMutation(CREATE_DAY)
   const [create_reservation, { data: dataReservation }] = useMutation(CREATE_RESERVATION);
 
  function handleSubmitt(userName, userEmail) {
    if (dataDay.days.length > 0) {
-     existingDayID = dataDay.days[0].id;
-     console.log(existingDayID);
+     const existingDayID = dataDay.days[0].id;
      create_reservation({
        variables: {
          time,
@@ -61,16 +61,6 @@ const BookingConfirmation = (props) => {
      });
    }
  }
-  function handleDescriptionChange(e) {
-    setDescription(e.target.value);
-  }
-  function handleTimeChange(e) {
-    setTime(e.target.value);
-  }
-  function handleNrOfPeopleChange(e) {
-    setNrOfPeople(e.target.value);
-  }
-
   return (
     <User>
       {(
@@ -138,6 +128,15 @@ const BookingConfirmation = (props) => {
       )}
     </User>
   );
+  function handleDescriptionChange(e) {
+    setDescription(e.target.value);
+  }
+  function handleTimeChange(e) {
+    setTime(e.target.value);
+  }
+  function handleNrOfPeopleChange(e) {
+    setNrOfPeople(e.target.value);
+  }
 };
 
 export default BookingConfirmation;
