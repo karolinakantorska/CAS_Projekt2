@@ -4,12 +4,12 @@ import Router from 'next/router';
 import Link from 'next/link';
 import styled from 'styled-components';
 import UPDATE_GUIDE from '../graphgl/mutations/UPDATE_GUIDE';
-import ONE_USER_QUERRY from '../graphgl/queries/ONE_USER_QUERRY';
+import ONE_USER_QUERY from '../graphgl/queries/ONE_USER_QUERY';
 //TODO it forces me to update photo every time
 
 const UpdateGuide = (props) => {
    const id = props.id;
-  const { loading, errorQuery, data } = useQuery(ONE_USER_QUERRY, {
+  const { loading, errorQuery, data } = useQuery(ONE_USER_QUERY, {
     variables: { id: id },
   });
   const [photo, setPhoto] = useState('');

@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
-const ONE_USER_QUERRY = gql`
-  query ONE_USER_QUERRY($id: ID!) {
+const ONE_USER_QUERY = gql`
+  query ONE_USER_QUERY($id: ID!) {
     user(where: { id: $id }) {
       id
       email
@@ -14,4 +14,4 @@ const ONE_USER_QUERRY = gql`
   }
 `;
 
-export default ONE_USER_QUERRY;
+export default ONE_USER_QUERY;

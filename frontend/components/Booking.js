@@ -4,13 +4,17 @@ import styled from 'styled-components';
 import SingleGuideInfo from './SingleGuideInfo';
 import Calendar from './Calendar';
 
-const Booking = (props) => (
-  <div>
-    <h4>Book a MTB guide</h4>
-    <SingleGuideInfo id={props.id} />
-    <Calendar guideId={props.id} />
-  </div>
-);
+const Booking = (props) => {
+  const {guideId, guideName, guideSurname} = props.props;
+  return (
+    <div>
+      <h4>Book a MTB guide</h4>
+      <SingleGuideInfo id={guideId} />
+      <Calendar props={props.props} />
+    </div>
+  );
+  
+  };
 /*
 const StyledNav = styled.nav`
     background: white;
@@ -20,3 +24,5 @@ const StyledNav = styled.nav`
 */
 
 export default Booking;
+    //<SingleGuideInfo id={props.id} />
+    //<Calendar guideId={props.id} />

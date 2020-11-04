@@ -38,29 +38,10 @@ type Mutation {
   signup(email: String!, password: String!, name: String!): User!
   signin(email: String!, password: String!): User!
   signout: SuccessMesage
-  createDay(
-    year: String!
-    month: String!
-    day: String!): Day!
-  createReservation(  time: Time
-    guideID: ID
-    dayID: ID
-    userName: String
-    userEmail: String
-    nrOfPeople: String
-    description: String
-  ): Reservation!
-  updateReservation(time: Time
-    guideID: ID
-    userName: String
-    userEmail: String
-    nrOfPeople: String
-    description: String
-    guide: UserUpdateOneRequiredInput
-    day: DayUpdateOneRequiredWithoutReservationInput
-    , where: ReservationWhereUniqueInput!): Reservation
-  deleteReservation(where: ReservationWhereUniqueInput!): Reservation
+  createDay(data: DayCreateInput!): Day!
 }
+
+
 type SuccessMesage {
   message: String
 }

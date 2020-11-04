@@ -6,6 +6,7 @@ import CURRENT_USER_QUERY from '../graphgl/queries/CURRENT_USER_QUERY';
 
 const User = (props) => {
   const { loading, error, data } = useQuery(CURRENT_USER_QUERY, {});
+  const [currentUserId, setCurrentUserId] = useState('');
   const [currentUserName, setCurrentUserName] = useState('');
   const [currentUserEmail, setCurrentUserEmail] = useState('');
   const [currentUserPermission, setCurrentUserPermission] = useState(
@@ -15,6 +16,7 @@ const User = (props) => {
   useEffect(() => {
     if (data && data.currentUser !== null) {
       //console.log("currentUser ", data.currentUser);
+      setCurrentUserId(data.currentUser.id);
       setCurrentUserName(data.currentUser.name);
       setCurrentUserEmail(data.currentUser.email);
       setCurrentUserPermission(data.currentUser.permissions);
@@ -33,8 +35,10 @@ const User = (props) => {
     <div {...props}>
       {props.children(
         currentUserPermission,
+
         currentUserName,
         currentUserEmail,
+        currentUserId,
       )}
     </div>
   );

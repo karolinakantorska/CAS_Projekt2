@@ -9,7 +9,7 @@ type User {
   description: String
   photo: String
   permissions: Permission!
-  day: [Day]
+  reservations: [Reservation]
 }
 enum Permission {
   ADMIN
@@ -21,15 +21,13 @@ type Day {
   year: String!
   month: String!
   day: String!
-  reservation: [Reservation] 
+  reservations: [Reservation]  # to-many
 }
 type Reservation {
   id: ID! @id
   time: Time
   guide: User! #relationship to the User - GUIDE
-  day: Day! #relationship to the Day
-  guideID: ID
-  dayID: ID
+  relatedDay: Day! #relationship to the Day # to-one
   userName: String
   userEmail: String
   nrOfPeople: String

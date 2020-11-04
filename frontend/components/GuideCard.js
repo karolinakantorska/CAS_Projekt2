@@ -29,7 +29,11 @@ const Guide = (props) => {
         <Link
           href={{
             pathname: '/booking_guide',
-            query: { id: id, guideName: name },
+            query: {
+              guideId: id,
+              guideName: name,
+              guideSurname: surname,
+            },
           }}
         >
           <button>Book Me!</button>
@@ -40,7 +44,11 @@ const Guide = (props) => {
           <Link
             href={{
               pathname: '/booking_guide',
-              query: { id: id, guideName: name },
+              query: {
+                guideId: id,
+                guideName: name,
+                guideSurname: surname,
+              },
             }}
           >
             <button>Book Me!</button>

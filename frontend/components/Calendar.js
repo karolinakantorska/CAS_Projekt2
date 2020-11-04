@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import Entry from './Entry';
 import User from './User';
 import CalendarMenu from './CalendarMenu';
-
+import MONTH_RESERVATIONS_QUERY from '../graphgl/queries/MONTH_RESERVATIONS_QUERY';
 
 const Calendar = (props) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -28,7 +28,9 @@ const Calendar = (props) => {
   const [daysInMonth, setDaysInMonth] = useState(
     getDaysInMonth(selectedDate),
   );
-  const { guideId } = props;
+
+  const { guideId, guideName, guideSurname } = props.props;
+ 
   // Calender
   const weekNames = weekDaysEN();
   const currentYear = format(new Date(), 'y');
@@ -37,25 +39,19 @@ const Calendar = (props) => {
   // routing and booking
   const router = useRouter();
 
-  const handleBooking = (
-    name,
-    email,
-    year,
-    month,
-    day,
-    alreadyBooked,
-  ) => {
+  const handleBooking = (day, currentUserName, currentUserEmail) => {
     router.push({
       pathname: '/confirm_booking',
       query: {
-        guideId,
-        name,
-        email,
-        year,
-        month,
         day,
+      selectedMonth,
+      selectedYear,
+      guideId,
+      guideName,
+      guideSurname,
       },
     });
+    
   };
   // Calender
   const handleMonthChange = (i) => {
@@ -82,10 +78,9 @@ const Calendar = (props) => {
   for (let i = 1; i <= daysInMonth; i++) {
     daysInMonthArray.push(`${i}`);
   }
-  // Reservations Query
-/*
+  // Months Reservations Query
   const { loading, error, data } = useQuery(
-    MONTHS_RESERVATIONS_QUERY,
+    MONTH_RESERVATIONS_QUERY,
     {
       variables: {
         year: selectedYear,
@@ -96,24 +91,22 @@ const Calendar = (props) => {
   );
   if (error) return <p>Error:{error}</p>;
   if (loading) return <p>Loading...</p>;
-  console.log(data);
-  */
-
-  // Query data transformed to simpler object
-/*
+  console.log('data: ',data);
+  console.log('data.days: ',data.days);
+  
+  // Query data transformed 
   const reservationsQueryDataToArray = () => {
-    const reservationTransformed = {};
-    data.reservations.map((booking) => {
-      const { day } = booking;
-      reservationTransformed[day] = booking;
+    const reservationsByDays = {};
+    data.days.map((bookings) => {
+      //console.log(bookings);
+      const { day, reservations } = bookings;
+      reservationsByDays[day] = reservations;
     });
-    console.log(reservationTransformed);
-    return reservationTransformed;
+    //console.log(reservationsByDays);
+    return reservationsByDays;
   };
-reservationsQueryDataToArray();
-  //const reservations = reservationsQueryDataToArray();
-   */
-  const reservations = {};
+  const reservations = reservationsQueryDataToArray();
+
   return (
     <User>
       {(currentUserPermission, currentUserName, currentUserEmail) => (
@@ -150,7 +143,7 @@ reservationsQueryDataToArray();
               if (reservations[day]) {
                 // if there is only one reservation at the day
                 if (reservations[day].length === 1) {
-                  console.log(reservations[day][0]);
+                  //console.log(reservations[day][0]);
                   const {
                     time,
                     userName,
@@ -163,11 +156,9 @@ reservationsQueryDataToArray();
                       className="day_span"
                       onClick={() =>
                         handleBooking(
+                          day,
                           currentUserName,
                           currentUserEmail,
-                          selectedYear,
-                          selectedMonth,
-                          day,
                         )
                       }
                     >
@@ -211,11 +202,9 @@ reservationsQueryDataToArray();
                   className="day_span"
                   onClick={() =>
                     handleBooking(
+                      day,
                       currentUserName,
                       currentUserEmail,
-                      selectedYear,
-                      selectedMonth,
-                      day,
                     )
                   }
                 >

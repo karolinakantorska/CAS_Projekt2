@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { forwardTo } = require("prisma-binding");
 
 function checkIfUserIsAnAdmin(ctx){
     // check if is logged in
@@ -112,66 +113,19 @@ const mutations = {
     return { message: "Goodbye!" };
   },
   // days
-  async createDay(parent, args, ctx, info) {
-    const day = await ctx.db.mutation.createDay(
+  //createDay: forwardTo("db"),
+  async createDay(parent, args, ctx, info){
+    console.log(args);
+    console.log(args.time);
+    const day =  await ctx.db.mutation.createDay(
       {
-        data: {
-          year: args.year,
-          month: args.month,
-          day: args.day,
-        }
-      },
-      info
-    );
+          ...args
+      }
+    )
     return day
-  },
-  // reservations
-  async createReservation(parent, args, ctx, info) {
-    const reservation = await ctx.db.mutation.createReservation(
-      {
-        data: {
-          guideID: args.guideID,
-          dayID: args.dayID,
-          userName: args.userName,
-          userEmail: args.userEmail,
-          nrOfPeople: args.nrOfPeople,
-          description: args.description,
-          guide: {
-            connect: { id: args.guideID },
-          },
-          day: {
-            connect: { id: args.dayID },
-          },
-        },
-      },
-      info
-    );
-    return reservation;
-  },
-  async updateReservation(parent, args, ctx, info) {
-    const reservation = await ctx.db.mutation.updateReservation(
-      {
-        guideID: args.guideID,
-        dayID: args.dayID,
-        userName: args.userName,
-        userEmail: args.userEmail,
-        nrOfPeople: args.nrOfPeople,
-        description: args.description,
-        where: {
-          id: args.id,
-        },
-      },
-      info
-    );
-    return reservation;
-  },
-  async deleteReservation(parent, args, ctx, info) {
-    const where = { id: args.id };
-    // find Reservation
-    const user = await ctx.db.query.Reservation({ where }, `{ id}`);
-    // delete
-    return ctx.db.mutation.deleteReservation({ where }, info);
-  },
+  }
 };
 
 module.exports = mutations;
+
+
