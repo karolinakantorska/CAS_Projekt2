@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import Router from 'next/router';
-import Link from 'next/link';
 import styled from 'styled-components';
-import ADD_GUIDE from '../graphgl/mutations/ADD_GUIDE';
-import ALL_GUIDES_QUERY from '../graphgl/queries/ALL_GUIDES_QUERY';
-// TODO
-/*
-Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
-    in AddGuide (at add_guide.js:6)
-    in div (at add_guide.js:4)
-    in add_guide (at _app.js:32)
-*/
+import ADD_GUIDE from '../../graphgl/mutations/ADD_GUIDE';
+import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
+
 const AddGuide = (props) => {
   const {
     loading: loadingAll,

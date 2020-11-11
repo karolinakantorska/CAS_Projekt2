@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { Router, useRouter } from 'next/router';
+import { useQuery } from '@apollo/client';
+import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { weekDaysEN, monthEN } from '../lib/utils';
+import { weekDaysEN, monthEN } from '../../lib/utils';
 import startOfMonth from 'date-fns/startOfMonth';
 import getDaysInMonth from 'date-fns/getDaysInMonth';
 import addMonths from 'date-fns/addMonths';
 import addYears from 'date-fns/addYears';
 import format from 'date-fns/format';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Entry from './Entry';
-import User from './User';
+import User from '../main/User';
 import CalendarMenu from './CalendarMenu';
-import MONTH_RESERVATIONS_QUERY from '../graphgl/queries/MONTH_RESERVATIONS_QUERY';
+import MONTH_RESERVATIONS_QUERY from '../../graphgl/queries/MONTH_RESERVATIONS_QUERY';
 
 const Calendar = (props) => {
+  const { guideId, guideName, guideSurname } = props.props;
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedYear, setSelectedYear] = useState(
     format(selectedDate, 'y'),
@@ -28,56 +30,17 @@ const Calendar = (props) => {
   const [daysInMonth, setDaysInMonth] = useState(
     getDaysInMonth(selectedDate),
   );
-
-  const { guideId, guideName, guideSurname } = props.props;
- 
   // Calender
   const weekNames = weekDaysEN();
   const currentYear = format(new Date(), 'y');
   const currentMonth = format(new Date(), 'MMMM');
   const currentDay = format(new Date(), 'd');
-  // routing and booking
-  const router = useRouter();
 
-  const handleBooking = (day, currentUserName, currentUserEmail) => {
-    router.push({
-      pathname: '/confirm_booking',
-      query: {
-        day,
-      selectedMonth,
-      selectedYear,
-      guideId,
-      guideName,
-      guideSurname,
-      },
-    });
-    
-  };
-  // Calender
-  const handleMonthChange = (i) => {
-    setSelectedDate(addMonths(selectedDate, i));
-  };
-  const handleYearChange = (i) => {
-    setSelectedDate(addYears(selectedDate, i));
-  };
-  const updateStateForSelectedDate = () => {
-    setSelectedMonth(format(selectedDate, 'MMMM'));
-    setSelectedYear(format(selectedDate, 'y'));
-    setFirstDayOfMonth(format(startOfMonth(selectedDate), 'i'));
-    setDaysInMonth(getDaysInMonth(selectedDate));
-  };
+  //const router = useRouter();
   useEffect(() => {
-    updateStateForSelectedDate();
+    updateStateWithSelectedDate();
   });
-  // Calender
-  const blankCells = [];
-  for (let i = 1; i < firstDayOfMonth; i++) {
-    blankCells.push(i);
-  }
-  const daysInMonthArray = [];
-  for (let i = 1; i <= daysInMonth; i++) {
-    daysInMonthArray.push(`${i}`);
-  }
+
   // Months Reservations Query
   const { loading, error, data } = useQuery(
     MONTH_RESERVATIONS_QUERY,
@@ -93,19 +56,8 @@ const Calendar = (props) => {
   if (loading) return <p>Loading...</p>;
   //console.log('data: ',data);
   //console.log('data.days: ',data.days);
-  
-  // Query data transformed 
-  const reservationsQueryDataToArray = () => {
-    const reservationsByDays = {};
-    data.days.map((bookings) => {
-      //console.log(bookings);
-      const { day, reservations } = bookings;
-      reservationsByDays[day] = reservations;
-    });
-    //console.log(reservationsByDays);
-    return reservationsByDays;
-  };
-  const reservations = reservationsQueryDataToArray();
+
+  const reservations = reservationsQueryDataTransformedToArray();
 
   return (
     <User>
@@ -142,8 +94,11 @@ const Calendar = (props) => {
               // if there are reservations at the day
               if (reservations[day]) {
                 // if there is only one reservation at the day
+                // TODO the reservation is different than DAY
+                // reservations[day][0].time !== 'DAY'
                 if (reservations[day].length === 1) {
                   //console.log(reservations[day][0]);
+                  // if there is a DAY reservation
                   const {
                     time,
                     userName,
@@ -195,6 +150,7 @@ const Calendar = (props) => {
                   </DaySpan>
                 );
               }
+              
               // if there is no reservation at the day
               return (
                 <DaySpan
@@ -217,6 +173,56 @@ const Calendar = (props) => {
       )}
     </User>
   );
+};
+// Creating Calender
+const blankCells = [];
+for (let i = 1; i < firstDayOfMonth; i++) {
+  blankCells.push(i);
+}
+const daysInMonthArray = [];
+for (let i = 1; i <= daysInMonth; i++) {
+  daysInMonthArray.push(`${i}`);
+}
+const handleBooking = (day, currentUserName, currentUserEmail) => {
+  router.push({
+    pathname: '/confirm_booking',
+    query: {
+      day,
+      selectedMonth,
+      selectedYear,
+      guideId,
+      guideName,
+      guideSurname,
+    },
+  });
+};
+// Calender
+function handleMonthChange(i) {
+  setSelectedDate(addMonths(selectedDate, i));
+}
+function handleYearChange(i) {
+  setSelectedDate(addYears(selectedDate, i));
+}
+function updateStateWithSelectedDate() {
+  setSelectedMonth(format(selectedDate, 'MMMM'));
+  setSelectedYear(format(selectedDate, 'y'));
+  setFirstDayOfMonth(format(startOfMonth(selectedDate), 'i'));
+  setDaysInMonth(getDaysInMonth(selectedDate));
+}
+const reservationsQueryDataTransformedToArray = () => {
+  const reservationsByDays = {};
+  data.days.map((bookings) => {
+    //console.log(bookings);
+    const { day, reservations } = bookings;
+    reservationsByDays[day] = reservations;
+  });
+  //console.log(reservationsByDays);
+  return reservationsByDays;
+};
+Calendar.PropTypes = {
+  guideId: PropTypes.string,
+  guideName: PropTypes.string,
+  guideSurname: PropTypes.string,
 };
 const CalendarContainer = styled.div`
   background: white;

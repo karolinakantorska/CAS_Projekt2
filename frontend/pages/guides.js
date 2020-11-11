@@ -1,4 +1,4 @@
-import GuidesList from '../components/GuidesList';
+import GuidesList from '../components/guide/GuidesList';
 
 // render props vs high order components
 

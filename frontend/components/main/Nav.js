@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import Signout from './Signout';
+import Signout from '../signin_signout/Signout';
 import User from './User';
 
 const Nav = (props) => {

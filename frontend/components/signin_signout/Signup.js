@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import Link from 'next/link';
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
-import CURRENT_USER_QUERY from '../graphgl/queries/CURRENT_USER_QUERY';
-import SIGNUP_MUTATION  from '../graphgl/mutations/SIGNUP_MUTATION';
+import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
+import SIGNUP_MUTATION  from '../../graphgl/mutations/SIGNUP_MUTATION';
 
 // TODO better error handling
 
@@ -29,23 +28,26 @@ const Signup = (props) => {
   function handleNameChange(e) {
     setName(e.target.value);
   }
+  function handleSignout(){
+    async (e) => {
+      e.preventDefault();
+      await signup({
+        variables: {
+          email,
+          password,
+          name,
+        },
+      });
+      setEmail('');
+      setPassword('');
+      setName('');
+      router.push('/guides');
+    };
+  }
   return (
     <form
       method="post"
-      onSubmit={async (e) => {
-        e.preventDefault();
-        await signup({
-          variables: {
-            email,
-            password,
-            name,
-          },
-        });
-        setEmail('');
-        setPassword('');
-        setName('');
-        router.push('/guides');
-      }}
+      onSubmit={()=> handleSignout(e)}
     >
       <fieldset disabled={loading} aria-busy={loading}>
         <h4>Signup for a account</h4>

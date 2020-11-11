@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import React, { useState,  } from 'react';
+import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
-import SIGNIN_MUTATION from '../graphgl/mutations/SIGNIN_MUTATION';
-import CURRENT_USER_QUERY from '../graphgl/queries/CURRENT_USER_QUERY';
+import SIGNIN_MUTATION from '../../graphgl/mutations/SIGNIN_MUTATION';
+import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
+
 
 // TODO better error handling
 
@@ -43,7 +44,7 @@ const Signin = (props) => {
     >
       <fieldset disabled={loading} aria-busy={loading}>
         <h4>Signin into your account</h4>
-    <p>{error}</p>
+        <p>{error}</p>
         <label>Email:</label>
         <input value={email} onChange={handleEmailChange} />
         <label>Password:</label>

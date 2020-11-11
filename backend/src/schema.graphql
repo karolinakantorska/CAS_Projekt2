@@ -28,7 +28,7 @@ type Mutation {
   ): User!
   updateUser(
     id: ID!
-    email: String
+    email: String #@unique
     name: String
     surname: String
     description: String
@@ -47,6 +47,7 @@ type Mutation {
   description: String
   guide: UserCreateOneWithoutReservationsInput!
   relatedDay: DayCreateOneWithoutReservationsInput!): Reservation!
+  deleteReservation(id: ID!): Reservation
 }
 
 

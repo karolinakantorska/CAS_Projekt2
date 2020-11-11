@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import Router from 'next/router';
-import Link from 'next/link';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import UPDATE_GUIDE from '../graphgl/mutations/UPDATE_GUIDE';
-import ONE_USER_QUERY from '../graphgl/queries/ONE_USER_QUERY';
+import UPDATE_GUIDE from '../../graphgl/mutations/UPDATE_GUIDE';
+import ONE_USER_QUERY from '../../graphgl/queries/ONE_USER_QUERY';
 //TODO it forces me to update photo every time
 
 const UpdateGuide = (props) => {
    const id = props.id;
   const { loading, errorQuery, data } = useQuery(ONE_USER_QUERY, {
-    variables: { id: id },
+    variables: { id },
   });
   const [photo, setPhoto] = useState('');
   const [name, setName] = useState('');
@@ -84,7 +84,7 @@ const UpdateGuide = (props) => {
 
   return (
     <div>
-      <p>id:{props.id} </p>
+      <p>id:{id} </p>
 
       <form
         onSubmit={async (e) => {
@@ -167,6 +167,9 @@ const UpdateGuide = (props) => {
       </form>
     </div>
   );
+};
+UpdateGuide.PropTypes = {
+  id: PropTypes.string.isRequired,
 };
 // TODO use context use themes
 /*

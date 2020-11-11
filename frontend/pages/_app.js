@@ -1,13 +1,7 @@
-import Page from '../components/Page';
-import App from 'next/app';
 import withData from '../lib/withApollo';
 import { ApolloProvider } from '@apollo/react-hooks';
-// import { ApolloProvider } from '@apollo/client';
-// import { ApolloProvider } from 'react-apollo';
-import { useContext } from 'react';
-import { ThemeProvider, ThemeContext } from 'styled-components';
-import styled from 'styled-components';
-import Guides from '../pages/guides';
+import App from 'next/app';
+import Page from '../components/main/Page';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {

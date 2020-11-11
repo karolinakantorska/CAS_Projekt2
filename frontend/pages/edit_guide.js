@@ -1,4 +1,4 @@
-import EditGuide from '../components/EditGuide';
+import EditGuide from '../components/guide/EditGuide';
 
 const edit_guide = (props) => (
   <div>

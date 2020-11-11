@@ -1,5 +1,5 @@
-import SignupComponent from '../components/Signup';
-import Signin from '../components/Signin';
+import SignupComponent from '../components/signin_signout/Signup';
+import Signin from '../components/signin_signout/Signin';
 
 const Signup_page = (props) => {
   return (

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const CalendarMenu = (props) => {
   const {
@@ -44,6 +45,14 @@ const CalendarMenu = (props) => {
       </section>
     </section>
   );
+};
+CalendarMenu.PropTypes = {
+  currentYear: PropTypes.string,
+  selectedYear: PropTypes.string,
+  currentMonth: PropTypes.string,
+  selectedMonth: PropTypes.string,
+  handleMonthChange: PropTypes.string,
+  handleYearChange: PropTypes.string,
 };
 
 export default CalendarMenu;

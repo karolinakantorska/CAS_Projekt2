@@ -1,16 +1,14 @@
 import React from 'react';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useApolloClient } from '@apollo/client';
-import Router from 'next/router';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import DELETE_USER from '../graphgl/mutations/DELETE_USER';
-import ALL_GUIDES_QUERY from '../graphgl/queries/ALL_GUIDES_QUERY';
-import ALL_USERS_QUERY from '../graphgl/queries/ALL_USERS_QUERY';
-
+import DELETE_USER from '../../graphgl/mutations/DELETE_USER';
+import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
 
 const DeleteGuide = (props) => {
   const client = useApolloClient();
-
+  const {id} = props;
   const [delete_user, { loading, error, called, data }] = useMutation(
     DELETE_USER,
     {
@@ -41,12 +39,12 @@ const DeleteGuide = (props) => {
         onClick={async (e) => {
           e.preventDefault();
           delete_user({
-            variables: { id: props.id },
+            variables: { id },
             optimisticResponse: {
               __typename: 'Mutation',
               deleteUser: {
                 __typename: 'User',
-                id: props.id,
+                id,
               },
             },
           });
@@ -56,6 +54,9 @@ const DeleteGuide = (props) => {
       </StyledButton>
     </div>
   );
+};
+DeleteGuide.PropTypes = {
+  id: PropTypes.string.isRequired,
 };
 const StyledButton = styled.button`
   width: 100%;

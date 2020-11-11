@@ -1,10 +1,8 @@
 import React from 'react';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import GuideCard from './GuideCard';
-import User from './User';
-import ALL_GUIDES_QUERY from '../graphgl/queries/ALL_GUIDES_QUERY';
-// render props vs high order components
-// render props:
+import User from '../main/User';
+import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
 
 const GuidesList = (props) => {
   const { loading, error, data } = useQuery(ALL_GUIDES_QUERY, {

@@ -1,11 +1,11 @@
 import React from 'react';
-import Link from 'next/link';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import SingleGuideInfo from './SingleGuideInfo';
-import Calendar from './Calendar';
+import SingleGuideInfo from '../guide/SingleGuideInfo';
+import Calendar from '../calendar/Calendar';
 
 const Booking = (props) => {
-  const {guideId, guideName, guideSurname} = props.props;
+  const {guideId} = props.props;
   return (
     <div>
       <h4>Book a MTB guide</h4>
@@ -14,6 +14,9 @@ const Booking = (props) => {
     </div>
   );
   
+  };
+  SingleGuideInfo.PropTypes = {
+    guideId: PropTypes.string,
   };
 /*
 const StyledNav = styled.nav`
@@ -24,5 +27,3 @@ const StyledNav = styled.nav`
 */
 
 export default Booking;
-    //<SingleGuideInfo id={props.id} />
-    //<Calendar guideId={props.id} />

@@ -10,27 +10,21 @@ const CREATE_RESERVATION = gql`
     $guideId: ID
     $id: ID
   ) {
-    createDay(
-      #data: {
+    createReservation(
       time: $time
       userName: $userName
       userEmail: $userEmail
       nrOfPeople: $nrOfPeople
       description: $description
-      guide: { connect: { guideId: $guideId } }
-      relatedDay: { connect: { id: $id} } #}
+      guide: { connect: { id: $guideId } }
+      relatedDay: { connect: { id: $id } }
     ) {
       time
       userName
       userEmail
       nrOfPeople
       description
-      guide {
-        guideId
-      }
-      relatedDay {
-        id
-      }
+
     }
   }
 `;

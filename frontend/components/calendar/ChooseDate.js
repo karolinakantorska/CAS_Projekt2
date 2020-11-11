@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import ReactDOM from 'react-dom';
+import React, { useState} from 'react';
 import Button from '@material-ui/core/Button';
 import DateFnsUtils from '@date-io/date-fns';
 import format from 'date-fns/format';

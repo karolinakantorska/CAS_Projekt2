@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import DeleteGuide from './DeleteGuide';
 
@@ -25,7 +26,8 @@ const Guide = (props) => {
           <a>Logg in to book Me!</a>
         </Link>
       )}
-      {currentUserPermission === 'USER' && (
+      {(currentUserPermission === 'USER' ||
+        currentUserPermission === 'GUIDE') && (
         <Link
           href={{
             pathname: '/booking_guide',
@@ -67,7 +69,15 @@ const Guide = (props) => {
     </StyledDiv>
   );
 };
-
+Guide.PropTypes = {
+  currentUserPermission: PropTypes.string,
+  id: PropTypes.string,
+  email: PropTypes.string,
+  name: PropTypes.string,
+  surname: PropTypes.string,
+  description: PropTypes.string,
+  photo: PropTypes.string,
+};
 const StyledDiv = styled.div`
   border: 1px solid gray;
   display: grid;

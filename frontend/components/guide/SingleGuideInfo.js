@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import Router from 'next/router';
-import Link from 'next/link';
+import { useQuery } from '@apollo/client';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import ONE_USER_QUERY from '../graphgl/queries/ONE_USER_QUERY';
+import ONE_USER_QUERY from '../../graphgl/queries/ONE_USER_QUERY';
 
 const SingleGuideInfo = (props) => {
   const [photo, setPhoto] = useState('');
@@ -36,14 +35,16 @@ const SingleGuideInfo = (props) => {
 
   return (
     <div>
-      <p>id:{props.id} </p>
+      <p>id:{id} </p>
       <label htmlFor="photo">Photo:</label>
       <img src={photo} alt="Mountainbiker photo" />
       <p>name: {name}</p>
     </div>
   );
 };
-// TODO use context use themes
+SingleGuideInfo.PropTypes = {
+  id: PropTypes.string.isRequired
+};
 /*
 const StyledNav = styled.nav`
     background: white;

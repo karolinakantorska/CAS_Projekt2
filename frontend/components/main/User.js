@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import GuidesList from './GuidesList';
-import CURRENT_USER_QUERY from '../graphgl/queries/CURRENT_USER_QUERY';
-
+import { useQuery } from '@apollo/client';
+import PropTypes from 'prop-types';
+import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 
 const User = (props) => {
   const { loading, error, data } = useQuery(CURRENT_USER_QUERY, {});
   const [currentUserId, setCurrentUserId] = useState('');
   const [currentUserName, setCurrentUserName] = useState('');
   const [currentUserEmail, setCurrentUserEmail] = useState('');
-  const [currentUserPermission, setCurrentUserPermission] = useState(
-    '',
-  );
+  const [currentUserPermission, setCurrentUserPermission] = useState('');
 
   useEffect(() => {
     if (data && data.currentUser !== null) {
@@ -30,12 +27,10 @@ const User = (props) => {
   if (loading) {
     return <p>Loading</p>;
   }
-
   return (
     <div {...props}>
       {props.children(
         currentUserPermission,
-
         currentUserName,
         currentUserEmail,
         currentUserId,
@@ -43,6 +38,10 @@ const User = (props) => {
     </div>
   );
 };
-
+User.PropTypes = {
+  currentUserPermission: PropTypes.string,
+  currentUserName: PropTypes.string,
+  currentUserEmail: PropTypes.string,
+  currentUserId: PropTypes.string,
+};
 export default User;
-

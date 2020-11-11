@@ -1,7 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import Signin from './Signin';
-import Signup from './Signup'
 
 const Home = () => (
   <div>
