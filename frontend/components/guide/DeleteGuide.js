@@ -55,7 +55,7 @@ const DeleteGuide = (props) => {
     </div>
   );
 };
-DeleteGuide.PropTypes = {
+DeleteGuide.propTypes = {
   id: PropTypes.string.isRequired,
 };
 const StyledButton = styled.button`

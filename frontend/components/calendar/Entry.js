@@ -38,7 +38,7 @@ const Entry = (props) => {
     </EntrySpan>
   );
 };
-Entry.PropTypes = {
+Entry.propTypes = {
   id: PropTypes.string,
   time: PropTypes.string,
   userName: PropTypes.string,

@@ -46,7 +46,7 @@ const CalendarMenu = (props) => {
     </section>
   );
 };
-CalendarMenu.PropTypes = {
+CalendarMenu.propTypes = {
   currentYear: PropTypes.string,
   selectedYear: PropTypes.string,
   currentMonth: PropTypes.string,

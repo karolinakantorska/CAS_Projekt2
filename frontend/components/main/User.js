@@ -38,7 +38,7 @@ const User = (props) => {
     </div>
   );
 };
-User.PropTypes = {
+User.propTypes = {
   currentUserPermission: PropTypes.string,
   currentUserName: PropTypes.string,
   currentUserEmail: PropTypes.string,

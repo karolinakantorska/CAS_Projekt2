@@ -69,7 +69,7 @@ const Guide = (props) => {
     </StyledDiv>
   );
 };
-Guide.PropTypes = {
+Guide.propTypes = {
   currentUserPermission: PropTypes.string,
   id: PropTypes.string,
   email: PropTypes.string,

@@ -187,7 +187,7 @@ const BookingConfirmation = (props) => {
     });
   }
 };
-BookingConfirmation.PropTypes = {
+BookingConfirmation.propTypes = {
   day: PropTypes.string,
   selectedMonth: PropTypes.string,
   selectedYear: PropTypes.string,

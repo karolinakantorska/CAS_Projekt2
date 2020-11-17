@@ -14,6 +14,7 @@ const BookingInfo = (props) => {
     },
   });
   console.log('data: ', data);
+  
   const [
     delete_reservation,
     { loading: loadingDelete, error: errorDelete, data: dataDelete },
@@ -34,10 +35,22 @@ const BookingInfo = (props) => {
       userEmail,
       userName,
     } = data.reservation;
-    const { day, month, year } = data.reservation.relatedDay;
-    const { id: guideId, name, surname } = data.reservation.guide;
-    const router = useRouter();
-
+const { day, month, year } = data.reservation.relatedDay;
+const { id: guideId, name, surname } = data.reservation.guide;
+  const router = useRouter();
+  function handleDeleteReservation() {
+    delete_reservation({
+      variables: { id },
+    });
+    router.push({
+      pathname: '/booking_guide',
+      query: {
+        guideId,
+        guideName: name,
+        guideSurname: surname,
+      },
+    });
+  }
     return (
       <User>
         {(currentUserPermission, currentUserName) => (
@@ -52,7 +65,7 @@ const BookingInfo = (props) => {
             <p>Gast email: {userEmail}</p>
             <p>Number of gests: {nrOfPeople}</p>
             <p>Desription: {nrOfPeople}</p>
-            <textarea value={description}></textarea>
+            <textarea readOnly value={description}></textarea>
             <button onClick={handleDeleteReservation}>
               Delete Reservation
             </button>
@@ -62,20 +75,8 @@ const BookingInfo = (props) => {
     );
   }
 };
-function handleDeleteReservation() {
-  delete_reservation({
-    variables: { id },
-  });
-  router.push({
-    pathname: '/booking_guide',
-    query: {
-      guideId,
-      guideName: name,
-      guideSurname: surname,
-    },
-  });
-}
-SingleGuideInfo.PropTypes = {
+
+BookingInfo.propTypes = {
   id: PropTypes.string,
 };
 export default BookingInfo;

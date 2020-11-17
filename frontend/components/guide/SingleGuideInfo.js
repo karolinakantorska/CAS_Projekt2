@@ -42,7 +42,7 @@ const SingleGuideInfo = (props) => {
     </div>
   );
 };
-SingleGuideInfo.PropTypes = {
+SingleGuideInfo.propTypes = {
   id: PropTypes.string.isRequired
 };
 /*

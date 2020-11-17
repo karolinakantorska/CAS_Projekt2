@@ -44,7 +44,7 @@ const BookingThankYou = (props) => {
     </User>
   );
 };
-BookingThankYou.PropTypes = {
+BookingThankYou.propTypes = {
   time: PropTypes.string,
   day: PropTypes.string,
   month: PropTypes.string,

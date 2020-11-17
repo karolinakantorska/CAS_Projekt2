@@ -168,7 +168,7 @@ const UpdateGuide = (props) => {
     </div>
   );
 };
-UpdateGuide.PropTypes = {
+UpdateGuide.propTypes = {
   id: PropTypes.string.isRequired,
 };
 // TODO use context use themes

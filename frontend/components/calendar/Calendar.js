@@ -35,11 +35,46 @@ const Calendar = (props) => {
   const currentYear = format(new Date(), 'y');
   const currentMonth = format(new Date(), 'MMMM');
   const currentDay = format(new Date(), 'd');
+  // Creating Calender
+  const blankCells = [];
+  for (let i = 1; i < firstDayOfMonth; i++) {
+    blankCells.push(i);
+  }
+  const daysInMonthArray = [];
+  for (let i = 1; i <= daysInMonth; i++) {
+    daysInMonthArray.push(`${i}`);
+  }
 
-  //const router = useRouter();
+  // Calender
+  function handleMonthChange(i) {
+    setSelectedDate(addMonths(selectedDate, i));
+  }
+  function handleYearChange(i) {
+    setSelectedDate(addYears(selectedDate, i));
+  }
+  function updateStateWithSelectedDate() {
+    setSelectedMonth(format(selectedDate, 'MMMM'));
+    setSelectedYear(format(selectedDate, 'y'));
+    setFirstDayOfMonth(format(startOfMonth(selectedDate), 'i'));
+    setDaysInMonth(getDaysInMonth(selectedDate));
+  }
   useEffect(() => {
     updateStateWithSelectedDate();
   });
+  const router = useRouter();
+  const handleBooking = (day, currentUserName, currentUserEmail) => {
+    router.push({
+      pathname: '/confirm_booking',
+      query: {
+        day,
+        selectedMonth,
+        selectedYear,
+        guideId,
+        guideName,
+        guideSurname,
+      },
+    });
+  };
 
   // Months Reservations Query
   const { loading, error, data } = useQuery(
@@ -56,7 +91,17 @@ const Calendar = (props) => {
   if (loading) return <p>Loading...</p>;
   //console.log('data: ',data);
   //console.log('data.days: ',data.days);
-
+  //TODO put it to helpers
+  const reservationsQueryDataTransformedToArray = () => {
+    const reservationsByDays = {};
+    data.days.map((bookings) => {
+      //console.log(bookings);
+      const { day, reservations } = bookings;
+      reservationsByDays[day] = reservations;
+    });
+    //console.log(reservationsByDays);
+    return reservationsByDays;
+  };
   const reservations = reservationsQueryDataTransformedToArray();
 
   return (
@@ -94,11 +139,10 @@ const Calendar = (props) => {
               // if there are reservations at the day
               if (reservations[day]) {
                 // if there is only one reservation at the day
-                // TODO the reservation is different than DAY
+
                 // reservations[day][0].time !== 'DAY'
                 if (reservations[day].length === 1) {
                   //console.log(reservations[day][0]);
-                  // if there is a DAY reservation
                   const {
                     time,
                     userName,
@@ -106,17 +150,7 @@ const Calendar = (props) => {
                     id,
                   } = reservations[day][0];
                   return (
-                    <DaySpan
-                      key={day}
-                      className="day_span"
-                      onClick={() =>
-                        handleBooking(
-                          day,
-                          currentUserName,
-                          currentUserEmail,
-                        )
-                      }
-                    >
+                    <DaySpan key={day} className="day_span">
                       <p className={generated_className}>{day}</p>
                       <Entry
                         time={time}
@@ -125,6 +159,18 @@ const Calendar = (props) => {
                         id={id}
                         currentUserPermission={currentUserPermission}
                       />
+                      {time !== 'DAY' && (
+                        <span
+                          style={{ backgroundColor: 'red' }}
+                          onClick={() =>
+                            handleBooking(
+                              day,
+                              currentUserName,
+                              currentUserEmail,
+                            )
+                          }
+                        />
+                      )}
                     </DaySpan>
                   );
                 }
@@ -150,21 +196,20 @@ const Calendar = (props) => {
                   </DaySpan>
                 );
               }
-              
               // if there is no reservation at the day
               return (
-                <DaySpan
-                  key={day}
-                  className="day_span"
-                  onClick={() =>
-                    handleBooking(
-                      day,
-                      currentUserName,
-                      currentUserEmail,
-                    )
-                  }
-                >
+                <DaySpan key={day} className="day_span">
                   <p className={generated_className}>{day}</p>
+                  <span
+                    style={{ backgroundColor: 'red' }}
+                    onClick={() =>
+                      handleBooking(
+                        day,
+                        currentUserName,
+                        currentUserEmail,
+                      )
+                    }
+                  />
                 </DaySpan>
               );
             })}
@@ -174,52 +219,8 @@ const Calendar = (props) => {
     </User>
   );
 };
-// Creating Calender
-const blankCells = [];
-for (let i = 1; i < firstDayOfMonth; i++) {
-  blankCells.push(i);
-}
-const daysInMonthArray = [];
-for (let i = 1; i <= daysInMonth; i++) {
-  daysInMonthArray.push(`${i}`);
-}
-const handleBooking = (day, currentUserName, currentUserEmail) => {
-  router.push({
-    pathname: '/confirm_booking',
-    query: {
-      day,
-      selectedMonth,
-      selectedYear,
-      guideId,
-      guideName,
-      guideSurname,
-    },
-  });
-};
-// Calender
-function handleMonthChange(i) {
-  setSelectedDate(addMonths(selectedDate, i));
-}
-function handleYearChange(i) {
-  setSelectedDate(addYears(selectedDate, i));
-}
-function updateStateWithSelectedDate() {
-  setSelectedMonth(format(selectedDate, 'MMMM'));
-  setSelectedYear(format(selectedDate, 'y'));
-  setFirstDayOfMonth(format(startOfMonth(selectedDate), 'i'));
-  setDaysInMonth(getDaysInMonth(selectedDate));
-}
-const reservationsQueryDataTransformedToArray = () => {
-  const reservationsByDays = {};
-  data.days.map((bookings) => {
-    //console.log(bookings);
-    const { day, reservations } = bookings;
-    reservationsByDays[day] = reservations;
-  });
-  //console.log(reservationsByDays);
-  return reservationsByDays;
-};
-Calendar.PropTypes = {
+
+Calendar.propTypes = {
   guideId: PropTypes.string,
   guideName: PropTypes.string,
   guideSurname: PropTypes.string,
