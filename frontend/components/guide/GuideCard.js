@@ -10,13 +10,11 @@ const Guide = (props) => {
 
   return (
     <StyledDiv>
-      <h4>MTB Guide:</h4>
-      <p>name: {name}</p>
-      <p>surname: {surname}</p>
-      <p>email: {email}</p>
+      <StyledImage src={photo} alt="Mountainbiker photo" />
+      <h4>{name} {surname}</h4>
+      <p className='bottom_description'>email: {email}</p>
       <p>description: {description}</p>
-      <p>image:</p>
-      <img src={photo} alt="Mountainbiker photo" />
+
       {!currentUserPermission && (
         <Link
           href={{
@@ -69,6 +67,38 @@ const Guide = (props) => {
     </StyledDiv>
   );
 };
+
+const StyledDiv = styled.div`
+  max-width: 300px;
+  height: 500px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 300px 40px 30px 1fr;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+
+  box-shadow: 2 10 9 5 lightgray;
+  -moz-box-shadow: 2 10 9 5 lightgray;
+  -webkit-box-shadow: 2 10 9 5 lightgray;
+
+  h4 {
+    font-size: ${(props) => props.theme.type.typeH4.size};
+    color: ${(props) => props.theme.textDark.primary};
+    margin: ${(props) => props.theme.type.typeH4.margin};
+  }
+  .bottom_description {
+    font-size: ${(props) => props.theme.type.typeBody1.size};
+    color: ${(props) => props.theme.textDark.secundary};
+    padding: 0px 0 0px 0;
+    margin: 0px 0 0px 0;
+  }
+`;
+const StyledImage = styled.img`
+  max-width: 300px;
+  justify-self: stretch;
+  border-radius: 10px 10px 0 0;
+`;
+
 Guide.propTypes = {
   currentUserPermission: PropTypes.string,
   id: PropTypes.string,
@@ -78,10 +108,5 @@ Guide.propTypes = {
   description: PropTypes.string,
   photo: PropTypes.string,
 };
-const StyledDiv = styled.div`
-  border: 1px solid gray;
-  display: grid;
-  grid-template-columns: 1fr;
-`;
 
 export default Guide;
