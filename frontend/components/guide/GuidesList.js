@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
+import styled from 'styled-components';
 import GuideCard from './GuideCard';
 import User from '../main/User';
 import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
@@ -16,30 +17,34 @@ const GuidesList = (props) => {
   return (
     <User>
       {(currentUserPermission) => (
-        <div>
+        <span>
           <h4>Guides: </h4>
-          <ul>
-            {data.users.map((user) => (
-              <GuideCard
-                currentUserPermission={currentUserPermission}
-                user={user}
-                key={user.id}
-              />
-            ))}
-          </ul>
-        </div>
+
+            <StyledDiv>
+              {data.users.map((user) => (
+                <GuideCard
+                  currentUserPermission={currentUserPermission}
+                  user={user}
+                  key={user.id}
+                />
+              ))}
+            </StyledDiv>
+
+        </span>
       )}
     </User>
   );
 };
 
-/*
-const StyledNav = styled.nav`
-    background: white;
-    display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
+
+const StyledDiv = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 10px;
+  row-gap: 15px;
+  justify-content: space-between;
 `;
-*/
+
 
 export default GuidesList;
 

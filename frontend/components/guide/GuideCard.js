@@ -2,6 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Card from '@material-ui/core/Card';
+import Button from '@material-ui/core/Button';
 import DeleteGuide from './DeleteGuide';
 
 const Guide = (props) => {
@@ -9,10 +11,12 @@ const Guide = (props) => {
   const { id, email, name, surname, description, photo } = props.user;
 
   return (
-    <StyledDiv>
+    <Card>
       <StyledImage src={photo} alt="Mountainbiker photo" />
-      <h4>{name} {surname}</h4>
-      <p className='bottom_description'>email: {email}</p>
+      <h4>
+        {name} {surname}
+      </h4>
+      <p className="bottom_description">email: {email}</p>
       <p>description: {description}</p>
 
       {!currentUserPermission && (
@@ -36,7 +40,9 @@ const Guide = (props) => {
             },
           }}
         >
-          <button>Book Me!</button>
+          <Button variant="contained" fullWidth="true">
+            Book Me!
+          </Button>
         </Link>
       )}
       {currentUserPermission === 'ADMIN' && (
@@ -51,7 +57,9 @@ const Guide = (props) => {
               },
             }}
           >
-            <button>Book Me!</button>
+            <Button variant="contained" fullWidth="true">
+              Book Me!
+            </Button>
           </Link>
           <Link
             href={{
@@ -59,42 +67,17 @@ const Guide = (props) => {
               query: { id: id },
             }}
           >
-            <button>Edit</button>
+            <Button>Edit</Button>
           </Link>
           <DeleteGuide id={id}>Delete</DeleteGuide>
         </React.Fragment>
       )}
-    </StyledDiv>
+    </Card>
   );
 };
 
-const StyledDiv = styled.div`
-  max-width: 300px;
-  height: 500px;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 300px 40px 30px 1fr;
-  border: 1px solid lightgray;
-  border-radius: 10px;
 
-  box-shadow: 2 10 9 5 lightgray;
-  -moz-box-shadow: 2 10 9 5 lightgray;
-  -webkit-box-shadow: 2 10 9 5 lightgray;
-
-  h4 {
-    font-size: ${(props) => props.theme.type.typeH4.size};
-    color: ${(props) => props.theme.textDark.primary};
-    margin: ${(props) => props.theme.type.typeH4.margin};
-  }
-  .bottom_description {
-    font-size: ${(props) => props.theme.type.typeBody1.size};
-    color: ${(props) => props.theme.textDark.secundary};
-    padding: 0px 0 0px 0;
-    margin: 0px 0 0px 0;
-  }
-`;
 const StyledImage = styled.img`
-  max-width: 300px;
   justify-self: stretch;
   border-radius: 10px 10px 0 0;
 `;

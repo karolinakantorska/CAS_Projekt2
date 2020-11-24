@@ -23,7 +23,11 @@ const Nav = (props) => {
                 <a className="add">Add New MTB Guide</a>
               </Link>
             )}
-            {currentUserName && <Signout />}
+            {currentUserName && (
+              <span className="signin">
+                <Signout />
+              </span>
+            )}
             {!currentUserName && (
               <Link href="/signup_page">
                 <a className="signin">Signup|Signin</a>
@@ -36,24 +40,25 @@ const Nav = (props) => {
   );
 };
 const StyledNav = styled.nav`
-  background-color: ${(props) => props.theme.primaryColorButton};
-  color: ${(props) => props.theme.primaryColorWritingHell};
+  //background-color: ${(props) => props.theme.primaryColorButton};
+  //color: ${(props) => props.theme.primaryColorWritingHell};
 
   div {
     margin: auto;
-    max-width: ${(props) => props.theme.maxWidth};
+    //max-width: ${(props) => props.theme.maxWidth};
     height: 50px;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-areas: ' user add home guides signin';
   }
-  a {
-    color: ${(props) => props.theme.primaryColorWritingHell};
+  a,
+  span {
+    //color: ${(props) => props.theme.primaryColorWritingHell};
     justify-self: end;
     align-self: center;
   }
   a:hover {
-    color: ${(props) => props.theme.primaryColorWritingHover};
+    //color: ${(props) => props.theme.primaryColorWritingHover};
   }
   a:active {
     background-color: rgb(236, 249, 236, 0.1);

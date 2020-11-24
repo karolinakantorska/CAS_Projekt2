@@ -2,6 +2,8 @@ import withData from '../lib/withApollo';
 import { ApolloProvider } from '@apollo/react-hooks';
 import App from 'next/app';
 import Page from '../components/main/Page';
+import 'fontsource-hind';
+import 'fontsource-yanone-kaffeesatz';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {

@@ -1,0 +1,18 @@
+{\n createDay(
+    \n data: {
+        year: $year, 
+        month: $month, 
+        day: $day, 
+        reservations: {
+            create: {
+                time: $time, 
+                userName: $userName, 
+                userEmail: $userEmail, 
+                nrOfPeople: $nrOfPeople, 
+                description: $description, 
+                guide: {
+                    connect: {
+                        id: $id
+                        }}}}}\n ) {\n year\n month\n day\n reservations {\n time\n userName\n userEmail\n nrOfPeople\n description\n guide {\n id\n __typename\n }\n __typename\n }\n __typename\n }\n}\n"
+
+"mutation CREATE_RESERVATION($time: Time, $userName: String, $userEmail: String, $nrOfPeople: String, $description: String, $guideId: ID, $id: ID) {\n createDay(\n data: {time: $time, userName: $userName, userEmail: $userEmail, nrOfPeople: $nrOfPeople, description: $description, guide: {connect: {guideId: $guideId}}, relatedDay: {connect: {id: $id}}}\n ) {\n time\n userName\n userEmail\n nrOfPeople\n description\n guide {\n guideId\n __typename\n }\n relatedDay {\n id\n __typename\n }\n __typename\n }\n}\n"

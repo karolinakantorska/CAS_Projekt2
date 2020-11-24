@@ -3,6 +3,9 @@ import { useQuery } from '@apollo/client';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ONE_USER_QUERY from '../../graphgl/queries/ONE_USER_QUERY';
+import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
 
 const SingleGuideInfo = (props) => {
   const [photo, setPhoto] = useState('');
@@ -34,24 +37,36 @@ const SingleGuideInfo = (props) => {
   if (!data.user) return <p>No Guide Found</p>;
 
   return (
-    <div>
-      <p>id:{id} </p>
-      <label htmlFor="photo">Photo:</label>
-      <img src={photo} alt="Mountainbiker photo" />
-      <p>name: {name}</p>
-    </div>
+      <StyledCard>
+        <Avatar src={photo} />
+        <div>
+          <Typography>
+            {name} {surname}
+          </Typography>
+          <Typography>{email}</Typography>
+        </div>
+      </StyledCard>
   );
 };
 SingleGuideInfo.propTypes = {
   id: PropTypes.string.isRequired
 };
-/*
-const StyledNav = styled.nav`
-    background: white;
+
+
+const StyledCard = styled(Card)`
+  && {
     display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
+    grid-auto-flow: column;
+    grid-template-columns: 100px 1fr;
+    max-width: 300px;
+    padding: 4px;
+    .MuiAvatar-root {
+      width: 60px;
+      height: 60px;
+    }
+  }
 `;
-*/
+
 
 export default SingleGuideInfo;
 

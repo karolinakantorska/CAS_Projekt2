@@ -51,8 +51,8 @@ CalendarMenu.propTypes = {
   selectedYear: PropTypes.string,
   currentMonth: PropTypes.string,
   selectedMonth: PropTypes.string,
-  handleMonthChange: PropTypes.string,
-  handleYearChange: PropTypes.string,
+  handleMonthChange: PropTypes.func,
+  handleYearChange: PropTypes.func,
 };
 
 export default CalendarMenu;

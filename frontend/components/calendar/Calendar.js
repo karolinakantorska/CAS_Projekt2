@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { weekDaysEN, monthEN } from '../../lib/utils';
 import startOfMonth from 'date-fns/startOfMonth';
 import getDaysInMonth from 'date-fns/getDaysInMonth';
@@ -9,8 +8,10 @@ import addMonths from 'date-fns/addMonths';
 import addYears from 'date-fns/addYears';
 import format from 'date-fns/format';
 import styled from 'styled-components';
+import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
-import Entry from './Entry';
+import DaySpan from './DaySpan';
 import User from '../main/User';
 import CalendarMenu from './CalendarMenu';
 import MONTH_RESERVATIONS_QUERY from '../../graphgl/queries/MONTH_RESERVATIONS_QUERY';
@@ -35,7 +36,7 @@ const Calendar = (props) => {
   const currentYear = format(new Date(), 'y');
   const currentMonth = format(new Date(), 'MMMM');
   const currentDay = format(new Date(), 'd');
-  // Creating Calender
+  // Calender creating empty days
   const blankCells = [];
   for (let i = 1; i < firstDayOfMonth; i++) {
     blankCells.push(i);
@@ -44,8 +45,7 @@ const Calendar = (props) => {
   for (let i = 1; i <= daysInMonth; i++) {
     daysInMonthArray.push(`${i}`);
   }
-
-  // Calender
+  // Calender changing month and year
   function handleMonthChange(i) {
     setSelectedDate(addMonths(selectedDate, i));
   }
@@ -57,10 +57,12 @@ const Calendar = (props) => {
     setSelectedYear(format(selectedDate, 'y'));
     setFirstDayOfMonth(format(startOfMonth(selectedDate), 'i'));
     setDaysInMonth(getDaysInMonth(selectedDate));
+    refetch();
   }
   useEffect(() => {
     updateStateWithSelectedDate();
   });
+  // handle booking function
   const router = useRouter();
   const handleBooking = (day, currentUserName, currentUserEmail) => {
     router.push({
@@ -77,7 +79,8 @@ const Calendar = (props) => {
   };
 
   // Months Reservations Query
-  const { loading, error, data } = useQuery(
+  // TODO resend Query after state change
+  const { loading, error, data, refetch } = useQuery(
     MONTH_RESERVATIONS_QUERY,
     {
       variables: {
@@ -88,8 +91,11 @@ const Calendar = (props) => {
     },
   );
   if (error) return <p>Error:{error}</p>;
-  if (loading) return <p>Loading...</p>;
-  //console.log('data: ',data);
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  console.log('data: ', data);
   //console.log('data.days: ',data.days);
   //TODO put it to helpers
   const reservationsQueryDataTransformedToArray = () => {
@@ -103,11 +109,10 @@ const Calendar = (props) => {
     return reservationsByDays;
   };
   const reservations = reservationsQueryDataTransformedToArray();
-
   return (
     <User>
       {(currentUserPermission, currentUserName, currentUserEmail) => (
-        <section>
+        <Card>
           <CalendarMenu
             currentYear={currentYear}
             currentMonth={currentMonth}
@@ -116,126 +121,67 @@ const Calendar = (props) => {
             handleMonthChange={handleMonthChange}
             handleYearChange={handleYearChange}
           />
-
-          <CalendarContainer>
+          <StyledCalendar>
             {weekNames.map((day) => (
-              <span key={day} className="week-day_span">
+              <Typography key={day} variant="h6">
                 {day}
-              </span>
+              </Typography>
             ))}
             {blankCells.map((day) => (
-              <DaySpan key={day} className="empty-day_span"></DaySpan>
+              <span key={day}></span>
             ))}
-            {daysInMonthArray.map((day) => {
-              let generated_className = '';
+
+            {daysInMonthArray.map((dayOfMonth) => {
               // if day is a current day becomes highlight
+              // TODO put it in function
+              let highlight = false;
               if (
                 currentYear === selectedYear &&
                 currentMonth === selectedMonth &&
-                day === currentDay
+                dayOfMonth === currentDay
               ) {
-                generated_className = 'highlight';
+                highlight = true;
               }
-              // if there are reservations at the day
-              if (reservations[day]) {
-                // if there is only one reservation at the day
-
-                // reservations[day][0].time !== 'DAY'
-                if (reservations[day].length === 1) {
-                  //console.log(reservations[day][0]);
-                  const {
-                    time,
-                    userName,
-                    userEmail,
-                    id,
-                  } = reservations[day][0];
-                  return (
-                    <DaySpan key={day} className="day_span">
-                      <p className={generated_className}>{day}</p>
-                      <Entry
-                        time={time}
-                        userName={userName}
-                        userEmail={userEmail}
-                        id={id}
-                        currentUserPermission={currentUserPermission}
-                      />
-                      {time !== 'DAY' && (
-                        <span
-                          style={{ backgroundColor: 'red' }}
-                          onClick={() =>
-                            handleBooking(
-                              day,
-                              currentUserName,
-                              currentUserEmail,
-                            )
-                          }
-                        />
-                      )}
-                    </DaySpan>
-                  );
-                }
-                // if there are 2 reservations at the day
-                return (
-                  <DaySpan key={day} className="day_span">
-                    <p className={generated_className}>{day}</p>
-                    {reservations[day].map((res) => {
-                      const { time, userName, userEmail, id } = res;
-                      return (
-                        <Entry
-                          time={time}
-                          userName={userName}
-                          userEmail={userEmail}
-                          id={id}
-                          currentUserPermission={
-                            currentUserPermission
-                          }
-                          key={id}
-                        />
-                      );
-                    })}
-                  </DaySpan>
-                );
+              // reservation prop
+              let reservation = [];
+              if (reservations[dayOfMonth]) {
+                reservation = reservations[dayOfMonth];
               }
-              // if there is no reservation at the day
+              // disable booking in the past and on the current day
+              let booking = handleBooking;
+              if (
+                currentYear === selectedYear &&
+                currentMonth === selectedMonth &&
+                parseInt(dayOfMonth) <= parseInt(currentDay)
+              ) {
+                booking = () => null;
+              }
               return (
-                <DaySpan key={day} className="day_span">
-                  <p className={generated_className}>{day}</p>
-                  <span
-                    style={{ backgroundColor: 'red' }}
-                    onClick={() =>
-                      handleBooking(
-                        day,
-                        currentUserName,
-                        currentUserEmail,
-                      )
-                    }
-                  />
-                </DaySpan>
+                <DaySpan
+                  key={dayOfMonth}
+                  reservation={reservation}
+                  dayOfMonth={dayOfMonth}
+                  highlight={highlight}
+                  handleBooking={booking}
+                  currentUserPermission={currentUserPermission}
+                ></DaySpan>
               );
             })}
-          </CalendarContainer>
-        </section>
+          </StyledCalendar>
+        </Card>
       )}
     </User>
   );
 };
-
 Calendar.propTypes = {
   guideId: PropTypes.string,
   guideName: PropTypes.string,
   guideSurname: PropTypes.string,
 };
-const CalendarContainer = styled.div`
-  background: white;
+const StyledCalendar = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-`;
-const DaySpan = styled.span`
-  background: white;
-  display: grid;
-  .highlight {
-    color: red;
-  }
+  grid-gap: 4px 4px;
 `;
 
 export default Calendar;

@@ -28,7 +28,7 @@ const Signup = (props) => {
   function handleNameChange(e) {
     setName(e.target.value);
   }
-  function handleSignout(){
+  function handleSignup(){
     async (e) => {
       e.preventDefault();
       await signup({
@@ -47,7 +47,7 @@ const Signup = (props) => {
   return (
     <form
       method="post"
-      onSubmit={()=> handleSignout(e)}
+      onSubmit={()=> handleSignup(e)}
     >
       <fieldset disabled={loading} aria-busy={loading}>
         <h4>Signup for a account</h4>

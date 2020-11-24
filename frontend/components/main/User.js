@@ -28,7 +28,7 @@ const User = (props) => {
     return <p>Loading</p>;
   }
   return (
-    <div {...props}>
+    <div {...props} >
       {props.children(
         currentUserPermission,
         currentUserName,

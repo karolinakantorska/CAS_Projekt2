@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/client';
 import { useApolloClient } from '@apollo/client';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
 import DELETE_USER from '../../graphgl/mutations/DELETE_USER';
 import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
 
@@ -34,8 +35,8 @@ const DeleteGuide = (props) => {
   );
 
   return (
-    <div>
-      <StyledButton
+
+      <Button
         onClick={async (e) => {
           e.preventDefault();
           delete_user({
@@ -51,8 +52,8 @@ const DeleteGuide = (props) => {
         }}
       >
         {props.children}
-      </StyledButton>
-    </div>
+      </Button>
+
   );
 };
 DeleteGuide.propTypes = {

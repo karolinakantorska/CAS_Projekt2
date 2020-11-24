@@ -11,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: auto;
     background-color: mintcream;
+
   }
   a {
     text-decoration: none;
