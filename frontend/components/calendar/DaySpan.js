@@ -75,24 +75,26 @@ DaySpan.propTypes = {
 };
 const DaySpanStyled = styled.span`
   display: grid;
-  height: 100px;
-  grid-template-rows: 1fr 40px 40px;
+  grid-template-rows: 10px 45px 45px;
   justify-content: stretch;
   grid-template-areas:
     'dayNr '
     'bookingAM '
     'bookingPM ';
-
   .highlight {
     color: red;
   }
-
   .AM {
     grid-area: bookingAM;
+    height: 43px;
   }
   .PM {
     grid-area: bookingPM;
-    align-self: end;
+    height: 43px;
+    align-self: flex-end;
+  }
+  .DAY {
+    height: 90px;
   }
 `;
 

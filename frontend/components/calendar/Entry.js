@@ -53,16 +53,8 @@ const EntrySpan = styled.span`
   font-size: 0.6rem;
   border-radius: 5px;
   padding: 2px;
-  background: #eceff1;
-  & .AM {
-    height: 35px;
-  }
-  & .PM {
-    height: 35px;
-  }
-  & .DAY {
-    height: 80px;
-  }
+  background: rgba(217, 217, 217, 0.5);
+  text-align: center;
   & .AM::before {
     content: 'AM:';
   }

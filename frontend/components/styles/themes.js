@@ -7,8 +7,21 @@ let theme = createMuiTheme({
   typography: {
     fontFamily: 'Hind, Arial, sans-serif',
   },
+  palette: {
+    primary: {
+      light: '#90A4AE',
+      main: '#607D8B',
+      dark: '#263238',
+      contrastText: '#fff',
+    },
+    text: {
+      primary: '#263238',
+      secondary: '#607D8B,',
+    },
+  },
 });
 theme = responsiveFontSizes(theme);
+
 export let themeFontNumbers = createMuiTheme({
   typography: {
     fontFamily: ['Yanone Kaffeesatz', 'sans-serif'].join(','),
@@ -25,15 +38,15 @@ export let themeFontNumbers = createMuiTheme({
 });
 themeFontNumbers = responsiveFontSizes(themeFontNumbers);
 
+/*
 export const themeStyled = {
-  maxWidth: '800px',
-  primaryColorButton: '#334d00',
-  primaryColorWritingHell: '#ecf9ec',
-  primaryColorWritingHover: '#ffffff',
-
-  textDark: {
-    primary: 'rgb(38, 38, 38)',
-    secondary: 'rgb(115, 115, 115)',
+  fontFamilyCalendar: 'Yanone Kaffeesatz, Arial, sans-serif',
+  textCalendar: {
+    primary: '#B0BEC5',
+    secondary: '#90A4AE',
+    warning: '#ef5350',
+    black: '#263238',
   },
 };
+*/
 export default theme;

@@ -10,13 +10,13 @@ import { themeFontNumbers } from '../styles/themes';
 const DayNr = (props) => {
   const { dayOfMonth, highlight } = props;
   return highlight ? (
-    <ThemeProvider theme={themeFontNumbers} variant="h1" gutterBottom>
+    <ThemeProvider theme={themeFontNumbers}>
       <Typography variant="h4" color="textSecondary">
         {dayOfMonth}
       </Typography>
     </ThemeProvider>
   ) : (
-    <ThemeProvider theme={themeFontNumbers} variant="h1" gutterBottom>
+    <ThemeProvider theme={themeFontNumbers}>
       <Typography variant="h4" color="textPrimary">
         {dayOfMonth}
       </Typography>
@@ -35,11 +35,6 @@ const StyledNrSpan = styled.span`
   line-height: 0.6;
   .highlight {
     color: #ef5350;
-  }
-`;
-const StyledNrSpan2 = styled(Typography)`
-  && {
-    line-height: 0.6;
   }
 `;
 

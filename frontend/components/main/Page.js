@@ -12,8 +12,8 @@ import GlobalStyle from '../styles/globalStyles';
 import theme, { themeStyled } from '../styles/themes';
 
 const Inner = styled.div`
-  //color: ${(props) => props.theme.color};
-  //width: ${(props) => props.theme.maxWidth};
+  color: ${(props) => props.theme.color};
+  max-width: 800px;
   margin: auto;
 `;
 
