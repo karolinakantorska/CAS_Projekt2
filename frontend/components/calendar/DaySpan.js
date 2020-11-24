@@ -22,6 +22,7 @@ const DaySpan = (props) => {
     return (
       <DaySpanStyled onClick={booking}>
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
+
         <Entry
           time={time}
           userName={userName}
@@ -37,6 +38,7 @@ const DaySpan = (props) => {
     return (
       <DaySpanStyled>
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
+
         {reservation.map((res) => {
           const { time, userName, userEmail, id } = res;
           return (
@@ -74,17 +76,17 @@ DaySpan.propTypes = {
 const DaySpanStyled = styled.span`
   display: grid;
   height: 100px;
-  grid-template-rows: 20px 40px 40px;
+  grid-template-rows: 1fr 40px 40px;
   justify-content: stretch;
   grid-template-areas:
-    'dayNr'
-    'bookingAM'
-    'bookingPM';
-  border-top: 1px solid gray;
+    'dayNr '
+    'bookingAM '
+    'bookingPM ';
 
   .highlight {
     color: red;
   }
+
   .AM {
     grid-area: bookingAM;
   }
@@ -95,3 +97,9 @@ const DaySpanStyled = styled.span`
 `;
 
 export default DaySpan;
+/*
+  <span className='Span__Linie__Top' / >
+   .Span__Linie__Top {
+    border-top: 1px solid #78909c;
+  }
+  */

@@ -181,7 +181,7 @@ Calendar.propTypes = {
 const StyledCalendar = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-gap: 4px 4px;
+  grid-gap: 2px 8px;
 `;
 
 export default Calendar;

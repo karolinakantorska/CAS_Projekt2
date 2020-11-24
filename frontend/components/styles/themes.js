@@ -12,11 +12,13 @@ theme = responsiveFontSizes(theme);
 export let themeFontNumbers = createMuiTheme({
   typography: {
     fontFamily: ['Yanone Kaffeesatz', 'sans-serif'].join(','),
+    h4: {
+      lineHeight: 0.7,
+    },
   },
-
   palette: {
     text: {
-      primary: '#78909C',
+      primary: '#B0BEC5',
       secondary: '#ef5350',
     },
   },

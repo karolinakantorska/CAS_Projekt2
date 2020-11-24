@@ -11,7 +11,7 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: auto;
     background-color: mintcream;
-
+    font-family: 'Hind';
   }
   a {
     text-decoration: none;

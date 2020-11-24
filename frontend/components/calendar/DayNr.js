@@ -11,7 +11,7 @@ const DayNr = (props) => {
   const { dayOfMonth, highlight } = props;
   return highlight ? (
     <ThemeProvider theme={themeFontNumbers} variant="h1" gutterBottom>
-      <Typography variant="h4" color="textSecondary" align="left">
+      <Typography variant="h4" color="textSecondary">
         {dayOfMonth}
       </Typography>
     </ThemeProvider>
@@ -28,5 +28,19 @@ DayNr.propTypes = {
   dayOfMonth: PropTypes.string,
   highlight: PropTypes.bool,
 };
+const StyledNrSpan = styled.span`
+  display: grid;
+  font-family: 'Yanone Kaffeesatz', 'sans-serif';
+  font-size: 1.8rem;
+  line-height: 0.6;
+  .highlight {
+    color: #ef5350;
+  }
+`;
+const StyledNrSpan2 = styled(Typography)`
+  && {
+    line-height: 0.6;
+  }
+`;
 
 export default DayNr;
