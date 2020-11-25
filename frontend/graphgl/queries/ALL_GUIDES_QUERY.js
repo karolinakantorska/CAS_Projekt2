@@ -5,6 +5,7 @@ const ALL_GUIDES_QUERY = gql`
     users(where: { permissions: $permissions }) {
       name
       surname
+      email
       description
       id
       photo

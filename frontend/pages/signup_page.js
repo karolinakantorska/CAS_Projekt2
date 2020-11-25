@@ -1,11 +1,9 @@
-import SignupComponent from '../components/signin_signout/Signup';
-import Signin from '../components/signin_signout/Signin';
+import Signup from '../components/signin_signout/Signup';
 
-const Signup_page = (props) => {
+const Signup_page = () => {
   return (
     <div>
-      <SignupComponent />
-      <Signin />
+      <Signup />
     </div>
   );
 };

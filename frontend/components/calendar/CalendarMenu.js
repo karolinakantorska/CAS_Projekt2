@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 const CalendarMenu = (props) => {
   const {
@@ -10,10 +11,39 @@ const CalendarMenu = (props) => {
     handleMonthChange,
     handleYearChange,
   } = props;
-    
+
   return (
-    <section>
-      <section>
+    <StyledSpan>
+      {
+        // button inactive in current month
+        currentYear === selectedYear &&
+        currentMonth === selectedMonth ? (
+          <button disabled>&#8592;</button>
+        ) : (
+          <button onClick={() => handleMonthChange(-1)}>
+            &#8592;
+          </button>
+        )
+      }
+      <span>{selectedMonth}</span>
+      <button onClick={() => handleMonthChange(1)}>&#8594;</button>
+    </StyledSpan>
+  );
+};
+CalendarMenu.propTypes = {
+  currentYear: PropTypes.string,
+  selectedYear: PropTypes.string,
+  currentMonth: PropTypes.string,
+  selectedMonth: PropTypes.string,
+  handleMonthChange: PropTypes.func,
+  handleYearChange: PropTypes.func,
+};
+const StyledSpan = styled.span`
+  display: grid;
+  grid-auto-flow: column;
+`;
+export default CalendarMenu;
+/*      <section>
         {
           // button inactive in current month
           currentYear === selectedYear &&
@@ -28,31 +58,6 @@ const CalendarMenu = (props) => {
         {selectedYear}
         <button onClick={() => handleYearChange(1)}>&#8594;</button>
       </section>
-      <section>
-        {
-          // button inactive in current month
-          currentYear === selectedYear &&
-          currentMonth === selectedMonth ? (
-            <button disabled>&#8592;</button>
-          ) : (
-            <button onClick={() => handleMonthChange(-1)}>
-              &#8592;
-            </button>
-          )
-        }
-        {selectedMonth}
-        <button onClick={() => handleMonthChange(1)}>&#8594;</button>
-      </section>
-    </section>
-  );
-};
-CalendarMenu.propTypes = {
-  currentYear: PropTypes.string,
-  selectedYear: PropTypes.string,
-  currentMonth: PropTypes.string,
-  selectedMonth: PropTypes.string,
-  handleMonthChange: PropTypes.func,
-  handleYearChange: PropTypes.func,
-};
 
-export default CalendarMenu;
+      grid-column: 1/-1;
+      */

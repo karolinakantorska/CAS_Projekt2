@@ -2,9 +2,16 @@ import withData from '../lib/withApollo';
 import { ApolloProvider } from '@apollo/react-hooks';
 import App from 'next/app';
 import Page from '../components/main/Page';
+
 import 'fontsource-hind';
 import 'fontsource-yanone-kaffeesatz';
-
+import '@material/button/dist/mdc.button.css';
+import '@material/icon-button/dist/mdc.icon-button.css';
+import '@material/layout-grid/dist/mdc.layout-grid.css';
+import '@material/card/dist/mdc.card.css';
+import '@material/typography/dist/mdc.typography.css';
+import '@material/form-field/dist/mdc.form-field.css';
+import '@material/textfield/dist/mdc.textfield.css';
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};

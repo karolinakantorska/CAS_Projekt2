@@ -1,12 +1,7 @@
-import React, { useState} from 'react';
-import Button from '@material-ui/core/Button';
+import React, { useState } from 'react';
+
 import DateFnsUtils from '@date-io/date-fns';
 import format from 'date-fns/format';
-
-import {
-  DatePicker,
-  MuiPickersUtilsProvider,
-} from '@material-ui/pickers';
 
 const ChooseDate = (props) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -14,14 +9,6 @@ const ChooseDate = (props) => {
   return (
     <div>
       <h4>Choose a Date:</h4>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <DatePicker
-          variant="static"
-          orientation="landscape"
-          value={selectedDate}
-          onChange={setSelectedDate}
-        />
-      </MuiPickersUtilsProvider>
 
       <p>
         Selected Date:
@@ -29,9 +16,9 @@ const ChooseDate = (props) => {
       </p>
       <h4>Choose Time:</h4>
       <p>Morning / Aftenoon</p>
-      <Button variant="contained" color="primary">
+      <button variant="contained" color="primary">
         Confirm
-      </Button>
+      </button>
     </div>
   );
 };

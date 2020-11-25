@@ -10,12 +10,13 @@ const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     margin: auto;
-    background-color: mintcream;
+      background-color: #f8fce9;
     font-family: 'Hind';
   }
   a {
     text-decoration: none;
   }
+
 `;
 
 export default GlobalStyle;

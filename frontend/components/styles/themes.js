@@ -1,8 +1,28 @@
-import {
-  createMuiTheme,
-  responsiveFontSizes,
-} from '@material-ui/core/styles';
+export const themeStyled = {
+  maxWidth: '800px',
+  colorText: {
+    primary: '#263238',
+    secundary: '#607D8B',
+    light: '#90A4AE',
+    warning: '#ef5350',
+    negativ: '#fff',
+  },
+  color: {
+    primary: 'rgba(10, 10, 10, 0.7)',
+  },
+  button: {
+    radious: '15px',
+  },
 
+  fontFamilyCalendar: 'Yanone Kaffeesatz, Arial, sans-serif',
+  textCalendar: {
+    primary: '#B0BEC5',
+    secondary: '#90A4AE',
+    warning: '#ef5350',
+    black: '#263238',
+  },
+};
+/*
 let theme = createMuiTheme({
   typography: {
     fontFamily: 'Hind, Arial, sans-serif',
@@ -38,15 +58,5 @@ export let themeFontNumbers = createMuiTheme({
 });
 themeFontNumbers = responsiveFontSizes(themeFontNumbers);
 
-/*
-export const themeStyled = {
-  fontFamilyCalendar: 'Yanone Kaffeesatz, Arial, sans-serif',
-  textCalendar: {
-    primary: '#B0BEC5',
-    secondary: '#90A4AE',
-    warning: '#ef5350',
-    black: '#263238',
-  },
-};
-*/
 export default theme;
+*/

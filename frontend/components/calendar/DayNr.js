@@ -2,25 +2,13 @@ import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { ThemeProvider } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import { themeFontNumbers } from '../styles/themes';
 
 const DayNr = (props) => {
   const { dayOfMonth, highlight } = props;
   return highlight ? (
-    <ThemeProvider theme={themeFontNumbers}>
-      <Typography variant="h4" color="textSecondary">
-        {dayOfMonth}
-      </Typography>
-    </ThemeProvider>
+    <div>{dayOfMonth}</div>
   ) : (
-    <ThemeProvider theme={themeFontNumbers}>
-      <Typography variant="h4" color="textPrimary">
-        {dayOfMonth}
-      </Typography>
-    </ThemeProvider>
+    <div>{dayOfMonth}</div>
   );
 };
 

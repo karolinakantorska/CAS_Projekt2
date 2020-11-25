@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-
 import Signout from '../signin_signout/Signout';
 import User from './User';
 
@@ -29,7 +28,7 @@ const Nav = (props) => {
               </span>
             )}
             {!currentUserName && (
-              <Link href="/signup_page">
+              <Link href="/signin_page">
                 <a className="signin">Signup|Signin</a>
               </Link>
             )}
@@ -40,28 +39,27 @@ const Nav = (props) => {
   );
 };
 const StyledNav = styled.nav`
-  //background-color: ${(props) => props.theme.primaryColorButton};
-  //color: ${(props) => props.theme.primaryColorWritingHell};
-
+  background-color: ${(props) => props.theme.color.primary};
+  color: ${(props) => props.theme.colorText.negativ};
   div {
     margin: auto;
-    //max-width: ${(props) => props.theme.maxWidth};
-    height: 50px;
+    max-width: ${(props) => props.theme.maxWidth};
+    height: 2.5rem;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-areas: ' user add home guides signin';
   }
   a,
   span {
-    //color: ${(props) => props.theme.primaryColorWritingHell};
+    color: ${(props) => props.theme.colorText.negativ};
     justify-self: end;
     align-self: center;
   }
   a:hover {
-    //color: ${(props) => props.theme.primaryColorWritingHover};
+    color: #f5f5f5;
+    text-shadow: 0px 0px 40px #ffffff;
   }
   a:active {
-    background-color: rgb(236, 249, 236, 0.1);
   }
   .user {
     grid-area: user;

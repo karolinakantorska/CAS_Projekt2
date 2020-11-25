@@ -3,13 +3,13 @@ import { useMutation } from '@apollo/client';
 import { useApolloClient } from '@apollo/client';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
+
 import DELETE_USER from '../../graphgl/mutations/DELETE_USER';
 import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
 
 const DeleteGuide = (props) => {
   const client = useApolloClient();
-  const {id} = props;
+  const { id } = props;
   const [delete_user, { loading, error, called, data }] = useMutation(
     DELETE_USER,
     {
@@ -23,37 +23,36 @@ const DeleteGuide = (props) => {
         // spreading users to a new variable
         const newDataAll = { ...dataAll };
         // filter out a user by ID
-        newDataAll.users = newDataAll.users.filter((user) => user.id !== deletedUserID,);
+        newDataAll.users = newDataAll.users.filter(
+          (user) => user.id !== deletedUserID,
+        );
         client.writeQuery({
           query: ALL_GUIDES_QUERY,
           variables: { permissions: 'GUIDE' },
           data: { users: [...newDataAll.users] },
         });
-    
       },
     },
   );
 
   return (
-
-      <Button
-        onClick={async (e) => {
-          e.preventDefault();
-          delete_user({
-            variables: { id },
-            optimisticResponse: {
-              __typename: 'Mutation',
-              deleteUser: {
-                __typename: 'User',
-                id,
-              },
+    <button
+      onClick={async (e) => {
+        e.preventDefault();
+        delete_user({
+          variables: { id },
+          optimisticResponse: {
+            __typename: 'Mutation',
+            deleteUser: {
+              __typename: 'User',
+              id,
             },
-          });
-        }}
-      >
-        {props.children}
-      </Button>
-
+          },
+        });
+      }}
+    >
+      {props.children}
+    </button>
   );
 };
 DeleteGuide.propTypes = {

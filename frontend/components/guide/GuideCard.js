@@ -2,30 +2,52 @@ import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Card from '@material-ui/core/Card';
-import Button from '@material-ui/core/Button';
+
 import DeleteGuide from './DeleteGuide';
+import {
+  Card,
+  CardPrimaryAction,
+  CardMedia,
+  CardActionButton,
+} from '@rmwc/card';
+import { Typography } from '@rmwc/typography';
 
 const Guide = (props) => {
   const { currentUserPermission } = props;
   const { id, email, name, surname, description, photo } = props.user;
-
+  console.log(props.user);
   return (
     <Card>
-      <StyledImage src={photo} alt="Mountainbiker photo" />
-      <h4>
-        {name} {surname}
-      </h4>
-      <p className="bottom_description">email: {email}</p>
-      <p>description: {description}</p>
+      <CardPrimaryAction>
+        <StyledImage src={photo} alt="Mountainbiker photo" />
+      </CardPrimaryAction>
+      <StyledSpan>
+        <Typography use="headline6" tag="h4">
+          {name} {surname}
+        </Typography>
+        <Typography
+          use="subtitle2"
+          tag="p"
+          theme="textSecondaryOnBackground"
+        >
+          {email}
+        </Typography>
+        <Typography
+          use="body1"
+          tag="div"
+          theme="textSecondaryOnBackground"
+        >
+          description: {description}
+        </Typography>
+      </StyledSpan>
 
       {!currentUserPermission && (
         <Link
           href={{
-            pathname: '/signup_page',
+            pathname: '/signin_page',
           }}
         >
-          <a>Logg in to book Me!</a>
+          <CardActionButton>Logg in to book Me!</CardActionButton>
         </Link>
       )}
       {(currentUserPermission === 'USER' ||
@@ -40,9 +62,9 @@ const Guide = (props) => {
             },
           }}
         >
-          <Button variant="contained" fullWidth="true">
+          <button variant="contained" fullWidth="true">
             Book Me!
-          </Button>
+          </button>
         </Link>
       )}
       {currentUserPermission === 'ADMIN' && (
@@ -57,9 +79,9 @@ const Guide = (props) => {
               },
             }}
           >
-            <Button variant="contained" fullWidth="true">
+            <button variant="contained" fullWidth="true">
               Book Me!
-            </Button>
+            </button>
           </Link>
           <Link
             href={{
@@ -67,7 +89,7 @@ const Guide = (props) => {
               query: { id: id },
             }}
           >
-            <Button>Edit</Button>
+            <button>Edit</button>
           </Link>
           <DeleteGuide id={id}>Delete</DeleteGuide>
         </React.Fragment>
@@ -75,11 +97,11 @@ const Guide = (props) => {
     </Card>
   );
 };
-
-
+const StyledSpan = styled.span`
+  padding: 0.5rem;
+`;
 const StyledImage = styled.img`
   justify-self: stretch;
-  border-radius: 10px 10px 0 0;
 `;
 
 Guide.propTypes = {
@@ -93,3 +115,12 @@ Guide.propTypes = {
 };
 
 export default Guide;
+
+/*
+<CardMedia
+          sixteenByNine
+          style={{
+            backgroundImage: photo,
+          }}
+        />
+        */

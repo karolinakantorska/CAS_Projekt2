@@ -9,10 +9,7 @@ import addYears from 'date-fns/addYears';
 import format from 'date-fns/format';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Card from '@material-ui/core/Card';
-import { ThemeProvider } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import { themeFontNumbers } from '../styles/themes';
+
 import DaySpan from './DaySpan';
 import User from '../main/User';
 import CalendarMenu from './CalendarMenu';
@@ -114,7 +111,7 @@ const Calendar = (props) => {
   return (
     <User>
       {(currentUserPermission, currentUserName, currentUserEmail) => (
-        <span>
+        <StyledSpan>
           <CalendarMenu
             currentYear={currentYear}
             currentMonth={currentMonth}
@@ -170,7 +167,7 @@ const Calendar = (props) => {
               );
             })}
           </StyledCalendar>
-        </span>
+        </StyledSpan>
       )}
     </User>
   );
@@ -180,19 +177,19 @@ Calendar.propTypes = {
   guideName: PropTypes.string,
   guideSurname: PropTypes.string,
 };
-const StyledCalendar = styled(Card)`
-  && {
-    display: grid;
-    max-width: 800px;
-    padding: 0.6rem;
-    grid-template-columns: repeat(7, 1fr);
-    grid-gap: 0.8rem 0.5rem;
-  }
+const StyledSpan = styled.span`
+  display: grid;
 `;
-const StyledTypo = styled(Typography)`
+const StyledCalendar = styled.span`
+  display: grid;
+  padding: 0.6rem;
+  justify-content: center;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 0.8rem 0.5rem;
+`;
+const StyledTypo = styled(div)`
   && {
     border-bottom: 4px solid #78909c;
-    stroke-linecap: round;
   }
 `;
 

@@ -2,8 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 
 const Entry = (props) => {
   const {
@@ -17,9 +15,7 @@ const Entry = (props) => {
   return (
     <EntrySpan className={time}>
       <div className={time}>
-        {currentUserPermission === 'USER' && (
-          <Typography>Booked!</Typography>
-        )}
+        {currentUserPermission === 'USER' && <span>Booked!</span>}
         {(currentUserPermission === 'ADMIN' ||
           currentUserPermission === 'GUIDE') && (
           <Link
@@ -50,19 +46,30 @@ Entry.propTypes = {
   currentUserPermission: PropTypes.string,
 };
 const EntrySpan = styled.span`
-  font-size: 0.6rem;
+  font-size: 0.9rem;
   border-radius: 5px;
   padding: 2px;
   background: rgba(217, 217, 217, 0.5);
   text-align: center;
-  & .AM::before {
+  div {
+    display: grid;
+    grid-auto-flow: column;
+  }
+  span {
+    align-self: start;
+  }
+  .AM::before {
     content: 'AM:';
   }
-  & .PM::before {
-    content: 'PM:';
+  .PM::before {
+    content: 'PM: ';
   }
-  & .DAY::before {
-    content: 'DAY:';
+  .DAY::before {
+    content: 'DAY: ';
+  }
+  .AM::before,
+  .PM::before,
+  .DAY::before {
   }
 `;
 
