@@ -1,12 +1,32 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
-import { FormField } from '@rmwc/formfield';
 import SIGNIN_MUTATION from '../../graphgl/mutations/SIGNIN_MUTATION';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
-import { Card } from '@rmwc/card';
-import { StyledFieldset } from '../styles/StyledForm';
+import Nav from '../main/Nav';
+import { StyledContainer } from '../styles/StyledContainer';
+import { StyledCard } from '../styles/StyledForm';
+import {
+  StyledFieldset,
+  StyledButtons,
+  StyledButton,
+} from '../styles/StyledForm';
+import { TextField } from '@rmwc/textfield';
+import {
+  StyledTextBody1,
+  StyledTextBody2,
+  StyledTextTitle5,
+  StyledTextTitle6,
+  StyledTextSubtitle1,
+  StyledTextSubtitle2,
+  StyledTextMenuWhite,
+  StyledTextButtonBlack,
+  StyledTextButtonColor,
+} from '../styles/StyledText';
+import { Button } from '@rmwc/button';
+import styled from 'styled-components';
 
 const Signin = (props) => {
   const [signin, { loading, error, data }] = useMutation(
@@ -18,6 +38,20 @@ const Signin = (props) => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const router = useRouter();
+
+  function handleSignin() {
+    console.log('hallo');
+    console.log(email, password);
+    signin({
+      variables: {
+        email,
+        password,
+      },
+    });
+    setEmail('');
+    setPassword('');
+    router.push('/guides');
+  }
   function handlePasswordChange(e) {
     setPassword(e.target.value);
   }
@@ -25,33 +59,49 @@ const Signin = (props) => {
     setEmail(e.target.value);
   }
   return (
-    <Card>
-      <form
-        method="post"
-        onSubmit={async (e) => {
-          e.preventDefault();
-          await signin({
-            variables: {
-              password,
-              email,
-            },
-          });
-          setPassword('');
-          setEmail('');
-          router.push('/guides');
-        }}
-      >
-        <StyledFieldset disabled={loading} aria-busy={loading}>
-          <h4>Signin into your account:</h4>
-          <p>{error}</p>
-          <label>Email:</label>
-          <input value={email} onChange={handleEmailChange} />
-          <label>Password:</label>
-          <input value={password} onChange={handlePasswordChange} />
-          <button type="submit">Submitt</button>
-        </StyledFieldset>
-      </form>
-    </Card>
+    <React.Fragment>
+      <Nav />
+      <StyledContainer>
+        <StyledCard>
+          <form>
+            <StyledFieldset disabled={loading}>
+              <StyledTextTitle6>
+                Signin into account:
+              </StyledTextTitle6>
+
+              <TextField
+                fullwidth
+                placeholder="Email"
+                value={email}
+                onChange={handleEmailChange}
+              />
+              <TextField
+                fullwidth
+                placeholder="Password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+            </StyledFieldset>
+            <StyledButtons>
+              <StyledButton
+                onClick={handleSignin}
+                raised
+                theme={['secondaryBg', 'onSecondary']}
+              >
+                <StyledTextButtonBlack>Signin!</StyledTextButtonBlack>
+              </StyledButton>
+              <Link href="/signup_page">
+                <StyledButton onClick={handleSignin}>
+                  <StyledTextButtonColor>
+                    Create new Account
+                  </StyledTextButtonColor>
+                </StyledButton>
+              </Link>
+            </StyledButtons>
+          </form>
+        </StyledCard>
+      </StyledContainer>
+    </React.Fragment>
   );
 };
 

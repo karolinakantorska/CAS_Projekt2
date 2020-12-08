@@ -2,22 +2,29 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import styled from 'styled-components';
-import {
-  Card,
-  CardActionButton,
-  CardActionButtons,
-} from '@rmwc/card';
-import {
-  StyledFieldset,
-  StyledButtons,
-  StyledButton,
-} from '../styles/StyledForm';
+
 import { TextField } from '@rmwc/textfield';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 import SIGNUP_MUTATION from '../../graphgl/mutations/SIGNUP_MUTATION';
 import Nav from '../main/Nav';
 import { StyledContainer } from '../styles/StyledContainer';
+import { StyledCard } from '../styles/StyledForm';
+import {
+  StyledFieldset,
+  StyledButtons,
+  StyledButton,
+} from '../styles/StyledForm';
+import {
+  StyledTextBody1,
+  StyledTextBody2,
+  StyledTextTitle5,
+  StyledTextTitle6,
+  StyledTextSubtitle1,
+  StyledTextSubtitle2,
+  StyledTextMenuWhite,
+  StyledTextButtonBlack,
+  StyledTextButtonColor,
+} from '../styles/StyledText';
 // TODO better error handling
 
 const Signup = (props) => {
@@ -42,30 +49,37 @@ const Signup = (props) => {
   function handleNameChange(e) {
     setName(e.target.value);
   }
-  function handleSignup() {
-    async (e) => {
-      e.preventDefault();
-      await signup({
-        variables: {
-          email,
-          password,
-          name,
-        },
-      });
-      setEmail('');
-      setPassword('');
-      setName('');
-      router.push('/guides');
-    };
+  function handleSignup(e) {
+    e.preventDefault();
+    console.log('I am signing up on frontend');
+    console.log('I am signing up on frontend');
+    console.log(email, password, name);
+
+    //async () => {
+    //await
+    signup({
+      variables: {
+        email,
+        password,
+        name,
+      },
+    });
+    setEmail('');
+    setPassword('');
+    setName('');
+    router.push('/guides');
+    //};
   }
   return (
     <React.Fragment>
       <Nav />
       <StyledContainer>
-        <Card>
-          <form method="post" onSubmit={() => handleSignup(e)}>
+        <StyledCard>
+          <form>
             <StyledFieldset disabled={loading}>
-              <h4>Signup for a account:</h4>
+              <StyledTextTitle6>
+                Signup for a account:
+              </StyledTextTitle6>
               <TextField
                 fullwidth
                 placeholder="Name"
@@ -86,15 +100,23 @@ const Signup = (props) => {
               />
             </StyledFieldset>
             <StyledButtons>
-              <StyledButton raised type="submit">
-                Signup!
+              <StyledButton
+                raised
+                onClick={(e) => handleSignup(e)}
+                theme={['secondaryBg', 'onSecondary']}
+              >
+                <StyledTextButtonBlack>Signup!</StyledTextButtonBlack>
               </StyledButton>
               <Link href="/signin_page">
-                <StyledButton outlined>Go to Signin!</StyledButton>
+                <StyledButton>
+                  <StyledTextButtonColor>
+                    Go to Signin!
+                  </StyledTextButtonColor>
+                </StyledButton>
               </Link>
             </StyledButtons>
           </form>
-        </Card>
+        </StyledCard>
       </StyledContainer>
     </React.Fragment>
   );

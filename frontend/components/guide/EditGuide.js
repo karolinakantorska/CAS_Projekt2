@@ -5,10 +5,30 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import UPDATE_GUIDE from '../../graphgl/mutations/UPDATE_GUIDE';
 import ONE_USER_QUERY from '../../graphgl/queries/ONE_USER_QUERY';
+import Nav from '../main/Nav';
+import { StyledContainer } from '../styles/StyledContainer';
+import { StyledCard, StyledSpanPadding } from '../styles/StyledForm';
+import {
+  StyledFieldset,
+  StyledButtons,
+  StyledButton,
+  StyledSpanButon,
+} from '../styles/StyledForm';
+import { TextField } from '@rmwc/textfield';
+import {
+  StyledTextBody1,
+  StyledTextBody2,
+  StyledTextTitle5,
+  StyledTextTitle6,
+  StyledTextSubtitle1,
+  StyledTextSubtitle2,
+  StyledTextMenu,
+  StyledTextMenuBlack,
+} from '../styles/StyledText';
 //TODO it forces me to update photo every time
 
 const UpdateGuide = (props) => {
-   const id = props.id;
+  const id = props.id;
   const { loading, errorQuery, data } = useQuery(ONE_USER_QUERY, {
     variables: { id },
   });
@@ -17,7 +37,7 @@ const UpdateGuide = (props) => {
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [description, setDescription] = useState('');
- 
+
   const [
     updateUser,
     { loadingMutation, errorMutation, calledMutation, dataMutation },
@@ -75,7 +95,27 @@ const UpdateGuide = (props) => {
     setPhoto(file.secure_url);
     //console.log('photo url: ', file.secure_url);
   }
+  function handleSubmit() {
+    // IT IS NOT CHANGING DISPLAYED DATA UNTIL RELOAD
+    // TODO catche updates
+    // TODO displaying error
+    // TODO optimistic updates
+    // TODO maybe animation by loading
 
+    updateUser({
+      variables: {
+        id,
+        email,
+        name,
+        surname,
+        description,
+        photo,
+      },
+    });
+    Router.push({
+      pathname: '/guides',
+    });
+  }
   if (loading) {
     return <p>"Loading..." </p>;
   }
@@ -84,87 +124,53 @@ const UpdateGuide = (props) => {
 
   return (
     <div>
-      <p>id:{id} </p>
-
-      <form
-        onSubmit={async (e) => {
-          e.preventDefault();
-          // IT IS NOT CHANGING DISPLAYED DATA UNTIL RELOAD
-          // TODO catche updates
-          // TODO displaying error
-          // TODO optimistic updates
-          // TODO maybe animation by loading
-
-          updateUser({
-            variables: {
-              id,
-              email,
-              name,
-              surname,
-              description,
-              photo,
-            },
-          });
-          Router.push({
-            pathname: '/guides',
-          });
-        }}
-      >
-        <fieldset
-          disabled={loadingMutation}
-          aria-busy={loadingMutation}
-        >
-          <img src={photo} alt="Mountainbiker photo" />
-          <label htmlFor="photo">
-            Photo:
-            <input
-              type="file"
-              onChange={handlePhotoUpload}
-            />
-          </label>
-          <label htmlFor="name">
-            Name:
-            <input
-              type="text"
-              onChange={handleNameChange}
-              defaultValue={name}
-              required
-            />
-            <p>{name}</p>
-          </label>
-          <label htmlFor="surname">
-            Surname:
-            <input
-              type="text"
-              onChange={handleSurnameChange}
-              defaultValue={surname}
-              required
-            />
-            <p>{surname}</p>
-          </label>
-          <label htmlFor="email">
-            E-mail:
-            <input
-              type="email"
-              onChange={handleEmailChange}
-              defaultValue={email}
-              required
-            />
-            <p>{email}</p>
-          </label>
-          <label htmlFor="description">
-            Description:
-            <input
-              type="text"
-              onChange={handleDescriptionChange}
-              defaultValue={description}
-              required
-            />
-            <p>{description}</p>
-          </label>
-          <button type="submit">Submitt</button>
-        </fieldset>
-      </form>
+      <Nav />
+      <StyledContainer>
+        <StyledCard>
+          <form onSubmit={handleSubmit}>
+            <StyledFieldset disabled={loading} aria-busy={loading}>
+              <StyledTextTitle6>Edit the MTB Guide</StyledTextTitle6>
+              <img src={photo} alt="Mountainbiker photo" />
+              <label htmlFor="photo">
+                <input type="file" onChange={handlePhotoUpload} />
+              </label>
+              <TextField
+                {...name}
+                fullwidth
+                placeholder="Name"
+                value={name.value}
+                onChange={handleNameChange}
+              />
+              <TextField
+                {...surname}
+                fullwidth
+                placeholder="Surname"
+                value={surname.value}
+                onChange={handleSurnameChange}
+              />
+              <TextField
+                {...email}
+                fullwidth
+                placeholder="Email"
+                value={email.value}
+                onChange={handleEmailChange}
+              />
+              <TextField
+                {...description}
+                fullwidth
+                placeholder="Description"
+                value={description.value}
+                onChange={handleDescriptionChange}
+              />
+              <StyledSpanButon>
+                <StyledButton onClick={handleSubmit} raised>
+                  <StyledTextMenu>Edit Guide</StyledTextMenu>
+                </StyledButton>
+              </StyledSpanButon>
+            </StyledFieldset>
+          </form>
+        </StyledCard>
+      </StyledContainer>
     </div>
   );
 };
@@ -181,4 +187,3 @@ const StyledNav = styled.nav`
 */
 
 export default UpdateGuide;
-

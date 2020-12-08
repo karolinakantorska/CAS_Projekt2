@@ -1,21 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
-import SingleGuideInfo from '../guide/SingleGuideInfo';
+import Nav from '../main/Nav';
 import Calendar from '../calendar/Calendar';
+import { StyledContainer } from '../styles/StyledContainer';
 
 const Booking = (props) => {
-  const { guideId } = props.props;
+  console.log('props');
+  console.log(props);
+  const {
+    guideId,
+    guideName,
+    guideSurname,
+    guidePhoto,
+  } = props.props;
   return (
-    <StyledDiv>
-      <h4>Book a MTB guide</h4>
-      <SingleGuideInfo id={guideId} className="SingleGuideInfo" />
-      <Calendar props={props.props} />
-    </StyledDiv>
+    <div>
+      <Nav />
+      <StyledContainer>
+        <Calendar props={props.props} />
+      </StyledContainer>
+    </div>
   );
 };
-SingleGuideInfo.PropTypes = {
+Booking.PropTypes = {
   guideId: PropTypes.string,
 };
 
@@ -33,3 +41,4 @@ const StyledDiv = styled.div`
 `;
 
 export default Booking;
+//<SingleGuideInfo id={guideId} className="SingleGuideInfo" />;

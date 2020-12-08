@@ -63,7 +63,9 @@ const mutations = {
     return ctx.db.mutation.deleteUser({ where }, info);
   },
   async signup(parent, args, ctx, info) {
+    console.log("I am sinning up");
     args.email = args.email.toLowerCase();
+    console.log(args);
     // hash their password
     const password = await bcrypt.hash(args.password, 10);
     const user = await ctx.db.mutation.createUser(
@@ -87,6 +89,7 @@ const mutations = {
     return user;
   },
   async signin(parent, { email, password }, ctx, info) {
+    console.log("I am sinning in");
     // is there a user with this email
     const user = await ctx.db.query.user({ where: { email } });
     if (!user) {
@@ -106,6 +109,7 @@ const mutations = {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24, // a day year cookie
     });
+
     return user;
   },
   signout(parent, args, ctx, info) {
@@ -169,8 +173,8 @@ const mutations = {
     return reservation;
   },
   async deleteReservation(parent, args, ctx, info) {
-    console.log('args: ',args)
-    const id = args.id
+    console.log("args: ", args);
+    const id = args.id;
     const reservation = await ctx.db.query.reservation({
       where: {
         id,

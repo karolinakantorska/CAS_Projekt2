@@ -14,16 +14,35 @@ import DaySpan from './DaySpan';
 import User from '../main/User';
 import CalendarMenu from './CalendarMenu';
 import MONTH_RESERVATIONS_QUERY from '../../graphgl/queries/MONTH_RESERVATIONS_QUERY';
+import { StyledElevation } from '../styles/StyledForm';
+
+import {
+  StyledTextBody1,
+  StyledTextBody2,
+  StyledTextTitle5,
+  StyledTextTitle6,
+  StyledTextSubtitle1,
+  StyledTextSubtitle2,
+  StyledTextMenu,
+} from '../styles/StyledText';
+import { Avatar } from '@rmwc/avatar';
 
 const Calendar = (props) => {
-  const { guideId, guideName, guideSurname } = props.props;
+  const {
+    guideId,
+    guideName,
+    guideSurname,
+    guidePhoto,
+  } = props.props;
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedYear, setSelectedYear] = useState(
     format(selectedDate, 'y'),
   );
+
   const [selectedMonth, setSelectedMonth] = useState(
     format(selectedDate, 'MMMM'),
   );
+
   const [firstDayOfMonth, setFirstDayOfMonth] = useState(
     format(startOfMonth(selectedDate), 'i'),
   );
@@ -63,6 +82,7 @@ const Calendar = (props) => {
   });
   // handle booking function
   const router = useRouter();
+
   const handleBooking = (day, currentUserName, currentUserEmail) => {
     router.push({
       pathname: '/confirm_booking',
@@ -111,20 +131,30 @@ const Calendar = (props) => {
   return (
     <User>
       {(currentUserPermission, currentUserName, currentUserEmail) => (
-        <StyledSpan>
-          <CalendarMenu
-            currentYear={currentYear}
-            currentMonth={currentMonth}
-            selectedYear={selectedYear}
-            selectedMonth={selectedMonth}
-            handleMonthChange={handleMonthChange}
-            handleYearChange={handleYearChange}
-          />
-          <StyledCalendar>
+        <StyledElevation z={5}>
+          <StyledCalendarMenuContainer>
+            <CalendarMenu
+              currentYear={currentYear}
+              currentMonth={currentMonth}
+              selectedYear={selectedYear}
+              selectedMonth={selectedMonth}
+              handleMonthChange={handleMonthChange}
+              handleYearChange={handleYearChange}
+            />
+            <StyledSpan>
+              <StyledAvatar
+                src={guidePhoto}
+                size="xlarge"
+                interactive
+              />
+            </StyledSpan>
+          </StyledCalendarMenuContainer>
+
+          <StyledCalendarContainer>
             {weekNames.map((day) => (
-              <StyledTypo key={day} variant="h6" color="Dark">
+              <StyledDayName key={day} variant="h6" color="Dark">
                 {day}
-              </StyledTypo>
+              </StyledDayName>
             ))}
             {blankCells.map((day) => (
               <span key={day}></span>
@@ -148,12 +178,14 @@ const Calendar = (props) => {
               }
               // disable booking in the past and on the current day
               let booking = handleBooking;
+              let dayInThePast = '';
               if (
                 currentYear === selectedYear &&
                 currentMonth === selectedMonth &&
                 parseInt(dayOfMonth) <= parseInt(currentDay)
               ) {
                 booking = () => null;
+                dayInThePast = 'dayInThePast';
               }
               return (
                 <DaySpan
@@ -163,11 +195,12 @@ const Calendar = (props) => {
                   highlight={highlight}
                   handleBooking={booking}
                   currentUserPermission={currentUserPermission}
+                  dayInThePast={dayInThePast}
                 ></DaySpan>
               );
             })}
-          </StyledCalendar>
-        </StyledSpan>
+          </StyledCalendarContainer>
+        </StyledElevation>
       )}
     </User>
   );
@@ -177,19 +210,43 @@ Calendar.propTypes = {
   guideName: PropTypes.string,
   guideSurname: PropTypes.string,
 };
+
+const StyledCalendarContainer = styled.div`
+  margin: auto;
+  display: grid;
+  //padding: 1rem;
+  grid-template-columns: repeat(7, 1fr);
+  justify-content: center;
+  grid-gap: 0.6rem 0.4rem;
+`;
+const StyledCalendarMenuContainer = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 3fr 2fr;
+  align-content: center;
+  justify-content: center;
+`;
 const StyledSpan = styled.span`
   display: grid;
-`;
-const StyledCalendar = styled.span`
-  display: grid;
-  padding: 0.6rem;
   justify-content: center;
-  grid-template-columns: repeat(7, 1fr);
-  grid-gap: 0.8rem 0.5rem;
+  padding-top: 0.5rem;
 `;
-const StyledTypo = styled(div)`
-  && {
-    border-bottom: 4px solid #78909c;
+const StyledAvatar = styled(Avatar)`
+  width: 4.2rem;
+  height: 4.2rem;
+  border: solid 1px lightgray;
+`;
+
+const StyledDayName = styled.div`
+  font-family: ${(props) => props.theme.fontFamilyCalendar};
+  font-size: 1.2rem;
+  color: ${(props) => props.theme.colorText.secundary};
+  display: grid;
+  ::after {
+    content: '';
+    width: 100%;
+    height: 5px;
+    border-radius: 5px;
+    background: ${(props) => props.theme.colorTextCalendar.numbers};
   }
 `;
 

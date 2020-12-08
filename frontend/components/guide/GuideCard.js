@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import DeleteGuide from './DeleteGuide';
 import {
   Card,
   CardPrimaryAction,
@@ -11,34 +11,64 @@ import {
   CardActionButton,
 } from '@rmwc/card';
 import { Typography } from '@rmwc/typography';
+import {
+  StyledCard,
+  StyledButton,
+  StyledButtons,
+} from '../styles/StyledForm';
+import {
+  StyledTextBody1,
+  StyledTextBody2,
+  StyledTextTitle5,
+  StyledTextTitle6,
+  StyledTextSubtitle1,
+  StyledTextSubtitle2,
+  StyledTextMenuWhite,
+  StyledTextButtonBlack,
+  StyledTextButtonColor,
+} from '../styles/StyledText';
+import { Button } from '@rmwc/button';
 
 const Guide = (props) => {
   const { currentUserPermission } = props;
   const { id, email, name, surname, description, photo } = props.user;
   console.log(props.user);
+
+  const router = useRouter();
+
+  function goToBookingPage() {
+    router.push({
+      pathname: '/booking_guide',
+      query: {
+        guideId: id,
+        guideName: name,
+        guideSurname: surname,
+        guidePhoto: photo,
+      },
+    });
+  }
+
   return (
-    <Card>
-      <CardPrimaryAction>
+    <StyledCard>
+      <CardPrimaryAction onClick={goToBookingPage}>
         <StyledImage src={photo} alt="Mountainbiker photo" />
       </CardPrimaryAction>
+      {currentUserPermission && (
+        <StyledButtonBookMe
+          theme={['secondaryBg', 'onSecondary']}
+          raised
+          onClick={goToBookingPage}
+        >
+          <StyledTextButtonBlack>Book Me!</StyledTextButtonBlack>
+        </StyledButtonBookMe>
+      )}
+
       <StyledSpan>
-        <Typography use="headline6" tag="h4">
+        <StyledTextTitle5 use="headline6" tag="h4">
           {name} {surname}
-        </Typography>
-        <Typography
-          use="subtitle2"
-          tag="p"
-          theme="textSecondaryOnBackground"
-        >
-          {email}
-        </Typography>
-        <Typography
-          use="body1"
-          tag="div"
-          theme="textSecondaryOnBackground"
-        >
-          description: {description}
-        </Typography>
+        </StyledTextTitle5>
+        <StyledTextSubtitle1>{email}</StyledTextSubtitle1>
+        <StyledTextBody2>description: {description}</StyledTextBody2>
       </StyledSpan>
 
       {!currentUserPermission && (
@@ -47,61 +77,83 @@ const Guide = (props) => {
             pathname: '/signin_page',
           }}
         >
-          <CardActionButton>Logg in to book Me!</CardActionButton>
+          <StyledButtonLink>
+            <StyledTextButtonColor>
+              Logg in to book Me!
+            </StyledTextButtonColor>
+          </StyledButtonLink>
         </Link>
       )}
-      {(currentUserPermission === 'USER' ||
-        currentUserPermission === 'GUIDE') && (
-        <Link
-          href={{
-            pathname: '/booking_guide',
-            query: {
-              guideId: id,
-              guideName: name,
-              guideSurname: surname,
-            },
-          }}
-        >
-          <button variant="contained" fullWidth="true">
-            Book Me!
-          </button>
-        </Link>
-      )}
+
       {currentUserPermission === 'ADMIN' && (
         <React.Fragment>
-          <Link
+          {/*<Link
             href={{
               pathname: '/booking_guide',
               query: {
                 guideId: id,
                 guideName: name,
                 guideSurname: surname,
+                guidePhoto: photo,
               },
             }}
           >
-            <button variant="contained" fullWidth="true">
-              Book Me!
-            </button>
-          </Link>
-          <Link
-            href={{
-              pathname: '/edit_guide',
-              query: { id: id },
-            }}
-          >
-            <button>Edit</button>
-          </Link>
-          <DeleteGuide id={id}>Delete</DeleteGuide>
+            <StyledButton theme={['secondaryBg', 'onSecondary']}>
+              <StyledTextButtonBlack>Book Me!</StyledTextButtonBlack>
+            </StyledButton>
+          </Link>*/}
+          <StyledButtonSpan>
+            <Link
+              href={{
+                pathname: '/edit_guide',
+                query: { id: id },
+              }}
+            >
+              <StyledButtonLink>
+                <StyledTextButtonColor>Edit</StyledTextButtonColor>{' '}
+              </StyledButtonLink>
+            </Link>
+            <Link
+              href={{
+                pathname: '/delete_guide',
+                query: { id: id },
+              }}
+            >
+              <StyledButtonLink id={id}>
+                <StyledTextButtonColor>Delete</StyledTextButtonColor>
+              </StyledButtonLink>
+            </Link>
+          </StyledButtonSpan>
         </React.Fragment>
       )}
-    </Card>
+    </StyledCard>
   );
 };
 const StyledSpan = styled.span`
   padding: 0.5rem;
 `;
+const StyledButtonSpan = styled.span`
+  display: grid;
+  align-content: stretch;
+  grid-template-columns: 1fr 1fr;
+`;
 const StyledImage = styled.img`
   justify-self: stretch;
+  // change it later
+  width: 100%;
+  height: 400px;
+`;
+export const StyledButtonBookMe = styled(Button)`
+  text-transform: capitalize;
+  min-width: 100px;
+  max-width: 60%;
+  margin-left: -0.5rem;
+  margin-top: -4rem;
+  border-radius: 0px 0px 0px 0px;
+`;
+export const StyledButtonLink = styled(Button)`
+  text-transform: capitalize;
+  border-radius: 0px 0px 0px 0px;
 `;
 
 Guide.propTypes = {
@@ -117,10 +169,22 @@ Guide.propTypes = {
 export default Guide;
 
 /*
-<CardMedia
-          sixteenByNine
-          style={{
-            backgroundImage: photo,
+      {(currentUserPermission === 'USER' ||
+        currentUserPermission === 'GUIDE') && (
+        <Link
+          href={{
+            pathname: '/booking_guide',
+            query: {
+              guideId: id,
+              guideName: name,
+              guideSurname: surname,
+              guidePhoto: photo,
+            },
           }}
-        />
+        >
+          <StyledButton theme={['secondaryBg', 'onSecondary']}>
+            <StyledTextButtonBlack>Book Me!</StyledTextButtonBlack>
+          </StyledButton>
+        </Link>
+      )}
         */

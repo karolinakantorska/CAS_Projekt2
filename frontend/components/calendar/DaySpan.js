@@ -11,18 +11,25 @@ const DaySpan = (props) => {
     highlight,
     handleBooking,
     currentUserPermission,
+    dayInThePast,
   } = props;
   // if there is only one reservation at the day, different than DAY reservation
   if (reservation.length === 1) {
     const { time, userName, userEmail, id } = reservation[0];
     let booking = handleBooking;
+    let rippleDisabled = false;
     if (time === 'DAY') {
       booking = null;
+      rippleDisabled = true;
     }
     return (
-      <DaySpanStyled onClick={booking}>
+      // if there is 1 reservations at the day
+      //<Ripple disabled={rippleDisabled}>
+      <DaySpanStyled
+        className={`active ${time} ${dayInThePast}`}
+        onClick={() => booking(dayOfMonth)}
+      >
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
-
         <Entry
           time={time}
           userName={userName}
@@ -31,6 +38,7 @@ const DaySpan = (props) => {
           currentUserPermission={currentUserPermission}
         />
       </DaySpanStyled>
+      //</Ripple>
     );
   }
   // if there are 2 reservations at the day
@@ -59,7 +67,10 @@ const DaySpan = (props) => {
   // if there are no reservations at the day
   else {
     return (
-      <DaySpanStyled onClick={handleBooking}>
+      <DaySpanStyled
+        className={`active ${dayInThePast}`}
+        onClick={() => handleBooking(dayOfMonth)}
+      >
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
       </DaySpanStyled>
     );
@@ -77,12 +88,34 @@ const DaySpanStyled = styled.span`
   display: grid;
   grid-template-rows: 10px 45px 45px;
   justify-content: stretch;
+  //background: red;
   grid-template-areas:
     'dayNr '
     'bookingAM '
     'bookingPM ';
   .highlight {
     color: red;
+  }
+  &.active:not(.DAY, .dayInThePast):hover {
+    background: rgba(21, 21, 21, 0.02);
+    border-radius: 5px;
+    /*
+    animation-name: hoverMe;
+    animation-duration: 2s;
+    @keyframes hoverMe {
+      0% {
+        background-color: white;
+      }
+      100% {
+        background-color: rgba(21, 21, 21, 0.02);
+      }
+    }
+    */
+  }
+  &.active:not(.DAY, .dayInThePast):active {
+    background: radial-gradient(rgba(21, 21, 21, 0.04), white);
+
+    border-radius: 5px;
   }
   .AM {
     grid-area: bookingAM;
@@ -94,9 +127,10 @@ const DaySpanStyled = styled.span`
     align-self: flex-end;
   }
   .DAY {
-    height: 90px;
+    height: 84px;
   }
 `;
+const StyledRipple = styled.span``;
 
 export default DaySpan;
 /*

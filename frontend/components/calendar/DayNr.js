@@ -6,9 +6,9 @@ import styled from 'styled-components';
 const DayNr = (props) => {
   const { dayOfMonth, highlight } = props;
   return highlight ? (
-    <div>{dayOfMonth}</div>
+    <StyledNrSpan className="highlight">{dayOfMonth}</StyledNrSpan>
   ) : (
-    <div>{dayOfMonth}</div>
+    <StyledNrSpan>{dayOfMonth}</StyledNrSpan>
   );
 };
 
@@ -18,11 +18,13 @@ DayNr.propTypes = {
 };
 const StyledNrSpan = styled.span`
   display: grid;
-  font-family: 'Yanone Kaffeesatz', 'sans-serif';
-  font-size: 1.8rem;
+  font-family: ${(props) => props.theme.fontFamilyCalendar};
+  color: ${(props) => props.theme.colorTextCalendar.numbersLight};
+  font-size: 2rem;
+  padding: 0.4rem 0 0 0.2rem;
   line-height: 0.6;
   .highlight {
-    color: #ef5350;
+    color: ${(props) => props.theme.colorTextCalendar.warning};
   }
 `;
 

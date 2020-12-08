@@ -46,20 +46,25 @@ Entry.propTypes = {
   currentUserPermission: PropTypes.string,
 };
 const EntrySpan = styled.span`
+  display: grid;
   font-size: 0.9rem;
+  margin-top: 0.4rem;
   border-radius: 5px;
-  padding: 2px;
+
   background: rgba(217, 217, 217, 0.5);
-  text-align: center;
+  //text-align: center;
+  align-content: center;
+  justify-content: center;
   div {
     display: grid;
     grid-auto-flow: column;
+    align-content: center;
   }
   span {
     align-self: start;
   }
   .AM::before {
-    content: 'AM:';
+    content: 'AM: ';
   }
   .PM::before {
     content: 'PM: ';
@@ -70,6 +75,7 @@ const EntrySpan = styled.span`
   .AM::before,
   .PM::before,
   .DAY::before {
+    font: 'Hind, Arial, sans-serif';
   }
 `;
 

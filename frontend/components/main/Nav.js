@@ -3,6 +3,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import Signout from '../signin_signout/Signout';
 import User from './User';
+import { StyledTextMenuWhite } from '../styles/StyledText';
 
 const Nav = (props) => {
   return (
@@ -10,16 +11,24 @@ const Nav = (props) => {
       {(currentUserPermission, currentUserName) => (
         <StyledNav>
           <div>
-            <p>User: {currentUserName}</p>
+            <StyledTextMenuWhite className="user">
+              User: {currentUserName}
+            </StyledTextMenuWhite>
             <Link href="/">
-              <a className="home ">Home</a>
+              <StyledTextMenuWhite className="home ">
+                Home
+              </StyledTextMenuWhite>
             </Link>
             <Link href="/guides">
-              <a className="guides">MTB Guides</a>
+              <StyledTextMenuWhite className="guides">
+                MTB Guides
+              </StyledTextMenuWhite>
             </Link>
             {currentUserPermission === 'ADMIN' && (
               <Link href="/add_guide">
-                <a className="add">Add New MTB Guide</a>
+                <StyledTextMenuWhite className="add">
+                  Add New MTB Guide
+                </StyledTextMenuWhite>
               </Link>
             )}
             {currentUserName && (
@@ -29,7 +38,9 @@ const Nav = (props) => {
             )}
             {!currentUserName && (
               <Link href="/signin_page">
-                <a className="signin">Signup|Signin</a>
+                <StyledTextMenuWhite className="signin">
+                  Signup|Signin
+                </StyledTextMenuWhite>
               </Link>
             )}
           </div>
@@ -43,20 +54,25 @@ const StyledNav = styled.nav`
   color: ${(props) => props.theme.colorText.negativ};
   div {
     margin: auto;
+    padding-top: 0.5rem;
     max-width: ${(props) => props.theme.maxWidth};
     height: 2.5rem;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-areas: ' user add home guides signin';
   }
+
   a,
   span {
     color: ${(props) => props.theme.colorText.negativ};
     justify-self: end;
     align-self: center;
   }
+  .user {
+    justify-self: start;
+  }
   a:hover {
-    color: #f5f5f5;
+    color: white;
     text-shadow: 0px 0px 40px #ffffff;
   }
   a:active {

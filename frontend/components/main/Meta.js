@@ -8,7 +8,10 @@ const Meta = () => (
       name="viewport"
       content="minimum-scale=1, initial-scale=1, width=device-width"
     />
-
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    ></link>
     <link rel="shortcut icon" href="../public/favicon.ico" />
   </Head>
 );
