@@ -188,14 +188,6 @@ const BookingConfirmation = (props) => {
         <span>
           <Nav />
           <StyledContainer>
-
-              <BookingsListGuide
-                year={year}
-                month={month}
-                day={day}
-                guideId={currentUserId}
-              />
-
             <StyledCard>
               <StyledSpanPadding>
                 <StyledTextTitle6>
@@ -301,3 +293,10 @@ const StyledSelect = styled(Select)`
   }
 `;
 export default BookingConfirmation;
+/*
+                year={year}
+                month={month}
+                day={day}
+                guideId={currentUserId}
+              />
+              */
