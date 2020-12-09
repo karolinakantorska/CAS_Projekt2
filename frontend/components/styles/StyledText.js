@@ -35,6 +35,7 @@ export const StyledTextBody1 = styled.p`
 export const StyledTextBody2 = styled.p`
   color: ${(props) => props.theme.colorText.primary};
   font-size: ${(props) => props.theme.fontSize.body2};
+  margin: 0px;
   //letter-spacing: ${(props) => props.theme.letterSpacing.body2};
   font-weight: ${(props) => props.theme.fontWeight.title5};
 `;

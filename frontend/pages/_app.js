@@ -23,8 +23,8 @@ import '@material/select/dist/mdc.select.css';
 import '@material/ripple/dist/mdc.ripple.css';
 import '@rmwc/avatar/avatar.css';
 
-//import '@material/theme/dist/mdc.theme.css';
-//import '@rmwc/theme/theme.css';
+import '@material/theme/dist/mdc.theme.css';
+import '@rmwc/theme/theme.css';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {

@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // RMWC
 import { TextField } from '@rmwc/textfield';
-import { Radio } from '@rmwc/radio';
 import { Select } from '@rmwc/select';
 import { Ripple } from '@rmwc/ripple';
 // Components
 import Nav from '../main/Nav';
 import User from '../main/User';
+import BookingsListGuide from './BookingsListGuide.js';
 import DAY_QUERY from '../../graphgl/queries/DAY_QUERY';
 import CREATE_DAY from '../../graphgl/mutations/CREATE_DAY';
 import CREATE_RESERVATION from '../../graphgl/mutations/CREATE_RESERVATION';
@@ -31,6 +31,7 @@ import {
   StyledTextMenuWhite,
   StyledTextButtonBlack,
 } from '../styles/StyledText';
+import { StyledAvatar } from '../styles/StyledAvatar';
 // TODO use const instead of strings
 const BookingConfirmation = (props) => {
   console.log(props);
@@ -42,9 +43,7 @@ const BookingConfirmation = (props) => {
     guideName,
     guideSurname,
   } = props.props.query;
-  console.log(day);
-  console.log(month);
-  console.log(year);
+
   const [time, setTime] = useState('');
   const [description, setDescription] = useState('');
   const [nrOfPeople, setNrOfPeople] = useState(1);
@@ -75,7 +74,32 @@ const BookingConfirmation = (props) => {
   const [
     create_day,
     { loading: loadingCreateDay, error: errorCreateDay, data },
-  ] = useMutation(CREATE_DAY);
+  ] = useMutation(CREATE_DAY, {
+    update(cache, data) {
+      // Get the current guide list
+      /*
+      const dataAll = cache.readQuery({
+        query: ALL_GUIDES_QUERY,
+        variables: { permissions: 'GUIDE' },
+      });
+      console.log(dataAll);
+      */
+      // Create a new user
+      /*
+      const newUser = {
+        ...data.data.createUser,
+      };
+      // Write back to the users list, appending the new user
+      cache.writeQuery({
+        query: ALL_GUIDES_QUERY,
+        variables: { permissions: 'GUIDE' },
+        data: {
+          users: [...dataAll.users, newUser],
+        },
+      });
+      */
+    },
+  });
   // TODO Error handling by returning error
   // TODO loading strip
   const [
@@ -85,8 +109,8 @@ const BookingConfirmation = (props) => {
       error: errorCreateReservation,
       data: dataReservation,
     },
-  ] = useMutation(CREATE_RESERVATION);
-  const router = useRouter();
+  ] = useMutation(CREATE_RESERVATION, {});
+
   function handleDescriptionChange(e) {
     setDescription(e.target.value);
   }
@@ -95,12 +119,11 @@ const BookingConfirmation = (props) => {
     switch (e.target.value) {
       case dayChoose:
         setTime('DAY');
-
         break;
       case morning:
         setTime('AM');
         break;
-      case aftenoon:
+      case afternoon:
         setTime('PM');
         break;
     }
@@ -108,6 +131,7 @@ const BookingConfirmation = (props) => {
   function handleNrOfPeopleChange(e) {
     setNrOfPeople(e.target.value);
   }
+  const router = useRouter();
   function handleSubmitt(userName, userEmail) {
     if (dataDay.days.length > 0) {
       const { id } = dataDay.days[0];
@@ -139,7 +163,7 @@ const BookingConfirmation = (props) => {
       });
     }
     router.push({
-      pathname: '/BookingThankYou',
+      pathname: '/thank_you',
       query: {
         time,
         day,
@@ -152,12 +176,26 @@ const BookingConfirmation = (props) => {
       },
     });
   }
+
   return (
     <User>
-      {(currentUserPermission, currentUserName, currentUserEmail) => (
+      {(
+        currentUserPermission,
+        currentUserName,
+        currentUserEmail,
+        currentUserId,
+      ) => (
         <span>
           <Nav />
           <StyledContainer>
+
+              <BookingsListGuide
+                year={year}
+                month={month}
+                day={day}
+                guideId={currentUserId}
+              />
+
             <StyledCard>
               <StyledSpanPadding>
                 <StyledTextTitle6>
@@ -181,21 +219,21 @@ const BookingConfirmation = (props) => {
                 </StyledTextBody1>
                 {existingTime === 'PM' && (
                   <StyledSelect
-                    defaultValue={morning}
+                    placeholder="Please chose the time of a day"
                     options={[morning]}
                     onChange={(e) => handleTimeChange(e)}
                   />
                 )}
                 {existingTime === 'AM' && (
                   <StyledSelect
-                    defaultValue={afternoon}
+                    placeholder="Please chose the time of a day"
                     options={[afternoon]}
                     onChange={(e) => handleTimeChange(e)}
                   />
                 )}
                 {existingTime === '' && (
                   <StyledSelect
-                    defaultValue={dayChoose}
+                    placeholder="Please chose the time of a day"
                     options={[dayChoose, morning, afternoon]}
                     onChange={(e) => handleTimeChange(e)}
                   />
@@ -263,44 +301,3 @@ const StyledSelect = styled(Select)`
   }
 `;
 export default BookingConfirmation;
-/*
-                {
-                  existingTime !== 'AM' && (
-                    <Radio
-                      value="AM"
-                      onChange={handleTimeChange}
-                      name="timeOfDay"
-                    >
-                      <StyledTextSubtitle2>
-                        Morning Trip from 8.00 to 12.00
-                      </StyledTextSubtitle2>
-                    </Radio>
-                  );
-                }
-                {
-                  existingTime !== 'PM' && (
-                    <Radio
-                      value="PM"
-                      onChange={handleTimeChange}
-                      name="timeOfDay"
-                    >
-                      <StyledTextSubtitle2>
-                        from 13.30 to 19.00 Aftenoon Trip
-                      </StyledTextSubtitle2>
-                    </Radio>
-                  );
-                }
-                {
-                  existingTime === '' && (
-                    <Radio
-                      value="DAY"
-                      onChange={handleTimeChange}
-                      name="timeOfDay"
-                    >
-                      <StyledTextSubtitle2>
-                        Day Trip from 8.00 to 19.00
-                      </StyledTextSubtitle2>
-                    </Radio>
-                  );
-                }
-                */

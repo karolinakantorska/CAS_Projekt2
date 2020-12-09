@@ -11,15 +11,10 @@ const Page = (props) => {
       <Meta />
       <GlobalStyle />
       <Header />
-      <Background>
-        <div>{props.children}</div>
-      </Background>
+
+      <div>{props.children}</div>
     </ThemeProvider>
   );
 };
-
-const Background = styled.div`
-  color: ${(props) => props.theme.color};
-`;
 
 export default Page;

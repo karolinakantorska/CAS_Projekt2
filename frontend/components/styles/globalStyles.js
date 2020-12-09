@@ -42,7 +42,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     padding: 0;
     margin: auto;
-      background-color: #f8fce9;
+      //background-color: #f8fce9;
     font-family: 'Hind';
   }
   a {

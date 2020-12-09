@@ -22,9 +22,16 @@ import {
   StyledTextTitle6,
   StyledTextSubtitle1,
   StyledTextSubtitle2,
-  StyledTextMenu,
-  StyledTextMenuBlack,
+  StyledTextMenuWhite,
+  StyledTextButtonBlack,
 } from '../styles/StyledText';
+import {
+  Card,
+  CardPrimaryAction,
+  CardMedia,
+  CardActionButton,
+} from '@rmwc/card';
+import { StyledGuideImage } from '../styles/StyledGuideImage';
 //TODO it forces me to update photo every time
 
 const UpdateGuide = (props) => {
@@ -99,7 +106,6 @@ const UpdateGuide = (props) => {
     // IT IS NOT CHANGING DISPLAYED DATA UNTIL RELOAD
     // TODO catche updates
     // TODO displaying error
-    // TODO optimistic updates
     // TODO maybe animation by loading
 
     updateUser({
@@ -127,12 +133,22 @@ const UpdateGuide = (props) => {
       <Nav />
       <StyledContainer>
         <StyledCard>
-          <form onSubmit={handleSubmit}>
+          <form>
             <StyledFieldset disabled={loading} aria-busy={loading}>
               <StyledTextTitle6>Edit the MTB Guide</StyledTextTitle6>
-              <img src={photo} alt="Mountainbiker photo" />
-              <label htmlFor="photo">
-                <input type="file" onChange={handlePhotoUpload} />
+
+              <StyledInput
+                type="file"
+                id="file"
+                onChange={handlePhotoUpload}
+              />
+              <label htmlFor="file">
+                <CardPrimaryAction>
+                  <StyledGuideImage
+                    src={photo}
+                    alt="Upload a photo"
+                  />
+                </CardPrimaryAction>
               </label>
               <TextField
                 {...name}
@@ -163,8 +179,14 @@ const UpdateGuide = (props) => {
                 onChange={handleDescriptionChange}
               />
               <StyledSpanButon>
-                <StyledButton onClick={handleSubmit} raised>
-                  <StyledTextMenu>Edit Guide</StyledTextMenu>
+                <StyledButton
+                  onClick={handleSubmit}
+                  raised
+                  theme={['secondaryBg', 'onSecondary']}
+                >
+                  <StyledTextButtonBlack>
+                    Edit Guide
+                  </StyledTextButtonBlack>
                 </StyledButton>
               </StyledSpanButon>
             </StyledFieldset>
@@ -174,16 +196,11 @@ const UpdateGuide = (props) => {
     </div>
   );
 };
+const StyledInput = styled.input`
+  display: none;
+`;
 UpdateGuide.propTypes = {
   id: PropTypes.string.isRequired,
 };
-// TODO use context use themes
-/*
-const StyledNav = styled.nav`
-    background: white;
-    display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
-`;
-*/
 
 export default UpdateGuide;

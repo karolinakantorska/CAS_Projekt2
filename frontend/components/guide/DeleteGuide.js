@@ -58,8 +58,5 @@ const DeleteGuide = (props) => {
 DeleteGuide.propTypes = {
   id: PropTypes.string.isRequired,
 };
-const StyledButton = styled.button`
-  width: 100%;
-`;
 
 export default DeleteGuide;

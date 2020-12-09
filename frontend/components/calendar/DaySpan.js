@@ -16,18 +16,16 @@ const DaySpan = (props) => {
   // if there is only one reservation at the day, different than DAY reservation
   if (reservation.length === 1) {
     const { time, userName, userEmail, id } = reservation[0];
-    let booking = handleBooking;
-    let rippleDisabled = false;
+    /*
     if (time === 'DAY') {
-      booking = null;
       rippleDisabled = true;
     }
+    */
     return (
       // if there is 1 reservations at the day
-      //<Ripple disabled={rippleDisabled}>
       <DaySpanStyled
         className={`active ${time} ${dayInThePast}`}
-        onClick={() => booking(dayOfMonth)}
+        onClick={() => handleBooking(dayOfMonth, dayInThePast, time)}
       >
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
         <Entry
@@ -38,7 +36,6 @@ const DaySpan = (props) => {
           currentUserPermission={currentUserPermission}
         />
       </DaySpanStyled>
-      //</Ripple>
     );
   }
   // if there are 2 reservations at the day
@@ -69,7 +66,7 @@ const DaySpan = (props) => {
     return (
       <DaySpanStyled
         className={`active ${dayInThePast}`}
-        onClick={() => handleBooking(dayOfMonth)}
+        onClick={() => handleBooking(dayOfMonth, dayInThePast)}
       >
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
       </DaySpanStyled>
@@ -97,20 +94,9 @@ const DaySpanStyled = styled.span`
     color: red;
   }
   &.active:not(.DAY, .dayInThePast):hover {
-    background: rgba(21, 21, 21, 0.02);
     border-radius: 5px;
-    /*
-    animation-name: hoverMe;
-    animation-duration: 2s;
-    @keyframes hoverMe {
-      0% {
-        background-color: white;
-      }
-      100% {
-        background-color: rgba(21, 21, 21, 0.02);
-      }
-    }
-    */
+    transition: 0.5s background-color;
+    background-color: rgba(21, 21, 21, 0.06);
   }
   &.active:not(.DAY, .dayInThePast):active {
     background: radial-gradient(rgba(21, 21, 21, 0.04), white);

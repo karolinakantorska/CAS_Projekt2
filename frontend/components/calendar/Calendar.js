@@ -25,7 +25,8 @@ import {
   StyledTextSubtitle2,
   StyledTextMenu,
 } from '../styles/StyledText';
-import { Avatar } from '@rmwc/avatar';
+
+import { StyledAvatar } from '../styles/StyledAvatar';
 
 const Calendar = (props) => {
   const {
@@ -83,22 +84,28 @@ const Calendar = (props) => {
   // handle booking function
   const router = useRouter();
 
-  const handleBooking = (day, currentUserName, currentUserEmail) => {
-    router.push({
-      pathname: '/confirm_booking',
-      query: {
-        day,
-        selectedMonth,
-        selectedYear,
-        guideId,
-        guideName,
-        guideSurname,
-      },
-    });
+  const handleBooking = (day, dayInThePast, time) => {
+    if (dayInThePast === 'dayInThePast') {
+      console.log('you cant book a day in the past');
+    }
+    if (time === 'DAY') {
+      console.log(time);
+    } else {
+      router.push({
+        pathname: '/confirm_booking',
+        query: {
+          day,
+          selectedMonth,
+          selectedYear,
+          guideId,
+          guideName,
+          guideSurname,
+          guidePhoto,
+        },
+      });
+    }
   };
 
-  // Months Reservations Query
-  // TODO resend Query after state change
   const { loading, error, data, refetch } = useQuery(
     MONTH_RESERVATIONS_QUERY,
     {
@@ -177,14 +184,12 @@ const Calendar = (props) => {
                 reservation = reservations[dayOfMonth];
               }
               // disable booking in the past and on the current day
-              let booking = handleBooking;
               let dayInThePast = '';
               if (
                 currentYear === selectedYear &&
                 currentMonth === selectedMonth &&
                 parseInt(dayOfMonth) <= parseInt(currentDay)
               ) {
-                booking = () => null;
                 dayInThePast = 'dayInThePast';
               }
               return (
@@ -193,7 +198,7 @@ const Calendar = (props) => {
                   reservation={reservation}
                   dayOfMonth={dayOfMonth}
                   highlight={highlight}
-                  handleBooking={booking}
+                  handleBooking={handleBooking}
                   currentUserPermission={currentUserPermission}
                   dayInThePast={dayInThePast}
                 ></DaySpan>
@@ -229,11 +234,6 @@ const StyledSpan = styled.span`
   display: grid;
   justify-content: center;
   padding-top: 0.5rem;
-`;
-const StyledAvatar = styled(Avatar)`
-  width: 4.2rem;
-  height: 4.2rem;
-  border: solid 1px lightgray;
 `;
 
 const StyledDayName = styled.div`

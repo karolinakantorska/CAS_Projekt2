@@ -1,7 +1,18 @@
 import React from 'react';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
+import Router from 'next/router';
 import styled from 'styled-components';
+import {
+  StyledTextBody1,
+  StyledTextBody2,
+  StyledTextTitle5,
+  StyledTextTitle6,
+  StyledTextSubtitle1,
+  StyledTextSubtitle2,
+  StyledTextMenuWhite,
+  StyledTextButtonBlack,
+} from '../styles/StyledText';
 
 const Entry = (props) => {
   const {
@@ -11,30 +22,33 @@ const Entry = (props) => {
     userEmail,
     currentUserPermission,
   } = props;
-
+  function handleClick(e) {
+    console.log(e);
+    e.stopPropagation();
+    console.log('booking info');
+    Router.push({
+      pathname: '/info_booking',
+      query: {
+        userName,
+        time,
+        id,
+      },
+    });
+  }
   return (
     <EntrySpan className={time}>
-      <div className={time}>
-        {currentUserPermission === 'USER' && <span>Booked!</span>}
-        {(currentUserPermission === 'ADMIN' ||
-          currentUserPermission === 'GUIDE') && (
-          <Link
-            href={{
-              pathname: '/info_booking',
-              query: {
-                userName,
-                time,
-                id,
-              },
-            }}
-          >
-            <span>
-              <p>gast name: {userName}</p>
-              <p>gast email: {userEmail}</p>
-            </span>
-          </Link>
-        )}
-      </div>
+      {currentUserPermission === 'USER' && (
+        <div className={`${time}  grid_column_div`}>
+          <span>Booked!</span>
+        </div>
+      )}
+      {(currentUserPermission === 'ADMIN' ||
+        currentUserPermission === 'GUIDE') && (
+        <div clasName="grid_row_div">
+          <StyledTextBody2>{userName}</StyledTextBody2>
+          <StyledTextBody2>{userEmail}</StyledTextBody2>
+        </div>
+      )}
     </EntrySpan>
   );
 };
@@ -55,7 +69,12 @@ const EntrySpan = styled.span`
   //text-align: center;
   align-content: center;
   justify-content: center;
-  div {
+  .grid_column_div {
+    display: grid;
+    grid-auto-flow: column;
+    align-content: center;
+  }
+  .grid_row_div {
     display: grid;
     grid-auto-flow: column;
     align-content: center;
@@ -71,11 +90,6 @@ const EntrySpan = styled.span`
   }
   .DAY::before {
     content: 'DAY: ';
-  }
-  .AM::before,
-  .PM::before,
-  .DAY::before {
-    font: 'Hind, Arial, sans-serif';
   }
 `;
 

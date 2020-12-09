@@ -1,0 +1,11 @@
+Invariant Violation: Can't find field 
+days({"where":{"reservations_every":{"guide":{}}}}) 
+
+on object {
+  "currentUser": {
+    "type": "id",
+    "generated": false,
+    "id": "User:ckh3n5iv4b8i40946t49ut2ig",
+    "typename": "User"
+  },
+  "days({\"where\":{\"day\":\"10\",\"month\":\"December\",\"reservations_every\":{\"guide\":{\"id\":\"ckiemg0xj9qx70981qd281li5\"}},\"year\":\"2020\"}})":

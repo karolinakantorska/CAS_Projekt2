@@ -34,7 +34,7 @@ import {
   CardMedia,
   CardActionButton,
 } from '@rmwc/card';
-
+import { StyledGuideImage } from '../styles/StyledGuideImage';
 const AddGuide = (props) => {
   const {
     loading: loadingAll,
@@ -129,7 +129,10 @@ const AddGuide = (props) => {
               />
               <label htmlFor="file">
                 <CardPrimaryAction>
-                  <StyledImage src={photo} alt="Upload a photo" />
+                  <StyledGuideImage
+                    src={photo}
+                    alt="Upload a photo"
+                  />
                 </CardPrimaryAction>
               </label>
 
@@ -198,10 +201,6 @@ function useFormInput(initialValue) {
 const StyledInput = styled.input`
   display: none;
 `;
-const StyledImage = styled.img`
-  justify-self: stretch;
-  width: 100%;
-  height: 350px;
-`;
+
 export default AddGuide;
 //<StyledImage src={photo} alt="Upload photo" />
