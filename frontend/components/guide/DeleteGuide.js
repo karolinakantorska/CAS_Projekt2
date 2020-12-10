@@ -2,7 +2,7 @@ import React from 'react';
 import { useMutation } from '@apollo/client';
 import { useApolloClient } from '@apollo/client';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+// Queries
 
 import DELETE_USER from '../../graphgl/mutations/DELETE_USER';
 import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';

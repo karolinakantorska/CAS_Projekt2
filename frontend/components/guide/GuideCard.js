@@ -3,14 +3,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
-import {
-  Card,
-  CardPrimaryAction,
-  CardMedia,
-  CardActionButton,
-} from '@rmwc/card';
-import { Typography } from '@rmwc/typography';
+// RMWC
+import { Button } from '@rmwc/button';
+import { CardPrimaryAction } from '@rmwc/card';
+// Components for Styling
 import {
   StyledCard,
   StyledButton,
@@ -27,15 +23,11 @@ import {
   StyledTextButtonBlack,
   StyledTextButtonColor,
 } from '../styles/StyledText';
-import { Button } from '@rmwc/button';
 
 const Guide = (props) => {
   const { currentUserPermission } = props;
   const { id, email, name, surname, description, photo } = props.user;
-  console.log(props.user);
-
   const router = useRouter();
-
   function goToBookingPage() {
     router.push({
       pathname: '/booking_guide',
@@ -87,21 +79,6 @@ const Guide = (props) => {
 
       {currentUserPermission === 'ADMIN' && (
         <React.Fragment>
-          {/*<Link
-            href={{
-              pathname: '/booking_guide',
-              query: {
-                guideId: id,
-                guideName: name,
-                guideSurname: surname,
-                guidePhoto: photo,
-              },
-            }}
-          >
-            <StyledButton theme={['secondaryBg', 'onSecondary']}>
-              <StyledTextButtonBlack>Book Me!</StyledTextButtonBlack>
-            </StyledButton>
-          </Link>*/}
           <StyledButtonSpan>
             <Link
               href={{
@@ -129,6 +106,15 @@ const Guide = (props) => {
     </StyledCard>
   );
 };
+Guide.propTypes = {
+  currentUserPermission: PropTypes.string,
+  id: PropTypes.string,
+  email: PropTypes.string,
+  name: PropTypes.string,
+  surname: PropTypes.string,
+  description: PropTypes.string,
+  photo: PropTypes.string,
+};
 const StyledSpan = styled.span`
   padding: 0.5rem;
 `;
@@ -155,16 +141,6 @@ export const StyledButtonLink = styled(Button)`
   text-transform: capitalize;
   border-radius: 0px 0px 0px 0px;
 `;
-
-Guide.propTypes = {
-  currentUserPermission: PropTypes.string,
-  id: PropTypes.string,
-  email: PropTypes.string,
-  name: PropTypes.string,
-  surname: PropTypes.string,
-  description: PropTypes.string,
-  photo: PropTypes.string,
-};
 
 export default Guide;
 

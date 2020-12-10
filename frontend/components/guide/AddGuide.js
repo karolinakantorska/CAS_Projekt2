@@ -2,11 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import Router from 'next/router';
 import styled from 'styled-components';
+// RMWC
+import { CardPrimaryAction } from '@rmwc/card';
+// Components
+import Nav from '../main/Nav';
+// Queries
 import ADD_GUIDE from '../../graphgl/mutations/ADD_GUIDE';
 import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
-import Nav from '../main/Nav';
 import { StyledContainer } from '../styles/StyledContainer';
-
+// Components for Styling
 import {
   StyledCard,
   StyledSpanPadding,
@@ -28,14 +32,9 @@ import {
   StyledTextMenuWhite,
   StyledTextButtonBlack,
 } from '../styles/StyledText';
-import {
-  Card,
-  CardPrimaryAction,
-  CardMedia,
-  CardActionButton,
-} from '@rmwc/card';
+
 import { StyledGuideImage } from '../styles/StyledGuideImage';
-const AddGuide = (props) => {
+const AddGuide = () => {
   const {
     loading: loadingAll,
     error: errorAll,

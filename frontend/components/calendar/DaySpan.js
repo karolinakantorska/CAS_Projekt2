@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+// Components
 import DayNr from './DayNr';
 import Entry from './Entry';
 
@@ -16,11 +17,6 @@ const DaySpan = (props) => {
   // if there is only one reservation at the day, different than DAY reservation
   if (reservation.length === 1) {
     const { time, userName, userEmail, id } = reservation[0];
-    /*
-    if (time === 'DAY') {
-      rippleDisabled = true;
-    }
-    */
     return (
       // if there is 1 reservations at the day
       <DaySpanStyled>
@@ -85,6 +81,7 @@ DaySpan.propTypes = {
   highlight: PropTypes.bool,
   handleBooking: PropTypes.func,
   currentUserPermission: PropTypes.string,
+  dayInThePast: PropTypes.string,
 };
 const DaySpanStyled = styled.span`
   display: grid;

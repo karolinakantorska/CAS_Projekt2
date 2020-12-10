@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
-import Link from 'next/link';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-
-import RESERVATION_QUERY from '../../graphgl/queries/RESERVATION_QUERY';
+// Components for Styling
 import {
   StyledTextBody1,
   StyledTextBody2,

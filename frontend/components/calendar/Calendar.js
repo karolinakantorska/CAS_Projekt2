@@ -9,13 +9,14 @@ import addYears from 'date-fns/addYears';
 import format from 'date-fns/format';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
+// Components
 import DaySpan from './DaySpan';
 import User from '../main/User';
 import CalendarMenu from './CalendarMenu';
+// Queries
 import MONTH_RESERVATIONS_QUERY from '../../graphgl/queries/MONTH_RESERVATIONS_QUERY';
+// Components for Styling
 import { StyledElevation } from '../styles/StyledForm';
-
 import {
   StyledTextBody1,
   StyledTextBody2,
@@ -25,7 +26,6 @@ import {
   StyledTextSubtitle2,
   StyledTextMenu,
 } from '../styles/StyledText';
-
 import { StyledAvatar } from '../styles/StyledAvatar';
 
 const Calendar = (props) => {
@@ -215,6 +215,7 @@ Calendar.propTypes = {
   guideId: PropTypes.string,
   guideName: PropTypes.string,
   guideSurname: PropTypes.string,
+  guidePhoto: PropTypes.string,
 };
 
 const StyledCalendarContainer = styled.div`

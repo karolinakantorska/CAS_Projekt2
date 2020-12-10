@@ -1,10 +1,13 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import styled from 'styled-components';
-import GuideCard from './GuideCard';
+// Components
 import User from '../main/User';
-import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
 import Nav from '../main/Nav';
+import GuideCard from './GuideCard';
+// Queries
+import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
+// Components for Styling
 import { StyledContainer } from '../styles/StyledContainer';
 
 const GuidesList = (props) => {

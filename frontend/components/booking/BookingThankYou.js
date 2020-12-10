@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+
+// RMWC
+import { Button } from '@rmwc/button';
+// Components
 import User from '../main/User';
 import Nav from '../main/Nav';
-import { Button } from '@rmwc/button';
+// Components for Styling
 import { StyledContainer } from '../styles/StyledContainer';
 import {
   StyledCard,

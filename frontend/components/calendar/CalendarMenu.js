@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+// RMWC
 import { IconButton } from '@rmwc/icon-button';
-import { Button } from '@rmwc/button';
 
-import { StyledButtons, StyledButton } from '../styles/StyledForm';
 const CalendarMenu = (props) => {
   const {
     currentYear,

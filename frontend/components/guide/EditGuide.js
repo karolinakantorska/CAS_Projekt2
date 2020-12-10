@@ -3,9 +3,14 @@ import { useMutation, useQuery } from '@apollo/client';
 import Router from 'next/router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+// RMWC
+import { CardPrimaryAction } from '@rmwc/card';
+// Components
+import Nav from '../main/Nav';
+// Queries
 import UPDATE_GUIDE from '../../graphgl/mutations/UPDATE_GUIDE';
 import ONE_USER_QUERY from '../../graphgl/queries/ONE_USER_QUERY';
-import Nav from '../main/Nav';
+// Components for Styling
 import { StyledContainer } from '../styles/StyledContainer';
 import { StyledCard, StyledSpanPadding } from '../styles/StyledForm';
 import {
@@ -25,12 +30,7 @@ import {
   StyledTextMenuWhite,
   StyledTextButtonBlack,
 } from '../styles/StyledText';
-import {
-  Card,
-  CardPrimaryAction,
-  CardMedia,
-  CardActionButton,
-} from '@rmwc/card';
+
 import { StyledGuideImage } from '../styles/StyledGuideImage';
 //TODO it forces me to update photo every time
 
