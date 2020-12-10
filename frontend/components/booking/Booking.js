@@ -25,6 +25,10 @@ const Booking = (props) => {
 };
 Booking.PropTypes = {
   guideId: PropTypes.string,
+  guideId: PropTypes.string,
+  guideName: PropTypes.string,
+  guideSurname: PropTypes.string,
+  guidePhoto: PropTypes.string,
 };
 
 const StyledDiv = styled.div`

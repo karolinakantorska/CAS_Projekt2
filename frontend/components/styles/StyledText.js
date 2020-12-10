@@ -29,6 +29,7 @@ export const StyledTextSubtitle2 = styled.p`
 export const StyledTextBody1 = styled.p`
   color: ${(props) => props.theme.colorText.secundary};
   font-size: ${(props) => props.theme.fontSize.body1};
+  margin: 0px;
   //letter-spacing: ${(props) => props.theme.letterSpacing.body1};
   font-weight: ${(props) => props.theme.fontWeight.title5};
 `;

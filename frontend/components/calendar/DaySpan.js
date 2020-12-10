@@ -23,10 +23,7 @@ const DaySpan = (props) => {
     */
     return (
       // if there is 1 reservations at the day
-      <DaySpanStyled
-        className={`active ${time} ${dayInThePast}`}
-        onClick={() => handleBooking(dayOfMonth, dayInThePast, time)}
-      >
+      <DaySpanStyled>
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
         <Entry
           time={time}
@@ -35,6 +32,14 @@ const DaySpan = (props) => {
           id={id}
           currentUserPermission={currentUserPermission}
         />
+        {time !== 'DAY' && (
+          <StyledBookingSpan
+            className={`${dayInThePast}`}
+            onClick={() =>
+              handleBooking(dayOfMonth, dayInThePast, time)
+            }
+          />
+        )}
       </DaySpanStyled>
     );
   }
@@ -43,7 +48,6 @@ const DaySpan = (props) => {
     return (
       <DaySpanStyled>
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
-
         {reservation.map((res) => {
           const { time, userName, userEmail, id } = res;
           return (
@@ -64,11 +68,12 @@ const DaySpan = (props) => {
   // if there are no reservations at the day
   else {
     return (
-      <DaySpanStyled
-        className={`active ${dayInThePast}`}
-        onClick={() => handleBooking(dayOfMonth, dayInThePast)}
-      >
+      <DaySpanStyled>
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
+        <StyledBookingSpanDay
+          className={`${dayInThePast}`}
+          onClick={() => handleBooking(dayOfMonth, dayInThePast)}
+        />
       </DaySpanStyled>
     );
   }
@@ -83,7 +88,7 @@ DaySpan.propTypes = {
 };
 const DaySpanStyled = styled.span`
   display: grid;
-  grid-template-rows: 10px 45px 45px;
+  grid-template-rows: 10px 50px 50px;
   justify-content: stretch;
   //background: red;
   grid-template-areas:
@@ -93,6 +98,7 @@ const DaySpanStyled = styled.span`
   .highlight {
     color: red;
   }
+  /*
   &.active:not(.DAY, .dayInThePast):hover {
     border-radius: 5px;
     transition: 0.5s background-color;
@@ -100,28 +106,37 @@ const DaySpanStyled = styled.span`
   }
   &.active:not(.DAY, .dayInThePast):active {
     background: radial-gradient(rgba(21, 21, 21, 0.04), white);
-
     border-radius: 5px;
   }
+  */
   .AM {
     grid-area: bookingAM;
-    height: 43px;
+    height: 44px;
   }
   .PM {
     grid-area: bookingPM;
-    height: 43px;
-    align-self: flex-end;
+    height: 44px;
+    align-self: end;
   }
   .DAY {
-    height: 84px;
+    height: 94px;
   }
 `;
-const StyledRipple = styled.span``;
+const StyledBookingSpanDay = styled.span`
+  &:not(.dayInThePast):hover {
+    height: 94px;
+    margin-top: 6px;
+    border-radius: 5px;
+    transition: 0.2s background-color;
+    background-color: rgba(21, 21, 21, 0.06);
+`;
+const StyledBookingSpan = styled.span`
+  &:not(.dayInThePast):hover {
+    height: 44px;
+    margin-top: 6px;
+    border-radius: 5px;
+    transition: 0.2s background-color;
+    background-color: rgba(21, 21, 21, 0.06);
+`;
 
 export default DaySpan;
-/*
-  <span className='Span__Linie__Top' / >
-   .Span__Linie__Top {
-    border-top: 1px solid #78909c;
-  }
-  */

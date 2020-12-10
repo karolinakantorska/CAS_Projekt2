@@ -10,7 +10,6 @@ import { Ripple } from '@rmwc/ripple';
 // Components
 import Nav from '../main/Nav';
 import User from '../main/User';
-import BookingsListGuide from './BookingsListGuide.js';
 import DAY_QUERY from '../../graphgl/queries/DAY_QUERY';
 import CREATE_DAY from '../../graphgl/mutations/CREATE_DAY';
 import CREATE_RESERVATION from '../../graphgl/mutations/CREATE_RESERVATION';
@@ -31,10 +30,9 @@ import {
   StyledTextMenuWhite,
   StyledTextButtonBlack,
 } from '../styles/StyledText';
-import { StyledAvatar } from '../styles/StyledAvatar';
+
 // TODO use const instead of strings
 const BookingConfirmation = (props) => {
-  console.log(props);
   const {
     day,
     selectedMonth: month,
@@ -52,6 +50,7 @@ const BookingConfirmation = (props) => {
   const dayChoose = 'Day Trip from 8.00 to 19.00';
   const morning = 'Morning Trip from 8.00 to 12.00';
   const afternoon = 'Afternoon Trip from 13.30 to 19.00';
+
   const { loading, error, data: dataDay } = useQuery(DAY_QUERY, {
     variables: {
       year,
@@ -74,32 +73,7 @@ const BookingConfirmation = (props) => {
   const [
     create_day,
     { loading: loadingCreateDay, error: errorCreateDay, data },
-  ] = useMutation(CREATE_DAY, {
-    update(cache, data) {
-      // Get the current guide list
-      /*
-      const dataAll = cache.readQuery({
-        query: ALL_GUIDES_QUERY,
-        variables: { permissions: 'GUIDE' },
-      });
-      console.log(dataAll);
-      */
-      // Create a new user
-      /*
-      const newUser = {
-        ...data.data.createUser,
-      };
-      // Write back to the users list, appending the new user
-      cache.writeQuery({
-        query: ALL_GUIDES_QUERY,
-        variables: { permissions: 'GUIDE' },
-        data: {
-          users: [...dataAll.users, newUser],
-        },
-      });
-      */
-    },
-  });
+  ] = useMutation(CREATE_DAY, {});
   // TODO Error handling by returning error
   // TODO loading strip
   const [
@@ -293,10 +267,3 @@ const StyledSelect = styled(Select)`
   }
 `;
 export default BookingConfirmation;
-/*
-                year={year}
-                month={month}
-                day={day}
-                guideId={currentUserId}
-              />
-              */

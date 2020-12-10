@@ -29,34 +29,43 @@ import { addBusinessDays } from 'date-fns';
 
 const BookingsList = (props) => {
   const { year, month, day, guideId } = props;
-  console.log('props', props);
+
   const { loading, error, data } = useQuery(DAY_QUERY, {
     variables: {
       year,
       month,
       day,
-      id: guideId,
+      //id: guideId,
     },
   });
   if (error) return <p>Error:{error}</p>;
   if (loading) {
     return <p>Loading...</p>;
   }
+  console.log(data);
   if (data.days.length > 0) {
-    const reservations = data.days[0].reservations;
-    const dayId = data.days[0].id;
+    //const reservations = data.days[0].reservations;
+    //const dayId = data.days[0].id;
     return (
       <span>
         <StyledTextBody1>
           Reservations at {day} {month} {year}:
         </StyledTextBody1>
-        {reservations.map((day) => (
-          <BookingCard reservation={day} props={props} key={day.id} />
-        ))}
       </span>
     );
   }
-  return null;
+  return <p>no bookings</p>;
 };
 
 export default BookingsList;
+/*
+        {
+          reservations.map((day) => (
+            <BookingCard
+              reservation={day}
+              props={props}
+              key={day.id}
+            />
+          ));
+        }
+        */

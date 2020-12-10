@@ -86,7 +86,8 @@ const Calendar = (props) => {
 
   const handleBooking = (day, dayInThePast, time) => {
     if (dayInThePast === 'dayInThePast') {
-      console.log('you cant book a day in the past');
+      alert(`you can't book a day in the past`);
+      return;
     }
     if (time === 'DAY') {
       console.log(time);
@@ -222,7 +223,7 @@ const StyledCalendarContainer = styled.div`
   //padding: 1rem;
   grid-template-columns: repeat(7, 1fr);
   justify-content: center;
-  grid-gap: 0.6rem 0.4rem;
+  grid-gap: 8px 6px;
 `;
 const StyledCalendarMenuContainer = styled.div`
   display: grid;

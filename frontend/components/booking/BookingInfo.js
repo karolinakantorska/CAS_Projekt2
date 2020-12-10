@@ -1,7 +1,9 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
+// Components
 import User from '../main/User';
+// Queries
 import ONE_RESERVATION_QUERY from '../../graphgl/queries/ONE_RESERVATION_QUERY';
 import DELETE_RESERVATION from '../../graphgl/mutations/DELETE_RESERVATION';
 
@@ -14,7 +16,7 @@ const BookingInfo = (props) => {
     },
   });
   console.log('data: ', data);
-  
+
   const [
     delete_reservation,
     { loading: loadingDelete, error: errorDelete, data: dataDelete },
@@ -35,22 +37,22 @@ const BookingInfo = (props) => {
       userEmail,
       userName,
     } = data.reservation;
-const { day, month, year } = data.reservation.relatedDay;
-const { id: guideId, name, surname } = data.reservation.guide;
-  const router = useRouter();
-  function handleDeleteReservation() {
-    delete_reservation({
-      variables: { id },
-    });
-    router.push({
-      pathname: '/booking_guide',
-      query: {
-        guideId,
-        guideName: name,
-        guideSurname: surname,
-      },
-    });
-  }
+    const { day, month, year } = data.reservation.relatedDay;
+    const { id: guideId, name, surname } = data.reservation.guide;
+    const router = useRouter();
+    function handleDeleteReservation() {
+      delete_reservation({
+        variables: { id },
+      });
+      router.push({
+        pathname: '/booking_guide',
+        query: {
+          guideId,
+          guideName: name,
+          guideSurname: surname,
+        },
+      });
+    }
     return (
       <User>
         {(currentUserPermission, currentUserName) => (

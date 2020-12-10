@@ -16,6 +16,7 @@
     "@rmwc/avatar": "^6.1.4",
     "@rmwc/button": "^6.1.4",
     "@rmwc/card": "^6.1.4",
+    "@rmwc/dialog": "^6.1.4",
     "@rmwc/elevation": "^6.1.4",
     "@rmwc/formfield": "^6.1.4",
     "@rmwc/grid": "^6.1.4",

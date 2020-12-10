@@ -26,6 +26,8 @@ import '@rmwc/avatar/avatar.css';
 import '@material/theme/dist/mdc.theme.css';
 import '@rmwc/theme/theme.css';
 
+import '@material/dialog/dist/mdc.dialog.css';
+
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};

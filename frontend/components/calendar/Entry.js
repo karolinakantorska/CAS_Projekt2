@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { gql, useQuery } from '@apollo/client';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
+
+import RESERVATION_QUERY from '../../graphgl/queries/RESERVATION_QUERY';
 import {
   StyledTextBody1,
   StyledTextBody2,
@@ -15,6 +18,9 @@ import {
 } from '../styles/StyledText';
 
 const Entry = (props) => {
+  const [open, setOpen] = React.useState(false);
+  const [reservationData, setReservationData] = React.useState({});
+
   const {
     id,
     time,
@@ -22,21 +28,27 @@ const Entry = (props) => {
     userEmail,
     currentUserPermission,
   } = props;
-  function handleClick(e) {
-    console.log(e);
-    e.stopPropagation();
-    console.log('booking info');
-    Router.push({
-      pathname: '/info_booking',
-      query: {
-        userName,
-        time,
-        id,
-      },
-    });
+
+  const router = useRouter();
+  function handleEntrySpanClick() {
+    if (
+      currentUserPermission === 'ADMIN' ||
+      currentUserPermission === 'GUIDE'
+    ) {
+      router.push({
+        pathname: '/edit_entry',
+        query: {
+          id,
+        },
+      });
+    }
+    return;
   }
   return (
-    <EntrySpan className={time}>
+    <EntrySpan
+      className={time}
+      onClick={() => handleEntrySpanClick()}
+    >
       {currentUserPermission === 'USER' && (
         <div className={`${time}  grid_column_div`}>
           <span>Booked!</span>
@@ -45,8 +57,8 @@ const Entry = (props) => {
       {(currentUserPermission === 'ADMIN' ||
         currentUserPermission === 'GUIDE') && (
         <div clasName="grid_row_div">
+          <StyledTextBody2>Gast:</StyledTextBody2>
           <StyledTextBody2>{userName}</StyledTextBody2>
-          <StyledTextBody2>{userEmail}</StyledTextBody2>
         </div>
       )}
     </EntrySpan>
@@ -62,7 +74,7 @@ Entry.propTypes = {
 const EntrySpan = styled.span`
   display: grid;
   font-size: 0.9rem;
-  margin-top: 0.4rem;
+  margin-top: 6px;
   border-radius: 5px;
 
   background: rgba(217, 217, 217, 0.5);
@@ -94,3 +106,7 @@ const EntrySpan = styled.span`
 `;
 
 export default Entry;
+/*
+ <StyledTextBody2>Gast:</StyledTextBody2>
+              <StyledTextBody2>{userName}</StyledTextBody2>
+              */
