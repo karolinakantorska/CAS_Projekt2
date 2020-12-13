@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
+import { Icon } from '@rmwc/icon';
 import Signout from '../signin_signout/Signout';
 import User from './User';
 import { StyledTextMenuWhite } from '../styles/StyledText';
@@ -27,7 +28,7 @@ const Nav = (props) => {
             {currentUserPermission === 'ADMIN' && (
               <Link href="/add_guide">
                 <StyledTextMenuWhite className="add">
-                  Add New MTB Guide
+                  Add MTB Guide
                 </StyledTextMenuWhite>
               </Link>
             )}
@@ -39,7 +40,7 @@ const Nav = (props) => {
             {!currentUserName && (
               <Link href="/signin_page">
                 <StyledTextMenuWhite className="signin">
-                  Signup|Signin
+                  <Icon icon="person_outline" />
                 </StyledTextMenuWhite>
               </Link>
             )}
@@ -58,18 +59,14 @@ const StyledNav = styled.nav`
     max-width: ${(props) => props.theme.maxWidth};
     height: 2.5rem;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: 50fr 50fr 20fr 30fr 10fr;
     grid-template-areas: ' user add home guides signin';
   }
-
   a,
   span {
     color: ${(props) => props.theme.colorText.negativ};
     justify-self: end;
     align-self: center;
-  }
-  .user {
-    justify-self: start;
   }
   a:hover {
     color: white;
@@ -79,18 +76,41 @@ const StyledNav = styled.nav`
   }
   .user {
     grid-area: user;
+    justify-self: start;
   }
   .home {
     grid-area: home;
+    justify-self: center;
   }
   .add {
     grid-area: add;
+    justify-self: center;
   }
   .guides {
     grid-area: guides;
+    justify-self: center;
   }
   .signin {
     grid-area: signin;
+    justify-self: center;
+  }
+  .user,
+  .home,
+  .add,
+  .guides,
+  .signin {
+    @media (max-width: 600px) {
+      font-size: 0.96rem;
+    }
+    @media (max-width: 480px) {
+      font-size: 0.88rem;
+    }
+    @media (max-width: 400px) {
+      font-size: 0.82rem;
+    }
+    @media (max-width: 360px) {
+      font-size: 0.75rem;
+    }
   }
 `;
 

@@ -14,6 +14,7 @@ export const StyledCard = styled(Card)`
   margin-top: 4rem;
   max-width: 450px;
 `;
+
 export const StyledSpanPadding = styled.span`
   display: grid;
   align-content: stretch;
@@ -44,8 +45,13 @@ export const StyledButton = styled(CardActionButton)`
 
 export const StyledElevation = styled(Elevation)`
   background-color: white;
+  height: 100%;
   margin: auto;
   margin-top: 4rem;
   border-radius: 5px;
-  padding: 1rem;
+  padding: 2%;
+
+  @media (max-width: 480px) {
+    padding: 4%;
+  }
 `;

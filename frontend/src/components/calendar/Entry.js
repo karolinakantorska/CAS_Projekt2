@@ -103,7 +103,3 @@ const EntrySpan = styled.span`
 `;
 
 export default Entry;
-/*
- <StyledTextBody2>Gast:</StyledTextBody2>
-              <StyledTextBody2>{userName}</StyledTextBody2>
-              */

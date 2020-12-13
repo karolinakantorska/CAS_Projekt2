@@ -1,6 +1,7 @@
 import React from 'react';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
+import { Icon } from '@rmwc/icon';
 import SIGN_OUT_MUTATION from '../../graphgl/mutations/SIGN_OUT_MUTATION';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 import { StyledTextMenuWhite } from '../styles/StyledText';
@@ -19,7 +20,7 @@ const Signout = (props) => {
   };
   return (
     <StyledTextMenuWhite onClick={handleSignout}>
-      Sign Out
+      <Icon icon="person" />
     </StyledTextMenuWhite>
   );
 };

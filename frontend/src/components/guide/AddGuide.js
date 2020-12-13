@@ -32,8 +32,8 @@ import {
   StyledTextMenuWhite,
   StyledTextButtonBlack,
 } from '../styles/StyledText';
-
 import { StyledGuideImage } from '../styles/StyledGuideImage';
+
 const AddGuide = () => {
   const {
     loading: loadingAll,
@@ -88,16 +88,7 @@ const AddGuide = () => {
     setPhoto(file.secure_url);
     console.log(file.secure_url);
   }
-  /*
-  useEffect(() => {
-    setPhoto(photo);
-  }, []);
-  */
   function handleSubmit() {
-    // TODO displaying error
-    // TODO optimistic updates
-    // TODO maybe animation by loading
-
     add_guide({
       variables: {
         password: password.value,
@@ -180,7 +171,6 @@ const AddGuide = () => {
           </form>
         </StyledCard>
       </StyledContainer>
-      {/*console.log('error:', error)*/}
     </div>
   );
 };
@@ -191,7 +181,6 @@ function useFormInput(initialValue) {
   function handleChange(e) {
     setValue(e.target.value);
   }
-
   return {
     value,
     onChange: handleChange,
@@ -202,4 +191,3 @@ const StyledInput = styled.input`
 `;
 
 export default AddGuide;
-//<StyledImage src={photo} alt="Upload photo" />

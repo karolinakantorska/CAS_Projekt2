@@ -6,8 +6,6 @@ import Calendar from '../calendar/Calendar';
 import { StyledContainer } from '../styles/StyledContainer';
 
 const Booking = (props) => {
-  console.log('props');
-  console.log(props);
   const {
     guideId,
     guideName,
@@ -43,6 +41,4 @@ const StyledDiv = styled.div`
     justify-self: end;
   }
 `;
-
 export default Booking;
-//<SingleGuideInfo id={guideId} className="SingleGuideInfo" />;

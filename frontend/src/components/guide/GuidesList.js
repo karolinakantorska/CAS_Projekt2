@@ -44,7 +44,7 @@ const GuidesList = (props) => {
 const StyledCard = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  column-gap: 10px;
+  grid-gap: 1% 2%;
   row-gap: 15px;
   justify-content: space-between;
 `;

@@ -95,17 +95,6 @@ const DaySpanStyled = styled.span`
   .highlight {
     color: red;
   }
-  /*
-  &.active:not(.DAY, .dayInThePast):hover {
-    border-radius: 5px;
-    transition: 0.5s background-color;
-    background-color: rgba(21, 21, 21, 0.06);
-  }
-  &.active:not(.DAY, .dayInThePast):active {
-    background: radial-gradient(rgba(21, 21, 21, 0.04), white);
-    border-radius: 5px;
-  }
-  */
   .AM {
     grid-area: bookingAM;
     height: 44px;

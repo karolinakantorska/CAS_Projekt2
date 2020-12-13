@@ -39,11 +39,9 @@ const Calendar = (props) => {
   const [selectedYear, setSelectedYear] = useState(
     format(selectedDate, 'y'),
   );
-
   const [selectedMonth, setSelectedMonth] = useState(
     format(selectedDate, 'MMMM'),
   );
-
   const [firstDayOfMonth, setFirstDayOfMonth] = useState(
     format(startOfMonth(selectedDate), 'i'),
   );
@@ -83,7 +81,6 @@ const Calendar = (props) => {
   });
   // handle booking function
   const router = useRouter();
-
   const handleBooking = (day, dayInThePast, time) => {
     if (dayInThePast === 'dayInThePast') {
       alert(`you can't book a day in the past`);
@@ -132,7 +129,6 @@ const Calendar = (props) => {
       const { day, reservations } = bookings;
       reservationsByDays[day] = reservations;
     });
-    //console.log(reservationsByDays);
     return reservationsByDays;
   };
   const reservations = reservationsQueryDataTransformedToArray();
@@ -224,7 +220,7 @@ const StyledCalendarContainer = styled.div`
   //padding: 1rem;
   grid-template-columns: repeat(7, 1fr);
   justify-content: center;
-  grid-gap: 8px 6px;
+  grid-gap: 1% 0.5%;
 `;
 const StyledCalendarMenuContainer = styled.div`
   display: grid;

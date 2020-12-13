@@ -1,19 +1,17 @@
 import withApollo from 'next-with-apollo';
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
-import { endpoint } from '../config';
-
+import { endpoint } from '../../config';
 
 export default withApollo(({ headers }) => {
   return new ApolloClient({
-    uri: "http://localhost:4000",
+    uri: 'http://localhost:4000',
     request: (operation) => {
       operation.setContext({
         fetchOptions: {
-          credentials: "include",
+          credentials: 'include',
         },
         headers,
       });
-
     },
   });
 });

@@ -4,14 +4,15 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // RMWC
+import {
+  Card,
+  CardActionButton,
+  CardActionButtons,
+} from '@rmwc/card';
 import { Button } from '@rmwc/button';
 import { CardPrimaryAction } from '@rmwc/card';
 // Components for Styling
-import {
-  StyledCard,
-  StyledButton,
-  StyledButtons,
-} from '../styles/StyledForm';
+import { StyledCard, StyledButtons } from '../styles/StyledForm';
 import {
   StyledTextBody1,
   StyledTextBody2,
@@ -41,7 +42,7 @@ const Guide = (props) => {
   }
 
   return (
-    <StyledCard>
+    <StyledGuideCard>
       <CardPrimaryAction onClick={goToBookingPage}>
         <StyledImage src={photo} alt="Mountainbiker photo" />
       </CardPrimaryAction>
@@ -60,7 +61,8 @@ const Guide = (props) => {
           {name} {surname}
         </StyledTextTitle5>
         <StyledTextSubtitle1>{email}</StyledTextSubtitle1>
-        <StyledTextBody2>description: {description}</StyledTextBody2>
+
+        <StyledTextBody2>{description}</StyledTextBody2>
       </StyledSpan>
 
       {!currentUserPermission && (
@@ -103,7 +105,7 @@ const Guide = (props) => {
           </StyledButtonSpan>
         </React.Fragment>
       )}
-    </StyledCard>
+    </StyledGuideCard>
   );
 };
 Guide.propTypes = {
@@ -116,8 +118,19 @@ Guide.propTypes = {
   photo: PropTypes.string,
 };
 const StyledSpan = styled.span`
+  display: grid;
+
+  grid-template-rows: 30px 35px 140px;
   padding: 0.5rem;
 `;
+export const StyledGuideCard = styled(Card)`
+  display: grid;
+  align-content: stretch;
+  margin: auto;
+  margin-top: 4rem;
+  max-width: 344px;
+`;
+
 const StyledButtonSpan = styled.span`
   display: grid;
   align-content: stretch;
@@ -143,24 +156,3 @@ export const StyledButtonLink = styled(Button)`
 `;
 
 export default Guide;
-
-/*
-      {(currentUserPermission === 'USER' ||
-        currentUserPermission === 'GUIDE') && (
-        <Link
-          href={{
-            pathname: '/booking_guide',
-            query: {
-              guideId: id,
-              guideName: name,
-              guideSurname: surname,
-              guidePhoto: photo,
-            },
-          }}
-        >
-          <StyledButton theme={['secondaryBg', 'onSecondary']}>
-            <StyledTextButtonBlack>Book Me!</StyledTextButtonBlack>
-          </StyledButton>
-        </Link>
-      )}
-        */
