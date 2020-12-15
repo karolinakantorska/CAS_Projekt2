@@ -1,8 +1,8 @@
-import BookingCard from '../components/booking/BookingCard';
+import BookingEdit from '../components/booking/BookingEdit';
 const edit_entry = (props) => {
   const { id } = props.query;
 
-  return <BookingCard id={id} />;
+  return <BookingEdit id={id} />;
 };
 
 export default edit_entry;

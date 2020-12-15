@@ -19,12 +19,12 @@ const CREATE_RESERVATION = gql`
       guide: { connect: { id: $guideId } }
       relatedDay: { connect: { id: $id } }
     ) {
+      id
       time
       userName
       userEmail
       nrOfPeople
       description
-
     }
   }
 `;

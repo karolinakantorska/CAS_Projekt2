@@ -12,7 +12,28 @@ const Meta = () => (
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     ></link>
-    <link rel="shortcut icon" href="../public/favicon.ico" />
+
+    <link rel="icon" href="./favicon.ico" />
   </Head>
 );
 export default Meta;
+/*
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../../../public/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="../../../public/favicon-96x96.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="../../../public/favicon-16x16.png"
+    />
+    */

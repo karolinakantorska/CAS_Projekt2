@@ -1,13 +1,4 @@
-// jest.config.js
-const { defaults } = require('jest-config');
-module.exports = {
-  // ...
-  moduleFileExtensions: [
-    ...defaults.moduleFileExtensions,
-    'js',
-    'jsx',
-    'ts',
-    'tsx',
-  ],
-  // ...
-};
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+configure({ adapter: new Adapter() });

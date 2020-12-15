@@ -33,6 +33,7 @@ const CREATE_DAY = gql`
       month
       day
       reservations {
+        id
         time
         userName
         userEmail

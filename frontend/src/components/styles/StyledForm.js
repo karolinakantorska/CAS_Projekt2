@@ -1,18 +1,16 @@
 import styled from 'styled-components';
 import { Button } from '@rmwc/button';
-import {
-  Card,
-  CardActionButton,
-  CardActionButtons,
-} from '@rmwc/card';
+import { Card, CardActionButton, CardActionButtons } from '@rmwc/card';
 import { Elevation } from '@rmwc/elevation';
 
+// Sign in / Booking confirmation
 export const StyledCard = styled(Card)`
   display: grid;
   align-content: stretch;
   margin: auto;
   margin-top: 4rem;
-  max-width: 450px;
+  min-width: 340px;
+  max-width: 600px;
 `;
 
 export const StyledSpanPadding = styled.span`
@@ -34,6 +32,7 @@ export const StyledSpanButon = styled.span`
 export const StyledButton = styled(CardActionButton)`
   text-transform: capitalize;
   min-width: 100px;
+  width: 100%;
   margin-left: -0.5rem;
   padding-right: 1rem;
   border-radius: 0px 0px 0px 0px;

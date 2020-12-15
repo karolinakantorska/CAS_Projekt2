@@ -4,11 +4,7 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // RMWC
-import {
-  Card,
-  CardActionButton,
-  CardActionButtons,
-} from '@rmwc/card';
+import { Card } from '@rmwc/card';
 import { Button } from '@rmwc/button';
 import { CardPrimaryAction } from '@rmwc/card';
 // Components for Styling
@@ -72,9 +68,7 @@ const Guide = (props) => {
           }}
         >
           <StyledButtonLink>
-            <StyledTextButtonColor>
-              Logg in to book Me!
-            </StyledTextButtonColor>
+            <StyledTextButtonColor>Logg in to book Me!</StyledTextButtonColor>
           </StyledButtonLink>
         </Link>
       )}

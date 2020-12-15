@@ -1,138 +1,21 @@
-/*
-            <BookingsListGuide
-              guideId={currentUserId}
-              year={year}
-              month={month}
-              day={day}
-            />;
-*/
- /*
-  const [
-    create_day,
-    { loading: loadingCreateDay, error: errorCreateDay, data },
-  ] = useMutation(CREATE_DAY, {
-    /*
-    update(cache, data) {
-      // Get the current guide list
-      
-      const dataAll = cache.readQuery({
-        query: ALL_GUIDES_QUERY,
-        variables: { permissions: 'GUIDE' },
-      });
-      console.log(dataAll);
-      */
-    // Create a new user
-    /*
-      const newUser = {
-        ...data.data.createUser,
-      };
-      // Write back to the users list, appending the new user
-      cache.writeQuery({
-        query: ALL_GUIDES_QUERY,
-        variables: { permissions: 'GUIDE' },
-        data: {
-          users: [...dataAll.users, newUser],
-        },
-      });
-      
-    },
-    */
- // });
-
-  // TODO Error handling by returning error
-  // TODO loading strip
-  /*
-
-
-  /*
- const [
-   delete_reservation,
-   { loading, error, called, data },
- ] = useMutation(DELETE_RESERVATION, {
-   update(cache, data) {
-     console.log(data.data.deleteReservation.id);
-     console.log(cache);
-     const deletedReservationID = data.data.deleteReservation.id;
-     // Get the current reservations list
-     const dataAll = cache.readQuery({
-       query: DAY_QUERY,
-       variables: {
-         year,
-         month,
-         day,
-         // reservations_every: { guide: { id: guideId } },
-       },
-     });
-     console.log('dataAll');
-     console.log(dataAll);
-   },
-
-   /*
-      update(cache, data) {
-        const deletedReservationID = data.data.deleteUser.id;
-        // Get the current RESERVATIOB list
-        const dataAll = cache.readQuery({
-          query: ALL_GUIDES_QUERY,
-          variables: { permissions: 'GUIDE' },
-        });
-        // spreading users to a new variable
-        const newDataAll = { ...dataAll };
-        // filter out a user by ID
-        newDataAll.users = newDataAll.users.filter(
-          (user) => user.id !== deletedUserID,
-        );
-        client.writeQuery({
-          query: ALL_GUIDES_QUERY,
-          variables: { permissions: 'GUIDE' },
-          data: { users: [...newDataAll.users] },
-        });
-      },
-      */
- });
- */
-
-   const { year, month, day, guideId } = props;
-
-  const {
-    id,
-    time,
-    userName,
-    userEmail,
-    nrOfPeople,
-    description,
-  } = props.reservation;
-  const { called, loading, data } = useQuery(RESERVATION_QUERY, {
-    variables: { id },
-  });
-
-  function handleDeleteReservation() {
-    delete_reservation({
-      variables: { id },
-      /*
-      optimisticResponse: {
-        __typename: 'Mutation',
-        deleteUser: {
-          __typename: 'User',
-          id,
-        },
-      },
-      */
-    });
+reservation: {
+  guide: {
+    id: "ckiemg0xj9qx70981qd281li5"
+    name: "Olaf"
+    photo: "https://res.cloudinary.com/karolinauploads/image/upload/v1607349564/images/asxyln6ja3ahgfej1bci.jpg"
+    surname: "Olaf"
   }
-  return (
-    <StyledCard>
-      <StyledSpanPadding>
-        <StyledButtonLink onClick={handleDeleteReservation}>
-          <StyledTextButtonColor>X</StyledTextButtonColor>
-        </StyledButtonLink>
-        <StyledTextBody1>
-          {id}Booked by: <strong>{userName}</strong> @{' '}
-          <strong>{userEmail}</strong> for <strong>{time}</strong>{' '}
-          tour, <strong>{nrOfPeople}</strong> guest(s).
-        </StyledTextBody1>
-        {description && (
-          <StyledTextBody1>{description}</StyledTextBody1>
-        )}
-      </StyledSpanPadding>
-    </StyledCard>
-  );
+  relatedDay: {day: "19"
+​​​
+month: "December"
+​​​
+year: "2020"}
+time: "AM"
+​​
+userEmail: "karolina@gmail.com"
+​​
+userName: "karolina"
+
+}
+
+​​

@@ -27,16 +27,18 @@ const User = (props) => {
   if (loading) {
     return <p>Loading</p>;
   }
-  return (
-    <div {...props} >
-      {props.children(
-        currentUserPermission,
-        currentUserName,
-        currentUserEmail,
-        currentUserId,
-      )}
-    </div>
-  );
+  if (data) {
+    return (
+      <div {...props}>
+        {props.children(
+          currentUserPermission,
+          currentUserName,
+          currentUserEmail,
+          currentUserId,
+        )}
+      </div>
+    );
+  }
 };
 User.propTypes = {
   currentUserPermission: PropTypes.string,

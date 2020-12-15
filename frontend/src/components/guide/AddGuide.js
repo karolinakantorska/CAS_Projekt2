@@ -11,16 +11,8 @@ import ADD_GUIDE from '../../graphgl/mutations/ADD_GUIDE';
 import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
 import { StyledContainer } from '../styles/StyledContainer';
 // Components for Styling
-import {
-  StyledCard,
-  StyledSpanPadding,
-  StyledSpanButon,
-} from '../styles/StyledForm';
-import {
-  StyledFieldset,
-  StyledButtons,
-  StyledButton,
-} from '../styles/StyledForm';
+import { StyledCard, StyledSpanPadding, StyledSpanButon } from '../styles/StyledForm';
+import { StyledFieldset, StyledButtons, StyledButton } from '../styles/StyledForm';
 import { TextField } from '@rmwc/textfield';
 import {
   StyledTextBody1,
@@ -35,11 +27,9 @@ import {
 import { StyledGuideImage } from '../styles/StyledGuideImage';
 
 const AddGuide = () => {
-  const {
-    loading: loadingAll,
-    error: errorAll,
-    data: dataAll,
-  } = useQuery(ALL_GUIDES_QUERY);
+  const { loading: loadingAll, error: errorAll, data: dataAll } = useQuery(
+    ALL_GUIDES_QUERY,
+  );
   const password = useFormInput('');
   const email = useFormInput('');
   const name = useFormInput('');
@@ -47,30 +37,27 @@ const AddGuide = () => {
   const description = useFormInput('');
   const [photo, setPhoto] = useState('');
 
-  const [add_guide, { loading, error, data }] = useMutation(
-    ADD_GUIDE,
-    {
-      update(cache, data) {
-        // Get the current guide list
-        const dataAll = cache.readQuery({
-          query: ALL_GUIDES_QUERY,
-          variables: { permissions: 'GUIDE' },
-        });
-        // Create a new user
-        const newUser = {
-          ...data.data.createUser,
-        };
-        // Write back to the users list, appending the new user
-        cache.writeQuery({
-          query: ALL_GUIDES_QUERY,
-          variables: { permissions: 'GUIDE' },
-          data: {
-            users: [...dataAll.users, newUser],
-          },
-        });
-      },
+  const [add_guide, { loading, error, data }] = useMutation(ADD_GUIDE, {
+    update(cache, data) {
+      // Get the current guide list
+      const dataAll = cache.readQuery({
+        query: ALL_GUIDES_QUERY,
+        variables: { permissions: 'GUIDE' },
+      });
+      // Create a new user
+      const newUser = {
+        ...data.data.createUser,
+      };
+      // Write back to the users list, appending the new user
+      cache.writeQuery({
+        query: ALL_GUIDES_QUERY,
+        variables: { permissions: 'GUIDE' },
+        data: {
+          users: [...dataAll.users, newUser],
+        },
+      });
     },
-  );
+  });
 
   async function handlePhotoUpload(e) {
     const data = new FormData();
@@ -112,38 +99,21 @@ const AddGuide = () => {
           <form>
             <StyledFieldset disabled={loading} aria-busy={loading}>
               <StyledTextTitle6>Add new MTB Guide</StyledTextTitle6>
-              <StyledInput
-                type="file"
-                id="file"
-                onChange={handlePhotoUpload}
-              />
+              <StyledInput type="file" id="file" onChange={handlePhotoUpload} />
               <label htmlFor="file">
                 <CardPrimaryAction>
-                  <StyledGuideImage
-                    src={photo}
-                    alt="Upload a photo"
-                  />
+                  <StyledGuideImage src={photo} alt="Upload a photo" />
                 </CardPrimaryAction>
               </label>
 
-              <TextField
-                {...name}
-                fullwidth
-                placeholder="Name"
-                value={name.value}
-              />
+              <TextField {...name} fullwidth placeholder="Name" value={name.value} />
               <TextField
                 {...surname}
                 fullwidth
                 placeholder="Surname"
                 value={surname.value}
               />
-              <TextField
-                {...email}
-                fullwidth
-                placeholder="Email"
-                value={email.value}
-              />
+              <TextField {...email} fullwidth placeholder="Email" value={email.value} />
               <TextField
                 {...password}
                 fullwidth
@@ -162,9 +132,7 @@ const AddGuide = () => {
                   raised
                   theme={['secondaryBg', 'onSecondary']}
                 >
-                  <StyledTextButtonBlack>
-                    Add Guide
-                  </StyledTextButtonBlack>
+                  <StyledTextButtonBlack>Add Guide</StyledTextButtonBlack>
                 </StyledButton>
               </StyledSpanButon>
             </StyledFieldset>

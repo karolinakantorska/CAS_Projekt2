@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Entry/> matches the schnapshot Guide 1`] = `
+<Entry__EntrySpan
+  className="AM"
+  onClick={[Function]}
+>
+  <div
+    className="AM  grid_column_div"
+  >
+    <span>
+      Booked!
+    </span>
+  </div>
+</Entry__EntrySpan>
+`;
+
+exports[`<Entry/> matches the schnapshot User 1`] = `
+<Entry__EntrySpan
+  className="AM"
+  onClick={[Function]}
+>
+  <div
+    clasName="grid_row_div"
+  >
+    <StyledText__StyledTextBody2>
+      Gast:
+    </StyledText__StyledTextBody2>
+    <StyledText__StyledTextBody2>
+      Michal
+    </StyledText__StyledTextBody2>
+  </div>
+</Entry__EntrySpan>
+`;

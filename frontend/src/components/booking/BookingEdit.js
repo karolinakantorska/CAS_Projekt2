@@ -11,54 +11,34 @@ import DELETE_RESERVATION from '../../graphgl/mutations/DELETE_RESERVATION';
 import RESERVATION_QUERY from '../../graphgl/queries/RESERVATION_QUERY';
 // Components for Styling
 import { StyledContainer } from '../styles/StyledContainer';
-import {
-  StyledCard,
-  StyledButton,
-  StyledSpanPadding,
-} from '../styles/StyledForm';
+import { StyledCard, StyledButton, StyledSpanPadding } from '../styles/StyledForm';
 import {
   StyledTextBody1,
-  StyledTextBody2,
-  StyledTextTitle5,
   StyledTextTitle6,
-  StyledTextSubtitle1,
-  StyledTextSubtitle2,
-  StyledTextMenuWhite,
-  StyledTextButtonBlack,
   StyledTextButtonColor,
 } from '../styles/StyledText';
 
-const BookingCard = (props) => {
+const BookingEdit = (props) => {
   const { id } = props;
   const router = useRouter();
   const { error, loading, data } = useQuery(RESERVATION_QUERY, {
     variables: { id },
   });
-  //
-  const [
-    delete_reservation,
-    { data: dataDeleteReservation },
-  ] = useMutation(DELETE_RESERVATION, {});
+  console.log(data);
+
+  const [delete_reservation, { data: dataDeleteReservation }] = useMutation(
+    DELETE_RESERVATION,
+    {},
+  );
   if (error) return <p>Error:{error}</p>;
   if (loading) {
     return <p>Loading...</p>;
   }
   if (data) {
     console.log(data);
-    const {
-      description,
-      nrOfPeople,
-      time,
-      userEmail,
-      userName,
-    } = data.reservation;
+    const { description, nrOfPeople, time, userEmail, userName } = data.reservation;
     const { day, month, year } = data.reservation.relatedDay;
-    const {
-      id: guideId,
-      name,
-      surname,
-      photo,
-    } = data.reservation.guide;
+    const { id: guideId, name, surname, photo } = data.reservation.guide;
 
     function handleClose() {
       router.push({
@@ -89,8 +69,8 @@ const BookingCard = (props) => {
           </StyledTextTitle6>
 
           <StyledTextBody1>
-            Booked by: <strong>{userName}</strong>. for ,{' '}
-            <strong>{nrOfPeople}</strong> guest(s).
+            Booked by: <strong>{userName}</strong>. for , <strong>{nrOfPeople}</strong>{' '}
+            guest(s).
           </StyledTextBody1>
           <StyledTextBody1>
             Email: <strong>{userEmail}</strong>.
@@ -98,9 +78,7 @@ const BookingCard = (props) => {
           <StyledTextBody1>
             Tour type: <strong>{time}</strong> tour
           </StyledTextBody1>
-          {description && (
-            <StyledTextBody1>{description}</StyledTextBody1>
-          )}
+          {description && <StyledTextBody1>{description}</StyledTextBody1>}
           <StyledButtonLinkDelete onClick={handleDelete}>
             <StyledTextButtonColor>Delete</StyledTextButtonColor>
           </StyledButtonLinkDelete>
@@ -109,7 +87,7 @@ const BookingCard = (props) => {
     );
   }
 };
-BookingCard.PropTypes = {
+BookingEdit.PropTypes = {
   id: PropTypes.string,
 };
 export const StyledButtonLinkClose = styled(Button)`
@@ -124,4 +102,4 @@ export const StyledButtonLinkDelete = styled(Button)`
   text-transform: capitalize;
   border-radius: 0px 0px 0px 0px;
 `;
-export default BookingCard;
+export default BookingEdit;

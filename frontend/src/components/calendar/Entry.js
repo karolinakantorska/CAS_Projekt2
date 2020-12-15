@@ -4,34 +4,15 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 // Components for Styling
 import {
-  StyledTextBody1,
   StyledTextBody2,
-  StyledTextTitle5,
-  StyledTextTitle6,
-  StyledTextSubtitle1,
-  StyledTextSubtitle2,
-  StyledTextMenuWhite,
-  StyledTextButtonBlack,
 } from '../styles/StyledText';
 
 const Entry = (props) => {
-  const [open, setOpen] = React.useState(false);
-  const [reservationData, setReservationData] = React.useState({});
-
-  const {
-    id,
-    time,
-    userName,
-    userEmail,
-    currentUserPermission,
-  } = props;
+  const { id, time, userName, userEmail, currentUserPermission } = props;
 
   const router = useRouter();
   function handleEntrySpanClick() {
-    if (
-      currentUserPermission === 'ADMIN' ||
-      currentUserPermission === 'GUIDE'
-    ) {
+    if (currentUserPermission === 'ADMIN' || currentUserPermission === 'GUIDE') {
       router.push({
         pathname: '/edit_entry',
         query: {
@@ -42,17 +23,13 @@ const Entry = (props) => {
     return;
   }
   return (
-    <EntrySpan
-      className={time}
-      onClick={() => handleEntrySpanClick()}
-    >
+    <EntrySpan className={time} onClick={() => handleEntrySpanClick()}>
       {currentUserPermission === 'USER' && (
         <div className={`${time}  grid_column_div`}>
           <span>Booked!</span>
         </div>
       )}
-      {(currentUserPermission === 'ADMIN' ||
-        currentUserPermission === 'GUIDE') && (
+      {(currentUserPermission === 'ADMIN' || currentUserPermission === 'GUIDE') && (
         <div clasName="grid_row_div">
           <StyledTextBody2>Gast:</StyledTextBody2>
           <StyledTextBody2>{userName}</StyledTextBody2>
