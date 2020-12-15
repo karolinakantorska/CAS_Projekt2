@@ -28,6 +28,8 @@ const User = (props) => {
     return <p>Loading</p>;
   }
   if (data) {
+    console.log('user');
+    console.log(data);
     return (
       <div {...props}>
         {props.children(

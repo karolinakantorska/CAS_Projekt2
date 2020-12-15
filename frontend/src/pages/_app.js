@@ -1,5 +1,6 @@
-import withData from '../lib/withApollo';
-import { ApolloProvider } from '@apollo/react-hooks';
+import withApollo from '../lib/withApollo';
+//import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/client';
 //import { ApolloProvider } from '@apollo/react-common';
 import App from 'next/app';
 import Page from '../components/main/Page';
@@ -52,4 +53,4 @@ class MyApp extends App {
   }
 }
 
-export default withData(MyApp);
+export default withApollo(MyApp);
