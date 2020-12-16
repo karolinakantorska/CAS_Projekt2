@@ -11,9 +11,7 @@ const Home = () => (
     <Nav />
     <Link href="/guides">
       <StyledButton__Homepage raised>
-        <StyledTextButtonWhite>
-          Find the coolest MTB Guide!
-        </StyledTextButtonWhite>
+        <StyledTextButtonWhite>Find the coolest MTB Guide!</StyledTextButtonWhite>
       </StyledButton__Homepage>
     </Link>
   </ContainerHomepage>
@@ -29,13 +27,13 @@ const ContainerHomepage = styled.div`
   background-size: cover;
   height: 100vh;
   @media (max-width: 1280px), img {
-    background-image: url('https://res.cloudinary.com/karolinauploads/image/upload/v1607789948/background1280x720.jpg');
+    background-image: url('https://res.cloudinary.com/karolinauploads/image/upload/v1608111607/backgroundBikerBW1280x720.png');
   }
   @media (max-width: 1439px), img {
-    background-image: url('https://res.cloudinary.com/karolinauploads/image/upload/v1607789948/background1440x810.jpg');
+    background-image: url('https://res.cloudinary.com/karolinauploads/image/upload/v1608111608/background1440x810.png');
   }
   @media (min-width: 1440px), img {
-    background-image: url('https://res.cloudinary.com/karolinauploads/image/upload/v1607789948/background1600x900.jpg');
+    background-image: url('https://res.cloudinary.com/karolinauploads/image/upload/v1608111608/backgroundBikerBW1600x900.png');
   }
 `;
 const StyledButton__Homepage = styled(Button)`

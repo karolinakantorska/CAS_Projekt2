@@ -1,6 +1,10 @@
 import { MockedProvider } from '@apollo/client/testing';
+import { mount } from 'enzyme';
+import toJson from 'enzyme-to-json';
+import wait from 'waait';
 import User from '../src/components/main/User';
 import CURRENT_USER_QUERY from '../src/graphgl/queries/CURRENT_USER_QUERY';
+
 const fakeUser = {
   __typename: 'User',
   email: 'karolina@gmail.com',
@@ -10,8 +14,7 @@ const fakeUser = {
 };
 
 describe('<User />', () => {
-  it.skip('renders with proper data', async () => {
-    const wrapper = mount(<User />);
+  xit('renders with proper while loading', async () => {
     const mocks = [
       {
         request: { query: CURRENT_USER_QUERY },
@@ -23,12 +26,24 @@ describe('<User />', () => {
         <User />
       </MockedProvider>,
     );
-    console.log(wrapper.debug());
+    //console.log(wrapper.debug());
+    expect(wrapper.text()).toContain('Loading...');
   });
-});
-
-describe('sample test', () => {
-  it('works as expected', () => {
-    expect(1).toEqual(1);
+  xit('renders with proper data', async () => {
+    const mocks = [
+      {
+        request: { query: CURRENT_USER_QUERY },
+        result: { data: { currentUser: fakeUser } },
+      },
+    ];
+    const wrapper = mount(
+      <MockedProvider mocks={mocks}>
+        <User />
+      </MockedProvider>,
+    );
+    //console.log(wrapper.debug());
+    //await wait();
+    //wrapper.update();
+    //console.log(wrapper.debug());
   });
 });

@@ -3,6 +3,7 @@ import { gql } from '@apollo/client';
 const RESERVATION_QUERY = gql`
   query RESERVATION_QUERY($id: ID) {
     reservation(where: { id: $id }) {
+      id
       time
       userName
       userEmail

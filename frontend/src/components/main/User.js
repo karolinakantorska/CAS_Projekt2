@@ -25,7 +25,7 @@ const User = (props) => {
   }, [loading, data]);
 
   if (loading) {
-    return <p>Loading</p>;
+    return <p>Loading...</p>;
   }
   if (data) {
     console.log('user');

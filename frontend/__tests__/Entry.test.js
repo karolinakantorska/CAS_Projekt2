@@ -8,17 +8,17 @@ const userName = 'Michal';
 const userEmail = 'michal@gmail.com';
 
 describe('<Entry/>', () => {
-  it('renders', () => {
+  xit('renders', () => {
     shallow(<Entry />);
   });
-  it('matches the schnapshot Guide', () => {
+  xit('matches the schnapshot Guide', () => {
     const wrapper = shallow(
       <Entry id={id} time={time} userName={userName} currentUserPermission={'USER'} />,
     );
     console.log(wrapper.debug());
     expect(toJSON(wrapper)).toMatchSnapshot();
   });
-  it('matches the schnapshot User', () => {
+  xit('matches the schnapshot User', () => {
     const wrapper = shallow(
       <Entry id={id} time={time} userName={userName} currentUserPermission={'GUIDE'} />,
     );

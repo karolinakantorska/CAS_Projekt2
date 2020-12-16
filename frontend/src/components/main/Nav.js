@@ -16,20 +16,14 @@ const Nav = (props) => {
               User: {currentUserName}
             </StyledTextMenuWhite>
             <Link href="/">
-              <StyledTextMenuWhite className="home ">
-                Home
-              </StyledTextMenuWhite>
+              <StyledTextMenuWhite className="home ">Home</StyledTextMenuWhite>
             </Link>
             <Link href="/guides">
-              <StyledTextMenuWhite className="guides">
-                MTB Guides
-              </StyledTextMenuWhite>
+              <StyledTextMenuWhite className="guides">MTB Guides</StyledTextMenuWhite>
             </Link>
             {currentUserPermission === 'ADMIN' && (
               <Link href="/add_guide">
-                <StyledTextMenuWhite className="add">
-                  Add MTB Guide
-                </StyledTextMenuWhite>
+                <StyledTextMenuWhite className="add">Add MTB Guide</StyledTextMenuWhite>
               </Link>
             )}
             {currentUserName && (
@@ -53,6 +47,7 @@ const Nav = (props) => {
 const StyledNav = styled.nav`
   background-color: ${(props) => props.theme.color.primary};
   color: ${(props) => props.theme.colorText.negativ};
+  cursor: pointer;
   div {
     margin: auto;
     padding-top: 0.5rem;

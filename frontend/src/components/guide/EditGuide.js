@@ -123,6 +123,7 @@ const UpdateGuide = (props) => {
   if (errorQuery) return `Error! ${error.message}`;
   if (!data.user) return <p>No Guide Found</p>;
   if (data) {
+    console.log(data);
     return (
       <div>
         <Nav />
@@ -130,14 +131,8 @@ const UpdateGuide = (props) => {
           <StyledCard>
             <form>
               <StyledFieldset disabled={loading} aria-busy={loading}>
-                <StyledTextTitle6>
-                  Edit the MTB Guide
-                </StyledTextTitle6>
-                <StyledInput
-                  type="file"
-                  id="file"
-                  onChange={handlePhotoUpload}
-                />
+                <StyledTextTitle6>Edit the MTB Guide</StyledTextTitle6>
+                <StyledInput type="file" id="file" onChange={handlePhotoUpload} />
                 <label htmlFor="file">
                   <CardPrimaryAction>
                     <img src={photo} alt="Upload a photo" />
@@ -176,16 +171,13 @@ const UpdateGuide = (props) => {
                     onClick={handleSubmit}
                     raised
                     theme={['secondaryBg', 'onSecondary']}
+                    data-testid="ButtonEdit"
                   >
-                    <StyledTextButtonBlack>
-                      Edit Guide
-                    </StyledTextButtonBlack>
+                    <StyledTextButtonBlack>Edit Guide</StyledTextButtonBlack>
                   </StyledButton>
                 </StyledSpanButon>
-                <StyledButtonLink onClick={handleChancel}>
-                  <StyledTextButtonColor>
-                    Chancel
-                  </StyledTextButtonColor>
+                <StyledButtonLink data-testid="ButtonCancel" onClick={handleChancel}>
+                  <StyledTextButtonColor>Chancel</StyledTextButtonColor>
                 </StyledButtonLink>
               </StyledFieldset>
             </form>

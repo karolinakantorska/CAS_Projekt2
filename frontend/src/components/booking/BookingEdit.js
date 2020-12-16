@@ -24,8 +24,25 @@ const BookingEdit = (props) => {
   const { error, loading, data } = useQuery(RESERVATION_QUERY, {
     variables: { id },
   });
-  console.log(data);
 
+  function handleClose() {
+    router.push({
+      pathname: '/booking_guide',
+      query: {
+        guideId,
+        guideName: name,
+        guideSurname: surname,
+        guidePhoto: photo,
+      },
+    });
+  }
+  function handleDelete() {
+    console.log('delete');
+    delete_reservation({
+      variables: { id },
+    });
+    handleClose();
+  }
   const [delete_reservation, { data: dataDeleteReservation }] = useMutation(
     DELETE_RESERVATION,
     {},
@@ -39,25 +56,6 @@ const BookingEdit = (props) => {
     const { description, nrOfPeople, time, userEmail, userName } = data.reservation;
     const { day, month, year } = data.reservation.relatedDay;
     const { id: guideId, name, surname, photo } = data.reservation.guide;
-
-    function handleClose() {
-      router.push({
-        pathname: '/booking_guide',
-        query: {
-          guideId,
-          guideName: name,
-          guideSurname: surname,
-          guidePhoto: photo,
-        },
-      });
-    }
-    function handleDelete() {
-      console.log('delete');
-      delete_reservation({
-        variables: { id },
-      });
-      handleClose();
-    }
     return (
       <StyledCard>
         <StyledButtonLinkClose onClick={handleClose}>
@@ -87,7 +85,7 @@ const BookingEdit = (props) => {
     );
   }
 };
-BookingEdit.PropTypes = {
+BookingEdit.propTypes = {
   id: PropTypes.string,
 };
 export const StyledButtonLinkClose = styled(Button)`
