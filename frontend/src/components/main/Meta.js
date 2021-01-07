@@ -12,6 +12,8 @@ const Meta = () => (
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     ></link>
+    <script src="nprogress.js"></script>
+    <link rel="stylesheet" type="text/css" href="../styles/NProgress.css"></link>
 
     <link rel="icon" href="./favicon.ico" />
   </Head>

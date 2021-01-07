@@ -88,10 +88,15 @@ const mutations = {
     });
     return user;
   },
-  async signin(parent, { email, password }, ctx, info) {
+
+  async signin(parent, args, ctx, info) {
+    const { email, password } = args;
     console.log("I am sinning in");
+    console.log(args);
+
     // is there a user with this email
-    const user = await ctx.db.query.user({ where: { email } });
+    const user = await ctx.db.query.user({ where: { email: args.email } });
+
     if (!user) {
       throw new Error(`There is no user with this email: ${email}`);
     }
@@ -104,14 +109,19 @@ const mutations = {
     // TODO make env work! process.env.APP_SECRET instead of 'jwtsecret1983'
     const token = jwt.sign({ userId: user.id }, "jwtsecret1983");
     // set cookie with token
-    // TODO awoid repetition
     ctx.response.cookie("token", token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24, // a day year cookie
     });
-
     return user;
   },
+
+  /*
+  async signin(parent, { email, password }, ctx, info) {
+    console.log("I should be signed in");
+    return user;
+  },
+  */
   signout(parent, args, ctx, info) {
     ctx.response.clearCookie("token");
     return { message: "Goodbye!" };

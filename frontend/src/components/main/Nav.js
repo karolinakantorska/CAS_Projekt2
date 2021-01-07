@@ -67,7 +67,10 @@ const StyledNav = styled.nav`
     justify-self: end;
     align-self: center;
   }
-  a:hover {
+  .home:hover,
+  .add:hover,
+  .guides:hover,
+  .signin:hover {
     color: #b71c1c;
     text-shadow: 0px 0px 40px #546e7a;
   }
