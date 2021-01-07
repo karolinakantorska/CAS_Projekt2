@@ -17,7 +17,7 @@ import {
   StyledTextTitle6,
   StyledTextSubtitle1,
   StyledTextSubtitle2,
-  StyledTextMenuWhite,
+  StyledTextMenuBlack,
   StyledTextButtonBlack,
   StyledTextButtonColor,
 } from '../styles/StyledText';
@@ -28,7 +28,7 @@ const Signin = () => {
   const [signin, { loading, error, data }] = useMutation(SIGNIN_MUTATION, {
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
   });
-
+  console.log(data);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const router = useRouter();

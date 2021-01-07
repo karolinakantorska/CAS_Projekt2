@@ -18,17 +18,17 @@ DayNr.propTypes = {
 const StyledNrSpan = styled.span`
   display: grid;
   font-family: ${(props) => props.theme.fontFamilyCalendar};
-  color: ${(props) => props.theme.colorTextCalendar.numbersLight};
+  color: var(--calendarColorNumbersLight);
   font-size: 2rem;
   padding: 0.4rem 0 0 0.2rem;
   line-height: 0.6;
   .highlight {
-    color: ${(props) => props.theme.colorTextCalendar.warning};
+    color: var(--calendarColorWarning);
   }
   @media (max-width: 840px) {
     font-size: 1.4rem;
     padding: 0.2rem 0 0 0.2rem;
-    color: ${(props) => props.theme.colorText.secundary};
+    color: var(--colorSecundary);
   }
   @media (max-width: 600px) {
     font-size: 1.2rem;

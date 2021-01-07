@@ -41,8 +41,7 @@ const StyledButton__Homepage = styled(Button)`
     align-self: center;
     justify-self: center;
     margin-bottom: 4rem;
-    max-width: 300px;
-    height: 2rem;
+    padding: 5px;
     color: white;
     background-color: rgba(33, 33, 33, 0.7);
     text-transform: capitalize;

@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DaySpan renders and displays correctly 1`] = `
+<DayNr
+  currentUserPermission="USER"
+  dayInThePast="dayInThePast"
+  dayOfMonth="17"
+  handleBooking={[MockFunction]}
+  highlight={false}
+  reservation={
+    Object {
+      "__typename": "Reservation",
+      "id": "cki61cvx81i560952hc0jcwfh",
+      "time": "AM",
+      "userEmail": "marian@gmail.com",
+      "userName": "marian",
+    }
+  }
+>
+  <DayNr__StyledNrSpan>
+    <span
+      className="DayNr__StyledNrSpan-sc-183qoaa-0 hHyyqv"
+    >
+      17
+    </span>
+  </DayNr__StyledNrSpan>
+</DayNr>
+`;

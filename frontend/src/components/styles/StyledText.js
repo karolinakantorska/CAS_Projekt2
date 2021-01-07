@@ -1,44 +1,44 @@
 import styled from 'styled-components';
-
+const primary = '#B71C1C';
 export const StyledTextTitle5 = styled.p`
-  //color: ${(props) => props.theme.colorText.primary};
-  //font-size: ${(props) => props.theme.fontSize.title5};
-  //font-weight: ${(props) => props.theme.fontWeight.title5};
-  //margin: 0.5rem 0 0 0;
+  color: primary;
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin: 0.5rem 0 0 0;
 `;
 export const StyledTextTitle6 = styled.h4`
-  //color: ${(props) => props.theme.colorText.primary};
-  //font-size: ${(props) => props.theme.fontSize.title6};
-  //letter-spacing: ${(props) => props.theme.letterSpacing.title6};
-  //font-weight: ${(props) => props.theme.fontWeight.title5};
+  color: var(--colorPrimary);
+  font-size: 1.3rem;
+  letter-spacing: 0.001rem;
+  font-weight: 600;
   //margin: 0.5rem 0 0.5rem 0;
 `;
 export const StyledTextSubtitle1 = styled.p`
-  //color: ${(props) => props.theme.colorText.secundary};
-  //font-size: ${(props) => props.theme.fontSize.subtitle1};
-  //letter-spacing: ${(props) => props.theme.letterSpacing.subtitle1};
-  //font-weight: ${(props) => props.theme.fontWeight.title5};
+  color: var(--colorsecundary);
+  font-size: 1rem;
+  letter-spacing: 0.001rem;
+  font-weight: 600;
   //margin: 0.5rem 0 0.5rem 0;
 `;
 export const StyledTextSubtitle2 = styled.p`
-  //color: ${(props) => props.theme.colorText.primary};
-  //font-size: ${(props) => props.theme.fontSize.subtitle2};
-  //letter-spacing: ${(props) => props.theme.letterSpacing.subtitle2};
-  //font-weight: ${(props) => props.theme.fontWeight.title5};
+  color: var(--colorPrimary);
+  font-size: 0.875rem;
+  letter-spacing: 0.006rem;
+  font-weight: 600;
 `;
 export const StyledTextBody1 = styled.p`
-  //color: ${(props) => props.theme.colorText.secundary};
-  //font-size: ${(props) => props.theme.fontSize.body1};
+  color: var(--colorsecundary);
+  font-size: 1.06rem;
   margin: 0px;
-  //letter-spacing: ${(props) => props.theme.letterSpacing.body1};
-  //font-weight: ${(props) => props.theme.fontWeight.title5};
+  letter-spacing: 0.03rem;
+  font-weight: 400;
 `;
 export const StyledTextBody2 = styled.p`
-  //color: ${(props) => props.theme.colorText.primary};
-  //font-size: ${(props) => props.theme.fontSize.body2};
+  color: var(--colorPrimary);
+  font-size: 0.9rem;
   margin: 0px;
-  //letter-spacing: ${(props) => props.theme.letterSpacing.body2};
-  //font-weight: ${(props) => props.theme.fontWeight.title5};
+  letter-spacing: 0.056rem;
+  font-weight: 400;
   @media (max-width: 600px) {
     font-size: 0.8rem;
   }
@@ -46,32 +46,32 @@ export const StyledTextBody2 = styled.p`
     font-size: 0.7rem;
   }
 `;
-//export const StyledTextMenuWhite = styled.a`
-export const StyledTextMenuWhite = styled.a`
-  //color: ${(props) => props.theme.colorText.negativ};
-  //font-size: ${(props) => props.theme.fontSize.menu};
-  // letter-spacing: ${(props) => props.theme.letterSpacing.menu};
-  //font-weight: ${(props) => props.theme.fontWeight.menu};
+
+export const StyledTextMenuBlack = styled.a`
+  color: #212121;
+  font-size: 1.2rem;
+  letter-spacing: 0.056rem;
+  font-weight: 800;
 `;
 export const StyledTextButtonBlack = styled.a`
-  //color: ${(props) => props.theme.colorText.primary};
-  //font-size: ${(props) => props.theme.fontSize.menu};
-  //letter-spacing: ${(props) => props.theme.letterSpacing.menu};
-  //font-weight: ${(props) => props.theme.fontWeight.buttonStrong};
+  color: var(--colorPrimary);
+  font-size: 1.05rem;
+  letter-spacing: 0.056rem;
+  font-weight: 600;
 `;
 export const StyledTextButtonColor = styled.a`
-  //color: ${(props) => props.theme.colorText.warning};
-  color: #b71c1c;
-  //font-size: ${(props) => props.theme.fontSize.menu};
+  color: var(--colorWarning);
   font-size: 1.05rem;
-  //letter-spacing: ${(props) => props.theme.letterSpacing.menu};
-  //font-weight: ${(props) => props.theme.fontWeight.buttonLight};
+  font-size: 1.05rem;
+  letter-spacing: 0.056rem;
+  font-weight: 500;
   font-weight: 500;
 `;
 export const StyledTextButtonWhite = styled.a`
-  //font-size: ${(props) => props.theme.fontSize.menu};
-  //letter-spacing: ${(props) => props.theme.letterSpacing.menu};
-  //font-weight: ${(props) => props.theme.fontWeight.buttonLight};
+  color: var(--colorNegativ);
+  font-size: 1.1rem;
+  letter-spacing: 0.056rem;
+  font-weight: 600;
   @media (max-width: 600px) {
     font-size: 0.9rem;
   }

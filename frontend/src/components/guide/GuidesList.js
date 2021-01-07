@@ -14,32 +14,32 @@ const GuidesList = (props) => {
   const { loading, error, data } = useQuery(ALL_GUIDES_QUERY, {
     variables: { permissions: 'GUIDE' },
   });
-  console.log('data users');
-  console.log(data);
   if (error) return <p>Error:{error}</p>;
   if (loading) return <p>Loading...</p>;
-  if (!data.users) return <p>No MTB Guide found</p>;
-
-  return (
-    <User>
-      {(currentUserPermission) => (
-        <span>
-          <Nav />
-          <StyledContainer>
-            <StyledCard>
-              {data.users.map((user) => (
-                <GuideCard
-                  currentUserPermission={currentUserPermission}
-                  user={user}
-                  key={user.id}
-                />
-              ))}
-            </StyledCard>
-          </StyledContainer>
-        </span>
-      )}
-    </User>
-  );
+  //if (!data.users) return <p>No MTB Guide found</p>;
+  if (data) {
+    console.log(data);
+    return (
+      <User>
+        {(currentUserPermission) => (
+          <span>
+            <Nav />
+            <StyledContainer>
+              <StyledCard>
+                {data.users.map((user) => (
+                  <GuideCard
+                    currentUserPermission={currentUserPermission}
+                    user={user}
+                    key={user.id}
+                  />
+                ))}
+              </StyledCard>
+            </StyledContainer>
+          </span>
+        )}
+      </User>
+    );
+  }
 };
 const StyledCard = styled.div`
   display: grid;

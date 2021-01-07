@@ -22,23 +22,14 @@ import {
 } from '../styles/StyledForm';
 import { TextField } from '@rmwc/textfield';
 import {
-  StyledTextBody1,
-  StyledTextBody2,
-  StyledTextTitle5,
   StyledTextTitle6,
-  StyledTextSubtitle1,
-  StyledTextSubtitle2,
-  StyledTextMenuWhite,
   StyledTextButtonBlack,
   StyledTextButtonColor,
 } from '../styles/StyledText';
 
-import { StyledGuideImage } from '../styles/StyledGuideImage';
-//TODO it forces me to update photo every time
-
 const UpdateGuide = (props) => {
   const id = props.id;
-  const { loading, errorQuery, data } = useQuery(ONE_USER_QUERY, {
+  const { loading, error, data } = useQuery(ONE_USER_QUERY, {
     variables: { id },
   });
   const [photo, setPhoto] = useState('');
@@ -49,7 +40,7 @@ const UpdateGuide = (props) => {
 
   const [
     updateUser,
-    { loadingMutation, errorMutation, calledMutation, dataMutation },
+    { loadingMutation, error: errorMutation, calledMutation, dataMutation },
   ] = useMutation(UPDATE_GUIDE);
   function handleNameChange(e) {
     setName(e.target.value);
@@ -117,11 +108,11 @@ const UpdateGuide = (props) => {
       pathname: '/guides',
     });
   }
+  if (error) return <p data-test="graphql-error">No Guide Found.</p>;
   if (loading) {
     return <p>"Loading..." </p>;
   }
-  if (errorQuery) return `Error! ${error.message}`;
-  if (!data.user) return <p>No Guide Found</p>;
+
   if (data) {
     console.log(data);
     return (
@@ -129,7 +120,7 @@ const UpdateGuide = (props) => {
         <Nav />
         <StyledContainer>
           <StyledCard>
-            <form>
+            <form data-testid="emailInput">
               <StyledFieldset disabled={loading} aria-busy={loading}>
                 <StyledTextTitle6>Edit the MTB Guide</StyledTextTitle6>
                 <StyledInput type="file" id="file" onChange={handlePhotoUpload} />
@@ -181,6 +172,9 @@ const UpdateGuide = (props) => {
                 </StyledButtonLink>
               </StyledFieldset>
             </form>
+            {errorMutation && (
+              <p data-test="graphql-error">Guide not changed, please try again</p>
+            )}
           </StyledCard>
         </StyledContainer>
       </div>

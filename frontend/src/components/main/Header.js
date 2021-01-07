@@ -1,23 +1,8 @@
 import React, { useState, useEffect } from 'react';
-
 import Router from 'next/router';
+//import NProgress from 'nprogress';
 
 const Header = () => {
-  /*
-    const [progressVariant, setProgressVariant] = useState(
-      'determinate',
-    );
-    Router.onRouteChangeStart = () => {
-        setProgressVariant('indeterminate');
-    };
-    Router.onRouteChangeComplete = () => {
-        setProgressVariant('determinate');
-    };
-    Router.onRouteChangeError = () => {
-        setProgressVariant('determinate');
-    };
-    */
   return <div></div>;
 };
 export default Header;
-//<LinearProgress variant={progressVariant} />;

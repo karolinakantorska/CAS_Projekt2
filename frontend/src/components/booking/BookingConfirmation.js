@@ -18,17 +18,12 @@ import { StyledContainer } from '../styles/StyledContainer';
 import { StyledCard, StyledButton, StyledSpanPadding } from '../styles/StyledForm';
 import {
   StyledTextBody1,
-  StyledTextBody2,
-  StyledTextTitle5,
   StyledTextTitle6,
-  StyledTextSubtitle1,
-  StyledTextSubtitle2,
-  StyledTextMenuWhite,
   StyledTextButtonBlack,
 } from '../styles/StyledText';
 
 // TODO use const instead of strings
-const BookingConfirmation = (props) => {
+const BookingConfirmation = ({ props }) => {
   const {
     day,
     selectedMonth: month,
@@ -36,8 +31,7 @@ const BookingConfirmation = (props) => {
     guideId,
     guideName,
     guideSurname,
-  } = props.props.query;
-
+  } = props;
   const [time, setTime] = useState('');
   const [description, setDescription] = useState('');
   const [nrOfPeople, setNrOfPeople] = useState(1);

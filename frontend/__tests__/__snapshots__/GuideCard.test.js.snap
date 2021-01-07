@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GuideCard /> renders with proper for Admin 1`] = `
+<img
+  alt="Mountainbiker photo"
+  className="GuideCard__StyledImage-sc-1y534rd-3 ircbQJ"
+  src="https://res.cloudinary.com/karolinauploads/image/upload/v1607349564/images/asxyln6ja3ahgfej1bci.jpg"
+/>
+`;
+
+exports[`<GuideCard /> renders with proper for Guide 1`] = `
+<img
+  alt="Mountainbiker photo"
+  className="GuideCard__StyledImage-sc-1y534rd-3 ircbQJ"
+  src="https://res.cloudinary.com/karolinauploads/image/upload/v1607349564/images/asxyln6ja3ahgfej1bci.jpg"
+/>
+`;
+
+exports[`<GuideCard /> renders with proper for User 1`] = `
+<img
+  alt="Mountainbiker photo"
+  className="GuideCard__StyledImage-sc-1y534rd-3 ircbQJ"
+  src="https://res.cloudinary.com/karolinauploads/image/upload/v1607349564/images/asxyln6ja3ahgfej1bci.jpg"
+/>
+`;

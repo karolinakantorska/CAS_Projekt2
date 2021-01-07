@@ -4,26 +4,26 @@ import styled from 'styled-components';
 import { Icon } from '@rmwc/icon';
 import Signout from '../signin_signout/Signout';
 import User from './User';
-import { StyledTextMenuWhite } from '../styles/StyledText';
+import { StyledTextMenuBlack } from '../styles/StyledText';
 
 const Nav = (props) => {
   return (
     <User>
       {(currentUserPermission, currentUserName) => (
         <StyledNav>
-          <div>
-            <StyledTextMenuWhite className="user">
+          <div data-testid="nav">
+            <StyledTextMenuBlack className="user">
               User: {currentUserName}
-            </StyledTextMenuWhite>
+            </StyledTextMenuBlack>
             <Link href="/">
-              <StyledTextMenuWhite className="home ">Home</StyledTextMenuWhite>
+              <StyledTextMenuBlack className="home ">Home</StyledTextMenuBlack>
             </Link>
             <Link href="/guides">
-              <StyledTextMenuWhite className="guides">MTB Guides</StyledTextMenuWhite>
+              <StyledTextMenuBlack className="guides">MTB Guides</StyledTextMenuBlack>
             </Link>
             {currentUserPermission === 'ADMIN' && (
               <Link href="/add_guide">
-                <StyledTextMenuWhite className="add">Add MTB Guide</StyledTextMenuWhite>
+                <StyledTextMenuBlack className="add">Add MTB Guide</StyledTextMenuBlack>
               </Link>
             )}
             {currentUserName && (
@@ -33,9 +33,9 @@ const Nav = (props) => {
             )}
             {!currentUserName && (
               <Link href="/signin_page">
-                <StyledTextMenuWhite className="signin">
-                  <Icon icon="person_outline" />
-                </StyledTextMenuWhite>
+                <StyledTextMenuBlack className="signin">
+                  <Icon icon="person_outline" aria-label="Login" />
+                </StyledTextMenuBlack>
               </Link>
             )}
           </div>
@@ -45,27 +45,31 @@ const Nav = (props) => {
   );
 };
 const StyledNav = styled.nav`
-  background-color: ${(props) => props.theme.color.primary};
-  color: ${(props) => props.theme.colorText.negativ};
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.7) 80%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
   cursor: pointer;
   div {
     margin: auto;
     padding-top: 0.5rem;
-    max-width: ${(props) => props.theme.maxWidth};
-    height: 2.5rem;
+    max-width: var(--maxWidth);
+    height: 50px;
     display: grid;
     grid-template-columns: 50fr 50fr 20fr 30fr 10fr;
     grid-template-areas: ' user add home guides signin';
   }
   a,
   span {
-    color: ${(props) => props.theme.colorText.negativ};
+    color: #212121;
     justify-self: end;
     align-self: center;
   }
   a:hover {
-    color: white;
-    text-shadow: 0px 0px 40px #ffffff;
+    color: #b71c1c;
+    text-shadow: 0px 0px 40px #546e7a;
   }
   a:active {
   }

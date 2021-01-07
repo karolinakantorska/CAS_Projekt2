@@ -27,13 +27,7 @@ const BookingEdit = (props) => {
 
   function handleClose() {
     router.push({
-      pathname: '/booking_guide',
-      query: {
-        guideId,
-        guideName: name,
-        guideSurname: surname,
-        guidePhoto: photo,
-      },
+      pathname: '/guides',
     });
   }
   function handleDelete() {

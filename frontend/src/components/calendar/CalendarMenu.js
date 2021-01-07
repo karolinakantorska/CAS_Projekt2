@@ -19,13 +19,8 @@ const CalendarMenu = (props) => {
       <StyledSpan>
         {
           // button inactive in current month
-          currentYear === selectedYear &&
-          currentMonth === selectedMonth ? (
-            <StyledIconButton
-              icon="arrow_left"
-              className="left_button"
-              disabled
-            >
+          currentYear === selectedYear && currentMonth === selectedMonth ? (
+            <StyledIconButton icon="arrow_left" className="left_button" disabled>
               &#8592;
             </StyledIconButton>
           ) : (
@@ -38,9 +33,7 @@ const CalendarMenu = (props) => {
             </StyledIconButton>
           )
         }
-        <StyledMonthChangeButton>
-          {selectedMonth}
-        </StyledMonthChangeButton>
+        <StyledMonthChangeButton>{selectedMonth}</StyledMonthChangeButton>
         <StyledIconButton
           //icon="arrow_forward_ios"
           icon="arrow_right"
@@ -71,14 +64,14 @@ const StyledButtonsMenu = styled.div`
     width: 100%;
     height: 3px;
     border-radius: 2px;
-    background: ${(props) => props.theme.colorTextCalendar.light};
+    background: var(--calendarColorLight);
   }
   ::after {
     content: '';
     width: 100%;
     height: 3px;
     border-radius: 2px;
-    background: ${(props) => props.theme.colorTextCalendar.light};
+    background: var(--calendarColorLight);
   }
 `;
 const StyledSpan = styled.span`
@@ -93,12 +86,12 @@ const StyledMonthChangeButton = styled.div`
   text-transform: capitalize;
   font-size: 1.2rem;
   align-self: center;
-  color: ${(props) => props.theme.colorText.primary};
+  background: var(----colorPrimary);
 `;
 
 const StyledIconButton = styled(IconButton)`
   font-size: 2rem;
-  color: ${(props) => props.theme.colorText.primary};
+  background: var(----colorPrimary);
   padding: 0;
 `;
 

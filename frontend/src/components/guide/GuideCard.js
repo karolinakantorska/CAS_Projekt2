@@ -8,20 +8,16 @@ import { Card } from '@rmwc/card';
 import { Button } from '@rmwc/button';
 import { CardPrimaryAction } from '@rmwc/card';
 // Components for Styling
-import { StyledCard, StyledButtons } from '../styles/StyledForm';
 import {
-  StyledTextBody1,
   StyledTextBody2,
   StyledTextTitle5,
-  StyledTextTitle6,
   StyledTextSubtitle1,
-  StyledTextSubtitle2,
-  StyledTextMenuWhite,
   StyledTextButtonBlack,
   StyledTextButtonColor,
 } from '../styles/StyledText';
 
 const Guide = (props) => {
+  console.log(props);
   const { currentUserPermission } = props;
   const { id, email, name, surname, description, photo } = props.user;
   const router = useRouter();

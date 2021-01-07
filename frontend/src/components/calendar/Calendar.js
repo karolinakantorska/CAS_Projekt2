@@ -17,37 +17,17 @@ import CalendarMenu from './CalendarMenu';
 import MONTH_RESERVATIONS_QUERY from '../../graphgl/queries/MONTH_RESERVATIONS_QUERY';
 // Components for Styling
 import { StyledElevation } from '../styles/StyledForm';
-import {
-  StyledTextBody1,
-  StyledTextBody2,
-  StyledTextTitle5,
-  StyledTextTitle6,
-  StyledTextSubtitle1,
-  StyledTextSubtitle2,
-  StyledTextMenu,
-} from '../styles/StyledText';
 import { StyledAvatar } from '../styles/StyledAvatar';
 
-const Calendar = (props) => {
-  const {
-    guideId,
-    guideName,
-    guideSurname,
-    guidePhoto,
-  } = props.props;
+const Calendar = ({ props }) => {
+  const { guideId, guideName, guideSurname, guidePhoto } = props;
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedYear, setSelectedYear] = useState(
-    format(selectedDate, 'y'),
-  );
-  const [selectedMonth, setSelectedMonth] = useState(
-    format(selectedDate, 'MMMM'),
-  );
+  const [selectedYear, setSelectedYear] = useState(format(selectedDate, 'y'));
+  const [selectedMonth, setSelectedMonth] = useState(format(selectedDate, 'MMMM'));
   const [firstDayOfMonth, setFirstDayOfMonth] = useState(
     format(startOfMonth(selectedDate), 'i'),
   );
-  const [daysInMonth, setDaysInMonth] = useState(
-    getDaysInMonth(selectedDate),
-  );
+  const [daysInMonth, setDaysInMonth] = useState(getDaysInMonth(selectedDate));
   // Calender
   const weekNames = weekDaysEN();
   const currentYear = format(new Date(), 'y');
@@ -104,16 +84,13 @@ const Calendar = (props) => {
     }
   };
 
-  const { loading, error, data, refetch } = useQuery(
-    MONTH_RESERVATIONS_QUERY,
-    {
-      variables: {
-        year: selectedYear,
-        month: selectedMonth,
-        guideID: guideId,
-      },
+  const { loading, error, data, refetch } = useQuery(MONTH_RESERVATIONS_QUERY, {
+    variables: {
+      year: selectedYear,
+      month: selectedMonth,
+      id: guideId,
     },
-  );
+  });
   if (error) return <p>Error:{error}</p>;
   if (loading) {
     return <p>Loading...</p>;
@@ -146,11 +123,7 @@ const Calendar = (props) => {
               handleYearChange={handleYearChange}
             />
             <StyledSpan>
-              <StyledAvatar
-                src={guidePhoto}
-                size="xlarge"
-                interactive
-              />
+              <StyledAvatar src={guidePhoto} size="xlarge" interactive />
             </StyledSpan>
           </StyledCalendarMenuContainer>
 
@@ -235,16 +208,16 @@ const StyledSpan = styled.span`
 `;
 
 const StyledDayName = styled.div`
-  font-family: ${(props) => props.theme.fontFamilyCalendar};
+  font-family: var(--fontFamilyCalendar);
   font-size: 1.2rem;
-  color: ${(props) => props.theme.colorText.secundary};
+  color: var(--colorSecundary);
   display: grid;
   ::after {
     content: '';
     width: 100%;
     height: 5px;
     border-radius: 5px;
-    background: ${(props) => props.theme.colorTextCalendar.numbers};
+    background: var(--calendarColorNumbers);
   }
 `;
 
