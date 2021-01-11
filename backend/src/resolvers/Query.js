@@ -4,9 +4,9 @@ const Query = {
   //users: forwardTo("db"),
   async users(parent, args, ctx, info) {
     //check if is logged in
-    if (!ctx.request.userId) {
-      throw new Error("You must be logged in to see the Guides");
-    }
+    //if (!ctx.request.userId) {
+    //  throw new Error("You must be logged in to see the Guides");
+    //}
     return ctx.db.query.users({}, info);
   },
   user: forwardTo("db"),

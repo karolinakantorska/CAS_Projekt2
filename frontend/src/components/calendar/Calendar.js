@@ -170,6 +170,7 @@ const Calendar = ({ props }) => {
                   highlight={highlight}
                   handleBooking={handleBooking}
                   currentUserPermission={currentUserPermission}
+                  currentUserName={currentUserName}
                   dayInThePast={dayInThePast}
                 ></DaySpan>
               );

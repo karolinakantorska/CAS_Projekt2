@@ -12,6 +12,7 @@ const DaySpan = (props) => {
     highlight,
     handleBooking,
     currentUserPermission,
+    currentUserName,
     dayInThePast,
   } = props;
   // if there is only one reservation at the day, different than DAY reservation
@@ -22,18 +23,19 @@ const DaySpan = (props) => {
       <DaySpanStyled>
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
         <Entry
+          key={time}
           time={time}
           userName={userName}
           userEmail={userEmail}
           id={id}
           currentUserPermission={currentUserPermission}
+          currentUserName={currentUserName}
+          key={id}
         />
         {time !== 'DAY' && (
           <StyledBookingSpan
             className={`${dayInThePast}`}
-            onClick={() =>
-              handleBooking(dayOfMonth, dayInThePast, time)
-            }
+            onClick={() => handleBooking(dayOfMonth, dayInThePast, time)}
           />
         )}
       </DaySpanStyled>
@@ -54,6 +56,7 @@ const DaySpan = (props) => {
               userEmail={userEmail}
               id={id}
               currentUserPermission={currentUserPermission}
+              currentUserName={currentUserName}
               key={id}
             />
           );

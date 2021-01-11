@@ -22,15 +22,21 @@ const Guide = (props) => {
   const { id, email, name, surname, description, photo } = props.user;
   const router = useRouter();
   function goToBookingPage() {
-    router.push({
-      pathname: '/booking_guide',
-      query: {
-        guideId: id,
-        guideName: name,
-        guideSurname: surname,
-        guidePhoto: photo,
-      },
-    });
+    if (currentUserPermission) {
+      router.push({
+        pathname: '/booking_guide',
+        query: {
+          guideId: id,
+          guideName: name,
+          guideSurname: surname,
+          guidePhoto: photo,
+        },
+      });
+    } else {
+      router.push({
+        pathname: '/signin_page',
+      });
+    }
   }
 
   return (
@@ -53,7 +59,6 @@ const Guide = (props) => {
           {name} {surname}
         </StyledTextTitle5>
         <StyledTextSubtitle1>{email}</StyledTextSubtitle1>
-
         <StyledTextBody2>{description}</StyledTextBody2>
       </StyledSpan>
 
