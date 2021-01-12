@@ -124,6 +124,7 @@ export const StyledGuideCard = styled(Card)`
   margin: auto;
   margin-top: 4rem;
   max-width: 344px;
+  min-width: 300px;
 `;
 
 const StyledButtonSpan = styled.span`

@@ -11,13 +11,7 @@ import { StyledCard } from '../styles/StyledForm';
 import { StyledFieldset, StyledButtons, StyledButton } from '../styles/StyledForm';
 import { TextField } from '@rmwc/textfield';
 import {
-  StyledTextBody1,
-  StyledTextBody2,
-  StyledTextTitle5,
   StyledTextTitle6,
-  StyledTextSubtitle1,
-  StyledTextSubtitle2,
-  StyledTextMenuBlack,
   StyledTextButtonBlack,
   StyledTextButtonColor,
 } from '../styles/StyledText';

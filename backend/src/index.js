@@ -16,7 +16,7 @@ server.express.use((req, res, next) => {
   console.log(token);
   if (token) {
     // TODO make env work! process.env.APP_SECRET instead of 'jwtsecret1983'
-    const { userId } = jwt.verify(token, "jwtsecret1983");
+    const { userId } = jwt.verify(token, process.env.APP_SECRET);
     // put userId onto the request for future requests to acces
     req.userId = userId;
   }
@@ -35,12 +35,12 @@ server.express.use(async (req, res, next) => {
 });
 
 server.start(
-  //    {
-  //        cors: {
-  //            credentials: true,
-  //            origin: 'http://localhost:3000',
-  //        },
-  //    },
+  {
+    cors: {
+      credentials: true,
+      origin: process.env.FRONTEND_URL,
+    },
+  },
   (deets) => {
     console.log(`Server is now running on port http:/localhost:${deets.port}`);
   }

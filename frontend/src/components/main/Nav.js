@@ -96,23 +96,7 @@ const StyledNav = styled.nav`
     grid-area: signin;
     justify-self: center;
   }
-  .user,
-  .home,
-  .add,
-  .guides,
-  .signin {
-    @media (max-width: 600px) {
-      font-size: 0.96rem;
-    }
-    @media (max-width: 480px) {
-      font-size: 0.88rem;
-    }
-    @media (max-width: 400px) {
-      font-size: 0.82rem;
-    }
-    @media (max-width: 360px) {
-      font-size: 0.75rem;
-    }
+
   }
 `;
 

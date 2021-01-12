@@ -80,7 +80,7 @@ const mutations = {
     );
     // create JWT
     // TODO make env work! process.env.APP_SECRET instead of 'jwtsecret1983'
-    const token = jwt.sign({ userId: user.id }, "jwtsecret1983");
+    const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
     // set jwt as a cookie on the response
     ctx.response.cookie("token", token, {
       httpOnly: true,
@@ -107,12 +107,15 @@ const mutations = {
     }
     // generate jwt token
     // TODO make env work! process.env.APP_SECRET instead of 'jwtsecret1983'
-    const token = jwt.sign({ userId: user.id }, "jwtsecret1983");
+    const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
     // set cookie with token
+    console.log("setting cookie");
     ctx.response.cookie("token", token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24, // a day year cookie
     });
+    console.log(user);
+    console.log(user.id);
     return user;
   },
 

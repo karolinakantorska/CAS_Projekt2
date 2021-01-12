@@ -8,9 +8,9 @@ export default withApollo(({ headers }) => {
     //uri: 'http://localhost:4000',
     request: (operation) => {
       operation.setContext({
-        //  fetchOptions: {
-        //    credentials: 'include',
-        //  },
+        fetchOptions: {
+          credentials: 'include',
+        },
         headers,
       });
     },
