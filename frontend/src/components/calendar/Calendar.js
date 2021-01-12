@@ -109,6 +109,7 @@ const Calendar = ({ props }) => {
     return reservationsByDays;
   };
   const reservations = reservationsQueryDataTransformedToArray();
+  //console.log(reservations);
   return (
     <User>
       {(currentUserPermission, currentUserName, currentUserEmail) => (

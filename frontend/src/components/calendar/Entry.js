@@ -6,8 +6,17 @@ import styled from 'styled-components';
 import { StyledTextBody2 } from '../styles/StyledText';
 
 const Entry = (props) => {
-  const { id, time, userName, userEmail, currentUserPermission, currentUserName } = props;
-  console.log(currentUserName);
+  const {
+    id,
+    time,
+    userName,
+    userEmail,
+    currentUserPermission,
+    currentUserName,
+    guideName,
+  } = props;
+  console.log('currentUserName', currentUserName);
+  console.log('userName', userName);
   const router = useRouter();
   function handleEntrySpanClick() {
     if (currentUserPermission === 'ADMIN' || currentUserPermission === 'GUIDE') {
@@ -20,6 +29,7 @@ const Entry = (props) => {
     }
     return;
   }
+  console.log();
   return (
     <EntrySpan className={time} onClick={() => handleEntrySpanClick()}>
       {currentUserPermission === 'USER' &&
@@ -33,7 +43,7 @@ const Entry = (props) => {
           </div>
         ))}
       {(currentUserPermission === 'ADMIN' || currentUserPermission === 'GUIDE') &&
-        (userName === currentUserName ? (
+        (userName === guideName ? (
           <div className="grid_column_div ">
             <StyledTextBody2 className="holiday">Free!</StyledTextBody2>
           </div>
