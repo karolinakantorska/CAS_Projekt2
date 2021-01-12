@@ -1,6 +1,5 @@
 #endpoint: ${env:PRISMA_ENDPOINT}
 endpoint: https://mtb-res-production-b36b9b1c33.herokuapp.com/mtb-reservation-prod/prod
-#endpoint: https://mtb-res-production-b36b9b1c33.herokuapp.com/mtb-res-prod/prod
 datamodel: datamodel.graphql
 secret: ${env:PRISMA_SECRET}
 hooks:
