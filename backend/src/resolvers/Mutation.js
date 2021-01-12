@@ -91,8 +91,8 @@ const mutations = {
 
   async signin(parent, args, ctx, info) {
     const { email, password } = args;
-    console.log("I am sinning in");
-    console.log(args);
+    //console.log("I am sinning in");
+    //console.log(args);
 
     // is there a user with this email
     const user = await ctx.db.query.user({ where: { email: args.email } });
@@ -109,13 +109,14 @@ const mutations = {
     // TODO make env work! process.env.APP_SECRET instead of 'jwtsecret1983'
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
     // set cookie with token
+    console.log("token", token);
     console.log("setting cookie");
     ctx.response.cookie("token", token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24, // a day year cookie
     });
-    console.log(user);
-    console.log(user.id);
+    //console.log(user);
+    //console.log(user.id);
     return user;
   },
 
