@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
+import { Drawer, DrawerContent } from '@rmwc/drawer';
+import { List, ListItem } from '@rmwc/list';
 import { Icon } from '@rmwc/icon';
 import Signout from '../signin_signout/Signout';
 import User from './User';
+import MenuDrawer from './MenuDrawer';
 import { StyledTextMenuBlack } from '../styles/StyledText';
 
 const Nav = (props) => {
@@ -12,8 +15,9 @@ const Nav = (props) => {
       {(currentUserPermission, currentUserName) => (
         <StyledNav>
           <div data-testid="nav">
+            <MenuDrawer className="menu" currentUserPermission={currentUserPermission} />
             <StyledTextMenuBlack className="user">
-              User: {currentUserName}
+              User:{currentUserName}
             </StyledTextMenuBlack>
             <Link href="/">
               <StyledTextMenuBlack className="home ">Home</StyledTextMenuBlack>
@@ -23,7 +27,7 @@ const Nav = (props) => {
             </Link>
             {currentUserPermission === 'ADMIN' && (
               <Link href="/add_guide">
-                <StyledTextMenuBlack className="add">Add MTB Guide</StyledTextMenuBlack>
+                <StyledTextMenuBlack className="add">Add Guide</StyledTextMenuBlack>
               </Link>
             )}
             {currentUserName && (
@@ -58,7 +62,8 @@ const StyledNav = styled.nav`
     max-width: var(--maxWidth);
     height: 50px;
     display: grid;
-    grid-template-columns: 50fr 50fr 20fr 30fr 10fr;
+    //grid-template-columns: 50fr 50fr 20fr 30fr 10fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-areas: ' user add home guides signin';
   }
   a,
@@ -79,6 +84,7 @@ const StyledNav = styled.nav`
   .user {
     grid-area: user;
     justify-self: start;
+    padding-left: 8px;
   }
   .home {
     grid-area: home;
@@ -96,7 +102,24 @@ const StyledNav = styled.nav`
     grid-area: signin;
     justify-self: center;
   }
-
+  .menu {
+    display: none;
+  }
+  @media (max-width: 420px) {
+    .menu {
+      grid-area: user;
+      justify-self: start;
+      display: inline;
+    }
+    .user {
+      grid-area: guides;
+      justify-self: end;
+    }
+    .home,
+    .add,
+    .guides {
+      display: none;
+    }
   }
 `;
 

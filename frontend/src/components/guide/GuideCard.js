@@ -114,9 +114,8 @@ Guide.propTypes = {
 };
 const StyledSpan = styled.span`
   display: grid;
-
-  grid-template-rows: 30px 35px 140px;
-  padding: 0.5rem;
+  grid-template-rows: 30px 35px 50px;
+  padding: 8px;
 `;
 export const StyledGuideCard = styled(Card)`
   display: grid;
@@ -124,9 +123,7 @@ export const StyledGuideCard = styled(Card)`
   margin: auto;
   margin-top: 4rem;
   max-width: 344px;
-  min-width: 300px;
 `;
-
 const StyledButtonSpan = styled.span`
   display: grid;
   align-content: stretch;
@@ -134,16 +131,15 @@ const StyledButtonSpan = styled.span`
 `;
 const StyledImage = styled.img`
   justify-self: stretch;
-  // change it later
-  width: 100%;
-  height: 400px;
+  max-width: 344px;
+  max-height: 344px;
 `;
 export const StyledButtonBookMe = styled(Button)`
   text-transform: capitalize;
   min-width: 100px;
   max-width: 60%;
-  margin-left: -0.5rem;
-  margin-top: -4rem;
+  margin-left: -8px;
+  margin-top: -50px;
   border-radius: 0px 0px 0px 0px;
 `;
 export const StyledButtonLink = styled(Button)`

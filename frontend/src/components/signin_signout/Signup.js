@@ -80,7 +80,6 @@ const Signup = () => {
                 helpText={{
                   persistent: true,
                   validationMsg: true,
-                  children: 'The field is required',
                 }}
                 pattern="[A-Za-z]{2,12}"
               />
@@ -94,7 +93,6 @@ const Signup = () => {
                 helpText={{
                   persistent: true,
                   validationMsg: true,
-                  children: 'The field is required',
                 }}
                 pattern="^\S+@\S+\.\S+$"
               />
@@ -108,7 +106,6 @@ const Signup = () => {
                 helpText={{
                   persistent: true,
                   validationMsg: true,
-                  children: 'The field is required',
                 }}
                 pattern="^.{8,32}$"
               />

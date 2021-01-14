@@ -4,6 +4,7 @@ import Router from 'next/router';
 import styled from 'styled-components';
 // RMWC
 import { CardPrimaryAction } from '@rmwc/card';
+import { Card } from '@rmwc/card';
 // Components
 import Nav from '../main/Nav';
 // Queries
@@ -11,19 +12,10 @@ import ADD_GUIDE from '../../graphgl/mutations/ADD_GUIDE';
 import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
 import { StyledContainer } from '../styles/StyledContainer';
 // Components for Styling
-import { StyledCard, StyledSpanPadding, StyledSpanButon } from '../styles/StyledForm';
-import { StyledFieldset, StyledButtons, StyledButton } from '../styles/StyledForm';
+import { StyledCard, StyledSpanButon } from '../styles/StyledForm';
+import { StyledFieldset, StyledButton } from '../styles/StyledForm';
 import { TextField } from '@rmwc/textfield';
-import {
-  StyledTextBody1,
-  StyledTextBody2,
-  StyledTextTitle5,
-  StyledTextTitle6,
-  StyledTextSubtitle1,
-  StyledTextSubtitle2,
-  StyledTextMenuWhite,
-  StyledTextButtonBlack,
-} from '../styles/StyledText';
+import { StyledTextTitle5, StyledTextButtonBlack } from '../styles/StyledText';
 import { StyledGuideImage } from '../styles/StyledGuideImage';
 
 const AddGuide = () => {
@@ -98,12 +90,12 @@ const AddGuide = () => {
         <StyledCard>
           <form>
             <StyledFieldset disabled={loading} aria-busy={loading}>
-              <StyledTextTitle6>Add new MTB Guide</StyledTextTitle6>
+              <StyledTextTitle5>Add new MTB Guide</StyledTextTitle5>
               <StyledInput type="file" id="file" onChange={handlePhotoUpload} />
               <label htmlFor="file">
-                <CardPrimaryAction>
+                <StyledGuideCard>
                   <StyledGuideImage src={photo} alt="Upload a photo" />
-                </CardPrimaryAction>
+                </StyledGuideCard>
               </label>
 
               <TextField {...name} fullwidth placeholder="Name" value={name.value} />
@@ -156,6 +148,13 @@ function useFormInput(initialValue) {
 }
 const StyledInput = styled.input`
   display: none;
+`;
+export const StyledGuideCard = styled(Card)`
+  display: grid;
+  align-content: stretch;
+  margin: auto;
+  max-width: 344px;
+  height: 344px;
 `;
 
 export default AddGuide;

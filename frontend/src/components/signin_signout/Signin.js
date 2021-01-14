@@ -70,7 +70,6 @@ const Signin = () => {
                 helpText={{
                   persistent: true,
                   validationMsg: true,
-                  children: 'The field is required',
                 }}
                 pattern="^\S+@\S+\.\S+$"
               />
@@ -84,7 +83,6 @@ const Signin = () => {
                 helpText={{
                   persistent: true,
                   validationMsg: true,
-                  children: 'The field is required',
                 }}
                 pattern="^.{8,32}$"
               />
