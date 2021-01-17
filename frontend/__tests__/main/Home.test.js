@@ -2,8 +2,8 @@ import { MockedProvider } from '@apollo/client/testing';
 import { mount } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import wait from 'waait';
-import Home from '../src/components/main/Home';
-import CURRENT_USER_QUERY from '../src/graphgl/queries/CURRENT_USER_QUERY';
+import Home from '../../src/components/main/Home';
+import CURRENT_USER_QUERY from '../../src/graphgl/queries/CURRENT_USER_QUERY';
 
 const notSignedInMocks = [
   {

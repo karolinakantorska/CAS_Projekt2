@@ -2,17 +2,17 @@ import { MockedProvider } from '@apollo/client/testing';
 import { mount } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import wait from 'waait';
-import EditGuide from '../src/components/guide/EditGuide';
-import ONE_USER_QUERY from '../src/graphgl/queries/ONE_USER_QUERY';
-import UPDATE_GUIDE from '../src/graphgl/mutations/UPDATE_GUIDE';
-import fakeGuide from '../src/lib/utils';
+import EditGuide from '../../src/components/guide/EditGuide';
+import ONE_USER_QUERY from '../../src/graphgl/queries/ONE_USER_QUERY';
+import UPDATE_GUIDE from '../../src/graphgl/mutations/UPDATE_GUIDE';
+import { fakeOneUser } from '../../src/lib/utils';
 
 describe('<EditGuide />', () => {
   xit('renders with proper while loading', async () => {
     const mocks = [
       {
         request: { query: ONE_USER_QUERY, variables: { id: '123' } },
-        result: { data: { user: fakeGuide } },
+        result: { data: fakeOneUser },
       },
     ];
     const wrapper = mount(
@@ -27,7 +27,7 @@ describe('<EditGuide />', () => {
     const mocks = [
       {
         request: { query: ONE_USER_QUERY, variables: { id: '123' } },
-        result: { data: { user: fakeGuide } },
+        result: { data: fakeOneUser },
       },
     ];
     const wrapper = mount(
@@ -46,7 +46,7 @@ describe('<EditGuide />', () => {
     expect(wrapper.containsMatchingElement(<span>Hallo</span>)).toBeTruthy();
   });
   // works only when tested separately
-  xit('Errors while not geting data', async () => {
+  it('Errors while not geting data', async () => {
     const mocks = [
       {
         request: { query: ONE_USER_QUERY, variables: { id: '123' } },
@@ -63,6 +63,5 @@ describe('<EditGuide />', () => {
     console.log(wrapper.debug());
     expect(wrapper.text()).toContain('No Guide Found.');
     const errorMessage = wrapper.find('[data-test="graphql-error"]');
-    //expect(toJSON(errorMessage)).toMatchSnapshot();
   });
 });

@@ -21,7 +21,6 @@ const DAY_QUERY = gql`
       reservations {
         id
         time
-
         userName
         userEmail
         nrOfPeople

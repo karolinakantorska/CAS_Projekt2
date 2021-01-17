@@ -21,6 +21,7 @@ import {
   StyledTextTitle6,
   StyledTextButtonBlack,
 } from '../styles/StyledText';
+import { chooseWholeDay, chooseMorning, chooseAfternoon } from '../../lib/utils';
 
 // TODO use const instead of strings
 const BookingConfirmation = ({ props }) => {
@@ -35,12 +36,7 @@ const BookingConfirmation = ({ props }) => {
   const [time, setTime] = useState('');
   const [description, setDescription] = useState('');
   const [nrOfPeople, setNrOfPeople] = useState(1);
-  const [reservationaId, setReservationaId] = useState('');
-  let existingTime = '';
-
-  const dayChoose = 'Day Trip from 8.00 to 19.00';
-  const morning = 'Morning Trip from 8.00 to 12.00';
-  const afternoon = 'Afternoon Trip from 13.30 to 19.00';
+  const [alreadyBookedTime, setAlreadyBookedTime] = useState('');
 
   const { loading, error, data: dataDay } = useQuery(DAY_QUERY, {
     variables: {
@@ -50,54 +46,45 @@ const BookingConfirmation = ({ props }) => {
       id: guideId,
     },
   });
-  //console.log('dataDay');
-  //console.log(dataDay);
+  console.log('dataDay');
+  console.log(dataDay);
   if (dataDay) {
     dataDay.days.map((day) => {
       day.reservations.map((reservation) => {
-        existingTime = reservation.time;
+        setAlreadyBookedTime(reservation.time);
       });
     });
   }
-  // TODO Error handling by returning error
-  // TODO loading strip
-  const [
-    create_day,
-    { loading: loadingCreateDay, error: errorCreateDay, data },
-  ] = useMutation(CREATE_DAY, {});
-  // TODO Error handling by returning error
-  // TODO loading strip
-  const [
-    create_reservation,
-    {
-      loading: loadingCreateReservation,
-      error: errorCreateReservation,
-      data: dataReservation,
-      onCompleted,
-    },
-  ] = useMutation(CREATE_RESERVATION, {});
-
-  function handleDescriptionChange(e) {
-    setDescription(e.target.value);
-  }
   function handleTimeChange(e) {
     switch (e.target.value) {
-      case dayChoose:
+      case chooseWholeDay:
         setTime('DAY');
         break;
-      case morning:
+      case chooseMorning:
         setTime('AM');
         break;
-      case afternoon:
+      case chooseAfternoon:
         setTime('PM');
         break;
     }
   }
+  function handleDescriptionChange(e) {
+    setDescription(e.target.value);
+  }
   function handleNrOfPeopleChange(e) {
     setNrOfPeople(e.target.value);
   }
+  const [
+    create_reservation,
+    { loading: loadingCreateReservation, error: errorCreateReservation, onCompleted },
+  ] = useMutation(CREATE_RESERVATION, {});
   const router = useRouter();
+  const [
+    create_day,
+    { loading: loadingCreateDay, error: errorCreateDay, data },
+  ] = useMutation(CREATE_DAY, {});
   function handleSubmitt(userName, userEmail) {
+    // day exist
     if (dataDay.days.length > 0) {
       const { id } = dataDay.days[0];
       create_reservation({
@@ -118,6 +105,7 @@ const BookingConfirmation = ({ props }) => {
         console.log('onCompleted');
       }
     }
+    // day doesn't exist jet
     if (dataDay.days.length === 0) {
       create_day({
         variables: {
@@ -133,7 +121,6 @@ const BookingConfirmation = ({ props }) => {
         },
       });
     }
-
     router.push({
       pathname: '/thank_you',
       query: {
@@ -149,6 +136,13 @@ const BookingConfirmation = ({ props }) => {
     });
   }
 
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  if (error) {
+    console.log(error);
+    return <p>There was en error while booking, please try again later.</p>;
+  }
   return (
     <User>
       {(currentUserPermission, currentUserName, currentUserEmail, currentUserId) => (
@@ -175,24 +169,24 @@ const BookingConfirmation = ({ props }) => {
                 <StyledTextBody1>
                   Do you preffer Morning or Aftenoon Trip?
                 </StyledTextBody1>
-                {existingTime === 'PM' && (
+                {alreadyBookedTime === 'PM' && (
                   <StyledSelect
                     placeholder="Please chose the time of a day"
-                    options={[morning]}
+                    options={[chooseMorning]}
                     onChange={(e) => handleTimeChange(e)}
                   />
                 )}
-                {existingTime === 'AM' && (
+                {alreadyBookedTime === 'AM' && (
                   <StyledSelect
                     placeholder="Please chose the time of a day"
-                    options={[afternoon]}
+                    options={[chooseAfternoon]}
                     onChange={(e) => handleTimeChange(e)}
                   />
                 )}
-                {existingTime === '' && (
+                {alreadyBookedTime === '' && (
                   <StyledSelect
                     placeholder="Please chose the time of a day"
-                    options={[dayChoose, morning, afternoon]}
+                    options={[chooseWholeDay, chooseMorning, chooseAfternoon]}
                     onChange={(e) => handleTimeChange(e)}
                   />
                 )}
@@ -234,7 +228,6 @@ const BookingConfirmation = ({ props }) => {
     </User>
   );
 };
-
 BookingConfirmation.propTypes = {
   day: PropTypes.string,
   selectedMonth: PropTypes.string,

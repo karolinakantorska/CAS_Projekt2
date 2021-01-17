@@ -1,9 +1,6 @@
-import { MockedProvider } from '@apollo/client/testing';
 import { mount } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import wait from 'waait';
-import DaySpan from '../src/components/calendar/DayNr';
-import fakeGuide from '../src/lib/utils';
+import DaySpan from '../../src/components/calendar/DayNr';
 
 const fakeReservation = {
   __typename: 'Reservation',

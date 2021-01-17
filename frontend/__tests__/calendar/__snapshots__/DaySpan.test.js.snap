@@ -19,7 +19,7 @@ exports[`DaySpan renders and displays correctly 1`] = `
 >
   <DayNr__StyledNrSpan>
     <span
-      className="DayNr__StyledNrSpan-sc-183qoaa-0 hHyyqv"
+      className="DayNr__StyledNrSpan-sc-183qoaa-0 hIIzUm"
     >
       17
     </span>

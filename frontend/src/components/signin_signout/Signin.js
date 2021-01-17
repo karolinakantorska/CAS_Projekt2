@@ -15,8 +15,6 @@ import {
   StyledTextButtonBlack,
   StyledTextButtonColor,
 } from '../styles/StyledText';
-import { Button } from '@rmwc/button';
-import styled from 'styled-components';
 
 const Signin = () => {
   const [signin, { loading, error, data }] = useMutation(SIGNIN_MUTATION, {
@@ -29,9 +27,6 @@ const Signin = () => {
 
   function handleSignin(e) {
     e.preventDefault();
-    console.log('hallo');
-    console.log(email, password);
-
     signin({
       variables: {
         email,
@@ -61,6 +56,7 @@ const Signin = () => {
               <StyledTextTitle6>Signin into account:</StyledTextTitle6>
 
               <TextField
+                data-test="input-email"
                 fullwidth
                 placeholder="Email"
                 value={email}
@@ -74,6 +70,7 @@ const Signin = () => {
                 pattern="^\S+@\S+\.\S+$"
               />
               <TextField
+                data-test="input-pasword"
                 fullwidth
                 placeholder="Password"
                 value={password}
@@ -89,6 +86,7 @@ const Signin = () => {
             </StyledFieldset>
             <StyledButtons>
               <StyledButton
+                data-test="button-signin"
                 onClick={(e) => handleSignin(e)}
                 raised
                 theme={['secondaryBg', 'onSecondary']}

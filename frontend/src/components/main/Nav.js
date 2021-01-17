@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-import { Drawer, DrawerContent } from '@rmwc/drawer';
-import { List, ListItem } from '@rmwc/list';
 import { Icon } from '@rmwc/icon';
 import Signout from '../signin_signout/Signout';
 import User from './User';
@@ -14,9 +12,9 @@ const Nav = (props) => {
     <User>
       {(currentUserPermission, currentUserName) => (
         <StyledNav>
-          <div data-testid="nav">
+          <div data-test="nav">
             <MenuDrawer className="menu" currentUserPermission={currentUserPermission} />
-            <StyledTextMenuBlack className="user">
+            <StyledTextMenuBlack className="user" data-test="a-userName">
               User:{currentUserName}
             </StyledTextMenuBlack>
             <Link href="/">
@@ -49,6 +47,7 @@ const Nav = (props) => {
   );
 };
 const StyledNav = styled.nav`
+  white-space: nowrap;
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 1) 0%,

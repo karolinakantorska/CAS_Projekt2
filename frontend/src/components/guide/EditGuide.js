@@ -108,13 +108,13 @@ const UpdateGuide = (props) => {
       pathname: '/guides',
     });
   }
-  if (error) return <p data-test="graphql-error">No Guide Found.</p>;
+
   if (loading) {
     return <p>"Loading..." </p>;
   }
+  if (error) return <p data-test="graphql-error">No Guide Found.</p>;
 
   if (data) {
-    console.log(data);
     return (
       <div>
         <Nav />

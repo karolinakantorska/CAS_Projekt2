@@ -23,13 +23,13 @@ const User = (props) => {
       setCurrentUserName('');
     }
   }, [loading, data]);
-
+  //console.log('user:');
+  //console.log(data);
   if (loading) {
     return <p>Loading...</p>;
   }
+  if (error) return <p>Error connecting the server</p>;
   if (data) {
-    console.log('user:');
-    console.log(data);
     return (
       <div {...props}>
         {props.children(

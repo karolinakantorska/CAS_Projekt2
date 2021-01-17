@@ -1,25 +1,60 @@
-export const fakeReservation = () => {
-  return {
+/*
+export const fakeReservation = {
+  __typename: 'Reservation',
+  description: '',
+  guide: {
+    __typename: 'User',
+    id: 'ckiemg0xj9qx70981qd281li5',
+    name: 'Olaf',
+    photo:
+      'https://res.cloudinary.com/karolinauploads/image/upload/v1607349564/images/asxyln6ja3ahgfej1bci.jpg',
+    surname: 'Olaf',
+  },
+  relatedDay: {
+    __typename: 'Day',
+    day: '19',
+    month: 'December',
+    year: '2020',
+  },
+  time: 'AM',
+  userEmail: 'karolina@gmail.com',
+  userName: 'karolina',
+};
+*/
+export const fakeReservation2 = {
+  reservation: {
     __typename: 'Reservation',
-    description: '',
-    guide: {
-      __typename: 'User',
-      id: 'ckiemg0xj9qx70981qd281li5',
-      name: 'Olaf',
-      photo:
-        'https://res.cloudinary.com/karolinauploads/image/upload/v1607349564/images/asxyln6ja3ahgfej1bci.jpg',
-      surname: 'Olaf',
-    },
+    id: '456',
+    time: 'AM',
+    userName: 'Bradley',
+    userEmail: 'bradley@gmail.com',
+    nrOfPeople: '5',
+    description: "let's go",
     relatedDay: {
       __typename: 'Day',
-      day: '19',
-      month: 'December',
-      year: '2020',
+      year: '2021',
+      month: 'Januar',
+      day: '21',
     },
-    time: 'AM',
-    userEmail: 'karolina@gmail.com',
-    userName: 'karolina',
-  };
+    guide: {
+      __typename: 'User',
+      id: '789',
+      name: 'Maria',
+      surname: 'Monroe',
+      photo: 'maria.jpg',
+    },
+  },
+};
+export const fakeOneUser = {
+  user: {
+    __typename: 'User',
+    id: '123',
+    email: 'magic@gmail.com',
+    name: 'Magic',
+    surname: 'Michalski',
+    description: 'hallo',
+    photo: 'me.jpg',
+  },
 };
 export const fakeGuide = {
   __typename: 'User',
@@ -47,65 +82,102 @@ export const fakeAdmin = {
   name: 'Karolina',
   permissions: 'ADMIN',
 };
-export const fakeGuides = [
-  {
-    __typename: 'User',
-    description: '',
-    email: 'speady@gmail.com',
-    id: 'ckh3n7algb8r50946cpug61su',
-    name: 'Speedy',
-    photo:
-      'https://res.cloudinary.com/karolinauploads/image/upload/v1604508914/images/g65d0lylojpsrqqqzpgu.jpg',
-    surname: 'Gonzales',
-  },
-  {
-    __typename: 'User',
-    description: '',
-    email: '<fdgt',
-    id: 'ckiemg0xj9qx70981qd281li5',
-    name: 'Olaf',
-    photo:
-      'https://res.cloudinary.com/karolinauploads/image/upload/v1607349564/images/asxyln6ja3ahgfej1bci.jpg',
-    surname: 'Olaf',
-  },
-];
+
+export const fakeGuidesList = {
+  users: [
+    {
+      __typename: 'User',
+      description: 'Hallo...',
+      email: 'speady@gmail.com',
+      id: 'ckh3n7algb8r50946cpug61su',
+      name: 'Speedy',
+      photo:
+        'https://res.cloudinary.com/karolinauploads/image/upload/v1604508914/images/g65d0lylojpsrqqqzpgu.jpg',
+      surname: 'Gonzales',
+    },
+    {
+      __typename: 'User',
+      description: 'Hallo...',
+      email: 'olaf@gmail.com',
+      id: 'ckiemg0xj9qx70981qd281li5',
+      name: 'Olaf',
+      photo:
+        'https://res.cloudinary.com/karolinauploads/image/upload/v1607349564/images/asxyln6ja3ahgfej1bci.jpg',
+      surname: 'Olaf',
+    },
+  ],
+};
 //days:
-export const fakeMonthReservations = [
-  {
-    __typename: 'Day',
-    day: '',
-    month: 'December',
-    year: '2020',
-    reservations: [
-      {
-        __typename: 'Reservation',
-        id: 'cki61cvx81i560952hc0jcwfh',
-        time: 'AM',
-        userEmail: 'karol@gmail.com',
-        userName: 'karol',
-      },
-    ],
-  },
-  {
-    __typename: 'Day',
-    day: '18',
-    month: 'December',
-    year: '2020',
-    reservations: [
-      {
-        __typename: 'Reservation',
-        id: 'ckipt7r5a4q8l098109ma3e42',
-        time: 'AM',
-        userEmail: 'magda@gmail.com',
-        userName: 'magda',
-      },
-      {
-        __typename: 'Reservation',
-        id: 'ckipvr76876jp09956jm1opk4',
-        time: 'PM',
-        userEmail: 'magda@gmail.com',
-        userName: 'magda',
-      },
-    ],
-  },
-];
+export const fakeEmptyMonthReservations = {
+  days: [],
+};
+export const fakeMonthReservations2 = {
+  days: [
+    {
+      __typename: 'Day',
+      id: '123',
+      year: '2021',
+      month: 'Januar',
+      reservations: [
+        {
+          __typename: 'Reservation',
+          id: 'ckhbttow935350959b63si625',
+          time: 'AM',
+          userName: 'adrian',
+          userEmail: 'adrian@gmail.com',
+          nrOfPeople: '1',
+          description: '',
+          guide: {
+            __typename: 'User',
+            name: 'Filip',
+          },
+        },
+        {
+          __typename: 'Reservation',
+          id: 'ckhbtx2s373h00912n2hvbpfv',
+          time: 'PM',
+          userName: 'adrian',
+          userEmail: 'adrian@gmail.com',
+          nrOfPeople: '1',
+          description: '',
+          guide: {
+            __typename: 'User',
+            name: 'Filip',
+          },
+        },
+      ],
+    },
+  ],
+};
+export const fakeMonthReservations3 = {
+  days: [
+    {
+      year: '2020',
+      month: 'December',
+      day: '',
+      reservations: [
+        {
+          userName: '',
+          userEmail: '',
+          time: 'AM',
+          id: 'cki61cvx81i560952hc0jcwfh',
+          guide: {
+            name: 'Speedy',
+          },
+        },
+      ],
+    },
+    {
+      year: '2020',
+      month: 'December',
+      day: '15',
+      reservations: [],
+    },
+    {
+      year: '2020',
+      month: 'December',
+      day: '20',
+      reservations: [],
+    },
+  ],
+};

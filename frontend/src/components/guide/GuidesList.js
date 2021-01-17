@@ -14,11 +14,11 @@ const GuidesList = (props) => {
   const { loading, error, data } = useQuery(ALL_GUIDES_QUERY, {
     variables: { permissions: 'GUIDE' },
   });
-  if (error) return <p>Error:{error}</p>;
+  console.log(data);
   if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: Can't download Guides, please try again later.</p>;
   //if (!data.users) return <p>No MTB Guide found</p>;
   if (data) {
-    console.log(data);
     return (
       <User>
         {(currentUserPermission) => (
@@ -28,6 +28,7 @@ const GuidesList = (props) => {
               <StyledCard>
                 {data.users.map((user) => (
                   <GuideCard
+                    data-test="guideCard"
                     currentUserPermission={currentUserPermission}
                     user={user}
                     key={user.id}

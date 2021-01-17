@@ -1,9 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`DayNr matches the schnapshot 1`] = `
-<DayNr__StyledNrSpan
-  className="highlight"
->
-  5
-</DayNr__StyledNrSpan>
-`;

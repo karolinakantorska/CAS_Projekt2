@@ -2,10 +2,10 @@ import { MockedProvider } from '@apollo/client/testing';
 import { mount } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import wait from 'waait';
-import Calendar from '../src/components/calendar/Calendar';
-import CURRENT_USER_QUERY from '../src/graphgl/queries/CURRENT_USER_QUERY';
-import MONTH_RESERVATIONS_QUERY from '../src/graphgl/queries/MONTH_RESERVATIONS_QUERY';
-import { fakeUser, fakeGuides, fakeMonthReservations } from '../src/lib/testsUtils';
+import Calendar from '../../src/components/calendar/Calendar';
+import CURRENT_USER_QUERY from '../../src/graphgl/queries/CURRENT_USER_QUERY';
+import MONTH_RESERVATIONS_QUERY from '../../src/graphgl/queries/MONTH_RESERVATIONS_QUERY';
+import { fakeUser, fakeMonthReservations3 } from '../../src/lib/testsUtils';
 
 const signedInMocksUser = [
   {
@@ -27,14 +27,12 @@ describe('<Calendar />', () => {
         request: {
           query: MONTH_RESERVATIONS_QUERY,
           variables: {
-            variables: {
-              year: '2020',
-              month: 'December',
-              guideID: '123',
-            },
+            year: '2020',
+            month: 'December',
+            guideID: 'ckh3n7algb8r50946cpug61su',
           },
         },
-        result: { data: { days: fakeMonthReservations } },
+        result: { data: fakeMonthReservations3 },
       },
     ];
     const wrapper = mount(
@@ -42,6 +40,8 @@ describe('<Calendar />', () => {
         <Calendar props={fakeProps} />
       </MockedProvider>,
     );
+    await wait();
+    wrapper.update();
     await wait();
     wrapper.update();
     console.log(wrapper.debug());

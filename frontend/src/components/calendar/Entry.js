@@ -9,14 +9,15 @@ const Entry = (props) => {
   const {
     id,
     time,
+    // userName is the user who booked the appointment
     userName,
     userEmail,
     currentUserPermission,
     currentUserName,
     guideName,
   } = props;
-  console.log('currentUserName', currentUserName);
-  console.log('userName', userName);
+  //console.log('currentUserName', currentUserName);
+  //console.log('userName', userName);
   const router = useRouter();
   function handleEntrySpanClick() {
     if (currentUserPermission === 'ADMIN' || currentUserPermission === 'GUIDE') {
@@ -29,10 +30,10 @@ const Entry = (props) => {
     }
     return;
   }
-  console.log();
   return (
     <EntrySpan className={time} onClick={() => handleEntrySpanClick()}>
       {currentUserPermission === 'USER' &&
+        // userName is the user who booked the appointment
         (userName === currentUserName ? (
           <div className="grid_column_div own_booking">
             <span className="your_booking">Your booking!</span>
@@ -43,14 +44,15 @@ const Entry = (props) => {
           </div>
         ))}
       {(currentUserPermission === 'ADMIN' || currentUserPermission === 'GUIDE') &&
+        // userName is the user who booked the appointment
         (userName === guideName ? (
           <div className="grid_column_div ">
             <StyledTextBody2 className="holiday">Free!</StyledTextBody2>
           </div>
         ) : (
           <div className="grid_column_div ">
-            <StyledTextBody2>Gast:</StyledTextBody2>
-            <StyledTextBody2>{userName}</StyledTextBody2>
+            <StyledTextBody2>Gast:{userName}</StyledTextBody2>
+            <StyledTextBody2>Email:{userEmail}</StyledTextBody2>
           </div>
         ))}
     </EntrySpan>

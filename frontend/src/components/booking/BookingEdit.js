@@ -1,7 +1,6 @@
 import React from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 // RMWC
@@ -10,21 +9,18 @@ import { Button } from '@rmwc/button';
 import DELETE_RESERVATION from '../../graphgl/mutations/DELETE_RESERVATION';
 import RESERVATION_QUERY from '../../graphgl/queries/RESERVATION_QUERY';
 // Components for Styling
-import { StyledContainer } from '../styles/StyledContainer';
-import { StyledCard, StyledButton, StyledSpanPadding } from '../styles/StyledForm';
+import { StyledCard, StyledSpanPadding } from '../styles/StyledForm';
 import {
   StyledTextBody1,
   StyledTextTitle6,
   StyledTextButtonColor,
 } from '../styles/StyledText';
-
 const BookingEdit = (props) => {
   const { id } = props;
   const router = useRouter();
   const { error, loading, data } = useQuery(RESERVATION_QUERY, {
     variables: { id },
   });
-
   function handleClose() {
     router.push({
       pathname: '/guides',
@@ -41,18 +37,20 @@ const BookingEdit = (props) => {
     DELETE_RESERVATION,
     {},
   );
-  if (error) return <p>Error:{error}</p>;
   if (loading) {
     return <p>Loading...</p>;
   }
+  if (error) {
+    console.log(error);
+    return <p>An error occurred</p>;
+  }
   if (data) {
-    console.log(data);
     const { description, nrOfPeople, time, userEmail, userName } = data.reservation;
     const { day, month, year } = data.reservation.relatedDay;
     const { id: guideId, name, surname, photo } = data.reservation.guide;
     return (
       <StyledCard>
-        <StyledButtonLinkClose onClick={handleClose}>
+        <StyledButtonLinkClose onClick={handleClose} data-test="a-close">
           <StyledTextButtonColor>X</StyledTextButtonColor>
         </StyledButtonLinkClose>
         <StyledSpanPadding>
@@ -71,7 +69,7 @@ const BookingEdit = (props) => {
             Tour type: <strong>{time}</strong> tour
           </StyledTextBody1>
           {description && <StyledTextBody1>{description}</StyledTextBody1>}
-          <StyledButtonLinkDelete onClick={handleDelete}>
+          <StyledButtonLinkDelete onClick={handleDelete} data-test="a-delete">
             <StyledTextButtonColor>Delete</StyledTextButtonColor>
           </StyledButtonLinkDelete>
         </StyledSpanPadding>

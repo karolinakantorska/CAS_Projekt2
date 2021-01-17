@@ -78,7 +78,7 @@ const Calendar = ({ props }) => {
           guideId,
           guideName,
           guideSurname,
-          guidePhoto,
+          //guidePhoto,
         },
       });
     }
@@ -91,7 +91,8 @@ const Calendar = ({ props }) => {
       id: guideId,
     },
   });
-  if (error) return <p>Error:{error}</p>;
+  console.log(data);
+  if (error) return <p>Error downloading data, please try again later.</p>;
   if (loading) {
     return <p>Loading...</p>;
   }

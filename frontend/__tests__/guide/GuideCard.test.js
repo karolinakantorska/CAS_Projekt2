@@ -2,8 +2,8 @@ import { MockedProvider } from '@apollo/client/testing';
 import { mount } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import wait from 'waait';
-import GuideCard from '../src/components/guide/GuideCard';
-import { fakeGuide, fakeAdmin } from '../src/lib/testsUtils';
+import GuideCard from '../../src/components/guide/GuideCard';
+import { fakeGuide, fakeAdmin } from '../../src/lib/testsUtils';
 
 const fakePermissionUser = 'USER';
 const fakePermissionGuide = 'GUIDE';

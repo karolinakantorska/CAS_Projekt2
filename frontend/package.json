@@ -79,6 +79,10 @@
     "setupFilesAfterEnv": [
       "<rootDir>/jest.setup.js"
     ],
+    "testMatch": [
+      "**/__tests__/**/*.[jt]s?(x)",
+      "**/?(*.)+(spec|test).[jt]s?(x)"
+    ],
     "testPathIgnorePatterns": [
       "<rootDir>/.next/",
       "<rootDir>/node_modules/"
