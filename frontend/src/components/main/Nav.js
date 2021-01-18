@@ -70,6 +70,7 @@ const StyledNav = styled.nav`
     color: #212121;
     justify-self: end;
     align-self: center;
+    white-space: nowrap;
   }
   .home:hover,
   .add:hover,

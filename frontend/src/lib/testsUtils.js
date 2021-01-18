@@ -57,7 +57,6 @@ export const fakeOneUser = {
   },
 };
 export const fakeGuide = {
-  __typename: 'User',
   description: 'Hallo',
   email: 'olaf@gmail.com',
   id: '123',
@@ -68,7 +67,6 @@ export const fakeGuide = {
   permissions: 'GUIDE',
 };
 export const fakeUser = {
-  __typename: 'User',
   email: 'magic@gmail.com',
   id: '123',
   name: 'Magic',
@@ -76,7 +74,6 @@ export const fakeUser = {
   permissions: 'USER',
 };
 export const fakeAdmin = {
-  __typename: 'User',
   email: 'karolina@gmail.com',
   id: '123',
   name: 'Karolina',
@@ -114,13 +111,13 @@ export const fakeEmptyMonthReservations = {
 export const fakeMonthReservations2 = {
   days: [
     {
-      __typename: 'Day',
+      //__typename: 'Day',
       id: '123',
       year: '2021',
       month: 'Januar',
       reservations: [
         {
-          __typename: 'Reservation',
+          // __typename: 'Reservation',
           id: 'ckhbttow935350959b63si625',
           time: 'AM',
           userName: 'adrian',
@@ -128,20 +125,7 @@ export const fakeMonthReservations2 = {
           nrOfPeople: '1',
           description: '',
           guide: {
-            __typename: 'User',
-            name: 'Filip',
-          },
-        },
-        {
-          __typename: 'Reservation',
-          id: 'ckhbtx2s373h00912n2hvbpfv',
-          time: 'PM',
-          userName: 'adrian',
-          userEmail: 'adrian@gmail.com',
-          nrOfPeople: '1',
-          description: '',
-          guide: {
-            __typename: 'User',
+            //__typename: 'User',
             name: 'Filip',
           },
         },

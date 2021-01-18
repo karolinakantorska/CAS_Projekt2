@@ -46,8 +46,8 @@ const BookingConfirmation = ({ props }) => {
       id: guideId,
     },
   });
-  console.log('dataDay');
-  console.log(dataDay);
+  //console.log('dataDay');
+  //console.log(dataDay);
   if (dataDay) {
     dataDay.days.map((day) => {
       day.reservations.map((reservation) => {
@@ -139,8 +139,13 @@ const BookingConfirmation = ({ props }) => {
   if (loading) {
     return <p>Loading...</p>;
   }
+
+  if (!dataDay) {
+    return <p>Error: Problem with connecting to db, please try again later.</p>;
+  }
+
   if (error) {
-    console.log(error);
+    //console.log(error);
     return <p>There was en error while booking, please try again later.</p>;
   }
   return (
