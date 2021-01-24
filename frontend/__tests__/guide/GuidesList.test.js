@@ -17,7 +17,7 @@ async function updateWrapper(wrapper, amount = 0) {
 */
 
 describe('<GuideList />', () => {
-  xit('renders with proper while loading ', async () => {
+  it('renders with proper while loading ', async () => {
     const mocks = [
       {
         request: { query: ALL_GUIDES_QUERY, variables: { permissions: 'GUIDE' } },
@@ -31,7 +31,7 @@ describe('<GuideList />', () => {
     );
     expect(wrapper.text()).toContain('Loading...');
   });
-  xit('renders with proper data ', async () => {
+  it('renders with proper data ', async () => {
     const mocks = [
       {
         request: { query: CURRENT_USER_QUERY },

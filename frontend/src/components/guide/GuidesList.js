@@ -14,7 +14,7 @@ const GuidesList = (props) => {
   const { loading, error, data } = useQuery(ALL_GUIDES_QUERY, {
     variables: { permissions: 'GUIDE' },
   });
-  console.log(data);
+  //console.log(data);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: Can't download Guides, please try again later.</p>;
   //if (!data.users) return <p>No MTB Guide found</p>;
