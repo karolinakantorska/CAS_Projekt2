@@ -7,17 +7,12 @@ import { TextField } from '@rmwc/textfield';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 import SIGNUP_MUTATION from '../../graphgl/mutations/SIGNUP_MUTATION';
 import Nav from '../main/Nav';
+import Error from '../main/Error';
 import { StyledContainer } from '../styles/StyledContainer';
 import { StyledCard } from '../styles/StyledForm';
 import { StyledFieldset, StyledButtons, StyledButton } from '../styles/StyledForm';
 import {
-  StyledTextBody1,
-  StyledTextBody2,
-  StyledTextTitle5,
   StyledTextTitle6,
-  StyledTextSubtitle1,
-  StyledTextSubtitle2,
-  StyledTextMenuWhite,
   StyledTextButtonBlack,
   StyledTextButtonColor,
 } from '../styles/StyledText';
@@ -26,6 +21,16 @@ import {
 const Signup = () => {
   const [signup, { loading, error, data }] = useMutation(SIGNUP_MUTATION, {
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
+    awaitRefetchQueries: true,
+    onCompleted: () => {
+      setEmail('');
+      setPassword('');
+      setName('');
+      router.push('/guides');
+    },
+    onError: (error) => {
+      error;
+    },
   });
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -45,10 +50,6 @@ const Signup = () => {
   }
   function handleSignup(e) {
     e.preventDefault();
-    console.log('I am signing up on frontend');
-    console.log(email, password, name);
-    //async () => {
-    //await
     signup({
       variables: {
         email,
@@ -56,20 +57,16 @@ const Signup = () => {
         name,
       },
     });
-    setEmail('');
-    setPassword('');
-    setName('');
-    router.push('/guides');
   }
-
   return (
     <React.Fragment>
       <Nav />
       <StyledContainer>
         <StyledCard>
           <form>
-            <StyledFieldset disabled={loading}>
+            <StyledFieldset disabled={loading} aria-busy={loading}>
               <StyledTextTitle6>Signup for a account:</StyledTextTitle6>
+              {error && <Error error={error} />}
               <TextField
                 fullwidth
                 placeholder="Name"
@@ -82,6 +79,7 @@ const Signup = () => {
                   validationMsg: true,
                 }}
                 pattern="[A-Za-z]{2,12}"
+                required={true}
               />
               <TextField
                 fullwidth
@@ -95,11 +93,13 @@ const Signup = () => {
                   validationMsg: true,
                 }}
                 pattern="^\S+@\S+\.\S+$"
+                required={true}
               />
               <TextField
                 fullwidth
                 placeholder="Password"
                 value={password}
+                type="password"
                 onChange={handlePasswordChange}
                 minLength={8}
                 maxLength={32}
@@ -108,6 +108,7 @@ const Signup = () => {
                   validationMsg: true,
                 }}
                 pattern="^.{8,32}$"
+                required={true}
               />
             </StyledFieldset>
             <StyledButtons>

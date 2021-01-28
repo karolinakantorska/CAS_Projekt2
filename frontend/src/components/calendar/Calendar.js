@@ -83,7 +83,6 @@ const Calendar = ({ props }) => {
       });
     }
   };
-
   const { loading, error, data, refetch } = useQuery(MONTH_RESERVATIONS_QUERY, {
     variables: {
       year: selectedYear,
@@ -91,15 +90,12 @@ const Calendar = ({ props }) => {
       id: guideId,
     },
   });
-  console.log(data);
-  if (error) return <p>Error downloading data, please try again later.</p>;
   if (loading) {
     return <p>Loading...</p>;
   }
-
-  console.log('data: ', data);
-  //console.log('data.days: ',data.days);
-  //TODO put it to helpers
+  if (error) {
+    return <Error error={error} />;
+  }
   const reservationsQueryDataTransformedToArray = () => {
     const reservationsByDays = {};
     data.days.map((bookings) => {

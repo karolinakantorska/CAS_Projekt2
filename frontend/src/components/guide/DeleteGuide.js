@@ -2,6 +2,7 @@ import React from 'react';
 import { useMutation } from '@apollo/client';
 import { useApolloClient } from '@apollo/client';
 import PropTypes from 'prop-types';
+import Error from '../main/Error';
 // Queries
 
 import DELETE_USER from '../../graphgl/mutations/DELETE_USER';
@@ -10,31 +11,31 @@ import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
 const DeleteGuide = (props) => {
   const client = useApolloClient();
   const { id } = props;
-  const [delete_user, { loading, error, called, data }] = useMutation(
-    DELETE_USER,
-    {
-      update(cache, data) {
-        const deletedUserID = data.data.deleteUser.id;
-        // Get the current guide list
-        const dataAll = cache.readQuery({
-          query: ALL_GUIDES_QUERY,
-          variables: { permissions: 'GUIDE' },
-        });
-        // spreading users to a new variable
-        const newDataAll = { ...dataAll };
-        // filter out a user by ID
-        newDataAll.users = newDataAll.users.filter(
-          (user) => user.id !== deletedUserID,
-        );
-        client.writeQuery({
-          query: ALL_GUIDES_QUERY,
-          variables: { permissions: 'GUIDE' },
-          data: { users: [...newDataAll.users] },
-        });
-      },
+  const [delete_user, { loading, error, called, data }] = useMutation(DELETE_USER, {
+    update(cache, data) {
+      const deletedUserID = data.data.deleteUser.id;
+      // Get the current guide list
+      const dataAll = cache.readQuery({
+        query: ALL_GUIDES_QUERY,
+        variables: { permissions: 'GUIDE' },
+      });
+      // spreading users to a new variable
+      const newDataAll = { ...dataAll };
+      // filter out a user by ID
+      newDataAll.users = newDataAll.users.filter((user) => user.id !== deletedUserID);
+      client.writeQuery({
+        query: ALL_GUIDES_QUERY,
+        variables: { permissions: 'GUIDE' },
+        data: { users: [...newDataAll.users] },
+      });
     },
-  );
-
+  });
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  if (error) {
+    return <Error error={error} />;
+  }
   return (
     <button
       onClick={async (e) => {

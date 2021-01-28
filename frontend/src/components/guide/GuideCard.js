@@ -17,7 +17,6 @@ import {
 } from '../styles/StyledText';
 
 const Guide = (props) => {
-  console.log(props);
   const { currentUserPermission } = props;
   const { id, email, name, surname, description, photo } = props.user;
   const router = useRouter();

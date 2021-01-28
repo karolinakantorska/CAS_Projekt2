@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import Router from 'next/router';
 import styled from 'styled-components';
 // RMWC
-import { CardPrimaryAction } from '@rmwc/card';
 import { Card } from '@rmwc/card';
 // Components
 import Nav from '../main/Nav';
+import Error from '../main/Error';
 // Queries
 import ADD_GUIDE from '../../graphgl/mutations/ADD_GUIDE';
 import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
@@ -30,6 +30,15 @@ const AddGuide = () => {
   const [photo, setPhoto] = useState('');
 
   const [add_guide, { loading, error, data }] = useMutation(ADD_GUIDE, {
+    onCompleted: (data) => {
+      Router.push({
+        pathname: '/guides',
+      });
+    },
+    onError: (error) => {
+      error;
+    },
+
     update(cache, data) {
       // Get the current guide list
       const dataAll = cache.readQuery({
@@ -67,7 +76,8 @@ const AddGuide = () => {
     setPhoto(file.secure_url);
     console.log(file.secure_url);
   }
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault();
     add_guide({
       variables: {
         password: password.value,
@@ -78,11 +88,13 @@ const AddGuide = () => {
         photo: photo,
       },
     });
-    Router.push({
-      pathname: '/guides',
-    });
   }
-
+  if (loadingAll) {
+    return <p>Loading...</p>;
+  }
+  if (errorAll) {
+    return <Error error={errorAll} />;
+  }
   return (
     <div>
       <Nav />
@@ -97,30 +109,47 @@ const AddGuide = () => {
                   <StyledGuideImage src={photo} alt="Upload a photo" />
                 </StyledGuideCard>
               </label>
-
-              <TextField {...name} fullwidth placeholder="Name" value={name.value} />
+              {error && <Error error={error} />}
+              <TextField
+                {...name}
+                fullwidth
+                placeholder="Name"
+                value={name.value}
+                required={true}
+              />
               <TextField
                 {...surname}
                 fullwidth
                 placeholder="Surname"
                 value={surname.value}
+                required={true}
               />
               <TextField {...email} fullwidth placeholder="Email" value={email.value} />
               <TextField
                 {...password}
                 fullwidth
                 placeholder="Password"
+                type="password"
                 value={password.value}
+                minLength={8}
+                maxLength={32}
+                helpText={{
+                  persistent: true,
+                  validationMsg: true,
+                }}
+                pattern="^.{8,32}$"
+                required={true}
               />
               <TextField
                 {...description}
                 fullwidth
                 placeholder="Description"
+                textarea={true}
                 value={description.value}
               />
               <StyledSpanButon>
                 <StyledButton
-                  onClick={handleSubmit}
+                  onClick={(e) => handleSubmit(e)}
                   raised
                   theme={['secondaryBg', 'onSecondary']}
                 >

@@ -6,8 +6,10 @@ import styled from 'styled-components';
 // RMWC
 import { CardPrimaryAction } from '@rmwc/card';
 import { Button } from '@rmwc/button';
+import Error from '../main/Error';
 // Components
 import Nav from '../main/Nav';
+import Error from '../main/Error';
 // Queries
 import UPDATE_GUIDE from '../../graphgl/mutations/UPDATE_GUIDE';
 import ONE_USER_QUERY from '../../graphgl/queries/ONE_USER_QUERY';
@@ -108,12 +110,12 @@ const UpdateGuide = (props) => {
       pathname: '/guides',
     });
   }
-
   if (loading) {
-    return <p>"Loading..." </p>;
+    return <p>Loading...</p>;
   }
-  if (error) return <p data-test="graphql-error">No Guide Found.</p>;
-
+  if (error) {
+    return <Error error={error} />;
+  }
   if (data) {
     return (
       <div>

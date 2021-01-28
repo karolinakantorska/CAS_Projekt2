@@ -1,20 +1,9 @@
 import { MockedProvider } from '@apollo/client/testing';
 import { mount } from 'enzyme';
-import toJSON from 'enzyme-to-json';
 import wait from 'waait';
-import { useRouter } from 'next/router';
 import BookingConfirmation from '../../src/components/booking/BookingConfirmation';
 import CURRENT_USER_QUERY from '../../src/graphgl/queries/CURRENT_USER_QUERY';
 import DAY_QUERY from '../../src/graphgl/queries/DAY_QUERY';
-import CREATE_DAY from '../../src/graphgl/mutations/CREATE_DAY';
-import CREATE_RESERVATION from '../../src/graphgl/mutations/CREATE_RESERVATION';
-import {
-  //fakeUser,
-  fakeEmptyMonthReservations,
-  fakeMonthReservations,
-  //fakeMonthReservations2,
-} from '../../src/lib/utils';
-import { act } from 'react-dom/test-utils';
 
 const fakeUser = {
   email: 'magic@gmail.com',
@@ -94,7 +83,7 @@ describe('<BookingConfirmation />', () => {
       ),
     ).toBeTruthy();
   });
-  xit('renders error state properly', async () => {
+  it('renders error state properly', async () => {
     const mocks = [
       {
         request: { query: CURRENT_USER_QUERY },
@@ -133,10 +122,6 @@ describe('<BookingConfirmation />', () => {
     await wait();
     wrapper.update();
     //console.log(wrapper.debug());
-    expect(
-      wrapper.containsMatchingElement(
-        <p>There was en error while booking, please try again later.</p>,
-      ),
-    ).toBeTruthy();
+    expect(wrapper.containsMatchingElement(<p>An error occurred</p>)).toBeTruthy();
   });
 });

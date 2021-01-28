@@ -17,7 +17,7 @@ const DaySpan = (props) => {
   } = props;
   // if there is only one reservation at the day, different than DAY reservation
   if (reservation.length === 1) {
-    console.log('reservation[0]', reservation[0]);
+    //console.log('reservation[0]', reservation[0]);
     const { time, userName, userEmail, id, guide } = reservation[0];
     return (
       // if there is 1 reservations at the day

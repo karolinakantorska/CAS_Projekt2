@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import User from '../main/User';
 import Nav from '../main/Nav';
 import GuideCard from './GuideCard';
+import Error from '../main/Error';
 // Queries
 import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
 // Components for Styling
@@ -15,9 +16,17 @@ const GuidesList = (props) => {
     variables: { permissions: 'GUIDE' },
   });
   //console.log(data);
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: Can't download Guides, please try again later.</p>;
-  //if (!data.users) return <p>No MTB Guide found</p>;
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  if (error) {
+    return (
+      <div>
+        <Error error={error} />
+        <p>Error: Can't download Guides, please try again later.</p>
+      </div>
+    );
+  }
   if (data) {
     return (
       <User>

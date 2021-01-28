@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 // Components
 import User from '../main/User';
+import Error from '../main/Error';
 // Queries
 import ONE_RESERVATION_QUERY from '../../graphgl/queries/ONE_RESERVATION_QUERY';
 import DELETE_RESERVATION from '../../graphgl/mutations/DELETE_RESERVATION';
@@ -26,17 +27,10 @@ const BookingInfo = (props) => {
     return <p>loading</p>;
   }
   if (error) {
-    return <p>Error: {error}</p>;
+    return <Error error={error} />;
   }
   if (data) {
-    const {
-      description,
-      id,
-      nrOfPeople,
-      time,
-      userEmail,
-      userName,
-    } = data.reservation;
+    const { description, id, nrOfPeople, time, userEmail, userName } = data.reservation;
     const { day, month, year } = data.reservation.relatedDay;
     const { id: guideId, name, surname } = data.reservation.guide;
     const router = useRouter();
@@ -68,9 +62,7 @@ const BookingInfo = (props) => {
             <p>Number of gests: {nrOfPeople}</p>
             <p>Desription: {nrOfPeople}</p>
             <textarea readOnly value={description}></textarea>
-            <button onClick={handleDeleteReservation}>
-              Delete Reservation
-            </button>
+            <button onClick={handleDeleteReservation}>Delete Reservation</button>
           </span>
         )}
       </User>

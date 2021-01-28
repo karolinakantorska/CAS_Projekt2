@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
-import { useMutation, useQuery, useLazyQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-// RMWC
+
 import { TextField } from '@rmwc/textfield';
 import { Select } from '@rmwc/select';
 import { Ripple } from '@rmwc/ripple';
-// Components
+
 import Nav from '../main/Nav';
 import User from '../main/User';
+import Error from '../main/Error';
 import DAY_QUERY from '../../graphgl/queries/DAY_QUERY';
 import CREATE_DAY from '../../graphgl/mutations/CREATE_DAY';
 import CREATE_RESERVATION from '../../graphgl/mutations/CREATE_RESERVATION';
-// Components for Styling
+
 import { StyledContainer } from '../styles/StyledContainer';
 import { StyledCard, StyledButton, StyledSpanPadding } from '../styles/StyledForm';
 import {
@@ -23,7 +24,6 @@ import {
 } from '../styles/StyledText';
 import { chooseWholeDay, chooseMorning, chooseAfternoon } from '../../lib/utils';
 
-// TODO use const instead of strings
 const BookingConfirmation = ({ props }) => {
   const {
     day,
@@ -105,7 +105,7 @@ const BookingConfirmation = ({ props }) => {
         console.log('onCompleted');
       }
     }
-    // day doesn't exist jet
+    // day doesn't exist yet
     if (dataDay.days.length === 0) {
       create_day({
         variables: {
@@ -135,18 +135,11 @@ const BookingConfirmation = ({ props }) => {
       },
     });
   }
-
   if (loading) {
     return <p>Loading...</p>;
   }
-
-  if (!dataDay) {
-    return <p>Error: Problem with connecting to db, please try again later.</p>;
-  }
-
   if (error) {
-    //console.log(error);
-    return <p>There was en error while booking, please try again later.</p>;
+    return <Error error={error} />;
   }
   return (
     <User>

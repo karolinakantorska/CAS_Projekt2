@@ -3,18 +3,20 @@ import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-// RMWC
+
 import { Button } from '@rmwc/button';
-// Queries
+
+import Error from '../main/Error';
 import DELETE_RESERVATION from '../../graphgl/mutations/DELETE_RESERVATION';
 import RESERVATION_QUERY from '../../graphgl/queries/RESERVATION_QUERY';
-// Components for Styling
+
 import { StyledCard, StyledSpanPadding } from '../styles/StyledForm';
 import {
   StyledTextBody1,
   StyledTextTitle6,
   StyledTextButtonColor,
 } from '../styles/StyledText';
+
 const BookingEdit = (props) => {
   const { id } = props;
   const router = useRouter();
@@ -41,8 +43,7 @@ const BookingEdit = (props) => {
     return <p>Loading...</p>;
   }
   if (error) {
-    console.log(error);
-    return <p>An error occurred</p>;
+    return <Error error={error} />;
   }
   if (data) {
     const { description, nrOfPeople, time, userEmail, userName } = data.reservation;
@@ -57,7 +58,7 @@ const BookingEdit = (props) => {
           <StyledTextTitle6>
             Reservation on {day} {month} {year}
           </StyledTextTitle6>
-
+          l
           <StyledTextBody1>
             Booked by: <strong>{userName}</strong>. for , <strong>{nrOfPeople}</strong>{' '}
             guest(s).

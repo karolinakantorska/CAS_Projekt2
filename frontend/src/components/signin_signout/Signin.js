@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
+//import { useMutation } from '@apollo/react-hooks';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 import SIGNIN_MUTATION from '../../graphgl/mutations/SIGNIN_MUTATION';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 import Nav from '../main/Nav';
+import Error from '../main/Error';
+
 import { StyledContainer } from '../styles/StyledContainer';
 import { StyledCard } from '../styles/StyledForm';
 import { StyledFieldset, StyledButtons, StyledButton } from '../styles/StyledForm';
@@ -19,8 +22,18 @@ import {
 const Signin = () => {
   const [signin, { loading, error, data }] = useMutation(SIGNIN_MUTATION, {
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
+    awaitRefetchQueries: true,
+    onCompleted: (data) => {
+      //console.log('Data from mutation', data),
+      setEmail('');
+      setPassword('');
+      router.push('/guides');
+    },
+    onError: (error) => {
+      error;
+    },
   });
-  console.log(data);
+
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const router = useRouter();
@@ -33,9 +46,6 @@ const Signin = () => {
         password,
       },
     });
-    setEmail('');
-    setPassword('');
-    router.push('/guides');
   }
   function handlePasswordChange(e) {
     setPassword(e.target.value);
@@ -43,18 +53,15 @@ const Signin = () => {
   function handleEmailChange(e) {
     setEmail(e.target.value);
   }
-  if (error) {
-    console.log(error);
-  }
   return (
     <React.Fragment>
       <Nav />
       <StyledContainer>
         <StyledCard>
           <form>
-            <StyledFieldset disabled={loading}>
+            <StyledFieldset disabled={loading} aria-busy={loading}>
               <StyledTextTitle6>Signin into account:</StyledTextTitle6>
-
+              {error && <Error error={error} />}
               <TextField
                 data-test="input-email"
                 fullwidth
@@ -68,11 +75,13 @@ const Signin = () => {
                   validationMsg: true,
                 }}
                 pattern="^\S+@\S+\.\S+$"
+                required={true}
               />
               <TextField
                 data-test="input-pasword"
                 fullwidth
                 placeholder="Password"
+                type="password"
                 value={password}
                 onChange={handlePasswordChange}
                 minLength={8}
@@ -82,6 +91,7 @@ const Signin = () => {
                   validationMsg: true,
                 }}
                 pattern="^.{8,32}$"
+                required={true}
               />
             </StyledFieldset>
             <StyledButtons>

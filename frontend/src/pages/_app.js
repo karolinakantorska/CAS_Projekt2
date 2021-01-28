@@ -7,6 +7,7 @@ import Page from '../components/main/Page';
 
 import 'fontsource-hind';
 import 'fontsource-yanone-kaffeesatz';
+
 import '@material/button/dist/mdc.button.css';
 import '@material/icon-button/dist/mdc.icon-button.css';
 import '@material/card/dist/mdc.card.css';
@@ -43,8 +44,6 @@ class MyApp extends App {
 
   render() {
     const { Component, apollo, pageProps } = this.props;
-    //console.log('apollo:' , apollo)
-    //console.log('pageProps:', pageProps);
     return (
       <ApolloProvider client={apollo}>
         <Page>

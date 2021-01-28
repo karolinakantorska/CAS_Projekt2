@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import PropTypes from 'prop-types';
+import Error from '../main/Error';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 
 const User = (props) => {
@@ -28,7 +29,9 @@ const User = (props) => {
   if (loading) {
     return <p>Loading...</p>;
   }
-  if (error) return <p>Error connecting the server</p>;
+  if (error) {
+    return <Error error={error} />;
+  }
   if (data) {
     return (
       <div {...props}>
