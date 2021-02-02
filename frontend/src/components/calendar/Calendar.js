@@ -189,7 +189,6 @@ Calendar.propTypes = {
 const StyledCalendarContainer = styled.div`
   margin: auto;
   display: grid;
-  //padding: 1rem;
   grid-template-columns: repeat(7, 1fr);
   justify-content: center;
   grid-gap: 1% 0.5%;

@@ -37,7 +37,7 @@ const BookingConfirmation = ({ props }) => {
   const [description, setDescription] = useState('');
   const [nrOfPeople, setNrOfPeople] = useState(1);
   const [alreadyBookedTime, setAlreadyBookedTime] = useState('');
-
+  const router = useRouter();
   const { loading, error, data: dataDay } = useQuery(DAY_QUERY, {
     variables: {
       year,
@@ -46,8 +46,6 @@ const BookingConfirmation = ({ props }) => {
       id: guideId,
     },
   });
-  //console.log('dataDay');
-  //console.log(dataDay);
   if (dataDay) {
     dataDay.days.map((day) => {
       day.reservations.map((reservation) => {
@@ -55,6 +53,51 @@ const BookingConfirmation = ({ props }) => {
       });
     });
   }
+  const [
+    create_reservation,
+    { error: errorCreateReservation, onCompleted },
+  ] = useMutation(CREATE_RESERVATION, {
+    onCompleted: (data) => {
+      router.push({
+        pathname: '/thank_you',
+        query: {
+          time,
+          day,
+          month,
+          year,
+          guideName,
+          guideSurname,
+          guideId,
+          userName,
+        },
+      });
+    },
+    onError: (errorCreateReservation) => {
+      errorCreateReservation;
+    },
+  });
+
+  const [create_day, { error: errorCreateDay, data }] = useMutation(CREATE_DAY, {
+    onCompleted: (data) => {
+      router.push({
+        pathname: '/thank_you',
+        query: {
+          time,
+          day,
+          month,
+          year,
+          guideName,
+          guideSurname,
+          guideId,
+          userName,
+        },
+      });
+    },
+    onError: (errorCreateDay) => {
+      errorCreateDay;
+    },
+  });
+
   function handleTimeChange(e) {
     switch (e.target.value) {
       case chooseWholeDay:
@@ -74,16 +117,15 @@ const BookingConfirmation = ({ props }) => {
   function handleNrOfPeopleChange(e) {
     setNrOfPeople(e.target.value);
   }
-  const [
-    create_reservation,
-    { loading: loadingCreateReservation, error: errorCreateReservation, onCompleted },
-  ] = useMutation(CREATE_RESERVATION, {});
-  const router = useRouter();
-  const [
-    create_day,
-    { loading: loadingCreateDay, error: errorCreateDay, data },
-  ] = useMutation(CREATE_DAY, {});
+  function addErrorMessage(parrentClass, textMessage) {
+    const errorContainer = document.querySelector(`.${parrentClass}`);
+    errorContainer.insertAdjacentHTML('beforeend', `${textMessage}`);
+  }
   function handleSubmitt(userName, userEmail) {
+    if (!time) {
+      addErrorMessage('error_noTime', 'Please enter the time.');
+      return;
+    }
     // day exist
     if (dataDay.days.length > 0) {
       const { id } = dataDay.days[0];
@@ -98,12 +140,6 @@ const BookingConfirmation = ({ props }) => {
           id, //existing day id
         },
       });
-      if (loadingCreateReservation) {
-        console.log('loadingCreateReservation');
-      }
-      if (onCompleted) {
-        console.log('onCompleted');
-      }
     }
     // day doesn't exist yet
     if (dataDay.days.length === 0) {
@@ -121,19 +157,6 @@ const BookingConfirmation = ({ props }) => {
         },
       });
     }
-    router.push({
-      pathname: '/thank_you',
-      query: {
-        time,
-        day,
-        month,
-        year,
-        guideName,
-        guideSurname,
-        guideId,
-        userName,
-      },
-    });
   }
   if (loading) {
     return <p>Loading...</p>;
@@ -152,6 +175,10 @@ const BookingConfirmation = ({ props }) => {
                 <StyledTextTitle6>
                   Hallo {currentUserName}, confirm your booking details!
                 </StyledTextTitle6>
+                <StyledError className="error_noTime">
+                  {errorCreateReservation && <Error error={errorCreateReservation} />}
+                  {errorCreateDay && <Error error={errorCreateDay} />}
+                </StyledError>
                 <StyledTextBody1>
                   Your MTB Guide will be:{' '}
                   <strong>
@@ -170,6 +197,7 @@ const BookingConfirmation = ({ props }) => {
                 {alreadyBookedTime === 'PM' && (
                   <StyledSelect
                     placeholder="Please chose the time of a day"
+                    invalid={!Boolean(time)}
                     options={[chooseMorning]}
                     onChange={(e) => handleTimeChange(e)}
                   />
@@ -177,6 +205,7 @@ const BookingConfirmation = ({ props }) => {
                 {alreadyBookedTime === 'AM' && (
                   <StyledSelect
                     placeholder="Please chose the time of a day"
+                    invalid={!Boolean(time)}
                     options={[chooseAfternoon]}
                     onChange={(e) => handleTimeChange(e)}
                   />
@@ -184,6 +213,7 @@ const BookingConfirmation = ({ props }) => {
                 {alreadyBookedTime === '' && (
                   <StyledSelect
                     placeholder="Please chose the time of a day"
+                    invalid={!Boolean(time)}
                     options={[chooseWholeDay, chooseMorning, chooseAfternoon]}
                     onChange={(e) => handleTimeChange(e)}
                   />
@@ -200,7 +230,7 @@ const BookingConfirmation = ({ props }) => {
                   evening? Have some Ideas where would you like to go?
                 </StyledTextBody1>
                 <Ripple>
-                  <StyledTextField
+                  <TextField
                     textarea
                     fullwidth
                     rows={2}
@@ -218,7 +248,6 @@ const BookingConfirmation = ({ props }) => {
                   <StyledTextButtonBlack>Confirm and Go!</StyledTextButtonBlack>
                 </StyledButton>
               </StyledSpanPadding>
-              {errorCreateDay && <p>Error :( Please try again</p>}
             </StyledCard>
           </StyledContainer>
         </span>
@@ -234,7 +263,9 @@ BookingConfirmation.propTypes = {
   guideName: PropTypes.string,
   guideSurname: PropTypes.string,
 };
-const StyledTextField = styled(TextField)``;
+const StyledError = styled.div`
+  color: var(--colorWarning);
+`;
 const StyledSelect = styled(Select)`
   //margin-top: -1rem;
   div {

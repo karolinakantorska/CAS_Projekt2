@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@apollo/client';
+/*import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 // Components
@@ -74,3 +74,4 @@ BookingInfo.propTypes = {
   id: PropTypes.string,
 };
 export default BookingInfo;
+*/

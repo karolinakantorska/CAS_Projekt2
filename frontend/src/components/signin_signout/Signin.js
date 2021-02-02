@@ -64,6 +64,7 @@ const Signin = () => {
               {error && <Error error={error} />}
               <TextField
                 data-test="input-email"
+                required
                 fullwidth
                 placeholder="Email"
                 value={email}
@@ -79,6 +80,7 @@ const Signin = () => {
               />
               <TextField
                 data-test="input-pasword"
+                required
                 fullwidth
                 placeholder="Password"
                 type="password"

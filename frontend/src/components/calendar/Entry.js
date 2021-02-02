@@ -67,6 +67,7 @@ Entry.propTypes = {
 };
 const EntrySpan = styled.span`
   display: grid;
+  max-width: 138px;
   font-size: 0.9rem;
   margin-top: 6px;
   border-radius: 5px;

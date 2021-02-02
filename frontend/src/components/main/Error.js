@@ -11,12 +11,17 @@ const Error = ({ error }) => {
   ) {
     return error.networkError.result.errors.map((error, i) => (
       <div key={i}>
-        <p data-test="testid-graphql-error">
+        <StyledP data-test="testid-graphql-error">
           {error.message.replace('GraphQL error: ', '')}
-        </p>
+        </StyledP>
       </div>
     ));
   }
+  /*
+  if (error.graphQLErrors) {
+    error.graphQLErrors.map((error) => console.log(error.code));
+  }
+  */
   return (
     <div>
       <StyledP data-test="testid-graphql-error">

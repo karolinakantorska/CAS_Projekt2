@@ -1,4 +1,4 @@
-import BookingInfo from '../components/booking/BookingInfo';
+/*import BookingInfo from '../components/booking/BookingInfo';
 
 
 const DeleteOrEditBooking = (props) => {
@@ -11,3 +11,4 @@ const DeleteOrEditBooking = (props) => {
 };
 
 export default DeleteOrEditBooking;
+*/

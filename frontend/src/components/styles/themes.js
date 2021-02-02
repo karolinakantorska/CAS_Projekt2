@@ -1,4 +1,5 @@
 export const themeStyled = {
+  /*
   maxWidth: '1000px',
   colorText: {
     primary: '#212121',
@@ -13,6 +14,7 @@ export const themeStyled = {
     light: '#EEEEEE',
     warning: '#FFAB91',
   },
+  */
   fontFamilyCalendar: 'Yanone Kaffeesatz, Arial, sans-serif',
   fontFamily: 'Hind, Arial, sans-serif',
 };

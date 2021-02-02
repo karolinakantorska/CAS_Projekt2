@@ -1,6 +1,6 @@
 import React from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -19,26 +19,33 @@ import {
 
 const BookingEdit = (props) => {
   const { id } = props;
-  const router = useRouter();
+
   const { error, loading, data } = useQuery(RESERVATION_QUERY, {
     variables: { id },
   });
   function handleClose() {
-    router.push({
+    Router.push({
       pathname: '/guides',
     });
   }
   function handleDelete() {
-    console.log('delete');
     delete_reservation({
       variables: { id },
     });
-    handleClose();
   }
-  const [delete_reservation, { data: dataDeleteReservation }] = useMutation(
-    DELETE_RESERVATION,
-    {},
-  );
+  const [
+    delete_reservation,
+    { error: errorDeleteReservation, data: dataDeleteReservation },
+  ] = useMutation(DELETE_RESERVATION, {
+    onCompleted: (data) => {
+      Router.push({
+        pathname: '/guides',
+      });
+    },
+    onError: (errorDeleteReservation) => {
+      errorDeleteReservation;
+    },
+  });
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -58,7 +65,7 @@ const BookingEdit = (props) => {
           <StyledTextTitle6>
             Reservation on {day} {month} {year}
           </StyledTextTitle6>
-          l
+          {errorDeleteReservation && <Error error={error} />}
           <StyledTextBody1>
             Booked by: <strong>{userName}</strong>. for , <strong>{nrOfPeople}</strong>{' '}
             guest(s).

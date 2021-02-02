@@ -6,7 +6,7 @@ import styled from 'styled-components';
 // RMWC
 import { CardPrimaryAction } from '@rmwc/card';
 import { Button } from '@rmwc/button';
-import Error from '../main/Error';
+
 // Components
 import Nav from '../main/Nav';
 import Error from '../main/Error';
