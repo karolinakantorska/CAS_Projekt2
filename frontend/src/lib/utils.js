@@ -9,7 +9,18 @@ export const weekDaysEN = () => {
   }
   return week;
 };
-
+export const regexCheckEmail = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
+export const regexCheckPassword = /^[^ ]{8,32}$/;
+export const messageWrongEmail = `The password should be longer than 8 signs. Space is not alowed.`;
+export const regexCheckName = /^.{2,12}$/;
+export const messageWrongName = `The name must be longer than 2 and shorter than 12 signs.`;
+export function addErrorMessage(textMessage) {
+  const errorContainer = document.querySelector(`.error_div`);
+  errorContainer.insertAdjacentHTML('beforeend', `<p>${textMessage}</p>`);
+}
+export function removeErrorMessage() {
+  document.querySelector(`.error_div`).innerHTML = '';
+}
 //
 //BookingConfirmation
 

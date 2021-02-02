@@ -24,7 +24,6 @@ const Signin = () => {
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
     awaitRefetchQueries: true,
     onCompleted: (data) => {
-      //console.log('Data from mutation', data),
       setEmail('');
       setPassword('');
       router.push('/guides');

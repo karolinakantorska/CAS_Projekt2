@@ -11,6 +11,8 @@ import { Ripple } from '@rmwc/ripple';
 import Nav from '../main/Nav';
 import User from '../main/User';
 import Error from '../main/Error';
+import ErrorMessage from '../main/ErrorMessage';
+
 import DAY_QUERY from '../../graphgl/queries/DAY_QUERY';
 import CREATE_DAY from '../../graphgl/mutations/CREATE_DAY';
 import CREATE_RESERVATION from '../../graphgl/mutations/CREATE_RESERVATION';
@@ -22,7 +24,12 @@ import {
   StyledTextTitle6,
   StyledTextButtonBlack,
 } from '../styles/StyledText';
-import { chooseWholeDay, chooseMorning, chooseAfternoon } from '../../lib/utils';
+import {
+  chooseWholeDay,
+  chooseMorning,
+  chooseAfternoon,
+  addErrorMessage,
+} from '../../lib/utils';
 
 const BookingConfirmation = ({ props }) => {
   const {
@@ -117,13 +124,10 @@ const BookingConfirmation = ({ props }) => {
   function handleNrOfPeopleChange(e) {
     setNrOfPeople(e.target.value);
   }
-  function addErrorMessage(parrentClass, textMessage) {
-    const errorContainer = document.querySelector(`.${parrentClass}`);
-    errorContainer.insertAdjacentHTML('beforeend', `${textMessage}`);
-  }
+
   function handleSubmitt(userName, userEmail) {
     if (!time) {
-      addErrorMessage('error_noTime', 'Please enter the time.');
+      addErrorMessage('Please enter the time.');
       return;
     }
     // day exist
@@ -175,10 +179,9 @@ const BookingConfirmation = ({ props }) => {
                 <StyledTextTitle6>
                   Hallo {currentUserName}, confirm your booking details!
                 </StyledTextTitle6>
-                <StyledError className="error_noTime">
-                  {errorCreateReservation && <Error error={errorCreateReservation} />}
-                  {errorCreateDay && <Error error={errorCreateDay} />}
-                </StyledError>
+                <ErrorMessage />
+                {errorCreateReservation && <Error error={errorCreateReservation} />}
+                {errorCreateDay && <Error error={errorCreateDay} />}
                 <StyledTextBody1>
                   Your MTB Guide will be:{' '}
                   <strong>
@@ -191,6 +194,7 @@ const BookingConfirmation = ({ props }) => {
                     {year}/{month}/{day}
                   </strong>
                 </StyledTextBody1>
+
                 <StyledTextBody1>
                   Do you preffer Morning or Aftenoon Trip?
                 </StyledTextBody1>
@@ -263,9 +267,7 @@ BookingConfirmation.propTypes = {
   guideName: PropTypes.string,
   guideSurname: PropTypes.string,
 };
-const StyledError = styled.div`
-  color: var(--colorWarning);
-`;
+
 const StyledSelect = styled(Select)`
   //margin-top: -1rem;
   div {

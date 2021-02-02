@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import { Icon } from '@rmwc/icon';
 import Signout from '../signin_signout/Signout';
 import User from './User';
-import MenuDrawer from './MenuDrawer';
-import { StyledTextMenuBlack } from '../styles/StyledText';
+import { StyledTextMenuBlack, StyledTextBody2 } from '../styles/StyledText';
 
 const Nav = (props) => {
   return (
@@ -13,10 +12,9 @@ const Nav = (props) => {
       {(currentUserPermission, currentUserName) => (
         <StyledNav>
           <div data-test="nav">
-            <MenuDrawer className="menu" currentUserPermission={currentUserPermission} />
-            <StyledTextMenuBlack className="user" data-test="a-userName">
-              User:{currentUserName}
-            </StyledTextMenuBlack>
+            <StyledTextBody2 className="user" data-test="a-userName">
+              {currentUserName}
+            </StyledTextBody2>
             <Link href="/">
               <StyledTextMenuBlack className="home ">Home</StyledTextMenuBlack>
             </Link>
@@ -47,6 +45,7 @@ const Nav = (props) => {
   );
 };
 const StyledNav = styled.nav`
+  cursor: pointer;
   white-space: nowrap;
   background: linear-gradient(
     180deg,
@@ -54,21 +53,21 @@ const StyledNav = styled.nav`
     rgba(255, 255, 255, 0.7) 80%,
     rgba(255, 255, 255, 0.1) 100%
   );
-  cursor: pointer;
+
   div {
     margin: auto;
-    padding-top: 0.5rem;
     max-width: var(--maxWidth);
-    height: 50px;
     display: grid;
+    grid-template-rows: 1fr, 1fr;
     //grid-template-columns: 50fr 50fr 20fr 30fr 10fr;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    grid-template-areas: ' user add home guides signin';
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-areas:
+      ' none none none user'
+      ' home add guides signin';
   }
   a,
   span {
     color: #212121;
-    justify-self: end;
     align-self: center;
     white-space: nowrap;
   }
@@ -82,9 +81,10 @@ const StyledNav = styled.nav`
   a:active {
   }
   .user {
+    cursor: auto;
     grid-area: user;
-    justify-self: start;
-    padding-left: 8px;
+    justify-self: center;
+    align-self: start;
   }
   .home {
     grid-area: home;
@@ -106,20 +106,6 @@ const StyledNav = styled.nav`
     display: none;
   }
   @media (max-width: 420px) {
-    .menu {
-      grid-area: user;
-      justify-self: start;
-      display: inline;
-    }
-    .user {
-      grid-area: guides;
-      justify-self: end;
-    }
-    .home,
-    .add,
-    .guides {
-      display: none;
-    }
   }
 `;
 

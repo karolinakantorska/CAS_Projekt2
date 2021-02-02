@@ -8,6 +8,16 @@ import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 import SIGNUP_MUTATION from '../../graphgl/mutations/SIGNUP_MUTATION';
 import Nav from '../main/Nav';
 import Error from '../main/Error';
+import ErrorMessage from '../main/ErrorMessage';
+import {
+  addErrorMessage,
+  regexCheckEmail,
+  regexCheckPassword,
+  messageWrongEmail,
+  regexCheckName,
+  messageWrongName,
+  removeErrorMessage,
+} from '../../lib/utils';
 import { StyledContainer } from '../styles/StyledContainer';
 import { StyledCard } from '../styles/StyledForm';
 import { StyledFieldset, StyledButtons, StyledButton } from '../styles/StyledForm';
@@ -48,15 +58,25 @@ const Signup = () => {
     console.log(e.target.validity.valid);
     setName(e.target.value);
   }
+
   function handleSignup(e) {
     e.preventDefault();
-    signup({
-      variables: {
-        email,
-        password,
-        name,
-      },
-    });
+    removeErrorMessage();
+    if (!regexCheckEmail.test(email)) {
+      addErrorMessage(`${email} is not a valid email adresse.`);
+    } else if (!regexCheckPassword.test(password)) {
+      addErrorMessage(messageWrongEmail);
+    } else if (!regexCheckName.test(name)) {
+      addErrorMessage(messageWrongName);
+    } else {
+      signup({
+        variables: {
+          email,
+          password,
+          name,
+        },
+      });
+    }
   }
   return (
     <React.Fragment>
@@ -66,34 +86,21 @@ const Signup = () => {
           <form>
             <StyledFieldset disabled={loading} aria-busy={loading}>
               <StyledTextTitle6>Signup for a account:</StyledTextTitle6>
+              <ErrorMessage error={error} />
               {error && <Error error={error} />}
               <TextField
                 fullwidth
                 placeholder="Name"
                 value={name}
                 onChange={(e) => handleNameChange(e)}
-                minLength={2}
-                maxLength={12}
-                helpText={{
-                  persistent: true,
-                  validationMsg: true,
-                }}
-                pattern="[A-Za-z]{2,12}"
-                required={true}
+                required
+                className="input_name"
               />
               <TextField
                 fullwidth
                 placeholder="Email"
                 value={email}
                 onChange={handleEmailChange}
-                minLength={5}
-                maxLength={100}
-                helpText={{
-                  persistent: true,
-                  validationMsg: true,
-                }}
-                pattern="^\S+@\S+\.\S+$"
-                required={true}
               />
               <TextField
                 fullwidth
@@ -101,14 +108,7 @@ const Signup = () => {
                 value={password}
                 type="password"
                 onChange={handlePasswordChange}
-                minLength={8}
-                maxLength={32}
-                helpText={{
-                  persistent: true,
-                  validationMsg: true,
-                }}
-                pattern="^.{8,32}$"
-                required={true}
+                required
               />
             </StyledFieldset>
             <StyledButtons>
