@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+/*import { gql } from '@apollo/client';
 
 const DAY_QUERY_WITHOUT_ID = gql`
   query DAY_QUERY_WITHOUT_ID(
@@ -15,3 +15,4 @@ const DAY_QUERY_WITHOUT_ID = gql`
 `;
 
 export default DAY_QUERY_WITHOUT_ID;
+*/

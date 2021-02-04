@@ -21,7 +21,7 @@ const CREATE_RESERVATION = gql`
     ) {
       id
       time
-      userName
+      #userName
       userEmail
       nrOfPeople
       description

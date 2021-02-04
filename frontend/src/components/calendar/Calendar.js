@@ -20,7 +20,7 @@ import { StyledElevation } from '../styles/StyledForm';
 import { StyledAvatar } from '../styles/StyledAvatar';
 
 const Calendar = ({ props }) => {
-  const { guideId, guideName, guideSurname, guidePhoto } = props;
+  const { guideId, guideName, guideSurname, guidePhoto, currentUserName } = props;
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedYear, setSelectedYear] = useState(format(selectedDate, 'y'));
   const [selectedMonth, setSelectedMonth] = useState(format(selectedDate, 'MMMM'));
@@ -54,20 +54,19 @@ const Calendar = ({ props }) => {
     setSelectedYear(format(selectedDate, 'y'));
     setFirstDayOfMonth(format(startOfMonth(selectedDate), 'i'));
     setDaysInMonth(getDaysInMonth(selectedDate));
-    refetch();
+    //refetch();
   }
+  /*
   useEffect(() => {
     updateStateWithSelectedDate();
   });
+  */
   // handle booking function
   const router = useRouter();
-  const handleBooking = (day, dayInThePast, time) => {
+  const handleBooking = (day, dayInThePast, bookedTime) => {
     if (dayInThePast === 'dayInThePast') {
       alert(`you can't book a day in the past`);
       return;
-    }
-    if (time === 'DAY') {
-      console.log(time);
     } else {
       router.push({
         pathname: '/confirm_booking',
@@ -78,6 +77,8 @@ const Calendar = ({ props }) => {
           guideId,
           guideName,
           guideSurname,
+          userName: currentUserName,
+          bookedTime,
           //guidePhoto,
         },
       });
@@ -99,14 +100,12 @@ const Calendar = ({ props }) => {
   const reservationsQueryDataTransformedToArray = () => {
     const reservationsByDays = {};
     data.days.map((bookings) => {
-      //console.log(bookings);
       const { day, reservations } = bookings;
       reservationsByDays[day] = reservations;
     });
     return reservationsByDays;
   };
   const reservations = reservationsQueryDataTransformedToArray();
-  //console.log(reservations);
   return (
     <User>
       {(currentUserPermission, currentUserName, currentUserEmail) => (

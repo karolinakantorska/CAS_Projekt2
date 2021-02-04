@@ -23,11 +23,11 @@ const Error = ({ error }) => {
   }
   */
   return (
-    <div>
+    <React.Fragment>
       <StyledP data-test="testid-graphql-error">
         {error.message.replace('GraphQL error: ', '')}
       </StyledP>
-    </div>
+    </React.Fragment>
   );
 };
 

@@ -8,6 +8,9 @@ import SIGNIN_MUTATION from '../../graphgl/mutations/SIGNIN_MUTATION';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 import Nav from '../main/Nav';
 import Error from '../main/Error';
+import ErrorMessage from '../main/ErrorMessage';
+import { validateForm, addErrorMessage, removeErrorMessage } from '../../lib/utils';
+import { useUser } from '../../lib/userState';
 
 import { StyledContainer } from '../styles/StyledContainer';
 import { StyledCard } from '../styles/StyledForm';
@@ -20,31 +23,36 @@ import {
 } from '../styles/StyledText';
 
 const Signin = () => {
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const router = useRouter();
+  const { addCurrentUser } = useUser();
   const [signin, { loading, error, data }] = useMutation(SIGNIN_MUTATION, {
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
     awaitRefetchQueries: true,
     onCompleted: (data) => {
       setEmail('');
       setPassword('');
+      addCurrentUser(data.signin);
       router.push('/guides');
     },
     onError: (error) => {
       error;
     },
   });
-
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const router = useRouter();
-
   function handleSignin(e) {
     e.preventDefault();
-    signin({
-      variables: {
-        email,
-        password,
-      },
-    });
+    removeErrorMessage();
+    const errors = validateForm(email, password);
+    addErrorMessage(errors);
+    if (errors.length === 0) {
+      signin({
+        variables: {
+          email,
+          password,
+        },
+      });
+    }
   }
   function handlePasswordChange(e) {
     setPassword(e.target.value);
@@ -60,6 +68,7 @@ const Signin = () => {
           <form>
             <StyledFieldset disabled={loading} aria-busy={loading}>
               <StyledTextTitle6>Signin into account:</StyledTextTitle6>
+              <ErrorMessage />
               {error && <Error error={error} />}
               <TextField
                 data-test="input-email"

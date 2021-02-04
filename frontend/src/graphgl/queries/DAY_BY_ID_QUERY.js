@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+/*import { gql } from '@apollo/client';
 
 const DAY_BY_ID_QUERY = gql`
   #query DAY_BY_ID_QUERY($id: ID, $guideId: ID) {
@@ -19,3 +19,4 @@ const DAY_BY_ID_QUERY = gql`
 `;
 
 export default DAY_BY_ID_QUERY;
+*/

@@ -7,6 +7,8 @@ import { Card } from '@rmwc/card';
 // Components
 import Nav from '../main/Nav';
 import Error from '../main/Error';
+import ErrorMessage from '../main/ErrorMessage';
+import { validateForm, addErrorMessage, removeErrorMessage } from '../../lib/utils';
 // Queries
 import ADD_GUIDE from '../../graphgl/mutations/ADD_GUIDE';
 import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
@@ -38,7 +40,6 @@ const AddGuide = () => {
     onError: (error) => {
       error;
     },
-
     update(cache, data) {
       // Get the current guide list
       const dataAll = cache.readQuery({
@@ -78,16 +79,21 @@ const AddGuide = () => {
   }
   function handleSubmit(e) {
     e.preventDefault();
-    add_guide({
-      variables: {
-        password: password.value,
-        email: email.value,
-        name: name.value,
-        surname: surname.value,
-        description: description.value,
-        photo: photo,
-      },
-    });
+    removeErrorMessage();
+    const errors = validateForm(email, password, name);
+    addErrorMessage(errors);
+    if (errors.length === 0) {
+      add_guide({
+        variables: {
+          password: password.value,
+          email: email.value,
+          name: name.value,
+          surname: surname.value,
+          description: description.value,
+          photo: photo,
+        },
+      });
+    }
   }
   if (loadingAll) {
     return <p>Loading...</p>;
@@ -96,7 +102,7 @@ const AddGuide = () => {
     return <Error error={errorAll} />;
   }
   return (
-    <div>
+    <React.Fragment>
       <Nav />
       <StyledContainer>
         <StyledCard>
@@ -109,6 +115,7 @@ const AddGuide = () => {
                   <StyledGuideImage src={photo} alt="Upload a photo" />
                 </StyledGuideCard>
               </label>
+              <ErrorMessage />
               {error && <Error error={error} />}
               <TextField
                 {...name}
@@ -160,7 +167,7 @@ const AddGuide = () => {
           </form>
         </StyledCard>
       </StyledContainer>
-    </div>
+    </React.Fragment>
   );
 };
 

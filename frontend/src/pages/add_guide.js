@@ -1,9 +1,5 @@
 import AddGuide from '../components/guide/AddGuide';
 
-const add_guide = (props) => (
-  <div>
-    <AddGuide />
-  </div>
-);
+const add_guide = () => <AddGuide />;
 
 export default add_guide;

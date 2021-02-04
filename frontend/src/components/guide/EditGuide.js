@@ -118,7 +118,7 @@ const UpdateGuide = (props) => {
   }
   if (data) {
     return (
-      <div>
+      <React.Fragment>
         <Nav />
         <StyledContainer>
           <StyledCard>
@@ -179,7 +179,7 @@ const UpdateGuide = (props) => {
             )}
           </StyledCard>
         </StyledContainer>
-      </div>
+      </React.Fragment>
     );
   }
 };

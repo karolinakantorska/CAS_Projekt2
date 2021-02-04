@@ -9,15 +9,7 @@ import SIGNUP_MUTATION from '../../graphgl/mutations/SIGNUP_MUTATION';
 import Nav from '../main/Nav';
 import Error from '../main/Error';
 import ErrorMessage from '../main/ErrorMessage';
-import {
-  addErrorMessage,
-  regexCheckEmail,
-  regexCheckPassword,
-  messageWrongEmail,
-  regexCheckName,
-  messageWrongName,
-  removeErrorMessage,
-} from '../../lib/utils';
+import { validateForm, addErrorMessage, removeErrorMessage } from '../../lib/utils';
 import { StyledContainer } from '../styles/StyledContainer';
 import { StyledCard } from '../styles/StyledForm';
 import { StyledFieldset, StyledButtons, StyledButton } from '../styles/StyledForm';
@@ -26,9 +18,12 @@ import {
   StyledTextButtonBlack,
   StyledTextButtonColor,
 } from '../styles/StyledText';
-// TODO better error handling
 
 const Signup = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const router = useRouter();
   const [signup, { loading, error, data }] = useMutation(SIGNUP_MUTATION, {
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
     awaitRefetchQueries: true,
@@ -42,11 +37,6 @@ const Signup = () => {
       error;
     },
   });
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-
-  const router = useRouter();
 
   function handleEmailChange(e) {
     setEmail(e.target.value);
@@ -55,20 +45,14 @@ const Signup = () => {
     setPassword(e.target.value);
   }
   function handleNameChange(e) {
-    console.log(e.target.validity.valid);
     setName(e.target.value);
   }
-
   function handleSignup(e) {
     e.preventDefault();
     removeErrorMessage();
-    if (!regexCheckEmail.test(email)) {
-      addErrorMessage(`${email} is not a valid email adresse.`);
-    } else if (!regexCheckPassword.test(password)) {
-      addErrorMessage(messageWrongEmail);
-    } else if (!regexCheckName.test(name)) {
-      addErrorMessage(messageWrongName);
-    } else {
+    const errors = validateForm(email, password, name);
+    addErrorMessage(errors);
+    if (errors.length === 0) {
       signup({
         variables: {
           email,
@@ -86,7 +70,7 @@ const Signup = () => {
           <form>
             <StyledFieldset disabled={loading} aria-busy={loading}>
               <StyledTextTitle6>Signup for a account:</StyledTextTitle6>
-              <ErrorMessage error={error} />
+              <ErrorMessage />
               {error && <Error error={error} />}
               <TextField
                 fullwidth
@@ -94,13 +78,14 @@ const Signup = () => {
                 value={name}
                 onChange={(e) => handleNameChange(e)}
                 required
-                className="input_name"
+                className="name_input"
               />
               <TextField
                 fullwidth
                 placeholder="Email"
                 value={email}
                 onChange={handleEmailChange}
+                className="email_input"
               />
               <TextField
                 fullwidth
@@ -109,6 +94,7 @@ const Signup = () => {
                 type="password"
                 onChange={handlePasswordChange}
                 required
+                className="password_input"
               />
             </StyledFieldset>
             <StyledButtons>

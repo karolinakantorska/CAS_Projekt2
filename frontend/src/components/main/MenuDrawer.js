@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+/*import React, { useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 import { Drawer, DrawerContent, DrawerHeader } from '@rmwc/drawer';
@@ -54,3 +54,4 @@ const StyledDrawer = styled(Drawer)`
 `;
 
 export default MenuDrawer;
+*/

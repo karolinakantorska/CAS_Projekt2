@@ -2,12 +2,7 @@ import BookingConfirmation from '../components/booking/BookingConfirmation';
 
 const confirm = (props) => {
   const { query } = props;
-
-  return (
-    <div>
-      <BookingConfirmation props={query} />
-    </div>
-  );
+  return <BookingConfirmation props={query} />;
 };
 
 export default confirm;

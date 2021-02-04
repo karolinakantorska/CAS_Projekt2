@@ -17,8 +17,8 @@ import {
 } from '../styles/StyledText';
 
 const Guide = (props) => {
-  const { currentUserPermission } = props;
-  const { id, email, name, surname, description, photo } = props.user;
+  const { currentUserPermission, currentUserName } = props;
+  const { id, email, name, surname, description, photo } = props.guide;
   const router = useRouter();
   function goToBookingPage() {
     if (currentUserPermission) {
@@ -29,6 +29,7 @@ const Guide = (props) => {
           guideName: name,
           guideSurname: surname,
           guidePhoto: photo,
+          currentUserName,
         },
       });
     } else {

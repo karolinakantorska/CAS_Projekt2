@@ -3,45 +3,42 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { Icon } from '@rmwc/icon';
 import Signout from '../signin_signout/Signout';
-import User from './User';
+import { useUser } from '../../lib/userState';
 import { StyledTextMenuBlack, StyledTextBody2 } from '../styles/StyledText';
 
-const Nav = (props) => {
+const Nav = () => {
+  const { currentUser } = useUser();
   return (
-    <User>
-      {(currentUserPermission, currentUserName) => (
-        <StyledNav>
-          <div data-test="nav">
-            <StyledTextBody2 className="user" data-test="a-userName">
-              {currentUserName}
-            </StyledTextBody2>
-            <Link href="/">
-              <StyledTextMenuBlack className="home ">Home</StyledTextMenuBlack>
-            </Link>
-            <Link href="/guides">
-              <StyledTextMenuBlack className="guides">MTB Guides</StyledTextMenuBlack>
-            </Link>
-            {currentUserPermission === 'ADMIN' && (
-              <Link href="/add_guide">
-                <StyledTextMenuBlack className="add">Add Guide</StyledTextMenuBlack>
-              </Link>
-            )}
-            {currentUserName && (
-              <span className="signin">
-                <Signout />
-              </span>
-            )}
-            {!currentUserName && (
-              <Link href="/signin_page">
-                <StyledTextMenuBlack className="signin">
-                  <Icon icon="person_outline" aria-label="Login" />
-                </StyledTextMenuBlack>
-              </Link>
-            )}
-          </div>
-        </StyledNav>
-      )}
-    </User>
+    <StyledNav>
+      <div data-test="nav">
+        <StyledTextBody2 className="user" data-test="a-userName">
+          {currentUser.name}
+        </StyledTextBody2>
+        <Link href="/">
+          <StyledTextMenuBlack className="home ">Home</StyledTextMenuBlack>
+        </Link>
+        <Link href="/guides">
+          <StyledTextMenuBlack className="guides">MTB Guides</StyledTextMenuBlack>
+        </Link>
+        {currentUser.permissions === 'ADMIN' && (
+          <Link href="/add_guide">
+            <StyledTextMenuBlack className="add">Add Guide</StyledTextMenuBlack>
+          </Link>
+        )}
+        {currentUser.name && (
+          <span className="signin">
+            <Signout />
+          </span>
+        )}
+        {!currentUser.name && (
+          <Link href="/signin_page">
+            <StyledTextMenuBlack className="signin">
+              <Icon icon="person_outline" aria-label="Login" />
+            </StyledTextMenuBlack>
+          </Link>
+        )}
+      </div>
+    </StyledNav>
   );
 };
 const StyledNav = styled.nav`

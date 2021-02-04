@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+/*import { gql } from '@apollo/client';
 
 const ALL_USERS_QUERY = gql`
   query ALL_USERS_QUERY {
@@ -14,3 +14,4 @@ const ALL_USERS_QUERY = gql`
 `;
 
 export default ALL_USERS_QUERY;
+*/

@@ -5,6 +5,8 @@ const SIGNIN_MUTATION = gql`
     signin(email: $email, password: $password) {
       id
       email
+      name
+      permissions
     }
   }
 `;

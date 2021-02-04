@@ -29,6 +29,7 @@ import '@material/notched-outline/dist/mdc.notched-outline.css';
 import '@material/line-ripple/dist/mdc.line-ripple.css';
 import '@material/drawer/dist/mdc.drawer.css';
 import '@material/list/dist/mdc.list.css';
+import { UserStateProvider } from '../lib/userState';
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -43,12 +44,14 @@ class MyApp extends App {
   }
 
   render() {
-    const { Component, apollo, pageProps } = this.props;
+    const { Component, pageProps, apollo } = this.props;
     return (
       <ApolloProvider client={apollo}>
-        <Page>
-          <Component {...pageProps} />
-        </Page>
+        <UserStateProvider>
+          <Page>
+            <Component {...pageProps} />
+          </Page>
+        </UserStateProvider>
       </ApolloProvider>
     );
   }

@@ -17,8 +17,9 @@ const DaySpan = (props) => {
   } = props;
   // if there is only one reservation at the day, different than DAY reservation
   if (reservation.length === 1) {
-    //console.log('reservation[0]', reservation[0]);
+    console.log('reservation[0]', reservation[0]);
     const { time, userName, userEmail, id, guide } = reservation[0];
+    const guideName = guide.name;
     return (
       // if there is 1 reservations at the day
       <DaySpanStyled>
@@ -31,7 +32,7 @@ const DaySpan = (props) => {
           id={id}
           currentUserPermission={currentUserPermission}
           currentUserName={currentUserName}
-          guideName={guide.name}
+          guideName={guideName}
           key={id}
         />
         {time !== 'DAY' && (
@@ -49,7 +50,8 @@ const DaySpan = (props) => {
       <DaySpanStyled>
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
         {reservation.map((res) => {
-          const { time, userName, userEmail, id } = res;
+          const { time, userName, userEmail, id, guide } = res;
+          const guideName = guide.name;
           return (
             <Entry
               key={time}
@@ -59,7 +61,7 @@ const DaySpan = (props) => {
               id={id}
               currentUserPermission={currentUserPermission}
               currentUserName={currentUserName}
-              guideName={guide.name}
+              guideName={guideName}
               key={id}
             />
           );
@@ -69,12 +71,13 @@ const DaySpan = (props) => {
   }
   // if there are no reservations at the day
   else {
+    const time = '';
     return (
       <DaySpanStyled>
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
         <StyledBookingSpanDay
           className={`${dayInThePast}`}
-          onClick={() => handleBooking(dayOfMonth, dayInThePast)}
+          onClick={() => handleBooking(dayOfMonth, dayInThePast, time)}
         />
       </DaySpanStyled>
     );

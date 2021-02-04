@@ -3,15 +3,18 @@ import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { Icon } from '@rmwc/icon';
 import Error from '../main/Error';
+import { useUser } from '../../lib/userState';
 import SIGN_OUT_MUTATION from '../../graphgl/mutations/SIGN_OUT_MUTATION';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 import { StyledTextMenuBlack } from '../styles/StyledText';
 
-const Signout = (props) => {
+const Signout = () => {
+  const { removeCurrentUser } = useUser();
   const [signout, { loading, error, data }] = useMutation(SIGN_OUT_MUTATION, {
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
     awaitRefetchQueries: true,
     onCompleted: () => {
+      removeCurrentUser();
       router.push('/signin_page');
     },
     onError: (error) => {

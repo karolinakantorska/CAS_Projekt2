@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+/*import { gql } from '@apollo/client';
 
 const ONE_RESERVATION_QUERY = gql`
   query ONE_RESERVATION_QUERY($id: ID!) {
@@ -25,3 +25,4 @@ const ONE_RESERVATION_QUERY = gql`
 `;
 
 export default ONE_RESERVATION_QUERY;
+*/

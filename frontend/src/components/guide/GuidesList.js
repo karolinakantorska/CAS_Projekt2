@@ -6,41 +6,45 @@ import User from '../main/User';
 import Nav from '../main/Nav';
 import GuideCard from './GuideCard';
 import Error from '../main/Error';
+import { useUser } from '../../lib/userState';
 // Queries
 import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
 // Components for Styling
 import { StyledContainer } from '../styles/StyledContainer';
 
 const GuidesList = (props) => {
+  const { currentUser } = useUser();
+  console.log(currentUser);
+
   const { loading, error, data } = useQuery(ALL_GUIDES_QUERY, {
     variables: { permissions: 'GUIDE' },
   });
-  //console.log(data);
   if (loading) {
     return <p>Loading...</p>;
   }
   if (error) {
     return (
-      <div>
+      <React.Fragment>
         <Error error={error} />
         <p>Error: Can't download Guides, please try again later.</p>
-      </div>
+      </React.Fragment>
     );
   }
   if (data) {
     return (
       <User>
-        {(currentUserPermission) => (
+        {(currentUserPermission, currentUserName) => (
           <span>
             <Nav />
             <StyledContainer>
               <StyledCard>
-                {data.users.map((user) => (
+                {data.users.map((guide) => (
                   <GuideCard
                     data-test="guideCard"
                     currentUserPermission={currentUserPermission}
-                    user={user}
-                    key={user.id}
+                    guide={guide}
+                    key={guide.id}
+                    currentUserName={currentUserName}
                   />
                 ))}
               </StyledCard>

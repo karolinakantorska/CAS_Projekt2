@@ -5,7 +5,6 @@ import Calendar from '../calendar/Calendar';
 import { StyledContainer } from '../styles/StyledContainer';
 
 const Booking = (props) => {
-  const { guideId, guideName, guideSurname, guidePhoto } = props.props;
   return (
     <div>
       <Nav />
