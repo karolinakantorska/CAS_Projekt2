@@ -6,34 +6,31 @@ import User from '../main/User';
 import Nav from '../main/Nav';
 import GuideCard from './GuideCard';
 import Error from '../main/Error';
-import { useUser } from '../../lib/userState';
 // Queries
 import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
 // Components for Styling
 import { StyledContainer } from '../styles/StyledContainer';
 
 const GuidesList = (props) => {
-  const { currentUser } = useUser();
-  console.log(currentUser);
-
   const { loading, error, data } = useQuery(ALL_GUIDES_QUERY, {
     variables: { permissions: 'GUIDE' },
   });
+  //console.log(data);
   if (loading) {
     return <p>Loading...</p>;
   }
   if (error) {
     return (
-      <React.Fragment>
+      <div>
         <Error error={error} />
         <p>Error: Can't download Guides, please try again later.</p>
-      </React.Fragment>
+      </div>
     );
   }
   if (data) {
     return (
       <User>
-        {(currentUserPermission, currentUserName) => (
+        {(currentUserPermission) => (
           <span>
             <Nav />
             <StyledContainer>
@@ -44,7 +41,6 @@ const GuidesList = (props) => {
                     currentUserPermission={currentUserPermission}
                     guide={guide}
                     key={guide.id}
-                    currentUserName={currentUserName}
                   />
                 ))}
               </StyledCard>
@@ -57,7 +53,6 @@ const GuidesList = (props) => {
 };
 const StyledCard = styled.div`
   display: grid;
-
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   grid-gap: 1% 2%;
   row-gap: 15px;

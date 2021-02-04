@@ -10,7 +10,7 @@ import { Ripple } from '@rmwc/ripple';
 
 import Nav from '../main/Nav';
 import User from '../main/User';
-import { useUser } from '../../lib/userState';
+//import { useUser } from '../../lib/userState';
 import Error from '../main/Error';
 import ErrorMessage from '../main/ErrorMessage';
 
@@ -34,11 +34,13 @@ import {
   removeErrorMessage,
 } from '../../lib/utils';
 const BookingConfirmation = ({ props }) => {
+  /*
   const { currentUser } = useUser();
   const userName = currentUser.name;
   const userEmail = currentUser.email;
   console.log('userName', userName);
   console.log('userEmail', userEmail);
+  */
   const {
     day,
     selectedMonth: month,
@@ -87,7 +89,7 @@ const BookingConfirmation = ({ props }) => {
           guideName,
           guideSurname,
           guideId,
-          userName,
+          //userName,
         },
       });
     },
@@ -107,7 +109,7 @@ const BookingConfirmation = ({ props }) => {
           guideName,
           guideSurname,
           guideId,
-          userName,
+          //userName,
         },
       });
     },
@@ -134,7 +136,7 @@ const BookingConfirmation = ({ props }) => {
   function handleNrOfPeopleChange(e) {
     setNrOfPeople(e.target.value);
   }
-  function handleSubmitt(e) {
+  function handleSubmitt(e, userName, userEmail) {
     e.preventDefault();
     removeErrorMessage();
     const errors = validateFormBookingConfirmation(time);
@@ -183,88 +185,94 @@ const BookingConfirmation = ({ props }) => {
   }
   if (dataDay) {
     return (
-      <>
-        <Nav />
-        <StyledContainer>
-          <StyledCard>
-            <StyledSpanPadding>
-              <StyledTextTitle6>
-                Hallo {currentUser.name}, confirm your booking details!
-              </StyledTextTitle6>
-              <ErrorMessage />
-              {errorCreateReservation && <Error error={errorCreateReservation} />}
-              {errorCreateDay && <Error error={errorCreateDay} />}
-              <StyledTextBody1>
-                Your MTB Guide will be:{' '}
-                <strong>
-                  {guideName} {guideSurname}
-                </strong>
-              </StyledTextBody1>
-              <StyledTextBody1>
-                Booked Date:{' '}
-                <strong>
-                  {year}/{month}/{day}
-                </strong>
-              </StyledTextBody1>
+      <User>
+        {(currentUserPermission, currentUserName, currentUserEmail, currentUserId) => (
+          <>
+            <Nav />
+            <StyledContainer>
+              <StyledCard>
+                <StyledSpanPadding>
+                  <StyledTextTitle6>
+                    Hallo {currentUserName}, confirm your booking details!
+                  </StyledTextTitle6>
+                  <ErrorMessage />
+                  {errorCreateReservation && <Error error={errorCreateReservation} />}
+                  {errorCreateDay && <Error error={errorCreateDay} />}
+                  <StyledTextBody1>
+                    Your MTB Guide will be:{' '}
+                    <strong>
+                      {guideName} {guideSurname}
+                    </strong>
+                  </StyledTextBody1>
+                  <StyledTextBody1>
+                    Booked Date:{' '}
+                    <strong>
+                      {year}/{month}/{day}
+                    </strong>
+                  </StyledTextBody1>
 
-              <StyledTextBody1>Do you preffer Morning or Aftenoon Trip?</StyledTextBody1>
-              {bookedTime === 'PM' && (
-                <StyledSelect
-                  placeholder="Please chose the time of a day"
-                  invalid={!Boolean(time)}
-                  options={[chooseMorning]}
-                  onChange={(e) => handleTimeChange(e)}
-                />
-              )}
-              {bookedTime === 'AM' && (
-                <StyledSelect
-                  placeholder="Please chose the time of a day"
-                  invalid={!Boolean(time)}
-                  options={[chooseAfternoon]}
-                  onChange={(e) => handleTimeChange(e)}
-                />
-              )}
-              {bookedTime === '' && (
-                <StyledSelect
-                  placeholder="Please chose the time of a day"
-                  invalid={!Boolean(time)}
-                  options={[chooseWholeDay, chooseMorning, chooseAfternoon]}
-                  onChange={(e) => handleTimeChange(e)}
-                />
-              )}
-              <StyledTextBody1>How big is the group?</StyledTextBody1>
-              <StyledSelect
-                icon="directions_bike"
-                defaultValue="1"
-                onChange={(e) => handleNrOfPeopleChange(e)}
-                options={['1', '2', '3', '4', '5']}
-              />
-              <StyledTextBody1>
-                Write us, if you want to arrive latter, stay with us until a late evening?
-                Have some Ideas where would you like to go?
-              </StyledTextBody1>
-              <Ripple>
-                <TextField
-                  textarea
-                  fullwidth
-                  rows={2}
-                  maxLength={100}
-                  //value={password}
-                  onChange={handleDescriptionChange}
-                />
-              </Ripple>
+                  <StyledTextBody1>
+                    Do you preffer Morning or Aftenoon Trip?
+                  </StyledTextBody1>
+                  {bookedTime === 'PM' && (
+                    <StyledSelect
+                      placeholder="Please chose the time of a day"
+                      invalid={!Boolean(time)}
+                      options={[chooseMorning]}
+                      onChange={(e) => handleTimeChange(e)}
+                    />
+                  )}
+                  {bookedTime === 'AM' && (
+                    <StyledSelect
+                      placeholder="Please chose the time of a day"
+                      invalid={!Boolean(time)}
+                      options={[chooseAfternoon]}
+                      onChange={(e) => handleTimeChange(e)}
+                    />
+                  )}
+                  {bookedTime === '' && (
+                    <StyledSelect
+                      placeholder="Please chose the time of a day"
+                      invalid={!Boolean(time)}
+                      options={[chooseWholeDay, chooseMorning, chooseAfternoon]}
+                      onChange={(e) => handleTimeChange(e)}
+                    />
+                  )}
+                  <StyledTextBody1>How big is the group?</StyledTextBody1>
+                  <StyledSelect
+                    icon="directions_bike"
+                    defaultValue="1"
+                    onChange={(e) => handleNrOfPeopleChange(e)}
+                    options={['1', '2', '3', '4', '5']}
+                  />
+                  <StyledTextBody1>
+                    Write us, if you want to arrive latter, stay with us until a late
+                    evening? Have some Ideas where would you like to go?
+                  </StyledTextBody1>
+                  <Ripple>
+                    <TextField
+                      textarea
+                      fullwidth
+                      rows={2}
+                      maxLength={100}
+                      //value={password}
+                      onChange={handleDescriptionChange}
+                    />
+                  </Ripple>
 
-              <StyledButton
-                onClick={(e) => handleSubmitt(e)}
-                raised
-                theme={['secondaryBg', 'onSecondary']}
-              >
-                <StyledTextButtonBlack>Confirm and Go!</StyledTextButtonBlack>
-              </StyledButton>
-            </StyledSpanPadding>
-          </StyledCard>
-        </StyledContainer>
-      </>
+                  <StyledButton
+                    onClick={(e) => handleSubmitt(e, currentUserName, currentUserEmail)}
+                    raised
+                    theme={['secondaryBg', 'onSecondary']}
+                  >
+                    <StyledTextButtonBlack>Confirm and Go!</StyledTextButtonBlack>
+                  </StyledButton>
+                </StyledSpanPadding>
+              </StyledCard>
+            </StyledContainer>
+          </>
+        )}
+      </User>
     );
   }
 };

@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Card } from '@rmwc/card';
 // Components
 import Nav from '../main/Nav';
+import User from '../main/User';
 import Error from '../main/Error';
 import ErrorMessage from '../main/ErrorMessage';
 import { validateForm, addErrorMessage, removeErrorMessage } from '../../lib/utils';
@@ -80,7 +81,7 @@ const AddGuide = () => {
   function handleSubmit(e) {
     e.preventDefault();
     removeErrorMessage();
-    const errors = validateForm(email, password, name);
+    const errors = validateForm(email.value, password.value, name.value);
     addErrorMessage(errors);
     if (errors.length === 0) {
       add_guide({
@@ -102,72 +103,81 @@ const AddGuide = () => {
     return <Error error={errorAll} />;
   }
   return (
-    <React.Fragment>
-      <Nav />
-      <StyledContainer>
-        <StyledCard>
-          <form>
-            <StyledFieldset disabled={loading} aria-busy={loading}>
-              <StyledTextTitle5>Add new MTB Guide</StyledTextTitle5>
-              <StyledInput type="file" id="file" onChange={handlePhotoUpload} />
-              <label htmlFor="file">
-                <StyledGuideCard>
-                  <StyledGuideImage src={photo} alt="Upload a photo" />
-                </StyledGuideCard>
-              </label>
-              <ErrorMessage />
-              {error && <Error error={error} />}
-              <TextField
-                {...name}
-                fullwidth
-                placeholder="Name"
-                value={name.value}
-                required={true}
-              />
-              <TextField
-                {...surname}
-                fullwidth
-                placeholder="Surname"
-                value={surname.value}
-                required={true}
-              />
-              <TextField {...email} fullwidth placeholder="Email" value={email.value} />
-              <TextField
-                {...password}
-                fullwidth
-                placeholder="Password"
-                type="password"
-                value={password.value}
-                minLength={8}
-                maxLength={32}
-                helpText={{
-                  persistent: true,
-                  validationMsg: true,
-                }}
-                pattern="^.{8,32}$"
-                required={true}
-              />
-              <TextField
-                {...description}
-                fullwidth
-                placeholder="Description"
-                textarea={true}
-                value={description.value}
-              />
-              <StyledSpanButon>
-                <StyledButton
-                  onClick={(e) => handleSubmit(e)}
-                  raised
-                  theme={['secondaryBg', 'onSecondary']}
-                >
-                  <StyledTextButtonBlack>Add Guide</StyledTextButtonBlack>
-                </StyledButton>
-              </StyledSpanButon>
-            </StyledFieldset>
-          </form>
-        </StyledCard>
-      </StyledContainer>
-    </React.Fragment>
+    <User>
+      {(currentUserPermission, currentUserName, currentUserEmail, currentUserId) => (
+        <React.Fragment>
+          <Nav />
+          <StyledContainer>
+            <StyledCard>
+              <form>
+                <StyledFieldset disabled={loading} aria-busy={loading}>
+                  <StyledTextTitle5>Add new MTB Guide</StyledTextTitle5>
+                  <StyledInput type="file" id="file" onChange={handlePhotoUpload} />
+                  <label htmlFor="file">
+                    <StyledGuideCard>
+                      <StyledGuideImage src={photo} alt="Upload a photo" />
+                    </StyledGuideCard>
+                  </label>
+                  <ErrorMessage />
+                  {error && <Error error={error} />}
+                  <TextField
+                    {...name}
+                    fullwidth
+                    placeholder="Name"
+                    value={name.value}
+                    required={true}
+                  />
+                  <TextField
+                    {...surname}
+                    fullwidth
+                    placeholder="Surname"
+                    value={surname.value}
+                    required={true}
+                  />
+                  <TextField
+                    {...email}
+                    fullwidth
+                    placeholder="Email"
+                    value={email.value}
+                  />
+                  <TextField
+                    {...password}
+                    fullwidth
+                    placeholder="Password"
+                    type="password"
+                    value={password.value}
+                    minLength={8}
+                    maxLength={32}
+                    helpText={{
+                      persistent: true,
+                      validationMsg: true,
+                    }}
+                    pattern="^.{8,32}$"
+                    required={true}
+                  />
+                  <TextField
+                    {...description}
+                    fullwidth
+                    placeholder="Description"
+                    textarea={true}
+                    value={description.value}
+                  />
+                  <StyledSpanButon>
+                    <StyledButton
+                      onClick={(e) => handleSubmit(e)}
+                      raised
+                      theme={['secondaryBg', 'onSecondary']}
+                    >
+                      <StyledTextButtonBlack>Add Guide</StyledTextButtonBlack>
+                    </StyledButton>
+                  </StyledSpanButon>
+                </StyledFieldset>
+              </form>
+            </StyledCard>
+          </StyledContainer>
+        </React.Fragment>
+      )}
+    </User>
   );
 };
 

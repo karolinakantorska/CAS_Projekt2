@@ -11,10 +11,6 @@ const Query = {
   },
   user: forwardTo("db"),
   currentUser(parent, args, ctx, info) {
-    // check if is logged in
-    console.log("ctx.request.userId:", ctx.request.userId);
-    console.log("!ctx.request.userId:", !ctx.request.userId);
-
     if (!ctx.request.userId) {
       return null;
     }

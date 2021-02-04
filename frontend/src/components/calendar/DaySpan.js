@@ -38,7 +38,7 @@ const DaySpan = (props) => {
         {time !== 'DAY' && (
           <StyledBookingSpan
             className={`${dayInThePast}`}
-            onClick={() => handleBooking(dayOfMonth, dayInThePast, time)}
+            onClick={() => handleBooking(dayOfMonth, dayInThePast, time, currentUserName)}
           />
         )}
       </DaySpanStyled>
@@ -77,7 +77,7 @@ const DaySpan = (props) => {
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
         <StyledBookingSpanDay
           className={`${dayInThePast}`}
-          onClick={() => handleBooking(dayOfMonth, dayInThePast, time)}
+          onClick={() => handleBooking(dayOfMonth, dayInThePast, time, currentUserName)}
         />
       </DaySpanStyled>
     );

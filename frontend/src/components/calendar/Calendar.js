@@ -63,7 +63,8 @@ const Calendar = ({ props }) => {
   */
   // handle booking function
   const router = useRouter();
-  const handleBooking = (day, dayInThePast, bookedTime) => {
+  const handleBooking = (day, dayInThePast, bookedTime, userName) => {
+    console.log(userName);
     if (dayInThePast === 'dayInThePast') {
       alert(`you can't book a day in the past`);
       return;
@@ -77,7 +78,7 @@ const Calendar = ({ props }) => {
           guideId,
           guideName,
           guideSurname,
-          userName: currentUserName,
+          userName,
           bookedTime,
           //guidePhoto,
         },
