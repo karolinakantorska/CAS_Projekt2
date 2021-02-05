@@ -98,6 +98,7 @@ const Calendar = ({ props }) => {
     return <Error error={error} />;
   }
   if (data) {
+    console.log(data);
     if (data.days.length > 0) {
       console.log(data.days[0]);
     }
