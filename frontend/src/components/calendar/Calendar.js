@@ -56,11 +56,11 @@ const Calendar = ({ props }) => {
     setDaysInMonth(getDaysInMonth(selectedDate));
     //refetch();
   }
-  /*
+
   useEffect(() => {
     updateStateWithSelectedDate();
   });
-  */
+
   // handle booking function
   const router = useRouter();
   const handleBooking = (day, dayInThePast, bookedTime, userName) => {
@@ -80,7 +80,6 @@ const Calendar = ({ props }) => {
           guideSurname,
           userName,
           bookedTime,
-          //guidePhoto,
         },
       });
     }
@@ -98,86 +97,91 @@ const Calendar = ({ props }) => {
   if (error) {
     return <Error error={error} />;
   }
-  const reservationsQueryDataTransformedToArray = () => {
-    const reservationsByDays = {};
-    data.days.map((bookings) => {
-      const { day, reservations } = bookings;
-      reservationsByDays[day] = reservations;
-    });
-    return reservationsByDays;
-  };
-  const reservations = reservationsQueryDataTransformedToArray();
-  return (
-    <User>
-      {(currentUserPermission, currentUserName, currentUserEmail) => (
-        <StyledElevation z={5}>
-          <StyledCalendarMenuContainer>
-            <CalendarMenu
-              currentYear={currentYear}
-              currentMonth={currentMonth}
-              selectedYear={selectedYear}
-              selectedMonth={selectedMonth}
-              handleMonthChange={handleMonthChange}
-              handleYearChange={handleYearChange}
-            />
-            <StyledSpan>
-              <StyledAvatar src={guidePhoto} size="xlarge" interactive />
-            </StyledSpan>
-          </StyledCalendarMenuContainer>
+  if (data) {
+    if (data.days.length > 0) {
+      console.log(data.days[0]);
+    }
+    const reservationsQueryDataTransformedToArray = () => {
+      const reservationsByDays = {};
+      data.days.map((bookings) => {
+        const { day, reservations } = bookings;
+        reservationsByDays[day] = reservations;
+      });
+      return reservationsByDays;
+    };
+    const reservations = reservationsQueryDataTransformedToArray();
+    return (
+      <User>
+        {(currentUserPermission, currentUserName, currentUserEmail) => (
+          <StyledElevation z={5}>
+            <StyledCalendarMenuContainer>
+              <CalendarMenu
+                currentYear={currentYear}
+                currentMonth={currentMonth}
+                selectedYear={selectedYear}
+                selectedMonth={selectedMonth}
+                handleMonthChange={handleMonthChange}
+                handleYearChange={handleYearChange}
+              />
+              <StyledSpan>
+                <StyledAvatar src={guidePhoto} size="xlarge" interactive />
+              </StyledSpan>
+            </StyledCalendarMenuContainer>
 
-          <StyledCalendarContainer>
-            {weekNames.map((day) => (
-              <StyledDayName key={day} variant="h6" color="Dark">
-                {day}
-              </StyledDayName>
-            ))}
-            {blankCells.map((day) => (
-              <span key={day}></span>
-            ))}
+            <StyledCalendarContainer>
+              {weekNames.map((day) => (
+                <StyledDayName key={day} variant="h6" color="Dark">
+                  {day}
+                </StyledDayName>
+              ))}
+              {blankCells.map((day) => (
+                <span key={day}></span>
+              ))}
 
-            {daysInMonthArray.map((dayOfMonth) => {
-              // if day is a current day becomes highlight
-              // TODO put it in function
-              let highlight = false;
-              if (
-                currentYear === selectedYear &&
-                currentMonth === selectedMonth &&
-                dayOfMonth === currentDay
-              ) {
-                highlight = true;
-              }
-              // reservation prop
-              let reservation = [];
-              if (reservations[dayOfMonth]) {
-                reservation = reservations[dayOfMonth];
-              }
-              // disable booking in the past and on the current day
-              let dayInThePast = '';
-              if (
-                currentYear === selectedYear &&
-                currentMonth === selectedMonth &&
-                parseInt(dayOfMonth) <= parseInt(currentDay)
-              ) {
-                dayInThePast = 'dayInThePast';
-              }
-              return (
-                <DaySpan
-                  key={dayOfMonth}
-                  reservation={reservation}
-                  dayOfMonth={dayOfMonth}
-                  highlight={highlight}
-                  handleBooking={handleBooking}
-                  currentUserPermission={currentUserPermission}
-                  currentUserName={currentUserName}
-                  dayInThePast={dayInThePast}
-                ></DaySpan>
-              );
-            })}
-          </StyledCalendarContainer>
-        </StyledElevation>
-      )}
-    </User>
-  );
+              {daysInMonthArray.map((dayOfMonth) => {
+                // if day is a current day becomes highlight
+                // TODO put it in function
+                let highlight = false;
+                if (
+                  currentYear === selectedYear &&
+                  currentMonth === selectedMonth &&
+                  dayOfMonth === currentDay
+                ) {
+                  highlight = true;
+                }
+                // reservation prop
+                let reservation = [];
+                if (reservations[dayOfMonth]) {
+                  reservation = reservations[dayOfMonth];
+                }
+                // disable booking in the past and on the current day
+                let dayInThePast = '';
+                if (
+                  currentYear === selectedYear &&
+                  currentMonth === selectedMonth &&
+                  parseInt(dayOfMonth) <= parseInt(currentDay)
+                ) {
+                  dayInThePast = 'dayInThePast';
+                }
+                return (
+                  <DaySpan
+                    key={dayOfMonth}
+                    reservation={reservation}
+                    dayOfMonth={dayOfMonth}
+                    highlight={highlight}
+                    handleBooking={handleBooking}
+                    currentUserPermission={currentUserPermission}
+                    currentUserName={currentUserName}
+                    dayInThePast={dayInThePast}
+                  ></DaySpan>
+                );
+              })}
+            </StyledCalendarContainer>
+          </StyledElevation>
+        )}
+      </User>
+    );
+  }
 };
 Calendar.propTypes = {
   guideId: PropTypes.string,
@@ -204,7 +208,6 @@ const StyledSpan = styled.span`
   justify-content: center;
   padding-top: 0.5rem;
 `;
-
 const StyledDayName = styled.div`
   font-family: var(--fontFamilyCalendar);
   font-size: 1.2rem;

@@ -34,13 +34,6 @@ import {
   removeErrorMessage,
 } from '../../lib/utils';
 const BookingConfirmation = ({ props }) => {
-  /*
-  const { currentUser } = useUser();
-  const userName = currentUser.name;
-  const userEmail = currentUser.email;
-  console.log('userName', userName);
-  console.log('userEmail', userEmail);
-  */
   const {
     day,
     selectedMonth: month,
@@ -53,7 +46,6 @@ const BookingConfirmation = ({ props }) => {
   const [time, setTime] = useState('');
   const [description, setDescription] = useState('');
   const [nrOfPeople, setNrOfPeople] = useState(1);
-  //const [alreadyBookedTime, setAlreadyBookedTime] = useState('');
   const router = useRouter();
   const { loading, error, data: dataDay } = useQuery(DAY_QUERY, {
     variables: {
@@ -66,14 +58,6 @@ const BookingConfirmation = ({ props }) => {
       error;
     },
   });
-  /*
-  if (dataDay) {
-    dataDay.days.map((day) => {
-      day.reservations.map((reservation) => {
-        setAlreadyBookedTime(reservation.time);
-      });
-    });
-  }*/
   const [
     create_reservation,
     { error: errorCreateReservation, onCompleted },
@@ -89,7 +73,6 @@ const BookingConfirmation = ({ props }) => {
           guideName,
           guideSurname,
           guideId,
-          //userName,
         },
       });
     },
@@ -109,7 +92,6 @@ const BookingConfirmation = ({ props }) => {
           guideName,
           guideSurname,
           guideId,
-          //userName,
         },
       });
     },
@@ -210,7 +192,6 @@ const BookingConfirmation = ({ props }) => {
                       {year}/{month}/{day}
                     </strong>
                   </StyledTextBody1>
-
                   <StyledTextBody1>
                     Do you preffer Morning or Aftenoon Trip?
                   </StyledTextBody1>
