@@ -54,13 +54,11 @@ const Calendar = ({ props }) => {
     setSelectedYear(format(selectedDate, 'y'));
     setFirstDayOfMonth(format(startOfMonth(selectedDate), 'i'));
     setDaysInMonth(getDaysInMonth(selectedDate));
-    //refetch();
+    refetch();
   }
-
   useEffect(() => {
     updateStateWithSelectedDate();
   });
-
   // handle booking function
   const router = useRouter();
   const handleBooking = (day, dayInThePast, bookedTime, userName) => {

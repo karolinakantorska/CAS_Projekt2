@@ -52,7 +52,8 @@ const BookingConfirmation = ({ props }) => {
       year,
       month,
       day,
-      id: guideId,
+      // without guide ID
+      //id: guideId,
     },
     onError: (error) => {
       error;
@@ -60,9 +61,11 @@ const BookingConfirmation = ({ props }) => {
   });
   const [
     create_reservation,
-    { error: errorCreateReservation, onCompleted },
+    { error: errorCreateReservation, onCompleted, data },
   ] = useMutation(CREATE_RESERVATION, {
     onCompleted: (data) => {
+      console.log('compleated');
+      console.log(data);
       router.push({
         pathname: '/thank_you',
         query: {
@@ -80,8 +83,8 @@ const BookingConfirmation = ({ props }) => {
       errorCreateReservation;
     },
   });
-  const [create_day, { error: errorCreateDay, data }] = useMutation(CREATE_DAY, {
-    onCompleted: (data) => {
+  const [create_day, { error: errorCreateDay }] = useMutation(CREATE_DAY, {
+    onCompleted: () => {
       router.push({
         pathname: '/thank_you',
         query: {

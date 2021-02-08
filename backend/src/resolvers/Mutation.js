@@ -145,11 +145,11 @@ const mutations = {
       },
     });
     // console.log("args", args);
-    console.log("checkIfDayExist", checkIfDayExist);
-    console.log("checkIfDayExist.length", checkIfDayExist.length);
+    //console.log("checkIfDayExist", checkIfDayExist);
+    //console.log("checkIfDayExist.length", checkIfDayExist.length);
     if (checkIfDayExist.length === 0) {
-      console.log(args);
-      console.log(args.data.reservations);
+      //console.log(args);
+      //console.log(args.data.reservations);
       const day = await ctx.db.mutation.createDay({
         ...args,
       });
@@ -164,17 +164,22 @@ const mutations = {
     if (args.time === "") {
       throw new Error(`Please choose a time of a day`);
     }
+    //console.log(args);
+    //console.log(args.guide.connect.id);
     const id = args.relatedDay.connect.id;
+    const guideId = args.guide.connect.id;
     const existingReservations = await ctx.db.query.reservations({
       where: {
         relatedDay: { id },
+        // related Guide !!!
+        guide: { id: guideId },
       },
     });
+    //console.log(existingReservations);
     const reservedTime = [];
     existingReservations.map((reservation) => {
       reservedTime.push(reservation.time);
     });
-
     // errors by booking already booked time
     const isAmBooked = reservedTime.includes("AM");
     const isPmBooked = reservedTime.includes("PM");
@@ -200,7 +205,7 @@ const mutations = {
   },
   async deleteReservation(parent, args, ctx, info) {
     hasOneOfPermissions(ctx, "ADMIN", "GUIDE");
-    // TODO check if it is a write guide!! not that they delete each other termins
+    // TODO check if it is a wrighte guide!! not that they delete each other termins
     const id = args.id;
     const reservation = await ctx.db.query.reservation({
       where: {
