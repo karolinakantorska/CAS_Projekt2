@@ -54,7 +54,7 @@ const Calendar = ({ props }) => {
     setSelectedYear(format(selectedDate, 'y'));
     setFirstDayOfMonth(format(startOfMonth(selectedDate), 'i'));
     setDaysInMonth(getDaysInMonth(selectedDate));
-    //refetch();
+    refetch();
   }
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const Calendar = ({ props }) => {
   // handle booking function
   const router = useRouter();
   const handleBooking = (day, dayInThePast, bookedTime, userName) => {
-    console.log(userName);
+    //console.log(userName);
     if (dayInThePast === 'dayInThePast') {
       alert(`you can't book a day in the past`);
       return;
@@ -100,7 +100,7 @@ const Calendar = ({ props }) => {
   if (data) {
     console.log(data);
     if (data.days.length > 0) {
-      console.log(data.days[0]);
+      //console.log(data.days[0]);
     }
     const reservationsQueryDataTransformedToArray = () => {
       const reservationsByDays = {};

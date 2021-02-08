@@ -7,6 +7,7 @@ const {
   hasOneOfPermissions,
 } = require("../utils");
 
+//TODO check existence instead of quering
 const mutations = {
   // create Guide
   async createUser(parent, args, ctx, info) {
@@ -14,36 +15,13 @@ const mutations = {
     errorMessagesEditGuide(args);
     const password = await bcrypt.hash(args.password, 10);
     args.email = args.email.toLowerCase();
+    //
     const existingUser = await ctx.db.query.user({ where: { email: args.email } });
     if (existingUser !== null) {
       throw new Error(`
       There is already an user with this email: ${args.email},
       if you want to change an user permisson,
       use 'change permission form'`);
-      /*
-      console.log("existingUser.permissions", existingUser.permissions);
-      if (existingUser.permissions === "GUIDE") {
-        throw new Error(`There is already an guide with this email: ${email}`);
-      }
-      if (existingUser.permissions === "USER") {
-        delete updates.id;
-        delete updates.permissions;
-        console.log(updates);
-        return ctx.db.mutation.updateUser(
-          {
-            data: {
-              ...updates,
-              password: password,
-              permissions: "GUIDE",
-            },
-            where: {
-              id: existingUser.id,
-            },
-          },
-          info
-        );
-      }
-      */
     }
     const user = await ctx.db.mutation.createUser(
       {
@@ -145,11 +123,11 @@ const mutations = {
       },
     });
     // console.log("args", args);
-    console.log("checkIfDayExist", checkIfDayExist);
-    console.log("checkIfDayExist.length", checkIfDayExist.length);
+    //console.log("checkIfDayExist", checkIfDayExist);
+    //console.log("checkIfDayExist.length", checkIfDayExist.length);
     if (checkIfDayExist.length === 0) {
-      console.log(args);
-      console.log(args.data.reservations);
+      //console.log(args);
+      //console.log(args.data.reservations);
       const day = await ctx.db.mutation.createDay({
         ...args,
       });
@@ -160,25 +138,34 @@ const mutations = {
     }
   },
   async createReservation(parent, args, ctx, info) {
-    isLoggedInn(ctx);
+    //isLoggedInn(ctx);
     if (args.time === "") {
       throw new Error(`Please choose a time of a day`);
     }
     const id = args.relatedDay.connect.id;
+    const guideId = args.guide.connect.id;
+    console.log(guideId);
     const existingReservations = await ctx.db.query.reservations({
       where: {
         relatedDay: { id },
+        guide: { id: guideId },
+        // related Guide !!!
       },
     });
+    console.log("existingReservations", existingReservations);
     const reservedTime = [];
     existingReservations.map((reservation) => {
       reservedTime.push(reservation.time);
     });
-
+    console.log("reservedTime", reservedTime);
     // errors by booking already booked time
+    // if reservedTime=== ['AM]
     const isAmBooked = reservedTime.includes("AM");
     const isPmBooked = reservedTime.includes("PM");
     const isDayBooked = reservedTime.includes("DAY");
+
+    console.log("args", args);
+    /*
     if (isDayBooked) {
       throw new Error(`This day is fully booked!`);
     }
@@ -191,16 +178,33 @@ const mutations = {
     if (args.time === "PM" && isPmBooked) {
       throw new Error(`Aftenoon trip is already booked!`);
     }
+    /*
+    args {
+  time: 'PM',
+  userName: 'karolina',
+  userEmail: 'karolina@gmail.com',
+  nrOfPeople: '1',
+  description: '',
+  guide: [Object: null prototype] {
+    connect: [Object: null prototype] { id: 'ckh3n7algb8r50946cpug61su' }
+  },
+  relatedDay: [Object: null prototype] {
+    connect: [Object: null prototype] { id: 'ckkwi3r9ab35r0928ubv1yjyp' }
+  }
+}
+*/
+
     const reservation = await ctx.db.mutation.createReservation({
       data: {
         ...args,
       },
     });
+    console.log(reservation);
     return reservation;
   },
   async deleteReservation(parent, args, ctx, info) {
     hasOneOfPermissions(ctx, "ADMIN", "GUIDE");
-    // TODO check if it is a write guide!! not that they delete each other termins
+    // TODO check if it is a right guide!! not that they delete each other termins
     const id = args.id;
     const reservation = await ctx.db.query.reservation({
       where: {
