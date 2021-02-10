@@ -7,7 +7,10 @@ import styled from 'styled-components';
 import { Card } from '@rmwc/card';
 import { Button } from '@rmwc/button';
 import { CardPrimaryAction } from '@rmwc/card';
+
+import DeleteGuide from './DeleteGuide';
 // Components for Styling
+import { StyledGuideImage } from '../styles/StyledGuideImage';
 import {
   StyledTextBody2,
   StyledTextTitle5,
@@ -42,7 +45,7 @@ const Guide = (props) => {
   return (
     <StyledGuideCard>
       <CardPrimaryAction onClick={goToBookingPage}>
-        <StyledImage src={photo} alt="Mountainbiker photo" />
+        <StyledGuideImage src={photo} alt="Mountainbiker photo" />
       </CardPrimaryAction>
       {currentUserPermission && (
         <StyledButtonBookMe
@@ -87,16 +90,7 @@ const Guide = (props) => {
                 <StyledTextButtonColor>Edit</StyledTextButtonColor>{' '}
               </StyledButtonLink>
             </Link>
-            <Link
-              href={{
-                pathname: '/delete_guide',
-                query: { id: id },
-              }}
-            >
-              <StyledButtonLink id={id}>
-                <StyledTextButtonColor>Delete</StyledTextButtonColor>
-              </StyledButtonLink>
-            </Link>
+            <DeleteGuide id={id} />
           </StyledButtonSpan>
         </React.Fragment>
       )}
@@ -128,11 +122,6 @@ const StyledButtonSpan = styled.span`
   display: grid;
   align-content: stretch;
   grid-template-columns: 1fr 1fr;
-`;
-const StyledImage = styled.img`
-  justify-self: stretch;
-  max-width: 344px;
-  max-height: 344px;
 `;
 export const StyledButtonBookMe = styled(Button)`
   text-transform: capitalize;

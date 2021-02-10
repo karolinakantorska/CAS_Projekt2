@@ -15,9 +15,8 @@ const mutations = {
     errorMessagesEditGuide(args);
     const password = await bcrypt.hash(args.password, 10);
     args.email = args.email.toLowerCase();
-    //
-    const existingUser = await ctx.db.query.user({ where: { email: args.email } });
-    if (existingUser !== null) {
+    const userExist = await ctx.db.exists.User({ email: args.email });
+    if (userExist) {
       throw new Error(`
       There is already an user with this email: ${args.email},
       if you want to change an user permisson,
@@ -50,16 +49,10 @@ const mutations = {
       info
     );
   },
-  // delete Guide
-  async deleteUser(parent, args, ctx, info) {
-    hasPermission(ctx, "ADMIN");
-    const where = { id: args.id };
-    const user = await ctx.db.query.user({ where }, `{ id}`);
-    return ctx.db.mutation.deleteUser({ where }, info);
-  },
+
   async signup(parent, args, ctx, info) {
     args.email = args.email.toLowerCase();
-    const userExist = await ctx.db.query.user({ where: { email: args.email } });
+    const userExist = await ctx.db.exists.User({ email: args.email });
     if (userExist) {
       throw new Error(`There is already an user with this email: ${args.email}`);
     }
@@ -89,10 +82,15 @@ const mutations = {
   async signin(parent, args, ctx, info) {
     const { email, password } = args;
     // is there a user with this email
+    const userExist = await ctx.db.exists.User({ email: args.email });
+    if (!userExist) {
+      throw new Error(`There is no user with this email: ${email}`);
+    }
     const user = await ctx.db.query.user({ where: { email: args.email } });
     if (!user) {
       throw new Error(`There is no user with this email: ${email}`);
     }
+
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
       throw new Error(`Invalid Password`);
@@ -110,104 +108,57 @@ const mutations = {
     ctx.response.clearCookie("token");
     return { message: "Goodbye!" };
   },
+
   async createDay(parent, args, ctx, info) {
     isLoggedInn(ctx);
     if (args.time === "") {
       throw new Error(`Please choose a time of a day`);
     }
-    const checkIfDayExist = await ctx.db.query.days({
-      where: {
-        year: args.data.year,
-        month: args.data.month,
-        day: args.data.day,
-      },
+    const dayExist = await ctx.db.exists.Day({
+      year: args.data.year,
+      month: args.data.month,
+      day: args.data.day,
     });
-    // console.log("args", args);
-    //console.log("checkIfDayExist", checkIfDayExist);
-    //console.log("checkIfDayExist.length", checkIfDayExist.length);
-    if (checkIfDayExist.length === 0) {
-      //console.log(args);
-      //console.log(args.data.reservations);
+    if (!dayExist) {
       const day = await ctx.db.mutation.createDay({
         ...args,
       });
       return day;
     }
-    if (checkIfDayExist.length > 0) {
+    if (dayExist) {
       throw new Error(`This termin is just gone, please try again, or choose another time.`);
     }
   },
+
   async updateDay(parent, args, ctx, info) {
+    isLoggedInn(ctx);
+    if (args.time === "") {
+      throw new Error(`Please choose a time of a day`);
+    }
+    const dayId = args.where.id;
+    const guideId = args.data.reservations.create[0].guide.connect.id;
+    const existingReservations = await ctx.db.query.reservations({
+      where: { relatedDay: { id: dayId }, guide: { id: guideId } },
+    });
+    // if are [time: ...]
+    // if empty day []
+    if (existingReservations.length > 0) {
+      if (existingReservations.length > 1 || existingReservations[0].time === "DAY") {
+        throw new Error(
+          `Termin just has been booked by another person! Please book an another termin`
+        );
+      }
+    }
     const day = await ctx.db.mutation.updateDay({
       ...args,
     });
     return day;
   },
-  /*
-  async createReservation(parent, args, ctx, info) {
-    console.log("args", args);
-
-    const reservation = await ctx.db.mutation.createReservation({
-      ...args,
-    });
-    console.log(reservation);
-    return reservation;
-  },
-  */
-
-  async createReservation(parent, args, ctx, info) {
-    //isLoggedInn(ctx);
-    if (args.time === "") {
-      throw new Error(`Please choose a time of a day`);
-    }
-    const id = args.relatedDay.connect.id;
-    const guideId = args.guide.connect.id;
-    console.log(guideId);
-    const existingReservations = await ctx.db.query.reservations({
-      where: {
-        relatedDay: { id },
-        //guide: { id: guideId },
-        // related Guide !!!
-      },
-    });
-    console.log("existingReservations", existingReservations);
-    const reservedTime = [];
-    existingReservations.map((reservation) => {
-      reservedTime.push(reservation.time);
-    });
-    console.log("reservedTime", reservedTime);
-    // errors by booking already booked time
-    // if reservedTime=== ['AM]
-    const isAmBooked = reservedTime.includes("AM");
-    const isPmBooked = reservedTime.includes("PM");
-    const isDayBooked = reservedTime.includes("DAY");
-
-    console.log("args", args);
-    /*
-    if (isDayBooked) {
-      throw new Error(`This day is fully booked!`);
-    }
-    if (isAmBooked && isPmBooked) {
-      throw new Error(`This day is fully booked!`);
-    }
-    if (args.time === "AM" && isAmBooked) {
-      throw new Error(`Morning trip is already booked!`);
-    }
-    if (args.time === "PM" && isPmBooked) {
-      throw new Error(`Aftenoon trip is already booked!`);
-    }
-    /*
-*/
-    const reservation = await ctx.db.mutation.createReservation({
-      ...args,
-    });
-    console.log(reservation);
-    return reservation;
-  },
 
   async deleteReservation(parent, args, ctx, info) {
     hasOneOfPermissions(ctx, "ADMIN", "GUIDE");
     // TODO check if it is a right guide!! not that they delete each other termins
+    // TODO is Quering reservations needed?
     const id = args.id;
     const reservation = await ctx.db.query.reservation({
       where: {
@@ -219,6 +170,25 @@ const mutations = {
         id,
       },
     });
+  },
+  async deleteManyReservations(parent, args, ctx, info) {
+    const id = args.id;
+    const deleteReservations = await ctx.db.mutation.deleteManyReservations({
+      where: { guide: { id } },
+    });
+    return deleteReservations;
+  },
+  // delete Guide
+  async deleteUser(parent, args, ctx, info) {
+    hasPermission(ctx, "ADMIN");
+    const id = args.id;
+    const deleteUser = ctx.db.mutation.deleteUser({ where: { id } }, info);
+    //const deleteReservations = await ctx.db.mutation.deleteManyReservations({
+    //  where: { guide: { id } },
+    //});
+    //console.log(ctx.db);
+    //const transaction = await ctx.db.transaction([deleteReservations, deleteUser]);
+    return deleteUser;
   },
 };
 module.exports = mutations;

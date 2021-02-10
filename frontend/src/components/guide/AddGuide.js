@@ -9,7 +9,12 @@ import Nav from '../main/Nav';
 import User from '../main/User';
 import Error from '../main/Error';
 import ErrorMessage from '../main/ErrorMessage';
-import { validateForm, addErrorMessage, removeErrorMessage } from '../../lib/utils';
+import {
+  validateForm,
+  addErrorMessage,
+  removeErrorMessage,
+  permission,
+} from '../../lib/utils';
 // Queries
 import ADD_GUIDE from '../../graphgl/mutations/ADD_GUIDE';
 import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
@@ -20,18 +25,20 @@ import { StyledFieldset, StyledButton } from '../styles/StyledForm';
 import { TextField } from '@rmwc/textfield';
 import { StyledTextTitle5, StyledTextButtonBlack } from '../styles/StyledText';
 import { StyledGuideImage } from '../styles/StyledGuideImage';
+import { useFormInput } from '../../lib/utilsAdmin';
 
 const AddGuide = () => {
-  const { loading: loadingAll, error: errorAll, data: dataAll } = useQuery(
-    ALL_GUIDES_QUERY,
-  );
   const password = useFormInput('');
   const email = useFormInput('');
   const name = useFormInput('');
   const surname = useFormInput('');
   const description = useFormInput('');
   const [photo, setPhoto] = useState('');
-
+  /*
+    const { loading: loadingAll, error: errorAll, data: dataAll } = useQuery(
+      ALL_GUIDES_QUERY,
+    );
+    */
   const [add_guide, { loading, error, data }] = useMutation(ADD_GUIDE, {
     onCompleted: (data) => {
       Router.push({
@@ -45,7 +52,7 @@ const AddGuide = () => {
       // Get the current guide list
       const dataAll = cache.readQuery({
         query: ALL_GUIDES_QUERY,
-        variables: { permissions: 'GUIDE' },
+        variables: { permissions: permission.guide },
       });
       // Create a new user
       const newUser = {
@@ -54,14 +61,18 @@ const AddGuide = () => {
       // Write back to the users list, appending the new user
       cache.writeQuery({
         query: ALL_GUIDES_QUERY,
-        variables: { permissions: 'GUIDE' },
+        variables: { permissions: permission.guide },
         data: {
           users: [...dataAll.users, newUser],
         },
       });
     },
   });
+  // function updateCache(){}
+  // must take cache, data
 
+  // make a useHandlePhotoUpload
+  // e.target.files[0] must be given to this function
   async function handlePhotoUpload(e) {
     const data = new FormData();
     data.append('file', e.target.files[0]);
@@ -76,8 +87,9 @@ const AddGuide = () => {
     );
     const file = await cloudinaryRes.json();
     setPhoto(file.secure_url);
-    console.log(file.secure_url);
+    //console.log(file.secure_url);
   }
+
   function handleSubmit(e) {
     e.preventDefault();
     removeErrorMessage();
@@ -96,12 +108,14 @@ const AddGuide = () => {
       });
     }
   }
+  /*
   if (loadingAll) {
     return <p>Loading...</p>;
   }
   if (errorAll) {
     return <Error error={errorAll} />;
   }
+  */
   return (
     <User>
       {(currentUserPermission, currentUserName, currentUserEmail, currentUserId) => (
@@ -181,17 +195,6 @@ const AddGuide = () => {
   );
 };
 
-function useFormInput(initialValue) {
-  const [value, setValue] = useState(initialValue);
-
-  function handleChange(e) {
-    setValue(e.target.value);
-  }
-  return {
-    value,
-    onChange: handleChange,
-  };
-}
 const StyledInput = styled.input`
   display: none;
 `;
@@ -200,7 +203,20 @@ export const StyledGuideCard = styled(Card)`
   align-content: stretch;
   margin: auto;
   max-width: 344px;
-  height: 344px;
+  //height: 344px;
 `;
 
 export default AddGuide;
+
+/*
+  function useFormInput(initialValue) {
+    const [value, setValue] = useState(initialValue);
+    function handleChange(e) {
+      setValue(e.target.value);
+    }
+    return {
+      value,
+      onChange: handleChange,
+    };
+  }
+  */

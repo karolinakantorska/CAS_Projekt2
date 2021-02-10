@@ -42,6 +42,7 @@ type Mutation {
   updateDay(data: DayUpdateInput!, where: DayWhereUniqueInput!): Day
   createReservation(data: ReservationCreateInput!): Reservation!
   deleteReservation(id: ID!): Reservation
+  deleteManyReservations(where: ReservationWhereInput): BatchPayload!
 }
 
 type SuccessMesage {

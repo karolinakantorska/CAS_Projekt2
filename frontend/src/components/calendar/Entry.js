@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { useFormInput } from '../../lib/utilsAdmin';
 // Components for Styling
 import { StyledTextBody2 } from '../styles/StyledText';
 
@@ -9,7 +10,7 @@ const Entry = (props) => {
   const {
     id,
     time,
-    // userName is the user who booked the appointment
+    userName is the user who booked the appointment
     userName,
     userEmail,
     currentUserPermission,
@@ -20,7 +21,7 @@ const Entry = (props) => {
   //console.log('userName', userName);
   const router = useRouter();
   function handleEntrySpanClick() {
-    if (currentUserPermission === 'ADMIN' || currentUserPermission === 'GUIDE') {
+    if (currentUserPermission === useFormInput.admin || currentUserPermission === useFormInput.guide) {
       router.push({
         pathname: '/edit_entry',
         query: {
@@ -32,7 +33,7 @@ const Entry = (props) => {
   }
   return (
     <EntrySpan className={time} onClick={() => handleEntrySpanClick()}>
-      {currentUserPermission === 'USER' &&
+      {currentUserPermission === useFormInput.user &&
         // userName is the user who booked the appointment
         (userName === currentUserName ? (
           <div className="grid_column_div own_booking">
@@ -43,7 +44,7 @@ const Entry = (props) => {
             <span>Booked!</span>
           </div>
         ))}
-      {(currentUserPermission === 'ADMIN' || currentUserPermission === 'GUIDE') &&
+      {(currentUserPermission === useFormInput.admin || currentUserPermission === useFormInput.guide) &&
         // userName is the user who booked the appointment
         (userName === guideName ? (
           <div className="grid_column_div ">
@@ -52,7 +53,7 @@ const Entry = (props) => {
         ) : (
           <div className="grid_column_div ">
             <StyledTextBody2>Gast:{userName}</StyledTextBody2>
-            <StyledTextBody2>Email:{userEmail}</StyledTextBody2>
+
           </div>
         ))}
     </EntrySpan>

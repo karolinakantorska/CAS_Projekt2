@@ -1,7 +1,5 @@
 // permissions
-export const adminPermission = 'ADMIN';
-export const guidePermission = 'GUIDE';
-export const userPermission = 'USER';
+export const permission = { admin: 'ADMIN', guide: 'GUIDE', user: 'USER' };
 // calendar
 export const weekDaysEN = () => {
   const week = [];

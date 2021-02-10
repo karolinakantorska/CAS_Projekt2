@@ -48,12 +48,14 @@ const BookingConfirmation = ({ props }) => {
   const [description, setDescription] = useState('');
   const [nrOfPeople, setNrOfPeople] = useState(1);
   const router = useRouter();
-  const { loading, error, data: dataDay } = useQuery(DAY_QUERY, {
+  const { loading, error, data: dataDay, refetch } = useQuery(DAY_QUERY, {
     variables: {
       year,
       month,
       day,
-      //id: guideId,
+    },
+    onCompleted: (dataDay) => {
+      console.log('compleated', dataDay);
     },
     onError: (error) => {
       error;
@@ -82,8 +84,10 @@ const BookingConfirmation = ({ props }) => {
       errorCreateReservation;
     },
   });
-  const [update_day, { error: erroUpdateDay }] = useMutation(UPDATE_DAY, {
+  const [update_day, { error: errorUpdateDay }] = useMutation(UPDATE_DAY, {
     onCompleted: () => {
+      //not sure of that
+      refetch();
       router.push({
         pathname: '/thank_you',
         query: {
@@ -97,12 +101,14 @@ const BookingConfirmation = ({ props }) => {
         },
       });
     },
-    onError: (erroUpdateDay) => {
-      erroUpdateDay;
+    onError: (errorUpdateDay) => {
+      errorUpdateDay;
     },
   });
   const [create_day, { error: errorCreateDay }] = useMutation(CREATE_DAY, {
     onCompleted: () => {
+      //not sure of that
+      refetch();
       router.push({
         pathname: '/thank_you',
         query: {
@@ -144,7 +150,7 @@ const BookingConfirmation = ({ props }) => {
     removeErrorMessage();
     const errors = validateFormBookingConfirmation(time);
     addErrorMessage(errors);
-    // returns days=[]
+
     if (errors.length === 0) {
       // day doesn't exist yet
       // returns days=[]
@@ -164,7 +170,7 @@ const BookingConfirmation = ({ props }) => {
         });
       }
       // day exist
-      if (dataDay.days.length > 0) {
+      else {
         const { id } = dataDay.days[0];
         update_day({
           variables: {
@@ -178,23 +184,6 @@ const BookingConfirmation = ({ props }) => {
           },
         });
       }
-      /*
-      // day exist
-      if (dataDay.days.length > 0) {
-        const { id } = dataDay.days[0];
-        create_reservation({
-          variables: {
-            time,
-            userName,
-            userEmail,
-            nrOfPeople,
-            description,
-            guideId,
-            id, //existing day id
-          },
-        });
-      }
-      */
     }
   }
   if (loading) {
@@ -204,6 +193,9 @@ const BookingConfirmation = ({ props }) => {
     return <Error error={error} />;
   }
   if (dataDay) {
+    console.log(dataDay);
+    console.log(dataDay.days);
+    console.log(dataDay.days.length);
     return (
       <User>
         {(currentUserPermission, currentUserName, currentUserEmail, currentUserId) => (
@@ -218,6 +210,7 @@ const BookingConfirmation = ({ props }) => {
                   <ErrorMessage />
                   {errorCreateReservation && <Error error={errorCreateReservation} />}
                   {errorCreateDay && <Error error={errorCreateDay} />}
+                  {errorUpdateDay && <Error error={errorUpdateDay} />}
                   <StyledTextBody1>
                     Your MTB Guide will be:{' '}
                     <strong>

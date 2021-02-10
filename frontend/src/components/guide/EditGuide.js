@@ -10,6 +10,9 @@ import { Button } from '@rmwc/button';
 // Components
 import Nav from '../main/Nav';
 import Error from '../main/Error';
+import ErrorMessage from '../main/ErrorMessage';
+// Utils
+import { useFormInput } from '../../lib/utilsAdmin';
 // Queries
 import UPDATE_GUIDE from '../../graphgl/mutations/UPDATE_GUIDE';
 import ONE_USER_QUERY from '../../graphgl/queries/ONE_USER_QUERY';
@@ -28,22 +31,40 @@ import {
   StyledTextButtonBlack,
   StyledTextButtonColor,
 } from '../styles/StyledText';
+import { StyledGuideImage } from '../styles/StyledGuideImage';
 
 const UpdateGuide = (props) => {
   const id = props.id;
-  const { loading, error, data } = useQuery(ONE_USER_QUERY, {
-    variables: { id },
-  });
+  const password = useFormInput('');
+  const email = useFormInput('');
+  const name = useFormInput('');
+  const surname = useFormInput('');
+  const description = useFormInput('');
+  const [photo, setPhoto] = useState('');
+  /*
   const [photo, setPhoto] = useState('');
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [description, setDescription] = useState('');
-
+*/
+  const { loading, error, data } = useQuery(ONE_USER_QUERY, {
+    variables: { id },
+  });
   const [
     updateUser,
     { loadingMutation, error: errorMutation, calledMutation, dataMutation },
-  ] = useMutation(UPDATE_GUIDE);
+  ] = useMutation(UPDATE_GUIDE, {
+    onCompleted: (data) => {
+      Router.push({
+        pathname: '/guides',
+      });
+    },
+    onError: (errorMutation) => {
+      errorMutation;
+    },
+  });
+  /*
   function handleNameChange(e) {
     setName(e.target.value);
   }
@@ -56,6 +77,8 @@ const UpdateGuide = (props) => {
   function handleDescriptionChange(e) {
     setDescription(e.target.value);
   }
+*/
+  /*
   async function updateGuide(e, updateGuideMutation) {
     e.preventDefault();
     console.log('updating Guide');
@@ -66,6 +89,8 @@ const UpdateGuide = (props) => {
     });
     console.log('Updated');
   }
+*/
+  /*
   useEffect(() => {
     if (!loading && data) {
       //console.log(data.user.name);
@@ -76,6 +101,7 @@ const UpdateGuide = (props) => {
       setPhoto(data.user.photo);
     }
   }, [loading, data]);
+*/
   async function handlePhotoUpload(e) {
     const data = new FormData();
     data.append('file', e.target.files[0]);
@@ -90,20 +116,23 @@ const UpdateGuide = (props) => {
     const file = await cloudinaryRes.json();
     setPhoto(file.secure_url);
   }
-  function handleSubmit() {
-    updateUser({
-      variables: {
-        id,
-        email,
-        name,
-        surname,
-        description,
-        photo,
-      },
-    });
-    Router.push({
-      pathname: '/guides',
-    });
+  function handleSubmit(e) {
+    e.preventDefault();
+    removeErrorMessage();
+    const errors = validateForm(email.value, password.value, name.value);
+    addErrorMessage(errors);
+    if (errors.length === 0) {
+      updateUser({
+        variables: {
+          id,
+          email,
+          name,
+          surname,
+          description,
+          photo,
+        },
+      });
+    }
   }
   function handleChancel() {
     Router.push({
@@ -128,40 +157,41 @@ const UpdateGuide = (props) => {
                 <StyledInput type="file" id="file" onChange={handlePhotoUpload} />
                 <label htmlFor="file">
                   <CardPrimaryAction>
-                    <img src={photo} alt="Upload a photo" />
+                    <StyledGuideImage src={photo} alt="Upload a photo" />
                   </CardPrimaryAction>
                 </label>
+                <ErrorMessage />
+                {error && <Error error={error} />}
                 <TextField
                   {...name}
                   fullwidth
-                  label={name}
+                  placeholder={data.user.name}
                   value={name.value}
-                  onChange={handleNameChange}
+                  required={true}
                 />
                 <TextField
                   {...surname}
                   fullwidth
-                  label={surname}
+                  placeholder={data.user.surname}
                   value={surname.value}
-                  onChange={handleSurnameChange}
+                  required={true}
                 />
                 <TextField
                   {...email}
                   fullwidth
-                  label={email}
+                  placeholder={data.user.email}
                   value={email.value}
-                  onChange={handleEmailChange}
+                  required={false}
                 />
                 <TextField
                   {...description}
                   fullwidth
-                  label={description}
+                  placeholder={data.user.description}
                   value={description.value}
-                  onChange={handleDescriptionChange}
                 />
                 <StyledSpanButon>
                   <StyledButton
-                    onClick={handleSubmit}
+                    onClick={(e) => handleSubmit(e)}
                     raised
                     theme={['secondaryBg', 'onSecondary']}
                     data-testid="ButtonEdit"
@@ -174,9 +204,6 @@ const UpdateGuide = (props) => {
                 </StyledButtonLink>
               </StyledFieldset>
             </form>
-            {errorMutation && (
-              <p data-test="graphql-error">Guide not changed, please try again</p>
-            )}
           </StyledCard>
         </StyledContainer>
       </React.Fragment>
@@ -196,3 +223,12 @@ UpdateGuide.propTypes = {
 };
 
 export default UpdateGuide;
+/*
+<TextField
+                  {...email}
+                  fullwidth
+                  label={email}
+                  value={email.value}
+                  onChange={handleEmailChange}
+                />
+                */
