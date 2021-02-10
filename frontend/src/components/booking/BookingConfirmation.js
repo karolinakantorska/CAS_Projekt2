@@ -16,6 +16,7 @@ import ErrorMessage from '../main/ErrorMessage';
 
 import DAY_QUERY from '../../graphgl/queries/DAY_QUERY';
 import CREATE_DAY from '../../graphgl/mutations/CREATE_DAY';
+import UPDATE_DAY from '../../graphgl/mutations/UPDATE_DAY';
 import CREATE_RESERVATION from '../../graphgl/mutations/CREATE_RESERVATION';
 
 import { StyledContainer } from '../styles/StyledContainer';
@@ -77,7 +78,27 @@ const BookingConfirmation = ({ props }) => {
       });
     },
     onError: (errorCreateReservation) => {
+      console.log(errorCreateReservation);
       errorCreateReservation;
+    },
+  });
+  const [update_day, { error: erroUpdateDay }] = useMutation(UPDATE_DAY, {
+    onCompleted: () => {
+      router.push({
+        pathname: '/thank_you',
+        query: {
+          time,
+          day,
+          month,
+          year,
+          guideName,
+          guideSurname,
+          guideId,
+        },
+      });
+    },
+    onError: (erroUpdateDay) => {
+      erroUpdateDay;
     },
   });
   const [create_day, { error: errorCreateDay }] = useMutation(CREATE_DAY, {
@@ -123,10 +144,10 @@ const BookingConfirmation = ({ props }) => {
     removeErrorMessage();
     const errors = validateFormBookingConfirmation(time);
     addErrorMessage(errors);
-    console.log(userName);
-    console.log(userEmail);
+    // returns days=[]
     if (errors.length === 0) {
       // day doesn't exist yet
+      // returns days=[]
       if (dataDay.days.length === 0) {
         create_day({
           variables: {
@@ -145,6 +166,22 @@ const BookingConfirmation = ({ props }) => {
       // day exist
       if (dataDay.days.length > 0) {
         const { id } = dataDay.days[0];
+        update_day({
+          variables: {
+            time,
+            userName,
+            userEmail,
+            nrOfPeople,
+            description,
+            id: guideId,
+            dayId: id, //existing day id
+          },
+        });
+      }
+      /*
+      // day exist
+      if (dataDay.days.length > 0) {
+        const { id } = dataDay.days[0];
         create_reservation({
           variables: {
             time,
@@ -157,6 +194,7 @@ const BookingConfirmation = ({ props }) => {
           },
         });
       }
+      */
     }
   }
   if (loading) {

@@ -1,14 +1,14 @@
-import { gql } from '@apollo/client';
+/*import { gql } from '@apollo/client';
 
-const CREATE_RESERVATION = gql`
-  mutation CREATE_RESERVATION(
+const CREATE_RESERVATION_WHEN_DAY_EXIST = gql`
+  mutation CREATE_RESERVATION_WHEN_DAY_EXIST(
     $time: Time
     $userName: String
     $userEmail: String
     $nrOfPeople: String
     $description: String
     $guideId: ID
-    $id: ID
+    $dayId: ID #$year: String #$month: String #$day: String
   ) {
     createReservation(
       data: {
@@ -17,8 +17,11 @@ const CREATE_RESERVATION = gql`
         userEmail: $userEmail
         nrOfPeople: $nrOfPeople
         description: $description
+        #dayId: $id
+        #year: $year
+        #month: $month
+        relatedDay: { connect: { id: $dayId } }
         guide: { connect: { id: $guideId } }
-        relatedDay: { connect: { id: $id } }
       }
     ) {
       id
@@ -30,4 +33,5 @@ const CREATE_RESERVATION = gql`
     }
   }
 `;
-export default CREATE_RESERVATION;
+export default CREATE_RESERVATION_WHEN_DAY_EXIST;
+*/

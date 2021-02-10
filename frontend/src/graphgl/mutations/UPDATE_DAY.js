@@ -1,22 +1,18 @@
 import { gql } from '@apollo/client';
 
-const CREATE_DAY = gql`
-  mutation CREATE_DAY(
-    $year: String!
-    $month: String!
-    $day: String!
+const UPDATE_DAY = gql`
+  mutation UPDATE_DAY(
     $time: Time
     $userName: String
     $userEmail: String
     $nrOfPeople: String
     $description: String
     $id: ID
+    $dayId: ID
   ) {
-    createDay(
+    updateDay(
+      where: { id: $dayId }
       data: {
-        year: $year
-        month: $month
-        day: $day
         reservations: {
           #create: {
           create: [
@@ -51,4 +47,4 @@ const CREATE_DAY = gql`
   }
 `;
 
-export default CREATE_DAY;
+export default UPDATE_DAY;

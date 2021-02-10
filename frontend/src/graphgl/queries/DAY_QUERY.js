@@ -1,8 +1,11 @@
 import { gql } from '@apollo/client';
 
 const DAY_QUERY = gql`
-  query DAY_QUERY($year: String!, $month: String!, $day: String!) #$id: ID
-  {
+  query DAY_QUERY(
+    $year: String!
+    $month: String!
+    $day: String! #$id: ID
+  ) {
     days(
       where: {
         year: $year
@@ -14,17 +17,17 @@ const DAY_QUERY = gql`
       id
       year
       month
-      #reservations {
-      #  id
-      #  time
-      #  userName
-      #  userEmail
-      #  nrOfPeople
-      #  description
-      #  guide {
-      #    name
-      #  }
-      #}
+      reservations {
+        id
+        time
+        userName
+        userEmail
+        nrOfPeople
+        description
+        guide {
+          name
+        }
+      }
     }
   }
 `;

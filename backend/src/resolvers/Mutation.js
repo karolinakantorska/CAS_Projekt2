@@ -137,6 +137,24 @@ const mutations = {
       throw new Error(`This termin is just gone, please try again, or choose another time.`);
     }
   },
+  async updateDay(parent, args, ctx, info) {
+    const day = await ctx.db.mutation.updateDay({
+      ...args,
+    });
+    return day;
+  },
+  /*
+  async createReservation(parent, args, ctx, info) {
+    console.log("args", args);
+
+    const reservation = await ctx.db.mutation.createReservation({
+      ...args,
+    });
+    console.log(reservation);
+    return reservation;
+  },
+  */
+
   async createReservation(parent, args, ctx, info) {
     //isLoggedInn(ctx);
     if (args.time === "") {
@@ -148,7 +166,7 @@ const mutations = {
     const existingReservations = await ctx.db.query.reservations({
       where: {
         relatedDay: { id },
-        guide: { id: guideId },
+        //guide: { id: guideId },
         // related Guide !!!
       },
     });
@@ -179,29 +197,14 @@ const mutations = {
       throw new Error(`Aftenoon trip is already booked!`);
     }
     /*
-    args {
-  time: 'PM',
-  userName: 'karolina',
-  userEmail: 'karolina@gmail.com',
-  nrOfPeople: '1',
-  description: '',
-  guide: [Object: null prototype] {
-    connect: [Object: null prototype] { id: 'ckh3n7algb8r50946cpug61su' }
-  },
-  relatedDay: [Object: null prototype] {
-    connect: [Object: null prototype] { id: 'ckkwi3r9ab35r0928ubv1yjyp' }
-  }
-}
 */
-
     const reservation = await ctx.db.mutation.createReservation({
-      data: {
-        ...args,
-      },
+      ...args,
     });
     console.log(reservation);
     return reservation;
   },
+
   async deleteReservation(parent, args, ctx, info) {
     hasOneOfPermissions(ctx, "ADMIN", "GUIDE");
     // TODO check if it is a right guide!! not that they delete each other termins

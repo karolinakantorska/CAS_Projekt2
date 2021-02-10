@@ -39,16 +39,8 @@ type Mutation {
   signin(email: String!, password: String!): User!
   signout: SuccessMesage
   createDay(data: DayCreateInput!): Day!
-  createReservation(
-    id: ID
-    time: Time
-    userName: String
-    userEmail: String
-    nrOfPeople: String
-    description: String
-    guide: UserCreateOneWithoutReservationsInput!
-    relatedDay: DayCreateOneWithoutReservationsInput!
-  ): Reservation!
+  updateDay(data: DayUpdateInput!, where: DayWhereUniqueInput!): Day
+  createReservation(data: ReservationCreateInput!): Reservation!
   deleteReservation(id: ID!): Reservation
 }
 

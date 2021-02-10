@@ -91,6 +91,18 @@ const Calendar = ({ props }) => {
       id: guideId,
     },
   });
+  const reservationsQueryDataTransformedToArray = () => {
+    const reservationsByDays = {};
+    data.days.map((bookings) => {
+      const { day, reservations } = bookings;
+      // filtering out reservations from another guide
+      const reservationsFromOneGuide = reservations.filter(
+        (reservation) => reservation.guide.id === guideId,
+      );
+      reservationsByDays[day] = reservationsFromOneGuide;
+    });
+    return reservationsByDays;
+  };
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -98,18 +110,6 @@ const Calendar = ({ props }) => {
     return <Error error={error} />;
   }
   if (data) {
-    console.log(data);
-    if (data.days.length > 0) {
-      //console.log(data.days[0]);
-    }
-    const reservationsQueryDataTransformedToArray = () => {
-      const reservationsByDays = {};
-      data.days.map((bookings) => {
-        const { day, reservations } = bookings;
-        reservationsByDays[day] = reservations;
-      });
-      return reservationsByDays;
-    };
     const reservations = reservationsQueryDataTransformedToArray();
     return (
       <User>
