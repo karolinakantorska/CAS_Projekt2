@@ -40,5 +40,6 @@ Error.propTypes = {
 };
 const StyledP = styled.p`
   color: var(--colorWarning);
+  background-color: white;
 `;
 export default Error;

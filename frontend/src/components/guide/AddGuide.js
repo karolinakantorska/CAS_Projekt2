@@ -6,9 +6,9 @@ import styled from 'styled-components';
 import { Card } from '@rmwc/card';
 // Components
 import Nav from '../main/Nav';
-import User from '../main/User';
 import Error from '../main/Error';
 import ErrorMessage from '../main/ErrorMessage';
+import Loading from '../main/Loading';
 import {
   validateForm,
   addErrorMessage,
@@ -20,12 +20,16 @@ import ADD_GUIDE from '../../graphgl/mutations/ADD_GUIDE';
 import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
 import { StyledContainer } from '../styles/StyledContainer';
 // Components for Styling
-import { StyledCard, StyledSpanButon } from '../styles/StyledForm';
-import { StyledFieldset, StyledButton } from '../styles/StyledForm';
+import {
+  StyledCard,
+  StyledFieldset,
+  StyledSpanButon,
+  StyledButton,
+} from '../styles/StyledForm';
 import { TextField } from '@rmwc/textfield';
 import { StyledTextTitle5, StyledTextButtonBlack } from '../styles/StyledText';
 import { StyledGuideImage } from '../styles/StyledGuideImage';
-import { useFormInput } from '../../lib/utilsAdmin';
+import { useFormInput, usePhotoUpload } from '../../lib/utilsAdmin';
 
 const AddGuide = () => {
   const password = useFormInput('');
@@ -33,14 +37,12 @@ const AddGuide = () => {
   const name = useFormInput('');
   const surname = useFormInput('');
   const description = useFormInput('');
-  const [photo, setPhoto] = useState('');
-  /*
-    const { loading: loadingAll, error: errorAll, data: dataAll } = useQuery(
-      ALL_GUIDES_QUERY,
-    );
-    */
-  const [add_guide, { loading, error, data }] = useMutation(ADD_GUIDE, {
-    onCompleted: (data) => {
+  const { uploadPhoto, result, loadingPhotoUpload, errorPhotoUpload } = usePhotoUpload(
+    '',
+  );
+
+  const [add_guide, { loading, error }] = useMutation(ADD_GUIDE, {
+    onCompleted: () => {
       Router.push({
         pathname: '/guides',
       });
@@ -49,6 +51,7 @@ const AddGuide = () => {
       error;
     },
     update(cache, data) {
+      console.log('cache', cache);
       // Get the current guide list
       const dataAll = cache.readQuery({
         query: ALL_GUIDES_QUERY,
@@ -71,25 +74,6 @@ const AddGuide = () => {
   // function updateCache(){}
   // must take cache, data
 
-  // make a useHandlePhotoUpload
-  // e.target.files[0] must be given to this function
-  async function handlePhotoUpload(e) {
-    const data = new FormData();
-    data.append('file', e.target.files[0]);
-    data.append('upload_preset', 'MTBregistration');
-
-    const cloudinaryRes = await fetch(
-      'https://api.cloudinary.com/v1_1/karolinauploads/image/upload',
-      {
-        method: 'POST',
-        body: data,
-      },
-    );
-    const file = await cloudinaryRes.json();
-    setPhoto(file.secure_url);
-    //console.log(file.secure_url);
-  }
-
   function handleSubmit(e) {
     e.preventDefault();
     removeErrorMessage();
@@ -103,120 +87,92 @@ const AddGuide = () => {
           name: name.value,
           surname: surname.value,
           description: description.value,
-          photo: photo,
+          photo: result,
         },
       });
     }
   }
-  /*
-  if (loadingAll) {
-    return <p>Loading...</p>;
-  }
-  if (errorAll) {
-    return <Error error={errorAll} />;
-  }
-  */
   return (
-    <User>
-      {(currentUserPermission, currentUserName, currentUserEmail, currentUserId) => (
-        <React.Fragment>
-          <Nav />
-          <StyledContainer>
-            <StyledCard>
-              <form>
-                <StyledFieldset disabled={loading} aria-busy={loading}>
-                  <StyledTextTitle5>Add new MTB Guide</StyledTextTitle5>
-                  <StyledInput type="file" id="file" onChange={handlePhotoUpload} />
-                  <label htmlFor="file">
-                    <StyledGuideCard>
-                      <StyledGuideImage src={photo} alt="Upload a photo" />
-                    </StyledGuideCard>
-                  </label>
-                  <ErrorMessage />
-                  {error && <Error error={error} />}
-                  <TextField
-                    {...name}
-                    fullwidth
-                    placeholder="Name"
-                    value={name.value}
-                    required={true}
-                  />
-                  <TextField
-                    {...surname}
-                    fullwidth
-                    placeholder="Surname"
-                    value={surname.value}
-                    required={true}
-                  />
-                  <TextField
-                    {...email}
-                    fullwidth
-                    placeholder="Email"
-                    value={email.value}
-                  />
-                  <TextField
-                    {...password}
-                    fullwidth
-                    placeholder="Password"
-                    type="password"
-                    value={password.value}
-                    minLength={8}
-                    maxLength={32}
-                    helpText={{
-                      persistent: true,
-                      validationMsg: true,
-                    }}
-                    pattern="^.{8,32}$"
-                    required={true}
-                  />
-                  <TextField
-                    {...description}
-                    fullwidth
-                    placeholder="Description"
-                    textarea={true}
-                    value={description.value}
-                  />
-                  <StyledSpanButon>
-                    <StyledButton
-                      onClick={(e) => handleSubmit(e)}
-                      raised
-                      theme={['secondaryBg', 'onSecondary']}
-                    >
-                      <StyledTextButtonBlack>Add Guide</StyledTextButtonBlack>
-                    </StyledButton>
-                  </StyledSpanButon>
-                </StyledFieldset>
-              </form>
-            </StyledCard>
-          </StyledContainer>
-        </React.Fragment>
-      )}
-    </User>
+    <React.Fragment>
+      <Nav />
+      <StyledContainer>
+        <StyledCard>
+          <form>
+            <StyledFieldset disabled={loading} aria-busy={loading}>
+              <StyledTextTitle5>Add new MTB Guide</StyledTextTitle5>
+              <StyledSpan>
+                {loadingPhotoUpload && <Loading />}
+                {errorPhotoUpload && (
+                  <ErrorMessage error={errorPhotoUpload}></ErrorMessage>
+                )}
+              </StyledSpan>
+              <StyledInput type="file" id="file" onChange={uploadPhoto} />
+              <label htmlFor="file">
+                <StyledGuideCard>
+                  <StyledGuideImage src={result} alt="Upload a photo" />
+                </StyledGuideCard>
+              </label>
+              <ErrorMessage />
+              {error && <Error error={error} />}
+              <TextField
+                {...name}
+                fullwidth
+                placeholder="Name"
+                value={name.value}
+                required={true}
+              />
+              <TextField
+                {...surname}
+                fullwidth
+                placeholder="Surname"
+                value={surname.value}
+                required={true}
+              />
+              <TextField {...email} fullwidth placeholder="Email" value={email.value} />
+              <TextField
+                {...password}
+                fullwidth
+                placeholder="Password"
+                type="password"
+                value={password.value}
+                required={true}
+              />
+              <TextField
+                {...description}
+                fullwidth
+                placeholder="Description"
+                textarea={true}
+                value={description.value}
+              />
+              <StyledSpanButon>
+                <StyledButton
+                  onClick={(e) => handleSubmit(e)}
+                  raised
+                  theme={['secondaryBg', 'onSecondary']}
+                >
+                  <StyledTextButtonBlack>Add Guide</StyledTextButtonBlack>
+                </StyledButton>
+              </StyledSpanButon>
+            </StyledFieldset>
+          </form>
+        </StyledCard>
+      </StyledContainer>
+    </React.Fragment>
   );
 };
-
-const StyledInput = styled.input`
-  display: none;
-`;
 export const StyledGuideCard = styled(Card)`
   display: grid;
   align-content: stretch;
   margin: auto;
-  max-width: 344px;
+  width: 344px;
   //height: 344px;
+`;
+const StyledSpan = styled.div`
+  height: 25px;
+  margin-bottom: 5px;
+`;
+const StyledInput = styled.input`
+  display: none;
 `;
 
 export default AddGuide;
-
-/*
-  function useFormInput(initialValue) {
-    const [value, setValue] = useState(initialValue);
-    function handleChange(e) {
-      setValue(e.target.value);
-    }
-    return {
-      value,
-      onChange: handleChange,
-    };
-  }
-  */

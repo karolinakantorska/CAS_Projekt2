@@ -1,10 +1,11 @@
 import withApollo from '../lib/withApollo';
-//import { ApolloProvider } from '@apollo/react-hooks';
+import Router from 'next/router';
 import { ApolloProvider } from '@apollo/client';
-//import { ApolloProvider } from '@apollo/react-common';
+
 import App from 'next/app';
 import Page from '../components/main/Page';
 
+import { UserStateProvider } from '../lib/userState';
 import 'fontsource-hind';
 import 'fontsource-yanone-kaffeesatz';
 
@@ -29,9 +30,33 @@ import '@material/notched-outline/dist/mdc.notched-outline.css';
 import '@material/line-ripple/dist/mdc.line-ripple.css';
 import '@material/drawer/dist/mdc.drawer.css';
 import '@material/list/dist/mdc.list.css';
-import { UserStateProvider } from '../lib/userState';
 
-class MyApp extends App {
+import '@material/linear-progress/dist/mdc.linear-progress.css';
+
+function MyApp({ Component, pageProps, apollo }) {
+  console.log(apollo);
+  return (
+    <ApolloProvider client={apollo}>
+      <UserStateProvider>
+        <Page>
+          <Component {...pageProps} />
+        </Page>
+      </UserStateProvider>
+    </ApolloProvider>
+  );
+}
+
+MyApp.getInitialProps = async function ({ Component, ctx }) {
+  let pageProps = {};
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
+  pageProps.query = ctx.query;
+  return { pageProps };
+};
+
+export default withApollo(MyApp);
+/*
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
     // if component has props
@@ -42,19 +67,4 @@ class MyApp extends App {
     pageProps.query = ctx.query;
     return { pageProps };
   }
-
-  render() {
-    const { Component, pageProps, apollo } = this.props;
-    return (
-      <ApolloProvider client={apollo}>
-        <UserStateProvider>
-          <Page>
-            <Component {...pageProps} />
-          </Page>
-        </UserStateProvider>
-      </ApolloProvider>
-    );
-  }
-}
-
-export default withApollo(MyApp);
+  */

@@ -10,7 +10,6 @@ const Entry = (props) => {
   const {
     id,
     time,
-    userName is the user who booked the appointment
     userName,
     userEmail,
     currentUserPermission,
@@ -21,7 +20,10 @@ const Entry = (props) => {
   //console.log('userName', userName);
   const router = useRouter();
   function handleEntrySpanClick() {
-    if (currentUserPermission === useFormInput.admin || currentUserPermission === useFormInput.guide) {
+    if (
+      currentUserPermission === useFormInput.admin ||
+      currentUserPermission === useFormInput.guide
+    ) {
       router.push({
         pathname: '/edit_entry',
         query: {
@@ -44,7 +46,8 @@ const Entry = (props) => {
             <span>Booked!</span>
           </div>
         ))}
-      {(currentUserPermission === useFormInput.admin || currentUserPermission === useFormInput.guide) &&
+      {(currentUserPermission === useFormInput.admin ||
+        currentUserPermission === useFormInput.guide) &&
         // userName is the user who booked the appointment
         (userName === guideName ? (
           <div className="grid_column_div ">
@@ -53,7 +56,6 @@ const Entry = (props) => {
         ) : (
           <div className="grid_column_div ">
             <StyledTextBody2>Gast:{userName}</StyledTextBody2>
-
           </div>
         ))}
     </EntrySpan>

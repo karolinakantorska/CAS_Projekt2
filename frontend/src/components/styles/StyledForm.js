@@ -9,8 +9,7 @@ export const StyledCard = styled(Card)`
   align-content: stretch;
   margin: auto;
   margin-top: 4rem;
-  min-width: 340px;
-  max-width: 600px;
+  width: 370px;
 `;
 
 export const StyledSpanPadding = styled.span`
