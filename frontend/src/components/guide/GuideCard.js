@@ -5,24 +5,26 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // RMWC
 import { Card } from '@rmwc/card';
-import { Button } from '@rmwc/button';
 import { CardPrimaryAction } from '@rmwc/card';
-
+//Components
 import DeleteGuide from './DeleteGuide';
+import ButtonMain from '../reusable/ButtonMain';
+import ButtonLink from '../reusable/ButtonLink';
+// Utils
+import { routeToEditGuide, routeToSignin } from '../../lib/utilsRouts';
 // Components for Styling
 import { StyledGuideImage } from '../styles/StyledGuideImage';
 import {
   StyledTextBody2,
   StyledTextTitle5,
   StyledTextSubtitle1,
-  StyledTextButtonBlack,
-  StyledTextButtonColor,
 } from '../styles/StyledText';
 
 const Guide = (props) => {
   const { currentUserPermission, currentUserName } = props;
   const { id, email, name, surname, description, photo } = props.guide;
   const router = useRouter();
+
   function goToBookingPage() {
     if (currentUserPermission) {
       router.push({
@@ -41,22 +43,16 @@ const Guide = (props) => {
       });
     }
   }
-
   return (
     <StyledGuideCard>
       <CardPrimaryAction onClick={goToBookingPage}>
         <StyledGuideImage src={photo} alt="Mountainbiker photo" />
       </CardPrimaryAction>
       {currentUserPermission && (
-        <StyledButtonBookMe
-          theme={['secondaryBg', 'onSecondary']}
-          raised
-          onClick={goToBookingPage}
-        >
-          <StyledTextButtonBlack>Book Me!</StyledTextButtonBlack>
-        </StyledButtonBookMe>
+        <StyledSpanBookMe>
+          <ButtonMain text="Book Me!" onClick={goToBookingPage} />
+        </StyledSpanBookMe>
       )}
-
       <StyledSpan>
         <StyledTextTitle5 use="headline6" tag="h4">
           {name} {surname}
@@ -64,32 +60,13 @@ const Guide = (props) => {
         <StyledTextSubtitle1>{email}</StyledTextSubtitle1>
         <StyledTextBody2>{description}</StyledTextBody2>
       </StyledSpan>
-
       {!currentUserPermission && (
-        <Link
-          href={{
-            pathname: '/signin_page',
-          }}
-        >
-          <StyledButtonLink>
-            <StyledTextButtonColor>Logg in to book Me!</StyledTextButtonColor>
-          </StyledButtonLink>
-        </Link>
+        <ButtonLink text="Logg in to book Me!" onClick={routeToSignin} />
       )}
-
       {currentUserPermission === 'ADMIN' && (
         <React.Fragment>
           <StyledButtonSpan>
-            <Link
-              href={{
-                pathname: '/edit_guide',
-                query: { id: id },
-              }}
-            >
-              <StyledButtonLink>
-                <StyledTextButtonColor>Edit</StyledTextButtonColor>{' '}
-              </StyledButtonLink>
-            </Link>
+            <ButtonLink text="Edit" onClick={() => routeToEditGuide(id)} />
             <DeleteGuide id={id} />
           </StyledButtonSpan>
         </React.Fragment>
@@ -123,17 +100,11 @@ const StyledButtonSpan = styled.span`
   align-content: stretch;
   grid-template-columns: 1fr 1fr;
 `;
-export const StyledButtonBookMe = styled(Button)`
-  text-transform: capitalize;
+const StyledSpanBookMe = styled.span`
   min-width: 100px;
   max-width: 60%;
   margin-left: -8px;
   margin-top: -50px;
-  border-radius: 0px 0px 0px 0px;
-`;
-export const StyledButtonLink = styled(Button)`
-  text-transform: capitalize;
-  border-radius: 0px 0px 0px 0px;
 `;
 
 export default Guide;

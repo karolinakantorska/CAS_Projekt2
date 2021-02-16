@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 import { Button } from '@rmwc/button';
 
-import Error from '../main/Error';
+import Error from '../reusable/Error';
 import DELETE_RESERVATION from '../../graphgl/mutations/DELETE_RESERVATION';
 import RESERVATION_QUERY from '../../graphgl/queries/RESERVATION_QUERY';
 

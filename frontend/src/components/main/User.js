@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import PropTypes from 'prop-types';
-import Error from '../main/Error';
+import Error from '../reusable/Error';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 
 const User = (props) => {

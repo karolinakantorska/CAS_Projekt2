@@ -7,9 +7,9 @@ import Link from 'next/link';
 import SIGNIN_MUTATION from '../../graphgl/mutations/SIGNIN_MUTATION';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 import Nav from '../main/Nav';
-import Error from '../main/Error';
-import ErrorMessage from '../main/ErrorMessage';
-import { validateForm, addErrorMessage, removeErrorMessage } from '../../lib/utils';
+import Error from '../reusable/Error';
+import ErrorMessage from '../reusable/ErrorMessage';
+import { validateForm, addErrorMessage, removeErrorMessage } from '../../lib/utilsForm';
 import { useUser } from '../../lib/userState';
 
 import { StyledContainer } from '../styles/StyledContainer';

@@ -8,10 +8,9 @@ export const StyledCard = styled(Card)`
   display: grid;
   align-content: stretch;
   margin: auto;
-  margin-top: 4rem;
+  margin-top: 48px;
   width: 370px;
 `;
-
 export const StyledSpanPadding = styled.span`
   display: grid;
   align-content: stretch;
@@ -19,6 +18,10 @@ export const StyledSpanPadding = styled.span`
 `;
 export const StyledFieldset = styled.fieldset`
   border: none;
+`;
+export const StyledSpanErrors = styled.div`
+  height: 25px;
+  margin-bottom: 5px;
 `;
 export const StyledButtons = styled(CardActionButtons)`
   //padding: 1rem;
@@ -40,7 +43,6 @@ export const StyledButton = styled(CardActionButton)`
     margin-right: 0px;
   }
 `;
-
 export const StyledElevation = styled(Elevation)`
   background-color: white;
   height: 100%;

@@ -2,7 +2,7 @@ import React from 'react';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { Icon } from '@rmwc/icon';
-import Error from '../main/Error';
+import Error from '../reusable/Error';
 import { useUser } from '../../lib/userState';
 import SIGN_OUT_MUTATION from '../../graphgl/mutations/SIGN_OUT_MUTATION';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
@@ -22,11 +22,9 @@ const Signout = () => {
     },
   });
   const router = useRouter();
-
   const handleSignout = () => {
     signout();
   };
-
   if (loading) {
     return <p>Loading...</p>;
   }

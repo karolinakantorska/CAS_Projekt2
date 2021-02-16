@@ -11,8 +11,8 @@ import { Ripple } from '@rmwc/ripple';
 import Nav from '../main/Nav';
 import User from '../main/User';
 //import { useUser } from '../../lib/userState';
-import Error from '../main/Error';
-import ErrorMessage from '../main/ErrorMessage';
+import Error from '../reusable/Error';
+import ErrorMessage from '../reusable/ErrorMessage';
 
 import DAY_QUERY from '../../graphgl/queries/DAY_QUERY';
 import CREATE_DAY from '../../graphgl/mutations/CREATE_DAY';

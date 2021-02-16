@@ -6,7 +6,7 @@ import Signout from '../signin_signout/Signout';
 import User from './User';
 import { StyledTextMenuBlack, StyledTextBody2 } from '../styles/StyledText';
 
-const Nav = (props) => {
+const Nav = () => {
   return (
     <User>
       {(currentUserPermission, currentUserName) => (

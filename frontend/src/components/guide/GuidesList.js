@@ -3,28 +3,30 @@ import { useQuery } from '@apollo/client';
 import styled from 'styled-components';
 // Components
 import User from '../main/User';
-import Nav from '../main/Nav';
 import GuideCard from './GuideCard';
-import Error from '../main/Error';
+import Error from '../reusable/Error';
+import Loading from '../reusable/LoadingBar';
+//utils
+import { permission } from '../../lib/utils';
 // Queries
 import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
 // Components for Styling
 import { StyledContainer } from '../styles/StyledContainer';
 
-const GuidesList = (props) => {
+const GuidesList = () => {
   const { loading, error, data } = useQuery(ALL_GUIDES_QUERY, {
-    variables: { permissions: 'GUIDE' },
+    variables: { permissions: permission.guide },
   });
-  //console.log(data);
+
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
   if (error) {
     return (
-      <div>
+      <StyledContainer>
         <Error error={error} />
         <p>Error: Can't download Guides, please try again later.</p>
-      </div>
+      </StyledContainer>
     );
   }
   if (data) {
@@ -32,7 +34,6 @@ const GuidesList = (props) => {
       <User>
         {(currentUserPermission) => (
           <span>
-            <Nav />
             <StyledContainer>
               <StyledCard>
                 {data.users.map((guide) => (

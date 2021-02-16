@@ -21,7 +21,8 @@ function createClient({ headers, initialState }) {
           console.log(
             `[Network error]: ${networkError}. Backend is unreachable. Is it running?`,
           );
-      }),*/
+      }),
+      */
       // this uses apollo-link-http under the hood, so all the options here come from that package
       createUploadLink({
         uri: process.env.NODE_ENV === 'development' ? endpoint : prodEndpoint,
@@ -32,15 +33,8 @@ function createClient({ headers, initialState }) {
         headers,
       }),
     ]),
-    cache: new InMemoryCache({
-      typePolicies: {
-        Query: {
-          fields: {
-            // TODO: We will add this together!
-          },
-        },
-      },
-    }).restore(initialState || {}),
+    cache: new InMemoryCache(),
+    connectToDevTools: true,
   });
 }
 

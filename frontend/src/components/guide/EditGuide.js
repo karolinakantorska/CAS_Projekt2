@@ -1,234 +1,158 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import Router from 'next/router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // RMWC
 import { CardPrimaryAction } from '@rmwc/card';
-import { Button } from '@rmwc/button';
-
 // Components
-import Nav from '../main/Nav';
-import Error from '../main/Error';
-import ErrorMessage from '../main/ErrorMessage';
+import Error from '../reusable/Error';
+import ErrorMessage from '../reusable/ErrorMessage';
+import ButtonMain from '../reusable/ButtonMain';
+import ButtonLink from '../reusable/ButtonLink';
+import Loading from '../reusable/LoadingBar';
 // Utils
-import { useFormInput } from '../../lib/utilsAdmin';
+import {
+  useFormInput,
+  usePhotoUpload,
+  validateForm,
+  addErrorMessage,
+  removeErrorMessage,
+} from '../../lib/utilsForm';
+import { routeToGuidesList } from '../../lib/utilsRouts';
 // Queries
 import UPDATE_GUIDE from '../../graphgl/mutations/UPDATE_GUIDE';
 import ONE_USER_QUERY from '../../graphgl/queries/ONE_USER_QUERY';
 // Components for Styling
 import { StyledContainer } from '../styles/StyledContainer';
-import { StyledCard, StyledSpanPadding } from '../styles/StyledForm';
-import {
-  StyledFieldset,
-  StyledButtons,
-  StyledButton,
-  StyledSpanButon,
-} from '../styles/StyledForm';
+import { StyledCard, StyledFieldset, StyledSpanErrors } from '../styles/StyledForm';
 import { TextField } from '@rmwc/textfield';
-import {
-  StyledTextTitle6,
-  StyledTextButtonBlack,
-  StyledTextButtonColor,
-} from '../styles/StyledText';
+import { StyledTextTitle6 } from '../styles/StyledText';
 import { StyledGuideImage } from '../styles/StyledGuideImage';
 
-const UpdateGuide = (props) => {
-  const id = props.id;
-  const password = useFormInput('');
-  const email = useFormInput('');
-  const name = useFormInput('');
-  const surname = useFormInput('');
-  const description = useFormInput('');
-  const [photo, setPhoto] = useState('');
-  /*
-  const [photo, setPhoto] = useState('');
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
-  const [email, setEmail] = useState('');
-  const [description, setDescription] = useState('');
-*/
+const UpdateGuide = ({ id }) => {
   const { loading, error, data } = useQuery(ONE_USER_QUERY, {
     variables: { id },
   });
-  const [
-    updateUser,
-    { loadingMutation, error: errorMutation, calledMutation, dataMutation },
-  ] = useMutation(UPDATE_GUIDE, {
-    onCompleted: (data) => {
-      Router.push({
-        pathname: '/guides',
-      });
-    },
-    onError: (errorMutation) => {
-      errorMutation;
-    },
-  });
-  /*
-  function handleNameChange(e) {
-    setName(e.target.value);
-  }
-  function handleSurnameChange(e) {
-    setSurname(e.target.value);
-  }
-  function handleEmailChange(e) {
-    setEmail(e.target.value);
-  }
-  function handleDescriptionChange(e) {
-    setDescription(e.target.value);
-  }
-*/
-  /*
-  async function updateGuide(e, updateGuideMutation) {
-    e.preventDefault();
-    console.log('updating Guide');
-    const res = await updateGuideMutation({
-      variables: {
-        id,
+  const name = useFormInput(data ? data.user.name : '');
+  const surname = useFormInput(data ? data.user.surname : '');
+  const email = useFormInput(data ? data.user.email : '');
+  const description = useFormInput(data ? data.user.description : '');
+  const { uploadPhoto, result, loadingPhotoUpload, errorPhotoUpload } = usePhotoUpload(
+    data ? data.user.photo : '',
+  );
+
+  const [updateUser, { loading: loadingMutation, error: errorMutation }] = useMutation(
+    UPDATE_GUIDE,
+    {
+      onCompleted: () => {
+        routeToGuidesList();
       },
-    });
-    console.log('Updated');
-  }
-*/
-  /*
-  useEffect(() => {
-    if (!loading && data) {
-      //console.log(data.user.name);
-      setName(data.user.name);
-      setEmail(data.user.email);
-      setSurname(data.user.surname);
-      setDescription(data.user.description);
-      setPhoto(data.user.photo);
-    }
-  }, [loading, data]);
-*/
-  async function handlePhotoUpload(e) {
-    const data = new FormData();
-    data.append('file', e.target.files[0]);
-    data.append('upload_preset', 'MTBregistration');
-    const cloudinaryRes = await fetch(
-      'https://api.cloudinary.com/v1_1/karolinauploads/image/upload',
-      {
-        method: 'POST',
-        body: data,
+      onError: (errorMutation) => {
+        errorMutation;
       },
-    );
-    const file = await cloudinaryRes.json();
-    setPhoto(file.secure_url);
-  }
-  function handleSubmit(e) {
+    },
+  );
+  function handleEditGuide(e) {
     e.preventDefault();
     removeErrorMessage();
-    const errors = validateForm(email.value, password.value, name.value);
+    const errors = validateForm(email.value, name.value);
     addErrorMessage(errors);
     if (errors.length === 0) {
       updateUser({
         variables: {
           id,
-          email,
-          name,
-          surname,
-          description,
-          photo,
+          email: email.value,
+          name: name.value,
+          surname: surname.value,
+          description: description.value,
+          photo: result,
         },
       });
     }
   }
-  function handleChancel() {
-    Router.push({
-      pathname: '/guides',
-    });
-  }
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
-  if (error) {
-    return <Error error={error} />;
+  if (error || errorMutation) {
+    return <Error error={error || errorMutation} />;
   }
   if (data) {
     return (
-      <React.Fragment>
-        <Nav />
-        <StyledContainer>
-          <StyledCard>
-            <form data-testid="emailInput">
-              <StyledFieldset disabled={loading} aria-busy={loading}>
-                <StyledTextTitle6>Edit the MTB Guide</StyledTextTitle6>
-                <StyledInput type="file" id="file" onChange={handlePhotoUpload} />
-                <label htmlFor="file">
-                  <CardPrimaryAction>
-                    <StyledGuideImage src={photo} alt="Upload a photo" />
-                  </CardPrimaryAction>
-                </label>
-                <ErrorMessage />
-                {error && <Error error={error} />}
-                <TextField
-                  {...name}
-                  fullwidth
-                  placeholder={data.user.name}
-                  value={name.value}
-                  required={true}
+      <StyledContainer>
+        <StyledCard>
+          <form data-testid="emailInput">
+            <StyledFieldset disabled={loadingMutation} aria-busy={loadingMutation}>
+              <StyledTextTitle6>Edit the MTB Guide</StyledTextTitle6>
+              <StyledSpanErrors>
+                {loadingPhotoUpload && <Loading />}
+                {errorPhotoUpload && (
+                  <ErrorMessage error={errorPhotoUpload}></ErrorMessage>
+                )}
+              </StyledSpanErrors>
+              <StyledInput type="file" id="file" onChange={uploadPhoto} />
+              <label htmlFor="file">
+                <CardPrimaryAction>
+                  <StyledGuideImage
+                    src={result ? result : data.user.photo}
+                    alt="Upload a photo"
+                  />
+                </CardPrimaryAction>
+              </label>
+              <ErrorMessage />
+              {error && <Error error={error} />}
+              <TextField
+                {...name}
+                fullwidth
+                placeholder={data.user.name}
+                value={name.value}
+                required={true}
+              />
+              <TextField
+                {...surname}
+                fullwidth
+                placeholder={data.user.surname}
+                value={surname.value}
+                required={true}
+              />
+              <TextField
+                {...email}
+                fullwidth
+                placeholder={data.user.email}
+                value={email.value}
+                required={false}
+              />
+              <TextField
+                {...description}
+                fullwidth
+                placeholder={data.user.description}
+                textarea={true}
+                rows={4}
+                maxLength={100}
+                value={description.value}
+              />
+              <span>
+                <ButtonMain
+                  text="Edit Guide"
+                  onClick={(e) => {
+                    handleEditGuide(e);
+                  }}
+                  data-testid="ButtonEdit"
                 />
-                <TextField
-                  {...surname}
-                  fullwidth
-                  placeholder={data.user.surname}
-                  value={surname.value}
-                  required={true}
-                />
-                <TextField
-                  {...email}
-                  fullwidth
-                  placeholder={data.user.email}
-                  value={email.value}
-                  required={false}
-                />
-                <TextField
-                  {...description}
-                  fullwidth
-                  placeholder={data.user.description}
-                  value={description.value}
-                />
-                <StyledSpanButon>
-                  <StyledButton
-                    onClick={(e) => handleSubmit(e)}
-                    raised
-                    theme={['secondaryBg', 'onSecondary']}
-                    data-testid="ButtonEdit"
-                  >
-                    <StyledTextButtonBlack>Edit Guide</StyledTextButtonBlack>
-                  </StyledButton>
-                </StyledSpanButon>
-                <StyledButtonLink data-testid="ButtonCancel" onClick={handleChancel}>
-                  <StyledTextButtonColor>Chancel</StyledTextButtonColor>
-                </StyledButtonLink>
-              </StyledFieldset>
-            </form>
-          </StyledCard>
-        </StyledContainer>
-      </React.Fragment>
+              </span>
+              <ButtonLink text="Chancel" onClick={routeToGuidesList} />
+            </StyledFieldset>
+          </form>
+        </StyledCard>
+      </StyledContainer>
     );
   }
 };
 const StyledInput = styled.input`
   display: none;
 `;
-export const StyledButtonLink = styled(Button)`
-  text-transform: capitalize;
-  width: 100%;
-  border-radius: 0px 0px 0px 0px;
-`;
+
 UpdateGuide.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
 export default UpdateGuide;
-/*
-<TextField
-                  {...email}
-                  fullwidth
-                  label={email}
-                  value={email.value}
-                  onChange={handleEmailChange}
-                />
-                */

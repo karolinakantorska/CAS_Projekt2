@@ -34,7 +34,7 @@ import '@material/list/dist/mdc.list.css';
 import '@material/linear-progress/dist/mdc.linear-progress.css';
 
 function MyApp({ Component, pageProps, apollo }) {
-  console.log(apollo);
+  //console.log(apollo);
   return (
     <ApolloProvider client={apollo}>
       <UserStateProvider>
