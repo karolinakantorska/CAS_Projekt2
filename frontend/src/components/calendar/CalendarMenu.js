@@ -4,16 +4,13 @@ import styled from 'styled-components';
 // RMWC
 import { IconButton } from '@rmwc/icon-button';
 
-const CalendarMenu = (props) => {
-  const {
-    currentYear,
-    selectedYear,
-    currentMonth,
-    selectedMonth,
-    handleMonthChange,
-    handleYearChange,
-  } = props;
-
+const CalendarMenu = ({
+  currentYear,
+  selectedYear,
+  currentMonth,
+  selectedMonth,
+  handleMonthChange,
+}) => {
   return (
     <StyledButtonsMenu>
       <StyledSpan>
@@ -34,11 +31,7 @@ const CalendarMenu = (props) => {
           )
         }
         <StyledMonthChangeButton>{selectedMonth}</StyledMonthChangeButton>
-        <StyledIconButton
-          //icon="arrow_forward_ios"
-          icon="arrow_right"
-          onClick={() => handleMonthChange(1)}
-        >
+        <StyledIconButton icon="arrow_right" onClick={() => handleMonthChange(1)}>
           &#8594;
         </StyledIconButton>
       </StyledSpan>
@@ -51,7 +44,6 @@ CalendarMenu.propTypes = {
   currentMonth: PropTypes.string,
   selectedMonth: PropTypes.string,
   handleMonthChange: PropTypes.func,
-  handleYearChange: PropTypes.func,
 };
 const StyledButtonsMenu = styled.div`
   grid-column: 2 / span 1;

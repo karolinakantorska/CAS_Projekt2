@@ -21,19 +21,18 @@ import CREATE_RESERVATION from '../../graphgl/mutations/CREATE_RESERVATION';
 
 import { StyledContainer } from '../styles/StyledContainer';
 import { StyledCard, StyledButton, StyledSpanPadding } from '../styles/StyledForm';
+// utils
 import {
   StyledTextBody1,
   StyledTextTitle6,
   StyledTextButtonBlack,
 } from '../styles/StyledText';
+import { chooseWholeDay, chooseMorning, chooseAfternoon } from '../../lib/utils';
 import {
-  chooseWholeDay,
-  chooseMorning,
-  chooseAfternoon,
   addErrorMessage,
   validateFormBookingConfirmation,
   removeErrorMessage,
-} from '../../lib/utils';
+} from '../../lib/utilsForm';
 const BookingConfirmation = ({ props }) => {
   const {
     day,

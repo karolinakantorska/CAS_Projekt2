@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { useFormInput } from '../../lib/utilsAdmin';
+import { permission } from '../../lib/utils';
 // Components for Styling
 import { StyledTextBody2 } from '../styles/StyledText';
 
@@ -21,8 +21,8 @@ const Entry = (props) => {
   const router = useRouter();
   function handleEntrySpanClick() {
     if (
-      currentUserPermission === useFormInput.admin ||
-      currentUserPermission === useFormInput.guide
+      currentUserPermission === permission.admin ||
+      currentUserPermission === permission.guide
     ) {
       router.push({
         pathname: '/edit_entry',
@@ -35,7 +35,7 @@ const Entry = (props) => {
   }
   return (
     <EntrySpan className={time} onClick={() => handleEntrySpanClick()}>
-      {currentUserPermission === useFormInput.user &&
+      {currentUserPermission === permission.user &&
         // userName is the user who booked the appointment
         (userName === currentUserName ? (
           <div className="grid_column_div own_booking">
@@ -46,8 +46,8 @@ const Entry = (props) => {
             <span>Booked!</span>
           </div>
         ))}
-      {(currentUserPermission === useFormInput.admin ||
-        currentUserPermission === useFormInput.guide) &&
+      {(currentUserPermission === permission.admin ||
+        currentUserPermission === permission.guide) &&
         // userName is the user who booked the appointment
         (userName === guideName ? (
           <div className="grid_column_div ">
@@ -55,7 +55,7 @@ const Entry = (props) => {
           </div>
         ) : (
           <div className="grid_column_div ">
-            <StyledTextBody2>Gast:{userName}</StyledTextBody2>
+            <StyledTextBody2>{userName}</StyledTextBody2>
           </div>
         ))}
     </EntrySpan>

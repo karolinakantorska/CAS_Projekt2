@@ -1,8 +1,8 @@
 import React from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
 // RMWC
 import { Card } from '@rmwc/card';
 import { CardPrimaryAction } from '@rmwc/card';
@@ -20,12 +20,12 @@ import {
   StyledTextSubtitle1,
 } from '../styles/StyledText';
 
-const Guide = (props) => {
-  const { currentUserPermission, currentUserName } = props;
-  const { id, email, name, surname, description, photo } = props.guide;
+const Guide = ({ currentUserPermission, currentUserName, guide }) => {
+  const { id, email, name, surname, description, photo } = guide;
   const router = useRouter();
 
   function goToBookingPage() {
+    window.localStorage.setItem('currentGuide', JSON.stringify(guide));
     if (currentUserPermission) {
       router.push({
         pathname: '/booking_guide',
@@ -33,7 +33,6 @@ const Guide = (props) => {
           guideId: id,
           guideName: name,
           guideSurname: surname,
-          guidePhoto: photo,
           currentUserName,
         },
       });

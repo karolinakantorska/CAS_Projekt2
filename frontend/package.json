@@ -17,6 +17,7 @@
     "@rmwc/avatar": "^6.1.4",
     "@rmwc/button": "^6.1.4",
     "@rmwc/card": "^6.1.4",
+    "@rmwc/circular-progress": "^6.1.4",
     "@rmwc/dialog": "^6.1.4",
     "@rmwc/drawer": "^6.1.4",
     "@rmwc/elevation": "^6.1.4",

@@ -1,64 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { weekDaysEN, monthEN } from '../../lib/utils';
-import startOfMonth from 'date-fns/startOfMonth';
-import getDaysInMonth from 'date-fns/getDaysInMonth';
-import addMonths from 'date-fns/addMonths';
-import addYears from 'date-fns/addYears';
-import format from 'date-fns/format';
+
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // Components
 import DaySpan from './DaySpan';
 import User from '../main/User';
 import CalendarMenu from './CalendarMenu';
+import GuideAvatar from '../reusable/GuideAvatar';
+import Year from './Year';
+import Loading from '../reusable/LoadingBar';
+import Error from '../reusable/Error';
+
+// Utils
+import {
+  useCalendar,
+  currentDate,
+  weekDaysEN,
+  reservationsDataToArray,
+} from '../../lib/utilsCalendar';
+
 // Queries
 import MONTH_RESERVATIONS_QUERY from '../../graphgl/queries/MONTH_RESERVATIONS_QUERY';
 // Components for Styling
 import { StyledElevation } from '../styles/StyledForm';
 import { StyledAvatar } from '../styles/StyledAvatar';
+import { StyledContainer } from '../styles/StyledContainer';
 
 const Calendar = ({ props }) => {
-  const { guideId, guideName, guideSurname, guidePhoto, currentUserName } = props;
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedYear, setSelectedYear] = useState(format(selectedDate, 'y'));
-  const [selectedMonth, setSelectedMonth] = useState(format(selectedDate, 'MMMM'));
-  const [firstDayOfMonth, setFirstDayOfMonth] = useState(
-    format(startOfMonth(selectedDate), 'i'),
-  );
-  const [daysInMonth, setDaysInMonth] = useState(getDaysInMonth(selectedDate));
-  // Calender
+  const { guideId, guideName, guideSurname } = props;
   const weekNames = weekDaysEN();
-  const currentYear = format(new Date(), 'y');
-  const currentMonth = format(new Date(), 'MMMM');
-  const currentDay = format(new Date(), 'd');
-  // Calender creating empty days
-  const blankCells = [];
-  for (let i = 1; i < firstDayOfMonth; i++) {
-    blankCells.push(i);
-  }
-  const daysInMonthArray = [];
-  for (let i = 1; i <= daysInMonth; i++) {
-    daysInMonthArray.push(`${i}`);
-  }
-  // Calender changing month and year
-  function handleMonthChange(i) {
-    setSelectedDate(addMonths(selectedDate, i));
-  }
-  function handleYearChange(i) {
-    setSelectedDate(addYears(selectedDate, i));
-  }
-  function updateStateWithSelectedDate() {
-    setSelectedMonth(format(selectedDate, 'MMMM'));
-    setSelectedYear(format(selectedDate, 'y'));
-    setFirstDayOfMonth(format(startOfMonth(selectedDate), 'i'));
-    setDaysInMonth(getDaysInMonth(selectedDate));
-    refetch();
-  }
-  useEffect(() => {
-    updateStateWithSelectedDate();
-  });
+  const today = currentDate();
+  const {
+    handleMonthChange,
+    selectedYear,
+    selectedMonth,
+    emptyCells,
+    daysInMonthArray,
+  } = useCalendar();
   const { loading, error, data, refetch } = useQuery(MONTH_RESERVATIONS_QUERY, {
     variables: {
       year: selectedYear,
@@ -66,21 +46,24 @@ const Calendar = ({ props }) => {
       id: guideId,
     },
   });
-
-  // handle booking function
-  const router = useRouter();
+  useEffect(() => {
+    refetch();
+  }, [selectedMonth]);
+  //console.log('selectedDate', selectedDate);
+  const Router = useRouter();
   const handleBooking = (day, dayInThePast, bookedTime, userName) => {
-    if (dayInThePast === 'dayInThePast') {
+    if (dayInThePast) {
       alert(`you can't book a day in the past`);
       return;
     } else {
-      router.push({
+      Router.push({
         pathname: '/confirm_booking',
         query: {
           day,
           selectedMonth,
           selectedYear,
           guideId,
+          //take it away?
           guideName,
           guideSurname,
           userName,
@@ -89,95 +72,71 @@ const Calendar = ({ props }) => {
       });
     }
   };
-
-  const reservationsQueryDataTransformedToArray = () => {
-    const reservationsByDays = {};
-    data.days.map((bookings) => {
-      const { day, reservations } = bookings;
-      // filtering out reservations from another guide
-      const reservationsFromOneGuide = reservations.filter(
-        (reservation) => reservation.guide.id === guideId,
-      );
-      reservationsByDays[day] = reservationsFromOneGuide;
-    });
-    return reservationsByDays;
-  };
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
   if (error) {
     return <Error error={error} />;
   }
   if (data) {
-    const reservations = reservationsQueryDataTransformedToArray();
+    const reservations = reservationsDataToArray(data.days, guideId);
     return (
       <User>
         {(currentUserPermission, currentUserName, currentUserEmail) => (
-          <StyledElevation z={5}>
-            <StyledCalendarMenuContainer>
-              <CalendarMenu
-                currentYear={currentYear}
-                currentMonth={currentMonth}
-                selectedYear={selectedYear}
-                selectedMonth={selectedMonth}
-                handleMonthChange={handleMonthChange}
-                handleYearChange={handleYearChange}
-              />
-              <StyledSpan>
-                <StyledAvatar src={guidePhoto} size="xlarge" interactive />
-              </StyledSpan>
-            </StyledCalendarMenuContainer>
-
-            <StyledCalendarContainer>
-              {weekNames.map((day) => (
-                <StyledDayName key={day} variant="h6" color="Dark">
-                  {day}
-                </StyledDayName>
-              ))}
-              {blankCells.map((day) => (
-                <span key={day}></span>
-              ))}
-
-              {daysInMonthArray.map((dayOfMonth) => {
-                // if day is a current day becomes highlight
-                // TODO put it in function
-                let highlight = false;
-                if (
-                  currentYear === selectedYear &&
-                  currentMonth === selectedMonth &&
-                  dayOfMonth === currentDay
-                ) {
-                  highlight = true;
-                }
-                // reservation prop
-                let reservation = [];
-                if (reservations[dayOfMonth]) {
-                  reservation = reservations[dayOfMonth];
-                }
-                // disable booking in the past and on the current day
-                let dayInThePast = '';
-                if (
-                  currentYear === selectedYear &&
-                  currentMonth === selectedMonth &&
-                  parseInt(dayOfMonth) <= parseInt(currentDay)
-                ) {
-                  dayInThePast = 'dayInThePast';
-                }
-                return (
-                  <DaySpan
-                    key={dayOfMonth}
-                    reservation={reservation}
-                    dayOfMonth={dayOfMonth}
-                    highlight={highlight}
-                    handleBooking={handleBooking}
-                    currentUserPermission={currentUserPermission}
-                    currentUserName={currentUserName}
-                    dayInThePast={dayInThePast}
-                  ></DaySpan>
-                );
-              })}
-            </StyledCalendarContainer>
-          </StyledElevation>
+          <StyledContainer>
+            <StyledElevation z={5}>
+              <StyledCalendarMenuContainer>
+                <Year selectedYear={selectedYear} />
+                <CalendarMenu
+                  currentYear={today.year}
+                  currentMonth={today.month}
+                  selectedYear={selectedYear}
+                  selectedMonth={selectedMonth}
+                  handleMonthChange={handleMonthChange}
+                />
+                <StyledSpan>
+                  <GuideAvatar guideId={guideId} />
+                </StyledSpan>
+              </StyledCalendarMenuContainer>
+              <StyledCalendarContainer>
+                {weekNames.map((day) => (
+                  <StyledDayName key={day}>{day}</StyledDayName>
+                ))}
+                {emptyCells.map((day) => (
+                  <span key={day}></span>
+                ))}
+                {daysInMonthArray.map((dayOfMonth) => {
+                  let reservation = [];
+                  if (reservations[dayOfMonth]) {
+                    reservation = reservations[dayOfMonth];
+                  }
+                  return (
+                    <DaySpan
+                      key={dayOfMonth}
+                      //reservation={reservation}
+                      reservation={
+                        reservations[dayOfMonth] ? reservations[dayOfMonth] : []
+                      }
+                      dayOfMonth={dayOfMonth}
+                      highlight={
+                        today.year === selectedYear &&
+                        today.month === selectedMonth &&
+                        today.day === dayOfMonth
+                      }
+                      handleBooking={handleBooking}
+                      currentUserPermission={currentUserPermission}
+                      currentUserName={currentUserName}
+                      dayInThePast={
+                        today.year === selectedYear &&
+                        today.month === selectedMonth &&
+                        parseInt(dayOfMonth) <= parseInt(today.day)
+                      }
+                    ></DaySpan>
+                  );
+                })}
+              </StyledCalendarContainer>
+            </StyledElevation>
+          </StyledContainer>
         )}
       </User>
     );
@@ -200,13 +159,11 @@ const StyledCalendarContainer = styled.div`
 const StyledCalendarMenuContainer = styled.div`
   display: grid;
   grid-template-columns: 2fr 3fr 2fr;
-  align-content: center;
-  justify-content: center;
 `;
 const StyledSpan = styled.span`
   display: grid;
   justify-content: center;
-  padding-top: 0.5rem;
+  padding-top: 5px;
 `;
 const StyledDayName = styled.div`
   font-family: var(--fontFamilyCalendar);

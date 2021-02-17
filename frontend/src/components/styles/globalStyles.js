@@ -3,7 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 const GlobalStyle = createGlobalStyle`
 
 :root {
-  --maxWidth: 1000px;
+  --maxWidth: 1200px;
   --colorPrimary: #212121;
   --colorSecundary:    #85929e   ;
   --colorNegativ: #ECEFF1;
@@ -34,7 +34,9 @@ const GlobalStyle = createGlobalStyle`
   a {
     text-decoration: none;
   }
-
+  .calendar_font {
+    font-family: Yanone Kaffeesatz, Arial, sans-serif
+  }
 `;
 
 export default GlobalStyle;

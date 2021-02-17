@@ -4,11 +4,8 @@ import styled, { ThemeProvider } from 'styled-components';
 import { Button } from '@rmwc/button';
 import { StyledTextButtonWhite } from '../styles/StyledText';
 
-import Nav from './Nav';
-
 const Home = () => (
   <ContainerHomepage>
-    <Nav />
     <Link href="/guides">
       <StyledButton__Homepage raised>
         <StyledTextButtonWhite>Find the coolest MTB Guide!</StyledTextButtonWhite>

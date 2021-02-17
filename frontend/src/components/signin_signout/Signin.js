@@ -62,7 +62,6 @@ const Signin = () => {
   }
   return (
     <React.Fragment>
-      <Nav />
       <StyledContainer>
         <StyledCard>
           <form>
