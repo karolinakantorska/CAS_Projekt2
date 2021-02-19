@@ -12,7 +12,7 @@ import GuideAvatar from '../reusable/GuideAvatar';
 import Year from './Year';
 import Loading from '../reusable/LoadingBar';
 import Error from '../reusable/Error';
-
+import { StyledCard, StyledFieldset, StyledSpanErrors } from '../styles/StyledForm';
 // Utils
 import {
   useCalendar,
@@ -64,9 +64,9 @@ const Calendar = ({ props }) => {
           selectedYear,
           guideId,
           //take it away?
-          guideName,
-          guideSurname,
-          userName,
+          //guideName,
+          //guideSurname,
+          //userName,
           bookedTime,
         },
       });
@@ -83,60 +83,56 @@ const Calendar = ({ props }) => {
     return (
       <User>
         {(currentUserPermission, currentUserName, currentUserEmail) => (
-          <StyledContainer>
-            <StyledElevation z={5}>
-              <StyledCalendarMenuContainer>
-                <Year selectedYear={selectedYear} />
-                <CalendarMenu
-                  currentYear={today.year}
-                  currentMonth={today.month}
-                  selectedYear={selectedYear}
-                  selectedMonth={selectedMonth}
-                  handleMonthChange={handleMonthChange}
-                />
-                <StyledSpan>
-                  <GuideAvatar guideId={guideId} />
-                </StyledSpan>
-              </StyledCalendarMenuContainer>
-              <StyledCalendarContainer>
-                {weekNames.map((day) => (
-                  <StyledDayName key={day}>{day}</StyledDayName>
-                ))}
-                {emptyCells.map((day) => (
-                  <span key={day}></span>
-                ))}
-                {daysInMonthArray.map((dayOfMonth) => {
-                  let reservation = [];
-                  if (reservations[dayOfMonth]) {
-                    reservation = reservations[dayOfMonth];
+          <StyledCalendarContainer>
+            <Year selectedYear={selectedYear} className="year_component" />
+            <CalendarMenu
+              className="month_component"
+              currentYear={today.year}
+              currentMonth={today.month}
+              selectedYear={selectedYear}
+              selectedMonth={selectedMonth}
+              handleMonthChange={handleMonthChange}
+            />
+            <StyledSpan className="avatar_span">
+              <GuideAvatar guideId={guideId} />
+            </StyledSpan>
+
+            {weekNames.map((day) => (
+              <StyledDayName key={day} className="dayName_span">
+                {day}
+              </StyledDayName>
+            ))}
+            {emptyCells.map((day) => (
+              <span key={day}></span>
+            ))}
+            {daysInMonthArray.map((dayOfMonth) => {
+              let reservation = [];
+              if (reservations[dayOfMonth]) {
+                reservation = reservations[dayOfMonth];
+              }
+              return (
+                <DaySpan
+                  key={dayOfMonth}
+                  //reservation={reservation}
+                  reservation={reservations[dayOfMonth] ? reservations[dayOfMonth] : []}
+                  dayOfMonth={dayOfMonth}
+                  highlight={
+                    today.year === selectedYear &&
+                    today.month === selectedMonth &&
+                    today.day === dayOfMonth
                   }
-                  return (
-                    <DaySpan
-                      key={dayOfMonth}
-                      //reservation={reservation}
-                      reservation={
-                        reservations[dayOfMonth] ? reservations[dayOfMonth] : []
-                      }
-                      dayOfMonth={dayOfMonth}
-                      highlight={
-                        today.year === selectedYear &&
-                        today.month === selectedMonth &&
-                        today.day === dayOfMonth
-                      }
-                      handleBooking={handleBooking}
-                      currentUserPermission={currentUserPermission}
-                      currentUserName={currentUserName}
-                      dayInThePast={
-                        today.year === selectedYear &&
-                        today.month === selectedMonth &&
-                        parseInt(dayOfMonth) <= parseInt(today.day)
-                      }
-                    ></DaySpan>
-                  );
-                })}
-              </StyledCalendarContainer>
-            </StyledElevation>
-          </StyledContainer>
+                  handleBooking={handleBooking}
+                  currentUserPermission={currentUserPermission}
+                  currentUserName={currentUserName}
+                  dayInThePast={
+                    today.year === selectedYear &&
+                    today.month === selectedMonth &&
+                    parseInt(dayOfMonth) <= parseInt(today.day)
+                  }
+                ></DaySpan>
+              );
+            })}
+          </StyledCalendarContainer>
         )}
       </User>
     );
@@ -150,25 +146,31 @@ Calendar.propTypes = {
 };
 
 const StyledCalendarContainer = styled.div`
+  max-width: var(--maxWidth);
+  background-color: white;
   margin: auto;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  grid-template-areas: ' year year month month month guide guide';
+  padding: 25px 10px 15px 10px;
+  margin-top: 4rem;
+  border-radius: 10px;
   justify-content: center;
   grid-gap: 1% 0.5%;
 `;
-const StyledCalendarMenuContainer = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 3fr 2fr;
-`;
+
 const StyledSpan = styled.span`
+  grid-area: guide;
   display: grid;
   justify-content: center;
   padding-top: 5px;
 `;
 const StyledDayName = styled.div`
+  //grid-area: menu;
   font-family: var(--fontFamilyCalendar);
   font-size: 1.2rem;
   color: var(--colorSecundary);
+  padding-top: 10px;
   display: grid;
   ::after {
     content: '';
@@ -180,3 +182,18 @@ const StyledDayName = styled.div`
 `;
 
 export default Calendar;
+/*
+              <StyledCalendarMenuContainer>
+                <Year selectedYear={selectedYear} />
+                <CalendarMenu
+                  currentYear={today.year}
+                  currentMonth={today.month}
+                  selectedYear={selectedYear}
+                  selectedMonth={selectedMonth}
+                  handleMonthChange={handleMonthChange}
+                />
+                <StyledSpan>
+                  <GuideAvatar guideId={guideId} />
+                </StyledSpan>
+              </StyledCalendarMenuContainer>
+              */

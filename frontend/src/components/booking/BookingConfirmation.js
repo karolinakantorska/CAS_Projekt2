@@ -8,16 +8,13 @@ import { TextField } from '@rmwc/textfield';
 import { Select } from '@rmwc/select';
 import { Ripple } from '@rmwc/ripple';
 
-import Nav from '../main/Nav';
 import User from '../main/User';
-//import { useUser } from '../../lib/userState';
 import Error from '../reusable/Error';
 import ErrorMessage from '../reusable/ErrorMessage';
 
 import DAY_QUERY from '../../graphgl/queries/DAY_QUERY';
 import CREATE_DAY from '../../graphgl/mutations/CREATE_DAY';
 import UPDATE_DAY from '../../graphgl/mutations/UPDATE_DAY';
-import CREATE_RESERVATION from '../../graphgl/mutations/CREATE_RESERVATION';
 
 import { StyledContainer } from '../styles/StyledContainer';
 import { StyledCard, StyledButton, StyledSpanPadding } from '../styles/StyledForm';
@@ -27,23 +24,20 @@ import {
   StyledTextTitle6,
   StyledTextButtonBlack,
 } from '../styles/StyledText';
-import { chooseWholeDay, chooseMorning, chooseAfternoon } from '../../lib/utils';
+import {
+  chooseWholeDay,
+  chooseMorning,
+  chooseAfternoon,
+  useHandleTimeChange,
+} from '../../lib/utilsBooking';
 import {
   addErrorMessage,
   validateFormBookingConfirmation,
   removeErrorMessage,
 } from '../../lib/utilsForm';
 const BookingConfirmation = ({ props }) => {
-  const {
-    day,
-    selectedMonth: month,
-    selectedYear: year,
-    guideId,
-    guideName,
-    guideSurname,
-    bookedTime,
-  } = props;
-  const [time, setTime] = useState('');
+  const { day, selectedMonth: month, selectedYear: year, guideId, bookedTime } = props;
+  const time = useHandleTimeChange('');
   const [description, setDescription] = useState('');
   const [nrOfPeople, setNrOfPeople] = useState(1);
   const router = useRouter();
@@ -60,33 +54,10 @@ const BookingConfirmation = ({ props }) => {
       error;
     },
   });
-  const [
-    create_reservation,
-    { error: errorCreateReservation, onCompleted, data },
-  ] = useMutation(CREATE_RESERVATION, {
-    onCompleted: (data) => {
-      router.push({
-        pathname: '/thank_you',
-        query: {
-          time,
-          day,
-          month,
-          year,
-          guideName,
-          guideSurname,
-          guideId,
-        },
-      });
-    },
-    onError: (errorCreateReservation) => {
-      console.log(errorCreateReservation);
-      errorCreateReservation;
-    },
-  });
   const [update_day, { error: errorUpdateDay }] = useMutation(UPDATE_DAY, {
     onCompleted: () => {
       //not sure of that
-      refetch();
+      //refetch();
       router.push({
         pathname: '/thank_you',
         query: {
@@ -94,8 +65,8 @@ const BookingConfirmation = ({ props }) => {
           day,
           month,
           year,
-          guideName,
-          guideSurname,
+          guideName: 'no name',
+          guideSurname: 'no surname',
           guideId,
         },
       });
@@ -107,7 +78,7 @@ const BookingConfirmation = ({ props }) => {
   const [create_day, { error: errorCreateDay }] = useMutation(CREATE_DAY, {
     onCompleted: () => {
       //not sure of that
-      refetch();
+      //refetch();
       router.push({
         pathname: '/thank_you',
         query: {
@@ -115,8 +86,8 @@ const BookingConfirmation = ({ props }) => {
           day,
           month,
           year,
-          guideName,
-          guideSurname,
+          guideName: 'no name',
+          guideSurname: 'no surname',
           guideId,
         },
       });
@@ -125,19 +96,7 @@ const BookingConfirmation = ({ props }) => {
       errorCreateDay;
     },
   });
-  function handleTimeChange(e) {
-    switch (e.target.value) {
-      case chooseWholeDay:
-        setTime('DAY');
-        break;
-      case chooseMorning:
-        setTime('AM');
-        break;
-      case chooseAfternoon:
-        setTime('PM');
-        break;
-    }
-  }
+
   function handleDescriptionChange(e) {
     setDescription(e.target.value);
   }
@@ -149,14 +108,15 @@ const BookingConfirmation = ({ props }) => {
     removeErrorMessage();
     const errors = validateFormBookingConfirmation(time);
     addErrorMessage(errors);
-
+    console.log('time.value', time.value);
     if (errors.length === 0) {
       // day doesn't exist yet
       // returns days=[]
+
       if (dataDay.days.length === 0) {
         create_day({
           variables: {
-            time,
+            time: time.value,
             day,
             month,
             year,
@@ -173,7 +133,7 @@ const BookingConfirmation = ({ props }) => {
         const { id } = dataDay.days[0];
         update_day({
           variables: {
-            time,
+            time: time.value,
             userName,
             userEmail,
             nrOfPeople,
@@ -192,14 +152,10 @@ const BookingConfirmation = ({ props }) => {
     return <Error error={error} />;
   }
   if (dataDay) {
-    console.log(dataDay);
-    console.log(dataDay.days);
-    console.log(dataDay.days.length);
     return (
       <User>
         {(currentUserPermission, currentUserName, currentUserEmail, currentUserId) => (
           <>
-            <Nav />
             <StyledContainer>
               <StyledCard>
                 <StyledSpanPadding>
@@ -207,15 +163,8 @@ const BookingConfirmation = ({ props }) => {
                     Hallo {currentUserName}, confirm your booking details!
                   </StyledTextTitle6>
                   <ErrorMessage />
-                  {errorCreateReservation && <Error error={errorCreateReservation} />}
                   {errorCreateDay && <Error error={errorCreateDay} />}
                   {errorUpdateDay && <Error error={errorUpdateDay} />}
-                  <StyledTextBody1>
-                    Your MTB Guide will be:{' '}
-                    <strong>
-                      {guideName} {guideSurname}
-                    </strong>
-                  </StyledTextBody1>
                   <StyledTextBody1>
                     Booked Date:{' '}
                     <strong>
@@ -227,26 +176,29 @@ const BookingConfirmation = ({ props }) => {
                   </StyledTextBody1>
                   {bookedTime === 'PM' && (
                     <StyledSelect
+                      {...time}
+                      value={time.value}
                       placeholder="Please chose the time of a day"
                       invalid={!Boolean(time)}
                       options={[chooseMorning]}
-                      onChange={(e) => handleTimeChange(e)}
                     />
                   )}
                   {bookedTime === 'AM' && (
                     <StyledSelect
+                      {...time}
+                      value={time.value}
                       placeholder="Please chose the time of a day"
                       invalid={!Boolean(time)}
                       options={[chooseAfternoon]}
-                      onChange={(e) => handleTimeChange(e)}
                     />
                   )}
                   {bookedTime === '' && (
                     <StyledSelect
+                      {...time}
+                      value={time.value}
                       placeholder="Please chose the time of a day"
                       invalid={!Boolean(time)}
                       options={[chooseWholeDay, chooseMorning, chooseAfternoon]}
-                      onChange={(e) => handleTimeChange(e)}
                     />
                   )}
                   <StyledTextBody1>How big is the group?</StyledTextBody1>

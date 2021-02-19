@@ -6,25 +6,23 @@ import { permission } from '../../lib/utils';
 // Components for Styling
 import { StyledTextBody2 } from '../styles/StyledText';
 
-const Entry = (props) => {
-  const {
-    id,
-    time,
-    userName,
-    userEmail,
-    currentUserPermission,
-    currentUserName,
-    guideName,
-  } = props;
+const Entry = ({
+  id,
+  time,
+  userName,
+  currentUserPermission,
+  currentUserName,
+  guideName,
+}) => {
   //console.log('currentUserName', currentUserName);
   //console.log('userName', userName);
-  const router = useRouter();
+  const Router = useRouter();
   function handleEntrySpanClick() {
     if (
       currentUserPermission === permission.admin ||
       currentUserPermission === permission.guide
     ) {
-      router.push({
+      Router.push({
         pathname: '/edit_entry',
         query: {
           id,
@@ -55,7 +53,7 @@ const Entry = (props) => {
           </div>
         ) : (
           <div className="grid_column_div ">
-            <StyledTextBody2>{userName}</StyledTextBody2>
+            <StyledTextBody2>{`Gast: ${userName}`}</StyledTextBody2>
           </div>
         ))}
     </EntrySpan>
@@ -75,7 +73,6 @@ const EntrySpan = styled.span`
   margin-top: 6px;
   border-radius: 5px;
   background: rgba(217, 217, 217, 0.5);
-  //text-align: center;
   align-content: center;
   justify-content: center;
   .holiday {

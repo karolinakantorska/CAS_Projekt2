@@ -6,12 +6,13 @@ const Year = ({ selectedYear }) => {
   return <StyledSpan className="calendar_font">{selectedYear}</StyledSpan>;
 };
 const StyledSpan = styled.span`
-  color: var(--calendarColorLight);
-  font-size: 3rem;
+  grid-area: year;
+  color: var(--colorLight);
+  font-size: 2.5rem;
   margin-left: 20px;
   margin-top: 10px;
-  -webkit-transform: rotate(-15deg);
-  -moz-transform: rotate(-15deg);
+  -webkit-transform: rotate(-5deg);
+  -moz-transform: rotate(-5deg);
   @media (max-width: 840px) {
     font-size: 2.8rem;
   }

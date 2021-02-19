@@ -75,7 +75,7 @@ const StyledNav = styled.nav`
   .guides:hover,
   .signin:hover {
     color: #b71c1c;
-    text-shadow: 0px 0px 40px #546e7a;
+    text-shadow: 0px 0px 10px #546e7a;
   }
   a:active {
   }
@@ -103,8 +103,6 @@ const StyledNav = styled.nav`
   }
   .menu {
     display: none;
-  }
-  @media (max-width: 420px) {
   }
 `;
 

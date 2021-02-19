@@ -6,6 +6,11 @@ import { Avatar } from '@rmwc/avatar';
 import { CircularProgress } from '@rmwc/circular-progress';
 import Error from '../reusable/Error';
 import ONE_USER_QUERY from '../../graphgl/queries/ONE_USER_QUERY';
+import {
+  StyledTextBody2,
+  StyledTextTitle5,
+  StyledTextSubtitle1,
+} from '../styles/StyledText';
 
 const GuideAvatar = ({ guideId }) => {
   const { loading, error, data } = useQuery(ONE_USER_QUERY, {
@@ -21,21 +26,29 @@ const GuideAvatar = ({ guideId }) => {
     return (
       <StyledSpan>
         <StyledAvatar src={data.user.photo} size="xlarge" interactive />
+        <StyledTextBody2>{`${data.user.name} ${data.user.surname}`}</StyledTextBody2>
       </StyledSpan>
     );
   }
 };
 const StyledSpan = styled.span`
+  grid-area: guide;
   display: grid;
   grid-auto-flow: row;
   align-content: center;
   margin-left: 20px;
   margin-top: -20px;
+  @media (max-width: 380px) {
+    margin-left: 50px;
+  }
 `;
 const StyledAvatar = styled(Avatar)`
-  width: 68px;
-  height: 68px;
+  width: 52px;
+  height: 52px;
   border: solid 1px lightgray;
+  @media (max-width: 380px) {
+    display: none;
+  }
 `;
 GuideAvatar.propTypes = {
   guideId: PropTypes.string.required,

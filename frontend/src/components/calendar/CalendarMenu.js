@@ -46,7 +46,8 @@ CalendarMenu.propTypes = {
   handleMonthChange: PropTypes.func,
 };
 const StyledButtonsMenu = styled.div`
-  grid-column: 2 / span 1;
+  grid-area: month;
+  //grid-column: 2 / span 1;
   display: grid;
   padding: 1rem 0.8rem 1rem 0.8rem;
   width: 100%;
@@ -54,14 +55,14 @@ const StyledButtonsMenu = styled.div`
   ::before {
     content: '';
     width: 100%;
-    height: 3px;
+    height: 2px;
     border-radius: 2px;
     background: var(--calendarColorLight);
   }
   ::after {
     content: '';
     width: 100%;
-    height: 3px;
+    height: 2px;
     border-radius: 2px;
     background: var(--calendarColorLight);
   }

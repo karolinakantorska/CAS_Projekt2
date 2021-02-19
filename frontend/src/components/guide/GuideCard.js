@@ -91,7 +91,7 @@ export const StyledGuideCard = styled(Card)`
   display: grid;
   align-content: stretch;
   margin: auto;
-  margin-top: 4rem;
+  margin-top: 3rem;
   max-width: 344px;
 `;
 const StyledButtonSpan = styled.span`

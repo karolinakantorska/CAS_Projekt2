@@ -8,6 +8,7 @@ export default class MyDocument extends Document {
     const styleTags = sheet.getStyleElement();
     return { ...page, styleTags };
   }
+}
 /*
   render() {
     return (
@@ -51,5 +52,4 @@ export default class MyDocument extends Document {
     }
   }
 }
-
 */
