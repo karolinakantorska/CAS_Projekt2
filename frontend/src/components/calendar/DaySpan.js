@@ -6,20 +6,19 @@ import styled from 'styled-components';
 import DayNr from './DayNr';
 import Entry from './Entry';
 
-const DaySpan = (props) => {
-  const {
-    reservation,
-    dayOfMonth,
-    highlight,
-    handleBooking,
-    currentUserPermission,
-    currentUserName,
-    dayInThePast,
-  } = props;
-
+const DaySpan = ({
+  reservation,
+  dayOfMonth,
+  highlight,
+  handleBooking,
+  currentUserPermission,
+  currentUserName,
+  dayInThePast,
+}) => {
   // if there is only one reservation at the day, different than DAY reservation
   if (reservation.length === 1) {
     const { time, userName, userEmail, id, guide } = reservation[0];
+    console.log(reservation[0]);
     const guideName = guide.name;
     return (
       // if there is 1 reservations at the day

@@ -33,20 +33,7 @@ const CREATE_DAY = gql`
         }
       }
     ) {
-      year
-      month
-      day
-      reservations {
-        id
-        time
-        userName
-        userEmail
-        nrOfPeople
-        description
-        guide {
-          id
-        }
-      }
+      id
     }
   }
 `;

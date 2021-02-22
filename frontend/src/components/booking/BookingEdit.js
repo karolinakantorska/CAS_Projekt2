@@ -4,6 +4,7 @@ import Router from 'next/router';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import { routeToGuidesList } from '../../lib/utilsRouts';
 import { Button } from '@rmwc/button';
 
 import Error from '../reusable/Error';
@@ -24,28 +25,24 @@ const BookingEdit = (props) => {
     variables: { id },
   });
   function handleClose() {
-    Router.push({
-      pathname: '/guides',
-    });
+    routeToGuidesList();
   }
   function handleDelete() {
     delete_reservation({
       variables: { id },
     });
   }
-  const [
-    delete_reservation,
-    { error: errorDeleteReservation, data: dataDeleteReservation },
-  ] = useMutation(DELETE_RESERVATION, {
-    onCompleted: (data) => {
-      Router.push({
-        pathname: '/guides',
-      });
+  const [delete_reservation, { error: errorDeleteReservation }] = useMutation(
+    DELETE_RESERVATION,
+    {
+      onCompleted: () => {
+        routeToGuidesList();
+      },
+      onError: (errorDeleteReservation) => {
+        errorDeleteReservation;
+      },
     },
-    onError: (errorDeleteReservation) => {
-      errorDeleteReservation;
-    },
-  });
+  );
   if (loading) {
     return <p>Loading...</p>;
   }

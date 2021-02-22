@@ -9,7 +9,7 @@ import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 import Nav from '../main/Nav';
 import Error from '../reusable/Error';
 import ErrorMessage from '../reusable/ErrorMessage';
-import { validateForm, addErrorMessage, removeErrorMessage } from '../../lib/utilsForm';
+import { validateSingin, addErrorMessage, removeErrorMessage } from '../../lib/utilsForm';
 import { useUser } from '../../lib/userState';
 
 import { StyledContainer } from '../styles/StyledContainer';
@@ -43,7 +43,7 @@ const Signin = () => {
   function handleSignin(e) {
     e.preventDefault();
     removeErrorMessage();
-    const errors = validateForm(email, password);
+    const errors = validateSingin(email, password);
     addErrorMessage(errors);
     if (errors.length === 0) {
       signin({

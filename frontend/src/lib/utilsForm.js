@@ -51,6 +51,7 @@ export function usePhotoUpload(initialValue = '') {
   return { result, uploadPhoto, loadingPhotoUpload, errorPhotoUpload };
 }
 // Add Guide
+/*
 function handleAddGuide(e, name, surname, email, password, description, photo) {
   e.preventDefault();
   removeErrorMessage();
@@ -69,7 +70,7 @@ function handleAddGuide(e, name, surname, email, password, description, photo) {
     });
   }
 }
-
+*/
 // form validation
 export const regexCheckEmail = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
 export const regexCheckPassword = /^[^ ]{8,32}$/;
@@ -77,7 +78,7 @@ export const regexCheckName = /^.{2,12}$/;
 export const messageWrongPassword = `The password should be longer than 8 signs. Space is not alowed.`;
 export const messageWrongName = `The name must be longer than 2 and shorter than 12 signs.`;
 
-export function validateForm(email, name = 'correctName', password = 'correctPass') {
+export function validateForm(email, name, password = 'correctPass') {
   console.log('email', email, 'password', password, 'name', name);
   const errors = [];
   if (!regexCheckEmail.test(email) || email === '') {
@@ -88,6 +89,17 @@ export function validateForm(email, name = 'correctName', password = 'correctPas
   }
   if (!regexCheckName.test(name) || name === '') {
     errors.push(messageWrongName);
+  }
+  return errors;
+}
+export function validateSingin(email, password) {
+  console.log('email', password, 'name', name);
+  const errors = [];
+  if (!regexCheckEmail.test(email) || email === '') {
+    errors.push(`The: ${email} is not a valid email adresse.`);
+  }
+  if (!regexCheckPassword.test(password) || password === '') {
+    errors.push(messageWrongPassword);
   }
   return errors;
 }

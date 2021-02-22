@@ -12,7 +12,6 @@ import GuideAvatar from '../reusable/GuideAvatar';
 import Year from './Year';
 import Loading from '../reusable/LoadingBar';
 import Error from '../reusable/Error';
-import { StyledCard, StyledFieldset, StyledSpanErrors } from '../styles/StyledForm';
 // Utils
 import {
   useCalendar,
@@ -23,13 +22,10 @@ import {
 
 // Queries
 import MONTH_RESERVATIONS_QUERY from '../../graphgl/queries/MONTH_RESERVATIONS_QUERY';
-// Components for Styling
-import { StyledElevation } from '../styles/StyledForm';
-import { StyledAvatar } from '../styles/StyledAvatar';
-import { StyledContainer } from '../styles/StyledContainer';
 
 const Calendar = ({ props }) => {
-  const { guideId, guideName, guideSurname } = props;
+  console.log(props);
+  const { guideId } = props;
   const weekNames = weekDaysEN();
   const today = currentDate();
   const {
@@ -52,6 +48,8 @@ const Calendar = ({ props }) => {
   //console.log('selectedDate', selectedDate);
   const Router = useRouter();
   const handleBooking = (day, dayInThePast, bookedTime, userName) => {
+    //console.log(day, dayInThePast, 'bookedTime:', bookedTime, userName);
+
     if (dayInThePast) {
       alert(`you can't book a day in the past`);
       return;
@@ -63,10 +61,6 @@ const Calendar = ({ props }) => {
           selectedMonth,
           selectedYear,
           guideId,
-          //take it away?
-          //guideName,
-          //guideSurname,
-          //userName,
           bookedTime,
         },
       });

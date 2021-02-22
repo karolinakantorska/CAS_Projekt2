@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
@@ -7,23 +7,21 @@ import styled from 'styled-components';
 import { TextField } from '@rmwc/textfield';
 import { Select } from '@rmwc/select';
 import { Ripple } from '@rmwc/ripple';
-
+// Components
 import User from '../main/User';
 import Error from '../reusable/Error';
 import ErrorMessage from '../reusable/ErrorMessage';
+import Loading from '../reusable/LoadingBar';
+import ButtonMain from '../reusable/ButtonMain';
 
 import DAY_QUERY from '../../graphgl/queries/DAY_QUERY';
 import CREATE_DAY from '../../graphgl/mutations/CREATE_DAY';
 import UPDATE_DAY from '../../graphgl/mutations/UPDATE_DAY';
 
 import { StyledContainer } from '../styles/StyledContainer';
-import { StyledCard, StyledButton, StyledSpanPadding } from '../styles/StyledForm';
+import { StyledCard, StyledSpanPadding } from '../styles/StyledForm';
 // utils
-import {
-  StyledTextBody1,
-  StyledTextTitle6,
-  StyledTextButtonBlack,
-} from '../styles/StyledText';
+import { StyledTextBody1, StyledTextTitle6 } from '../styles/StyledText';
 import {
   chooseWholeDay,
   chooseMorning,
@@ -31,15 +29,18 @@ import {
   useHandleTimeChange,
 } from '../../lib/utilsBooking';
 import {
+  useFormInput,
   addErrorMessage,
   validateFormBookingConfirmation,
   removeErrorMessage,
 } from '../../lib/utilsForm';
+import { routeToBookingThanks } from '../../lib/utilsRouts';
+
 const BookingConfirmation = ({ props }) => {
   const { day, selectedMonth: month, selectedYear: year, guideId, bookedTime } = props;
-  const time = useHandleTimeChange('');
-  const [description, setDescription] = useState('');
-  const [nrOfPeople, setNrOfPeople] = useState(1);
+  const { time, handleTimeChange } = useHandleTimeChange(bookedTime);
+  const description = useFormInput('');
+  const nrOfPeople = useFormInput('1');
   const router = useRouter();
   const { loading, error, data: dataDay, refetch } = useQuery(DAY_QUERY, {
     variables: {
@@ -47,83 +48,53 @@ const BookingConfirmation = ({ props }) => {
       month,
       day,
     },
-    onCompleted: (dataDay) => {
-      console.log('compleated', dataDay);
-    },
     onError: (error) => {
       error;
     },
   });
-  const [update_day, { error: errorUpdateDay }] = useMutation(UPDATE_DAY, {
-    onCompleted: () => {
-      //not sure of that
-      //refetch();
-      router.push({
-        pathname: '/thank_you',
-        query: {
-          time,
-          day,
-          month,
-          year,
-          guideName: 'no name',
-          guideSurname: 'no surname',
-          guideId,
-        },
-      });
+  const [update_day, { error: errorUpdateDay, data: dataUpdateDay }] = useMutation(
+    UPDATE_DAY,
+    {
+      onCompleted: (dataUpdateDay) => {
+        const dayId = dataUpdateDay.updateDay.id;
+        routeToBookingThanks(time, dayId, guideId);
+      },
+      onError: (errorUpdateDay) => {
+        errorUpdateDay;
+      },
     },
-    onError: (errorUpdateDay) => {
-      errorUpdateDay;
+  );
+  const [create_day, { error: errorCreateDay, data: dataCreateDay }] = useMutation(
+    CREATE_DAY,
+    {
+      onCompleted: (dataCreateDay) => {
+        const dayId = dataCreateDay.createDay.id;
+        routeToBookingThanks(time, dayId, guideId);
+      },
+      onError: (errorCreateDay) => {
+        errorCreateDay;
+      },
     },
-  });
-  const [create_day, { error: errorCreateDay }] = useMutation(CREATE_DAY, {
-    onCompleted: () => {
-      //not sure of that
-      //refetch();
-      router.push({
-        pathname: '/thank_you',
-        query: {
-          time,
-          day,
-          month,
-          year,
-          guideName: 'no name',
-          guideSurname: 'no surname',
-          guideId,
-        },
-      });
-    },
-    onError: (errorCreateDay) => {
-      errorCreateDay;
-    },
-  });
-
-  function handleDescriptionChange(e) {
-    setDescription(e.target.value);
-  }
-  function handleNrOfPeopleChange(e) {
-    setNrOfPeople(e.target.value);
-  }
+  );
   function handleSubmitt(e, userName, userEmail) {
     e.preventDefault();
     removeErrorMessage();
     const errors = validateFormBookingConfirmation(time);
     addErrorMessage(errors);
-    console.log('time.value', time.value);
     if (errors.length === 0) {
       // day doesn't exist yet
       // returns days=[]
-
       if (dataDay.days.length === 0) {
         create_day({
           variables: {
-            time: time.value,
+            time,
             day,
             month,
             year,
             userName,
             userEmail,
-            nrOfPeople,
-            description,
+            nrOfPeople: nrOfPeople.value,
+            description: description.value,
             id: guideId,
           },
         });
@@ -133,11 +104,11 @@ const BookingConfirmation = ({ props }) => {
         const { id } = dataDay.days[0];
         update_day({
           variables: {
-            time: time.value,
+            time,
             userName,
             userEmail,
-            nrOfPeople,
-            description,
+            nrOfPeople: nrOfPeople.value,
+            description: description.value,
             id: guideId,
             dayId: id, //existing day id
           },
@@ -146,7 +117,7 @@ const BookingConfirmation = ({ props }) => {
     }
   }
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
   if (error) {
     return <Error error={error} />;
@@ -171,41 +142,40 @@ const BookingConfirmation = ({ props }) => {
                       {year}/{month}/{day}
                     </strong>
                   </StyledTextBody1>
-                  <StyledTextBody1>
-                    Do you preffer Morning or Aftenoon Trip?
-                  </StyledTextBody1>
+
                   {bookedTime === 'PM' && (
-                    <StyledSelect
-                      {...time}
-                      value={time.value}
-                      placeholder="Please chose the time of a day"
-                      invalid={!Boolean(time)}
-                      options={[chooseMorning]}
-                    />
+                    <StyledTextBody1 onLoad={handleTimeChange}>
+                      {chooseMorning}
+                    </StyledTextBody1>
                   )}
                   {bookedTime === 'AM' && (
-                    <StyledSelect
-                      {...time}
-                      value={time.value}
-                      placeholder="Please chose the time of a day"
-                      invalid={!Boolean(time)}
-                      options={[chooseAfternoon]}
-                    />
+                    <StyledTextBody1 onLoad={handleTimeChange}>
+                      {chooseAfternoon}
+                    </StyledTextBody1>
                   )}
                   {bookedTime === '' && (
-                    <StyledSelect
-                      {...time}
-                      value={time.value}
-                      placeholder="Please chose the time of a day"
-                      invalid={!Boolean(time)}
-                      options={[chooseWholeDay, chooseMorning, chooseAfternoon]}
-                    />
+                    <>
+                      <StyledTextBody1>
+                        Do you preffer Morning or Aftenoon Trip?
+                      </StyledTextBody1>
+                      <StyledSelect
+                        onChange={handleTimeChange}
+                        placeholder="Please chose the time of a day"
+                      >
+                        <option value={chooseWholeDay}>{chooseWholeDay}</option>
+                        <option value={chooseMorning}>{chooseMorning}</option>
+                        <option value={chooseAfternoon}>{chooseAfternoon}</option>
+                      </StyledSelect>
+                    </>
                   )}
                   <StyledTextBody1>How big is the group?</StyledTextBody1>
+
                   <StyledSelect
+                    {...nrOfPeople}
                     icon="directions_bike"
                     defaultValue="1"
-                    onChange={(e) => handleNrOfPeopleChange(e)}
+                    value={nrOfPeople.value}
+                    //onChange={(e) => handleNrOfPeopleChange(e)}
                     options={['1', '2', '3', '4', '5']}
                   />
                   <StyledTextBody1>
@@ -214,22 +184,18 @@ const BookingConfirmation = ({ props }) => {
                   </StyledTextBody1>
                   <Ripple>
                     <TextField
+                      {...description}
                       textarea
                       fullwidth
                       rows={2}
                       maxLength={100}
-                      //value={password}
-                      onChange={handleDescriptionChange}
+                      value={description.value}
                     />
                   </Ripple>
-
-                  <StyledButton
+                  <ButtonMain
+                    text="Confirm and Go!"
                     onClick={(e) => handleSubmitt(e, currentUserName, currentUserEmail)}
-                    raised
-                    theme={['secondaryBg', 'onSecondary']}
-                  >
-                    <StyledTextButtonBlack>Confirm and Go!</StyledTextButtonBlack>
-                  </StyledButton>
+                  />
                 </StyledSpanPadding>
               </StyledCard>
             </StyledContainer>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { permission } from '../../lib/utils';
+import { routeToEditEntry } from '../../lib/utilsRouts';
 // Components for Styling
 import { StyledTextBody2 } from '../styles/StyledText';
 
@@ -14,20 +15,13 @@ const Entry = ({
   currentUserName,
   guideName,
 }) => {
-  //console.log('currentUserName', currentUserName);
-  //console.log('userName', userName);
   const Router = useRouter();
   function handleEntrySpanClick() {
     if (
       currentUserPermission === permission.admin ||
       currentUserPermission === permission.guide
     ) {
-      Router.push({
-        pathname: '/edit_entry',
-        query: {
-          id,
-        },
-      });
+      routeToEditEntry(id);
     }
     return;
   }

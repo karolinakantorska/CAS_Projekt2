@@ -1,8 +1,6 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
 // RMWC
 import { Card } from '@rmwc/card';
 import { CardPrimaryAction } from '@rmwc/card';
@@ -11,7 +9,7 @@ import DeleteGuide from './DeleteGuide';
 import ButtonMain from '../reusable/ButtonMain';
 import ButtonLink from '../reusable/ButtonLink';
 // Utils
-import { routeToEditGuide, routeToSignin } from '../../lib/utilsRouts';
+import { routeToEditGuide, routeToSignin, routeToCalendar } from '../../lib/utilsRouts';
 // Components for Styling
 import { StyledGuideImage } from '../styles/StyledGuideImage';
 import {
@@ -20,26 +18,15 @@ import {
   StyledTextSubtitle1,
 } from '../styles/StyledText';
 
-const Guide = ({ currentUserPermission, currentUserName, guide }) => {
+const Guide = ({ currentUserPermission, guide }) => {
   const { id, email, name, surname, description, photo } = guide;
-  const router = useRouter();
 
   function goToBookingPage() {
     window.localStorage.setItem('currentGuide', JSON.stringify(guide));
     if (currentUserPermission) {
-      router.push({
-        pathname: '/booking_guide',
-        query: {
-          guideId: id,
-          guideName: name,
-          guideSurname: surname,
-          currentUserName,
-        },
-      });
+      routeToCalendar(id);
     } else {
-      router.push({
-        pathname: '/signin_page',
-      });
+      routeToSignin();
     }
   }
   return (
