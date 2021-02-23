@@ -12,6 +12,7 @@ import ButtonLink from '../reusable/ButtonLink';
 import { routeToEditGuide, routeToSignin, routeToCalendar } from '../../lib/utilsRouts';
 // Components for Styling
 import { StyledGuideImage } from '../styles/StyledGuideImage';
+import { StyledButtonSpan } from '../styles/StyledButtonSpan';
 import {
   StyledTextBody2,
   StyledTextTitle5,
@@ -22,7 +23,6 @@ const Guide = ({ currentUserPermission, guide }) => {
   const { id, email, name, surname, description, photo } = guide;
 
   function goToBookingPage() {
-    window.localStorage.setItem('currentGuide', JSON.stringify(guide));
     if (currentUserPermission) {
       routeToCalendar(id);
     } else {
@@ -81,11 +81,7 @@ export const StyledGuideCard = styled(Card)`
   margin-top: 3rem;
   max-width: 344px;
 `;
-const StyledButtonSpan = styled.span`
-  display: grid;
-  align-content: stretch;
-  grid-template-columns: 1fr 1fr;
-`;
+
 const StyledSpanBookMe = styled.span`
   min-width: 100px;
   max-width: 60%;

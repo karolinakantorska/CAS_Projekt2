@@ -23,14 +23,17 @@ export const StyledSpanErrors = styled.div`
   height: 25px;
   margin-bottom: 5px;
 `;
+/*
 export const StyledButtons = styled(CardActionButtons)`
   //padding: 1rem;
   width: 100%;
 `;
+*/
 export const StyledSpanButon = styled.span`
   display: grid;
   align-content: stretch;
 `;
+/*
 export const StyledButton = styled(CardActionButton)`
   text-transform: capitalize;
   min-width: 100px;
@@ -43,6 +46,7 @@ export const StyledButton = styled(CardActionButton)`
     margin-right: 0px;
   }
 `;
+*/
 export const StyledElevation = styled(Elevation)`
   background-color: white;
   height: 100%;

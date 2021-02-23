@@ -4,9 +4,14 @@ import PropTypes from 'prop-types';
 import { Button } from '@rmwc/button';
 import { StyledTextButtonBlack } from '../styles/StyledText';
 
-const ButtonMain = ({ text, onClick }) => {
+const ButtonMain = ({ text, onClick, loading }) => {
   return (
-    <StyledButton onClick={onClick} raised theme={['secondaryBg', 'onSecondary']}>
+    <StyledButton
+      onClick={onClick}
+      disabled={loading}
+      raised
+      theme={['secondaryBg', 'onSecondary']}
+    >
       <StyledTextButtonBlack>{text}</StyledTextButtonBlack>
     </StyledButton>
   );

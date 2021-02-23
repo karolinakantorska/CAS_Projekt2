@@ -15,6 +15,8 @@ export const themeStyled = {
     warning: '#FFAB91',
   },
   */
+  /*
   fontFamilyCalendar: 'Yanone Kaffeesatz, Arial, sans-serif',
   fontFamily: 'Hind, Arial, sans-serif',
+  */
 };

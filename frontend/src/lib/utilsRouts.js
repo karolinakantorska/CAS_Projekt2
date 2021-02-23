@@ -15,6 +15,11 @@ export function routeToSignin() {
     pathname: '/signin_page',
   });
 }
+export function routeToSignup() {
+  Router.push({
+    pathname: '/signup_page',
+  });
+}
 export function routeToCalendar(guideId) {
   Router.push({
     pathname: '/booking_calendar',

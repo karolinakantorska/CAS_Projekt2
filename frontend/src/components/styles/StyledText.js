@@ -85,7 +85,6 @@ export const StyledTextBody2 = styled.p`
     font-size: 0.7rem;
   }
 `;
-
 export const StyledTextMenuBlack = styled.a`
   color: var(--colorPrimary);
   font-size: 1.2rem;

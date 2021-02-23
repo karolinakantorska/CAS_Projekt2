@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { Button } from '@rmwc/button';
 import { StyledTextButtonColor } from '../styles/StyledText';
 
-const ButtonLink = ({ text, onClick }) => {
+const ButtonLink = ({ text, onClick, loading }) => {
   return (
-    <StyledButtonLink onClick={onClick}>
+    <StyledButtonLink onClick={onClick} disabled={loading}>
       <StyledTextButtonColor>{text}</StyledTextButtonColor>
     </StyledButtonLink>
   );
