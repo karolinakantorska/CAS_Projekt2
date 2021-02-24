@@ -10,6 +10,8 @@ import ButtonMain from '../reusable/ButtonMain';
 import ButtonLink from '../reusable/ButtonLink';
 // Utils
 import { routeToEditGuide, routeToSignin, routeToCalendar } from '../../lib/utilsRouts';
+import { goToBookingPage, permission } from '../../lib/utils';
+
 // Components for Styling
 import { StyledGuideImage } from '../styles/StyledGuideImage';
 import { StyledButtonSpan } from '../styles/StyledButtonSpan';
@@ -21,22 +23,17 @@ import {
 
 const Guide = ({ currentUserPermission, guide }) => {
   const { id, email, name, surname, description, photo } = guide;
-
-  function goToBookingPage() {
-    if (currentUserPermission) {
-      routeToCalendar(id);
-    } else {
-      routeToSignin();
-    }
-  }
   return (
     <StyledGuideCard>
-      <CardPrimaryAction onClick={goToBookingPage}>
+      <CardPrimaryAction onClick={() => goToBookingPage(currentUserPermission, id)}>
         <StyledGuideImage src={photo} alt="Mountainbiker photo" />
       </CardPrimaryAction>
       {currentUserPermission && (
         <StyledSpanBookMe>
-          <ButtonMain text="Book Me!" onClick={goToBookingPage} />
+          <ButtonMain
+            text="Book Me!"
+            onClick={() => goToBookingPage(currentUserPermission, id)}
+          />
         </StyledSpanBookMe>
       )}
       <StyledSpan>
@@ -49,7 +46,7 @@ const Guide = ({ currentUserPermission, guide }) => {
       {!currentUserPermission && (
         <ButtonLink text="Logg in to book Me!" onClick={routeToSignin} />
       )}
-      {currentUserPermission === 'ADMIN' && (
+      {currentUserPermission === permission.admin && (
         <React.Fragment>
           <StyledButtonSpan>
             <ButtonLink text="Edit" onClick={() => routeToEditGuide(id)} />
@@ -78,7 +75,7 @@ export const StyledGuideCard = styled(Card)`
   display: grid;
   align-content: stretch;
   margin: auto;
-  margin-top: 3rem;
+  margin-top: 98px;
   max-width: 344px;
 `;
 

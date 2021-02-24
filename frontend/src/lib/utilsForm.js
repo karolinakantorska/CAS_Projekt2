@@ -50,27 +50,6 @@ export function usePhotoUpload(initialValue = '') {
   }
   return { result, uploadPhoto, loadingPhotoUpload, errorPhotoUpload };
 }
-// Add Guide
-/*
-function handleAddGuide(e, name, surname, email, password, description, photo) {
-  e.preventDefault();
-  removeErrorMessage();
-  const errors = validateForm(email, password, name);
-  addErrorMessage(errors);
-  if (errors.length === 0) {
-    add_guide({
-      variables: {
-        name,
-        surname,
-        email,
-        password,
-        description,
-        photo,
-      },
-    });
-  }
-}
-*/
 // form validation
 export const regexCheckEmail = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
 export const regexCheckPassword = /^[^ ]{8,32}$/;

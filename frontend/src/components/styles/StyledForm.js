@@ -1,14 +1,12 @@
 import styled from 'styled-components';
-import { Button } from '@rmwc/button';
-import { Card, CardActionButton, CardActionButtons } from '@rmwc/card';
-import { Elevation } from '@rmwc/elevation';
+import { Card } from '@rmwc/card';
 
 // Sign in / Booking confirmation
 export const StyledCard = styled(Card)`
   display: grid;
   align-content: stretch;
   margin: auto;
-  margin-top: 48px;
+  margin-top: 98px;
   width: 370px;
 `;
 export const StyledSpanPadding = styled.span`
@@ -47,6 +45,7 @@ export const StyledButton = styled(CardActionButton)`
   }
 `;
 */
+/*
 export const StyledElevation = styled(Elevation)`
   background-color: white;
   height: 100%;
@@ -59,3 +58,4 @@ export const StyledElevation = styled(Elevation)`
     padding: 4%;
   }
 `;
+*/

@@ -8,11 +8,10 @@ export default class MyDocument extends Document {
     const styleTags = sheet.getStyleElement();
     return { ...page, styleTags };
   }
-}
-/*
+
   render() {
     return (
-      <Html lang="en-CA">
+      <Html lang="en">
         <Head />
         <body>
           <Main />
@@ -22,7 +21,7 @@ export default class MyDocument extends Document {
     );
   }
 }
-*/
+
 /*
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {

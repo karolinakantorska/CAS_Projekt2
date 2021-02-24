@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
-
 import { TextField } from '@rmwc/textfield';
-import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
-import SIGNUP_MUTATION from '../../graphgl/mutations/SIGNUP_MUTATION';
+// Components
 import Nav from '../main/Nav';
 import ButtonMain from '../reusable/ButtonMain';
 import ButtonLink from '../reusable/ButtonLink';
@@ -11,14 +8,11 @@ import Loading from '../reusable/LoadingBar';
 import Error from '../reusable/Error';
 import ErrorMessage from '../reusable/ErrorMessage';
 // Utils
-import {
-  useFormInput,
-  validateForm,
-  addErrorMessage,
-  removeErrorMessage,
-} from '../../lib/utilsForm';
-import { routeToGuidesList, routeToSignin } from '../../lib/utilsRouts';
-
+import { useFormInput } from '../../lib/utilsForm';
+import { routeToSignin } from '../../lib/utilsRouts';
+import { useSignup } from '../../apollo/mutations/useSignup';
+import { handleSignup } from '../../lib/utilsSign';
+// Styling
 import { StyledContainer } from '../styles/StyledContainer';
 import { StyledCard } from '../styles/StyledForm';
 import { StyledFieldset } from '../styles/StyledForm';
@@ -29,35 +23,8 @@ const Signup = () => {
   const password = useFormInput('');
   const email = useFormInput('');
   const name = useFormInput('');
+  const [signup, { loading, error }] = useSignup();
 
-  const [signup, { loading, error, data }] = useMutation(SIGNUP_MUTATION, {
-    refetchQueries: [{ query: CURRENT_USER_QUERY }],
-    awaitRefetchQueries: true,
-    onCompleted: () => {
-      routeToGuidesList();
-    },
-    onError: (error) => {
-      error;
-    },
-  });
-
-  function handleSignup(e) {
-    e.preventDefault();
-    removeErrorMessage();
-    const errors = validateForm(email.value, name.value, password.value);
-    addErrorMessage(errors);
-    if (errors.length === 0) {
-      signup({
-        variables: {
-          email: email.value,
-          password: password.value,
-          name: name.value,
-        },
-      });
-    }
-  }
-  //TODO LoadingBar
-  //TODO Error
   return (
     <React.Fragment>
       <Nav />
@@ -97,7 +64,9 @@ const Signup = () => {
             <StyledButtonSpan>
               <ButtonMain
                 text="Signup!"
-                onClick={(e) => handleSignup(e)}
+                onClick={(e) =>
+                  handleSignup(e, email.value, name.value, password.value, signup)
+                }
                 loading={loading}
               />
               <ButtonLink

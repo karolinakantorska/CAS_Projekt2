@@ -22,6 +22,7 @@ const ContainerHomepage = styled.div`
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  margin-top: -50px;
   height: 100vh;
   @media (max-width: 1280px), img {
     background-image: url('https://res.cloudinary.com/karolinauploads/image/upload/v1608111607/backgroundBikerBW1280x720.png');
@@ -37,7 +38,7 @@ const StyledButton__Homepage = styled(Button)`
   && {
     align-self: center;
     justify-self: center;
-    margin-bottom: 4rem;
+    margin-bottom: -20%;
     padding: 5px;
     color: white;
     background-color: rgba(33, 33, 33, 0.7);

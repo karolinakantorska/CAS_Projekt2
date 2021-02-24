@@ -15,7 +15,7 @@ const MONTH_RESERVATIONS_QUERY = gql`
         id
         guide {
           id
-          #email
+          email
           name
           #surname
           #photo

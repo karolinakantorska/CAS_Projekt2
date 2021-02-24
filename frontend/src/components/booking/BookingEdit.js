@@ -1,6 +1,5 @@
 import React from 'react';
 import { useMutation, useQuery } from '@apollo/client';
-import Router from 'next/router';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -18,20 +17,10 @@ import {
   StyledTextButtonColor,
 } from '../styles/StyledText';
 
-const BookingEdit = (props) => {
-  const { id } = props;
-
+const BookingEdit = ({ id }) => {
   const { error, loading, data } = useQuery(RESERVATION_QUERY, {
     variables: { id },
   });
-  function handleClose() {
-    routeToGuidesList();
-  }
-  function handleDelete() {
-    delete_reservation({
-      variables: { id },
-    });
-  }
   const [delete_reservation, { error: errorDeleteReservation }] = useMutation(
     DELETE_RESERVATION,
     {
@@ -43,6 +32,14 @@ const BookingEdit = (props) => {
       },
     },
   );
+  function handleClose() {
+    routeToGuidesList();
+  }
+  function handleDelete() {
+    delete_reservation({
+      variables: { id },
+    });
+  }
   if (loading) {
     return <p>Loading...</p>;
   }

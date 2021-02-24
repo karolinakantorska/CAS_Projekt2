@@ -1,3 +1,4 @@
+import styled from 'styled-components';
 import Meta from './Meta';
 import Nav from '../main/Nav';
 import { ThemeProvider } from 'styled-components';
@@ -10,7 +11,7 @@ const Page = ({ children }) => {
       <Meta />
       <GlobalStyle />
       <Nav />
-      <div>{children}</div>
+      {children}
     </ThemeProvider>
   );
 };

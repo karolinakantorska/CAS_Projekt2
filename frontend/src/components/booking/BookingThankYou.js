@@ -47,7 +47,6 @@ const BookingThankYou = (props) => {
       <User>
         {(currentUserPermission, currentUserName) => (
           <span>
-            <Nav />
             <StyledContainer>
               <StyledCard>
                 <StyledSpanPadding>

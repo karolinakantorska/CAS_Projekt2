@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
-const ALL_GUIDES_QUERY = gql`
-  query ALL_GUIDES_QUERY($permissions: Permission) {
+const ALL_USERS_WITH_PERMISSION_QUERY = gql`
+  query ALL_USERS_WITH_PERMISSION_QUERY($permissions: Permission) {
     users(where: { permissions: $permissions }) {
       name
       surname
@@ -13,4 +13,4 @@ const ALL_GUIDES_QUERY = gql`
   }
 `;
 
-export default ALL_GUIDES_QUERY;
+export default ALL_USERS_WITH_PERMISSION_QUERY;

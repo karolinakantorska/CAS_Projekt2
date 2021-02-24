@@ -28,6 +28,24 @@ export function routeToCalendar(guideId) {
     },
   });
 }
+export function routeToBookingConfirmation(
+  day,
+  selectedMonth,
+  selectedYear,
+  guideId,
+  bookedTime,
+) {
+  Router.push({
+    pathname: '/confirm_booking',
+    query: {
+      day,
+      selectedMonth,
+      selectedYear,
+      guideId,
+      bookedTime,
+    },
+  });
+}
 export function routeToBookingThanks(time, dayId, guideId) {
   Router.push({
     pathname: '/thank_you',

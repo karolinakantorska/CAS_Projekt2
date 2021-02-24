@@ -1,54 +1,48 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
 import styled from 'styled-components';
 // Components
-import User from '../main/User';
 import GuideCard from './GuideCard';
 import Error from '../reusable/Error';
 import Loading from '../reusable/LoadingBar';
 //utils
 import { permission } from '../../lib/utils';
-// Queries
-import ALL_GUIDES_QUERY from '../../graphgl/queries/ALL_GUIDES_QUERY';
+import { useAllUsersWithPermissionQuery } from '../../apollo/querries/useAllUsersWithPermissionQuery';
+import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 // Components for Styling
 import { StyledContainer } from '../styles/StyledContainer';
 
 const GuidesList = () => {
-  const { loading, error, data } = useQuery(ALL_GUIDES_QUERY, {
-    variables: { permissions: permission.guide },
-  });
-
-  if (loading) {
+  const { loading, error, data } = useAllUsersWithPermissionQuery(permission.guide);
+  const {
+    loading: loadingCurrentUser,
+    error: errorCurrentUser,
+    data: dataCurrentUser,
+  } = useCurrentUser();
+  if (loading || loadingCurrentUser) {
     return <Loading />;
   }
-  if (error) {
+  if (error || errorCurrentUser) {
     return (
       <StyledContainer>
-        <Error error={error} />
-        <p>Error: Can't download Guides, please try again later.</p>
+        {error && <Error error={error} />}
+        {errorCurrentUser && <Error error={errorCurrentUser} />}
       </StyledContainer>
     );
   }
-  if (data) {
+  if (data && dataCurrentUser) {
     return (
-      <User>
-        {(currentUserPermission) => (
-          <span>
-            <StyledContainer>
-              <StyledCard>
-                {data.users.map((guide) => (
-                  <GuideCard
-                    data-test="guideCard"
-                    currentUserPermission={currentUserPermission}
-                    guide={guide}
-                    key={guide.id}
-                  />
-                ))}
-              </StyledCard>
-            </StyledContainer>
-          </span>
-        )}
-      </User>
+      <StyledContainer>
+        <StyledCard>
+          {data.users.map((guide) => (
+            <GuideCard
+              data-test="guideCard"
+              currentUserPermission={dataCurrentUser.currentUser.permissions}
+              guide={guide}
+              key={guide.id}
+            />
+          ))}
+        </StyledCard>
+      </StyledContainer>
     );
   }
 };

@@ -1,37 +1,31 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import PropTypes from 'prop-types';
+
 //Components
 import Error from '../reusable/Error';
 import ButtonLink from '../reusable/ButtonLink';
+import LoadingCicle from '../reusable/LoadingCicle';
 // Utils
-import { cacheDeleteGuide } from '../../lib/utilsCache';
+import { useDeleteGuide } from '../../apollo/mutations/useDeleteGuide';
 // Queries
-import DELETE_USER from '../../graphgl/mutations/DELETE_USER';
 import DELETE_RESERVATIONS_FROM_ONE_GUIDE from '../../graphgl/mutations/DELETE_RESERVATIONS_FROM_ONE_GUIDE';
 
 const DeleteGuide = ({ id }) => {
   const [buttonDescription, setButtonDescription] = useState('Delete Reservations');
-
-  const [delete_user, { loading, error, data }] = useMutation(DELETE_USER, {
+  const [
+    delete_reservations,
+    { loading: loadingReservationsError, error: deleteReservationsError },
+  ] = useMutation(DELETE_RESERVATIONS_FROM_ONE_GUIDE, {
+    onCompleted: () => {
+      setButtonDescription('Delete User');
+    },
     onError: (error) => {
       error;
     },
-    update(cache, data) {
-      cacheDeleteGuide(cache, data);
-    },
   });
-  const [delete_reservations, { error: deleteReservationsError }] = useMutation(
-    DELETE_RESERVATIONS_FROM_ONE_GUIDE,
-    {
-      onCompleted: () => {
-        setButtonDescription('Delete User');
-      },
-      onError: (deleteReservationsError) => {
-        deleteReservationsError;
-      },
-    },
-  );
+  const [delete_user, { loading, error }] = useDeleteGuide();
+
   function handleDelete() {
     delete_reservations({
       variables: {
@@ -46,16 +40,20 @@ const DeleteGuide = ({ id }) => {
       });
     }
   }
-  if (loading) {
-    return <p>Loading...</p>;
+  if (loading || loadingReservationsError) {
+    return <LoadingCicle size="xsmall" />;
   }
   if (error) {
     return <Error error={error} />;
+  }
+  if (deleteReservationsError) {
+    return <Error error={deleteReservationsError} />;
   }
   return (
     <>
       <ButtonLink text={buttonDescription} onClick={handleDelete} />
       {error && <Error error={error} />}
+      {deleteReservationsError && <Error error={deleteReservationsError} />}
     </>
   );
 };

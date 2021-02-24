@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import Link from 'next/link';
 // Components
-import SIGNIN_MUTATION from '../../graphgl/mutations/SIGNIN_MUTATION';
-import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 import Nav from '../main/Nav';
 import ButtonMain from '../reusable/ButtonMain';
 import ButtonLink from '../reusable/ButtonLink';
@@ -11,14 +7,9 @@ import Loading from '../reusable/LoadingBar';
 import Error from '../reusable/Error';
 import ErrorMessage from '../reusable/ErrorMessage';
 //Utils
-import {
-  useFormInput,
-  validateSingin,
-  addErrorMessage,
-  removeErrorMessage,
-} from '../../lib/utilsForm';
+import { useFormInput } from '../../lib/utilsForm';
 import { handleSignin } from '../../lib/utilsSign';
-import { routeToGuidesList, routeToSignup } from '../../lib/utilsRouts';
+import { routeToSignup } from '../../lib/utilsRouts';
 import { useSignin } from '../../apollo/mutations/useSignin';
 
 import { StyledContainer } from '../styles/StyledContainer';
@@ -32,22 +23,7 @@ const Signin = () => {
   const password = useFormInput('');
   const email = useFormInput('');
   const [signin, { loading, error }] = useSignin();
-  /*
-  function handleSignin(e) {
-    e.preventDefault();
-    removeErrorMessage();
-    const errors = validateSingin(email.value, password.value);
-    addErrorMessage(errors);
-    if (errors.length === 0) {
-      signin({
-        variables: {
-          email: email.value,
-          password: password.value,
-        },
-      });
-    }
-  }
-*/
+
   return (
     <StyledContainer>
       <StyledCard>

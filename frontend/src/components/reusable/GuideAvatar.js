@@ -1,23 +1,16 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Avatar } from '@rmwc/avatar';
-import { CircularProgress } from '@rmwc/circular-progress';
+import LoadingCicle from '../reusable/LoadingCicle';
 import Error from '../reusable/Error';
 import { useGuide } from '../../apollo/querries/useGuide';
-import ONE_USER_QUERY from '../../graphgl/queries/ONE_USER_QUERY';
 import { StyledTextBody2 } from '../styles/StyledText';
 
 const GuideAvatar = ({ guideId }) => {
-  /*
-  const { loading, error, data } = useQuery(ONE_USER_QUERY, {
-    variables: { id: guideId },
-  });
-  */
   const { loading, error, data } = useGuide(guideId);
   if (loading) {
-    return <CircularProgress />;
+    return <LoadingCicle size="xsmall" />;
   }
   if (error) {
     return <Error error={error} />;

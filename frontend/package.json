@@ -19,7 +19,6 @@
     "@rmwc/card": "^6.1.4",
     "@rmwc/circular-progress": "^6.1.4",
     "@rmwc/dialog": "^6.1.4",
-    "@rmwc/drawer": "^6.1.4",
     "@rmwc/elevation": "^6.1.4",
     "@rmwc/formfield": "^6.1.4",
     "@rmwc/grid": "^6.1.4",

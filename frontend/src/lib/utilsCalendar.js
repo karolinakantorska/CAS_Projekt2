@@ -32,30 +32,41 @@ export function currentDate() {
   const year = format(new Date(), 'y');
   const month = format(new Date(), 'MMMM');
   const day = format(new Date(), 'd');
-  return { year, month, day };
+  const todayTimestamp = format(new Date(), 't');
+  const todayTreeMonthsLaterTimestamp = format(addMonths(new Date(), 3), 't');
+  return { year, month, day, todayTimestamp, todayTreeMonthsLaterTimestamp };
 }
 export function useCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [selectedYear, setSelectedYear] = useState(format(selectedDate, 'y'));
-  const [selectedMonth, setSelectedMonth] = useState(format(selectedDate, 'MMMM'));
-  const [firstDayOfMonth, setFirstDayOfMonth] = useState(
-    format(startOfMonth(selectedDate), 'i'),
-  );
-  const [daysInMonth, setDaysInMonth] = useState(getDaysInMonth(selectedDate));
+  const selectedDateTimestamp = format(selectedDate, 't');
+  const selectedMonth = format(selectedDate, 'MMMM');
+  const selectedYear = format(selectedDate, 'y');
+  const firstDayOfMonth = format(startOfMonth(selectedDate), 'i');
+  const daysInMonth = getDaysInMonth(selectedDate);
+  //const [selectedYear, setSelectedYear] = useState(format(selectedDate, 'y'));
+  //const [selectedMonth, setSelectedMonth] = useState(format(selectedDate, 'MMMM'));
+  //const [firstDayOfMonth, setFirstDayOfMonth] = useState(
+  //  format(startOfMonth(selectedDate), 'i'),
+  //);
+  //const [daysInMonth, setDaysInMonth] = useState(getDaysInMonth(selectedDate));
   //changing Month
   function handleMonthChange(i) {
     setSelectedDate(addMonths(selectedDate, i));
   }
+  /*
   function updateStateWithSelectedDate() {
     setSelectedMonth(format(selectedDate, 'MMMM'));
     setSelectedYear(format(selectedDate, 'y'));
     setFirstDayOfMonth(format(startOfMonth(selectedDate), 'i'));
     setDaysInMonth(getDaysInMonth(selectedDate));
-    //refetch();
   }
+  */
+  /*
   useEffect(() => {
-    updateStateWithSelectedDate();
+    //updateStateWithSelectedDate();
+    setSelectedDate(selectedDate);
   }, [selectedDate]);
+  */
   const emptyCells = [];
   for (let i = 1; i < firstDayOfMonth; i++) {
     emptyCells.push(i);
@@ -70,8 +81,10 @@ export function useCalendar() {
     selectedMonth,
     emptyCells,
     daysInMonthArray,
+    selectedDateTimestamp,
   };
 }
+
 /*
   useEffect(() => {
 

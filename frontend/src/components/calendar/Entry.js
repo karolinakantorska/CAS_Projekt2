@@ -1,35 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { permission } from '../../lib/utils';
 import { routeToEditEntry } from '../../lib/utilsRouts';
 // Components for Styling
 import { StyledTextBody2 } from '../styles/StyledText';
 
-const Entry = ({
-  id,
-  time,
-  userName,
-  currentUserPermission,
-  currentUserName,
-  guideName,
-}) => {
-  const Router = useRouter();
+const Entry = ({ reservation, currentUser }) => {
   function handleEntrySpanClick() {
     if (
-      currentUserPermission === permission.admin ||
-      currentUserPermission === permission.guide
+      currentUser.permissions === permission.admin ||
+      (currentUser.permissions === permission.guide &&
+        currentUser.id === reservation.guide.id)
     ) {
-      routeToEditEntry(id);
+      routeToEditEntry(reservation.id);
     }
     return;
   }
   return (
-    <EntrySpan className={time} onClick={() => handleEntrySpanClick()}>
-      {currentUserPermission === permission.user &&
-        // userName is the user who booked the appointment
-        (userName === currentUserName ? (
+    <EntrySpan className={reservation.time} onClick={() => handleEntrySpanClick()}>
+      {currentUser.permissions === permission.user &&
+        // TODO Ids would be better
+        (reservation.userEmail === currentUser.email ? (
           <div className="grid_column_div own_booking">
             <span className="your_booking">Your booking!</span>
           </div>
@@ -38,27 +30,24 @@ const Entry = ({
             <span>Booked!</span>
           </div>
         ))}
-      {(currentUserPermission === permission.admin ||
-        currentUserPermission === permission.guide) &&
-        // userName is the user who booked the appointment
-        (userName === guideName ? (
+      {(currentUser.permissions === permission.admin ||
+        currentUser.permissions === permission.guide) &&
+        // TODO Ids would be better
+        (reservation.userEmail === reservation.guide.email ? (
           <div className="grid_column_div ">
             <StyledTextBody2 className="holiday">Free!</StyledTextBody2>
           </div>
         ) : (
           <div className="grid_column_div ">
-            <StyledTextBody2>{`Gast: ${userName}`}</StyledTextBody2>
+            <StyledTextBody2>{`Gast: ${reservation.userName}`}</StyledTextBody2>
           </div>
         ))}
     </EntrySpan>
   );
 };
 Entry.propTypes = {
-  id: PropTypes.string,
-  time: PropTypes.string,
-  userName: PropTypes.string,
-  userEmail: PropTypes.string,
-  currentUserPermission: PropTypes.string,
+  reservation: PropTypes.object,
+  currentUser: PropTypes.object,
 };
 const EntrySpan = styled.span`
   display: grid;

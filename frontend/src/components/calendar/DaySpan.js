@@ -1,44 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
 // Components
 import DayNr from './DayNr';
 import Entry from './Entry';
+// Utils
+import { handleBooking } from '../../lib/utilsBooking';
 
 const DaySpan = ({
   reservation,
+  guideId,
   dayOfMonth,
+  selectedYear,
+  selectedMonth,
   highlight,
-  handleBooking,
-  currentUserPermission,
-  currentUserName,
+  currentUser,
   dayInThePast,
+  dayTooMuchInFuture,
 }) => {
+  console.log('dayInThePast', dayInThePast);
   // if there is only one reservation at the day, different than DAY reservation
   if (reservation.length === 1) {
-    const { time, userName, userEmail, id, guide } = reservation[0];
-    console.log(reservation[0]);
-    const guideName = guide.name;
     return (
       // if there is 1 reservations at the day
       <DaySpanStyled>
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
         <Entry
-          key={time}
-          time={time}
-          userName={userName}
-          userEmail={userEmail}
-          id={id}
-          currentUserPermission={currentUserPermission}
-          currentUserName={currentUserName}
-          guideName={guideName}
-          key={id}
+          reservation={reservation[0]}
+          currentUser={currentUser}
+          key={reservation[0].id}
         />
-        {time !== 'DAY' && (
+        {reservation[0].time !== 'DAY' && (
           <StyledBookingSpan
-            className={dayInThePast && 'dayInThePast'}
-            onClick={() => handleBooking(dayOfMonth, dayInThePast, time, currentUserName)}
+            className={(dayInThePast || dayTooMuchInFuture) && 'dayInThePast'}
+            onClick={() =>
+              handleBooking(
+                dayInThePast,
+                dayTooMuchInFuture,
+                dayOfMonth,
+                selectedMonth,
+                selectedYear,
+                guideId,
+                reservation[0].time,
+              )
+            }
           />
         )}
       </DaySpanStyled>
@@ -50,19 +55,12 @@ const DaySpan = ({
       <DaySpanStyled>
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
         {reservation.map((res) => {
-          const { time, userName, userEmail, id, guide } = res;
-          const guideName = guide.name;
           return (
             <Entry
-              key={time}
-              time={time}
-              userName={userName}
-              userEmail={userEmail}
-              id={id}
-              currentUserPermission={currentUserPermission}
-              currentUserName={currentUserName}
-              guideName={guideName}
-              key={id}
+              key={res.time}
+              reservation={res}
+              currentUser={currentUser}
+              key={res.id}
             />
           );
         })}
@@ -76,21 +74,31 @@ const DaySpan = ({
       <DaySpanStyled>
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
         <StyledBookingSpanDay
-          className={dayInThePast && 'dayInThePast'}
-          onClick={() => handleBooking(dayOfMonth, dayInThePast, time, currentUserName)}
+          className={(dayInThePast || dayTooMuchInFuture) && 'dayInThePast'}
+          onClick={() =>
+            handleBooking(
+              dayInThePast,
+              dayTooMuchInFuture,
+              dayOfMonth,
+              selectedMonth,
+              selectedYear,
+              guideId,
+              time,
+            )
+          }
         />
       </DaySpanStyled>
     );
   }
 };
-
 DaySpan.propTypes = {
   reservation: PropTypes.array,
+  currentUser: PropTypes.object,
   dayOfMonth: PropTypes.string,
   highlight: PropTypes.bool,
   handleBooking: PropTypes.func,
-  currentUserPermission: PropTypes.string,
   dayInThePast: PropTypes.bool,
+  dayTooMuchInFuture: PropTypes.bool,
 };
 const DaySpanStyled = styled.span`
   display: grid;

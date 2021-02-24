@@ -1,5 +1,4 @@
 import React from 'react';
-import { useMutation, useQuery } from '@apollo/client';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // RMWC
@@ -11,17 +10,12 @@ import ButtonMain from '../reusable/ButtonMain';
 import ButtonLink from '../reusable/ButtonLink';
 import Loading from '../reusable/LoadingBar';
 // Utils
-import {
-  useFormInput,
-  usePhotoUpload,
-  validateForm,
-  addErrorMessage,
-  removeErrorMessage,
-} from '../../lib/utilsForm';
+import { useFormInput, usePhotoUpload } from '../../lib/utilsForm';
 import { routeToGuidesList } from '../../lib/utilsRouts';
-// Queries
-import UPDATE_GUIDE from '../../graphgl/mutations/UPDATE_GUIDE';
-import ONE_USER_QUERY from '../../graphgl/queries/ONE_USER_QUERY';
+import { useGuide } from '../../apollo/querries/useGuide';
+import { useEditGuide } from '../../apollo/mutations/useEditGuide';
+import { handleEditGuide } from '../../lib/utilsAdmin';
+
 // Components for Styling
 import { StyledContainer } from '../styles/StyledContainer';
 import { StyledCard, StyledFieldset, StyledSpanErrors } from '../styles/StyledForm';
@@ -30,9 +24,8 @@ import { StyledTextTitle6 } from '../styles/StyledText';
 import { StyledGuideImage } from '../styles/StyledGuideImage';
 
 const UpdateGuide = ({ id }) => {
-  const { loading, error, data } = useQuery(ONE_USER_QUERY, {
-    variables: { id },
-  });
+  const { loading, error, data } = useGuide(id);
+  const [updateUser, { loading: loadingMutation, error: errorMutation }] = useEditGuide();
   const name = useFormInput(data ? data.user.name : '');
   const surname = useFormInput(data ? data.user.surname : '');
   const email = useFormInput(data ? data.user.email : '');
@@ -40,36 +33,6 @@ const UpdateGuide = ({ id }) => {
   const { uploadPhoto, result, loadingPhotoUpload, errorPhotoUpload } = usePhotoUpload(
     data ? data.user.photo : '',
   );
-
-  const [updateUser, { loading: loadingMutation, error: errorMutation }] = useMutation(
-    UPDATE_GUIDE,
-    {
-      onCompleted: () => {
-        routeToGuidesList();
-      },
-      onError: (errorMutation) => {
-        errorMutation;
-      },
-    },
-  );
-  function handleEditGuide(e) {
-    e.preventDefault();
-    removeErrorMessage();
-    const errors = validateForm(email.value, name.value);
-    addErrorMessage(errors);
-    if (errors.length === 0) {
-      updateUser({
-        variables: {
-          id,
-          email: email.value,
-          name: name.value,
-          surname: surname.value,
-          description: description.value,
-          photo: result,
-        },
-      });
-    }
-  }
   if (loading) {
     return <Loading />;
   }
@@ -77,6 +40,7 @@ const UpdateGuide = ({ id }) => {
     return <Error error={error || errorMutation} />;
   }
   if (data) {
+    console.log('id', id);
     return (
       <StyledContainer>
         <StyledCard>
@@ -132,14 +96,28 @@ const UpdateGuide = ({ id }) => {
               />
               <span>
                 <ButtonMain
+                  loading={loadingMutation}
                   text="Edit Guide"
                   onClick={(e) => {
-                    handleEditGuide(e);
+                    handleEditGuide(
+                      e,
+                      id,
+                      email.value,
+                      name.value,
+                      surname.value,
+                      description.value,
+                      result,
+                      updateUser,
+                    );
                   }}
                   data-testid="ButtonEdit"
                 />
               </span>
-              <ButtonLink text="Chancel" onClick={routeToGuidesList} />
+              <ButtonLink
+                loading={loadingMutation}
+                text="Chancel"
+                onClick={routeToGuidesList}
+              />
             </StyledFieldset>
           </form>
         </StyledCard>

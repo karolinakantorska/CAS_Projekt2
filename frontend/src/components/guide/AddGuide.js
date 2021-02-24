@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
+import React from 'react';
 import styled from 'styled-components';
 // RMWC
 import { Card } from '@rmwc/card';
@@ -9,17 +8,10 @@ import ErrorMessage from '../reusable/ErrorMessage';
 import Loading from '../reusable/LoadingBar';
 import ButtonMain from '../reusable/ButtonMain';
 // Utils
-import {
-  useFormInput,
-  usePhotoUpload,
-  validateForm,
-  addErrorMessage,
-  removeErrorMessage,
-} from '../../lib/utilsForm';
-import { cacheAllGuides } from '../../lib/utilsCache';
-import { routeToGuidesList } from '../../lib/utilsRouts';
+import { useFormInput, usePhotoUpload } from '../../lib/utilsForm';
+import { useAddGuide } from '../../apollo/mutations/useAddGuide';
+import { handleAddGuide } from '../../lib/utilsAdmin';
 // Queries
-import ADD_GUIDE from '../../graphgl/mutations/ADD_GUIDE';
 import { StyledContainer } from '../styles/StyledContainer';
 // Components for Styling
 import { StyledCard, StyledFieldset, StyledSpanErrors } from '../styles/StyledForm';
@@ -36,35 +28,7 @@ const AddGuide = () => {
   const { uploadPhoto, result, loadingPhotoUpload, errorPhotoUpload } = usePhotoUpload(
     '',
   );
-  const [add_guide, { loading, error }] = useMutation(ADD_GUIDE, {
-    onCompleted: () => {
-      routeToGuidesList();
-    },
-    onError: (error) => {
-      error;
-    },
-    update(cache, data) {
-      cacheAllGuides(cache, data);
-    },
-  });
-  function handleAddGuide(e) {
-    e.preventDefault();
-    removeErrorMessage();
-    const errors = validateForm(email.value, name.value, password.value);
-    addErrorMessage(errors);
-    if (errors.length === 0) {
-      add_guide({
-        variables: {
-          password: password.value,
-          email: email.value,
-          name: name.value,
-          surname: surname.value,
-          description: description.value,
-          photo: result,
-        },
-      });
-    }
-  }
+  const [add_guide, { loading, error }] = useAddGuide();
   return (
     <StyledContainer>
       <StyledCard>
@@ -117,9 +81,19 @@ const AddGuide = () => {
             />
             <span>
               <ButtonMain
+                loading={loading}
                 text="Add Guide"
                 onClick={(e) => {
-                  handleAddGuide(e);
+                  handleAddGuide(
+                    e,
+                    password.value,
+                    email.value,
+                    name.value,
+                    surname.value,
+                    description.value,
+                    result,
+                    add_guide,
+                  );
                 }}
               />
             </span>
