@@ -6,8 +6,6 @@ import { createUploadLink } from 'apollo-upload-client';
 import withApollo from 'next-with-apollo';
 import { endpoint, prodEndpoint } from '../../config';
 
-export const currentGuide = makeVar({ name: 'hallo' });
-
 function createClient({ headers, initialState }) {
   return new ApolloClient({
     link: ApolloLink.from([
