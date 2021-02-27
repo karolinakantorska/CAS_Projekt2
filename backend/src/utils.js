@@ -37,3 +37,11 @@ function hasOneOfPermissions(ctx, permission1, permission2) {
   }
 }
 exports.hasOneOfPermissions = hasOneOfPermissions;
+function ownReservation(ctx, id) {
+  if (ctx.request.user.permissions === "GUIDE " && ctx.request.user.id === id) {
+    return;
+  } else {
+    throw new Error(`You are not alowet to change reservations from other guides!`);
+  }
+}
+exports.ownReservation = ownReservation;

@@ -73,8 +73,11 @@ const mutations = {
     ctx.response.cookie("token", token, {
       path: "/",
       httpOnly: true,
-      sameSite: "strict",
-      maxAge: 1000 * 60 * 60, // a hour cookie
+      SameSite: "None",
+      secure: true,
+      //domain:'/mtb-yoga-prod.herokuapp'
+      //domain:'//mtb-front.vercel.app'
+      //maxAge: 1000 * 60 * 60, // a hour cookie
     });
     return user;
   },
@@ -99,8 +102,11 @@ const mutations = {
     ctx.response.cookie("token", token, {
       path: "/",
       httpOnly: true,
-      sameSite: "strict",
-      maxAge: 1000 * 60 * 60, // a hour cookie
+      SameSite: "None",
+      secure: true,
+      //domain='/mtb-yoga-prod.herokuapp'
+      //domain:'//mtb-front.vercel.app'
+      //maxAge: 1000 * 60 * 60, // a hour cookie
     });
     return user;
   },
@@ -159,6 +165,7 @@ const mutations = {
     hasOneOfPermissions(ctx, "ADMIN", "GUIDE");
     // TODO check if it is a right guide!! not that they delete each other termins
     // TODO is Quering reservations needed?
+    ownReservation(ctx, args.guideId);
     const id = args.id;
     const reservation = await ctx.db.query.reservation({
       where: {
@@ -172,9 +179,9 @@ const mutations = {
     });
   },
   async deleteManyReservations(parent, args, ctx, info) {
-    const id = args.id;
+    console.log(args);
     const deleteReservations = await ctx.db.mutation.deleteManyReservations({
-      where: { guide: { id } },
+      where: { guide: { id: args.id } },
     });
     return deleteReservations;
   },
