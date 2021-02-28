@@ -36,7 +36,8 @@ server.start(
   {
     cors: {
       credentials: true,
-      origin: process.env.FRONTEND_URL,
+      // TODO check if it is ok
+      origin: process.env.FRONTEND_URL || process.env.FRONTEND_URL_VERCEL,
     },
   },
   (deets) => {

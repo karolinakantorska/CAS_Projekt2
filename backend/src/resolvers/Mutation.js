@@ -73,7 +73,7 @@ const mutations = {
     ctx.response.cookie("token", token, {
       path: "/",
       httpOnly: true,
-      SameSite: "None",
+      sameSite: "None",
       secure: true,
       //domain:'/mtb-yoga-prod.herokuapp'
       //domain:'//mtb-front.vercel.app'
@@ -102,7 +102,7 @@ const mutations = {
     ctx.response.cookie("token", token, {
       path: "/",
       httpOnly: true,
-      SameSite: "None",
+      sameSite: "None",
       secure: true,
       //domain='/mtb-yoga-prod.herokuapp'
       //domain:'//mtb-front.vercel.app'
