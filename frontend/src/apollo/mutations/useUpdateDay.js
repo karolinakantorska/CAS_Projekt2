@@ -12,6 +12,5 @@ export function useUpdateDay(time, guideId) {
       error;
     },
   });
-  console.log('loading', loading);
   return [updateDay, { loading, error }];
 }

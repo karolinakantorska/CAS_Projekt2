@@ -6,7 +6,7 @@ import { TextField } from '@rmwc/textfield';
 import { Select } from '@rmwc/select';
 import { Ripple } from '@rmwc/ripple';
 // Components
-import Error from '../reusable/Error';
+import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
 import Loading from '../reusable/LoadingBar';
 import ButtonMain from '../reusable/ButtonMain';
@@ -20,15 +20,11 @@ import {
   chooseMorning,
   chooseAfternoon,
   useHandleTimeChange,
+  handleBookingConfirmation,
 } from '../../lib/utilsBooking';
-import {
-  useFormInput,
-  addErrorMessage,
-  validateFormBookingConfirmation,
-  removeErrorMessage,
-} from '../../lib/utilsForm';
+import { useFormInput } from '../../lib/utilsForm';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
-import { useDayQuery } from '../../apollo/querries/useDayQuery';
+import { useDay } from '../../apollo/querries/useDay';
 import { useUpdateDay } from '../../apollo/mutations/useUpdateDay';
 import { useCreateDay } from '../../apollo/mutations/useCreateDay';
 
@@ -43,70 +39,28 @@ const BookingConfirmation = ({ props }) => {
     data: dataCurrentUser,
   } = useCurrentUser();
   const { loading, error, data } = useDayQuery(year, month, day);
-  const [
-    updateDay,
-    { loading: loadingUpdateDay, error: errorUpdateDay, data: dataUpdateDay },
-  ] = useUpdateDay(time, guideId);
-  const [
-    createDay,
-    { loading: loadingCreateDay, error: errorCreateDay, data: dataCreateDay },
-  ] = useCreateDay(time, guideId);
+  const [updateDay, { loading: loadingUpdateDay, error: errorUpdateDay }] = useUpdateDay(
+    time,
+    guideId,
+  );
 
-  function handleSubmitt(e, userName, userEmail) {
-    e.preventDefault();
-    removeErrorMessage();
-    const errors = validateFormBookingConfirmation(time);
-    addErrorMessage(errors);
-    if (errors.length === 0) {
-      // day doesn't exist yet
-      // returns days=[]
-      if (data.days.length === 0) {
-        createDay({
-          variables: {
-            time,
-            day,
-            month,
-            year,
-            userName,
-            userEmail,
-            nrOfPeople: nrOfPeople.value,
-            description: description.value,
-            id: guideId,
-          },
-        });
-      }
-      // day exist
-      else {
-        const { id } = data.days[0];
-        updateDay({
-          variables: {
-            time,
-            userName,
-            userEmail,
-            nrOfPeople: nrOfPeople.value,
-            description: description.value,
-            id: guideId,
-            dayId: id, //existing day id
-          },
-        });
-      }
-    }
-  }
+  const [createDay, { loading: loadingCreateDay, error: errorCreateDay }] = useCreateDay(
+    time,
+    guideId,
+  );
   if (loadingCurrentUser || loading) {
     return <Loading />;
   }
   if (errorCurrentUser || error) {
     return (
       <StyledContainer>
-        {errorCurrentUser && <Error error={errorCurrentUser} />}
-        {error && <Error error={error} />}
+        {errorCurrentUser && <ErrorGraphql error={errorCurrentUser} />}
+        {error && <ErrorGraphql error={error} />}
       </StyledContainer>
     );
   }
   if (dataCurrentUser || data) {
-    console.log('loadingUpdateDay', loadingUpdateDay);
-    console.log('loadingCreateDay', loadingCreateDay);
-    console.log(loadingCreateDay || loadingUpdateDay);
+    console.log(data.days);
     return (
       <StyledContainer>
         <StyledCard>
@@ -115,8 +69,8 @@ const BookingConfirmation = ({ props }) => {
               Hallo {dataCurrentUser.currentUser.name}, confirm your booking details!
             </StyledTextTitle6>
             <ErrorMessage />
-            {errorCreateDay && <Error error={errorCreateDay} />}
-            {errorUpdateDay && <Error error={errorUpdateDay} />}
+            {errorCreateDay && <ErrorGraphql error={errorCreateDay} />}
+            {errorUpdateDay && <ErrorGraphql error={errorUpdateDay} />}
             <StyledTextBody1>
               Booked Date:{' '}
               <strong>
@@ -174,13 +128,24 @@ const BookingConfirmation = ({ props }) => {
             <ButtonMain
               loading={loadingUpdateDay || loadingCreateDay}
               text="Confirm and Go!"
-              onClick={(e) =>
-                handleSubmitt(
+              onClick={(e) => {
+                console.log(data.days);
+                handleBookingConfirmation(
                   e,
+                  time,
+                  day,
+                  month,
+                  year,
                   dataCurrentUser.currentUser.name,
                   dataCurrentUser.currentUser.email,
-                )
-              }
+                  nrOfPeople.value,
+                  description.value,
+                  guideId,
+                  data.days,
+                  createDay,
+                  updateDay,
+                );
+              }}
             />
           </StyledSpanPadding>
         </StyledCard>

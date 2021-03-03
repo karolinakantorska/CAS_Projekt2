@@ -2,17 +2,17 @@ import React from 'react';
 import styled from 'styled-components';
 // Components
 import GuideCard from './GuideCard';
-import Error from '../reusable/Error';
+import ErrorGraphql from '../reusable/ErrorGraphql';
 import Loading from '../reusable/LoadingBar';
 //utils
 import { permission } from '../../lib/utils';
-import { useAllUsersWithPermissionQuery } from '../../apollo/querries/useAllUsersWithPermissionQuery';
+import { useAllUsersWithPermission } from '../../apollo/querries/useAllUsersWithPermission';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 // Components for Styling
 import { StyledContainer } from '../styles/StyledContainer';
 
 const GuidesList = () => {
-  const { loading, error, data } = useAllUsersWithPermissionQuery(permission.guide);
+  const { loading, error, data } = useAllUsersWithPermission(permission.guide);
   const {
     loading: loadingCurrentUser,
     error: errorCurrentUser,
@@ -24,8 +24,8 @@ const GuidesList = () => {
   if (error || errorCurrentUser) {
     return (
       <StyledContainer>
-        {error && <Error error={error} />}
-        {errorCurrentUser && <Error error={errorCurrentUser} />}
+        {error && <ErrorGraphql error={error} />}
+        {errorCurrentUser && <ErrorGraphql error={errorCurrentUser} />}
       </StyledContainer>
     );
   }
@@ -38,6 +38,7 @@ const GuidesList = () => {
               data-test="guideCard"
               currentUserPermission={dataCurrentUser.currentUser.permissions}
               guide={guide}
+              guideId={guide.id}
               key={guide.id}
             />
           ))}

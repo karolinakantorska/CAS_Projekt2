@@ -8,7 +8,7 @@ import CalendarMenu from './CalendarMenu';
 import GuideAvatar from '../reusable/GuideAvatar';
 import Year from './Year';
 import Loading from '../reusable/LoadingBar';
-import Error from '../reusable/Error';
+import ErrorGraphql from '../reusable/ErrorGraphql';
 // Utils
 import {
   useCalendar,
@@ -17,7 +17,7 @@ import {
   reservationsDataToArray,
 } from '../../lib/utilsCalendar';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
-import { useGuideMonthReservationsQuerry } from '../../apollo/querries/useGuideMonthReservationsQuerry';
+import { useGuideMonthReservations } from '../../apollo/querries/useGuideMonthReservations';
 
 const Calendar = ({ props }) => {
   const { guideId } = props;
@@ -31,7 +31,7 @@ const Calendar = ({ props }) => {
     daysInMonthArray,
     selectedDateTimestamp,
   } = useCalendar();
-  const { loading, error, data, refetch } = useGuideMonthReservationsQuerry(
+  const { loading, error, data, refetch } = useGuideMonthReservations(
     selectedYear,
     selectedMonth,
     guideId,
@@ -50,8 +50,8 @@ const Calendar = ({ props }) => {
   if (error || errorCurrentUser) {
     return (
       <StyledContainer>
-        {error && <Error error={error} />}
-        {errorCurrentUser && <Error error={errorCurrentUser} />}
+        {error && <ErrorGraphql error={error} />}
+        {errorCurrentUser && <ErrorGraphql error={errorCurrentUser} />}
       </StyledContainer>
     );
   }

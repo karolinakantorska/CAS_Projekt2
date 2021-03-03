@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { routeToBookingConfirmation } from '../lib/utilsRouts';
+import { routeToBookingConfirmation, routeToGuidesList } from '../lib/utilsRouts';
 import {
   validateFormBookingConfirmation,
   addErrorMessage,
@@ -25,7 +25,6 @@ export function timeToString(time) {
   }
 }
 export function useHandleTimeChange(bookedTime) {
-  console.log('bookedTime', bookedTime);
   function switchBookedTime(bookedTime) {
     if (bookedTime === 'AM') {
       return 'PM';
@@ -39,7 +38,6 @@ export function useHandleTimeChange(bookedTime) {
   }
 
   const [time, setTime] = useState(switchBookedTime(bookedTime));
-  console.log('time', time);
   function handleTimeChange(e) {
     switch (e.target.value) {
       case chooseWholeDay:
@@ -77,15 +75,29 @@ export function handleBooking(
     routeToBookingConfirmation(day, selectedMonth, selectedYear, guideId, bookedTime);
   }
 }
-export function handleBookingConfirmation(e, userName, userEmail) {
+export function handleBookingConfirmation(
+  e,
+  time,
+  day,
+  month,
+  year,
+  userName,
+  userEmail,
+  nrOfPeople,
+  description,
+  guideId,
+  existingDay,
+  createDay,
+  updateDay,
+) {
   e.preventDefault();
   removeErrorMessage();
   const errors = validateFormBookingConfirmation(time);
   addErrorMessage(errors);
+  console.log('existingDay', existingDay);
   if (errors.length === 0) {
-    // day doesn't exist yet
-    // returns days=[]
-    if (data.days.length === 0) {
+    if (existingDay.length === 0) {
+      console.log('create');
       createDay({
         variables: {
           time,
@@ -102,7 +114,9 @@ export function handleBookingConfirmation(e, userName, userEmail) {
     }
     // day exist
     else {
-      const { id } = data.days[0];
+      console.log('update');
+      console.log('existingDay[0].id', existingDay[0].id);
+
       updateDay({
         variables: {
           time,
@@ -111,9 +125,17 @@ export function handleBookingConfirmation(e, userName, userEmail) {
           nrOfPeople: nrOfPeople.value,
           description: description.value,
           id: guideId,
-          dayId: id, //existing day id
+          dayId: existingDay[0].id,
         },
       });
     }
   }
+}
+export function handleCloseReservationDetails() {
+  routeToGuidesList();
+}
+export function handleDeleteReservation(id, deleteReservation) {
+  deleteReservation({
+    variables: { id },
+  });
 }

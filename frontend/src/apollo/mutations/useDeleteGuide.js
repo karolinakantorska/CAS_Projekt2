@@ -4,7 +4,7 @@ import ALL_USERS_WITH_PERMISSION_QUERY from '../../graphgl/queries/ALL_USERS_WIT
 import { permission } from '../../lib/utils';
 
 export function useDeleteGuide() {
-  const [delete_user, { loading, error }] = useMutation(DELETE_USER, {
+  const [deleteUser, { loading, error }] = useMutation(DELETE_USER, {
     onError: (error) => {
       error;
     },
@@ -12,7 +12,7 @@ export function useDeleteGuide() {
       cacheDeleteGuide(cache, data);
     },
   });
-  return [delete_user, { loading, error }];
+  return [deleteUser, { loading, error }];
 }
 
 export function cacheDeleteGuide(cache, data) {

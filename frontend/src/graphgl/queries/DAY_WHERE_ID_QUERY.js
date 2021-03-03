@@ -13,6 +13,7 @@ const DAY_WHERE_ID_QUERY = gql`
         nrOfPeople
         description
         guide {
+          id
           name
           surname
         }

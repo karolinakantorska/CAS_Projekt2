@@ -4,7 +4,7 @@ import styled from 'styled-components';
 // RMWC
 import { CardPrimaryAction } from '@rmwc/card';
 // Components
-import Error from '../reusable/Error';
+import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
 import ButtonMain from '../reusable/ButtonMain';
 import ButtonLink from '../reusable/ButtonLink';
@@ -37,7 +37,7 @@ const UpdateGuide = ({ id }) => {
     return <Loading />;
   }
   if (error || errorMutation) {
-    return <Error error={error || errorMutation} />;
+    return <ErrorGraphql error={error || errorMutation} />;
   }
   if (data) {
     console.log('id', id);
@@ -63,7 +63,7 @@ const UpdateGuide = ({ id }) => {
                 </CardPrimaryAction>
               </label>
               <ErrorMessage />
-              {error && <Error error={error} />}
+              {error && <ErrorGraphql error={error} />}
               <TextField
                 {...name}
                 fullwidth

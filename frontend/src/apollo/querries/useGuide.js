@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import ONE_USER_QUERY from '../../graphgl/queries/ONE_USER_QUERY';
 
-export function useGuide(guideId) {
+export function useGuide(id) {
   const { loading, error, data } = useQuery(ONE_USER_QUERY, {
-    variables: { id: guideId },
+    variables: { id },
   });
   return { loading, error, data };
 }

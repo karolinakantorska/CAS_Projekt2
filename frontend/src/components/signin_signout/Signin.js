@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // Components
-import Nav from '../main/Nav';
 import ButtonMain from '../reusable/ButtonMain';
 import ButtonLink from '../reusable/ButtonLink';
 import Loading from '../reusable/LoadingBar';
-import Error from '../reusable/Error';
+import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
 //Utils
-import { useFormInput } from '../../lib/utilsForm';
-import { handleSignin } from '../../lib/utilsSign';
+import { useForm } from '../../lib/utilsForm';
 import { routeToSignup } from '../../lib/utilsRouts';
 import { useSignin } from '../../apollo/mutations/useSignin';
 
@@ -20,54 +18,67 @@ import { StyledButtonSpan } from '../styles/StyledButtonSpan';
 import { StyledTextTitle6 } from '../styles/StyledText';
 
 const Signin = () => {
-  const password = useFormInput('');
-  const email = useFormInput('');
+  const [showPass, setShowPass] = useState('password');
+  const { inputs, handleChange, handleSubmit, errorInput } = useForm(handleSignin, {
+    email: { textValue: '', required: true },
+    password: { textValue: '', required: true },
+  });
   const [signin, { loading, error }] = useSignin();
-
+  function handleSignin() {
+    signin({
+      variables: {
+        email: inputs.email.textValue,
+        password: inputs.password.textValue,
+      },
+    });
+  }
   return (
-    <StyledContainer>
-      <StyledCard>
-        <form>
-          {loading && <Loading />}
-          <StyledFieldset disabled={loading} aria-busy={loading}>
-            <StyledTextTitle6>Signin into account:</StyledTextTitle6>
-            <ErrorMessage />
-            {error && <Error error={error} />}
-            <TextField
-              {...email}
-              data-test="input-email"
-              required
-              fullwidth
-              placeholder="Email"
-              value={email.value}
-              required={true}
-            />
-            <TextField
-              {...password}
-              data-test="input-pasword"
-              required
-              fullwidth
-              placeholder="Password"
-              type="password"
-              value={password.value}
-              required={true}
-            />
-          </StyledFieldset>
-          <StyledButtonSpan>
-            <ButtonMain
-              loading={loading}
-              text="Signin!"
-              onClick={(e) => handleSignin(e, email.value, password.value, signin)}
-            />
-            <ButtonLink
-              loading={loading}
-              text="Create new Account"
-              onClick={routeToSignup}
-            />
-          </StyledButtonSpan>
-        </form>
-      </StyledCard>
-    </StyledContainer>
+    <StyledCard>
+      <form>
+        {loading && <Loading />}
+        <StyledFieldset disabled={loading} aria-busy={loading}>
+          <StyledTextTitle6>Signin into account:</StyledTextTitle6>
+          {error && <ErrorGraphql error={error} />}
+          <TextField
+            data-test="input-email"
+            required
+            fullwidth
+            placeholder="Email"
+            name="email"
+            value={inputs.email.textValue || ''}
+            onChange={handleChange}
+            required={true}
+          />
+          {errorInput.email && <ErrorMessage error={errorInput.email} />}
+          <TextField
+            data-test="input-pasword"
+            required
+            fullwidth
+            placeholder="Password"
+            type={showPass}
+            name="password"
+            value={inputs.password.textValue || ''}
+            onChange={handleChange}
+            required={true}
+            trailingIcon={{
+              icon: 'visibility',
+              size: 'xsmall',
+              onMouseOver: () => setShowPass('text'),
+              onMouseLeave: () => setShowPass('password'),
+            }}
+          />
+          {errorInput.password && <ErrorMessage error={errorInput.password} />}
+        </StyledFieldset>
+        <StyledButtonSpan>
+          <ButtonMain loading={loading} text="Signin!" onClick={handleSubmit} />
+          <ButtonLink
+            loading={loading}
+            text="Create new Account"
+            onClick={routeToSignup}
+          />
+        </StyledButtonSpan>
+      </form>
+    </StyledCard>
   );
 };
 export default Signin;

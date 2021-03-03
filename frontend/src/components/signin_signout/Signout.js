@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon } from '@rmwc/icon';
 //Components
 import LoadingCicle from '../reusable/LoadingCicle';
-import Error from '../reusable/Error';
+import ErrorGraphql from '../reusable/ErrorGraphql';
 // Utils
 import { useSignout } from '../../apollo/mutations/useSignout';
 
@@ -15,7 +15,7 @@ const Signout = () => {
     return <LoadingCicle size="xsmall" />;
   }
   if (error) {
-    return <Error error={error} />;
+    return <ErrorGraphql error={error} />;
   }
   return (
     <StyledTextMenuBlack onClick={signout}>

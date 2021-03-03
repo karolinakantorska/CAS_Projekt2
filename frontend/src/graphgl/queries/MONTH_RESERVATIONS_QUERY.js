@@ -8,6 +8,7 @@ const MONTH_RESERVATIONS_QUERY = gql`
       year
       month
       day
+      id
       reservations {
         userName
         userEmail

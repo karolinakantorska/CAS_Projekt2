@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Avatar } from '@rmwc/avatar';
 import LoadingCicle from '../reusable/LoadingCicle';
-import Error from '../reusable/Error';
+import ErrorGraphql from '../reusable/ErrorGraphql';
 import { useGuide } from '../../apollo/querries/useGuide';
 import { StyledTextBody2 } from '../styles/StyledText';
 
@@ -13,7 +13,7 @@ const GuideAvatar = ({ guideId }) => {
     return <LoadingCicle size="xsmall" />;
   }
   if (error) {
-    return <Error error={error} />;
+    return <ErrorGraphql error={error} />;
   }
   if (data) {
     return (

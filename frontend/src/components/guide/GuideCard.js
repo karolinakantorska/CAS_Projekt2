@@ -8,8 +8,11 @@ import { CardPrimaryAction } from '@rmwc/card';
 import DeleteGuide from './DeleteGuide';
 import ButtonMain from '../reusable/ButtonMain';
 import ButtonLink from '../reusable/ButtonLink';
+import LoadingCicle from '../reusable/LoadingCicle';
+import ErrorGraphql from '../reusable/ErrorGraphql';
 // Utils
-import { routeToEditGuide, routeToSignin, routeToCalendar } from '../../lib/utilsRouts';
+import { useGuide } from '../../apollo/querries/useGuide';
+import { routeToEditGuide, routeToSignin } from '../../lib/utilsRouts';
 import { goToBookingPage, permission } from '../../lib/utils';
 
 // Components for Styling
@@ -21,50 +24,60 @@ import {
   StyledTextSubtitle1,
 } from '../styles/StyledText';
 
-const Guide = ({ currentUserPermission, guide }) => {
-  const { id, email, name, surname, description, photo } = guide;
-  return (
-    <StyledGuideCard>
-      <CardPrimaryAction onClick={() => goToBookingPage(currentUserPermission, id)}>
-        <StyledGuideImage src={photo} alt="Mountainbiker photo" />
-      </CardPrimaryAction>
-      {currentUserPermission && (
-        <StyledSpanBookMe>
-          <ButtonMain
-            text="Book Me!"
-            onClick={() => goToBookingPage(currentUserPermission, id)}
-          />
-        </StyledSpanBookMe>
-      )}
-      <StyledSpan>
-        <StyledTextTitle5 use="headline6" tag="h4">
-          {name} {surname}
-        </StyledTextTitle5>
-        <StyledTextSubtitle1>{email}</StyledTextSubtitle1>
-        <StyledTextBody2>{description}</StyledTextBody2>
-      </StyledSpan>
-      {!currentUserPermission && (
-        <ButtonLink text="Logg in to book Me!" onClick={routeToSignin} />
-      )}
-      {currentUserPermission === permission.admin && (
-        <React.Fragment>
-          <StyledButtonSpan>
-            <ButtonLink text="Edit" onClick={() => routeToEditGuide(id)} />
-            <DeleteGuide id={id} />
-          </StyledButtonSpan>
-        </React.Fragment>
-      )}
-    </StyledGuideCard>
-  );
+const Guide = ({ currentUserPermission, guide, guideId }) => {
+  const { loading, error, data } = useGuide(guideId);
+  if (loading) {
+    return (
+      <StyledGuideCard>
+        <LoadingCicle size="large" />
+      </StyledGuideCard>
+    );
+  }
+  if (error) {
+    return <ErrorGraphql error={error} />;
+  }
+  if (data) {
+    const { user } = data;
+    return (
+      <StyledGuideCard>
+        <CardPrimaryAction
+          onClick={() => goToBookingPage(currentUserPermission, user.id)}
+        >
+          <StyledGuideImage src={user.photo} alt="Mountainbiker photo" />
+        </CardPrimaryAction>
+        {currentUserPermission && (
+          <StyledSpanBookMe>
+            <ButtonMain
+              text="Book Me!"
+              onClick={() => goToBookingPage(currentUserPermission, user.id)}
+            />
+          </StyledSpanBookMe>
+        )}
+        <StyledSpan>
+          <StyledTextTitle5 use="headline6" tag="h4">
+            {user.name} {user.surname}
+          </StyledTextTitle5>
+          <StyledTextSubtitle1>{user.email}</StyledTextSubtitle1>
+          <StyledTextBody2>{user.description}</StyledTextBody2>
+        </StyledSpan>
+        {!currentUserPermission && (
+          <ButtonLink text="Logg in to book Me!" onClick={routeToSignin} />
+        )}
+        {currentUserPermission === permission.admin && (
+          <React.Fragment>
+            <StyledButtonSpan>
+              <ButtonLink text="Edit" onClick={() => routeToEditGuide(user.id)} />
+              <DeleteGuide id={user.id} />
+            </StyledButtonSpan>
+          </React.Fragment>
+        )}
+      </StyledGuideCard>
+    );
+  }
 };
 Guide.propTypes = {
   currentUserPermission: PropTypes.string,
-  id: PropTypes.string,
-  email: PropTypes.string,
-  name: PropTypes.string,
-  surname: PropTypes.string,
-  description: PropTypes.string,
-  photo: PropTypes.string,
+  guideId: PropTypes.string,
 };
 const StyledSpan = styled.span`
   display: grid;

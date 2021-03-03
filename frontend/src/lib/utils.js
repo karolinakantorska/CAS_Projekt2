@@ -10,3 +10,7 @@ export function goToBookingPage(currentUserPermission, id) {
     routeToSignin();
   }
 }
+
+function callback() {
+  console.log('it is me callback');
+}

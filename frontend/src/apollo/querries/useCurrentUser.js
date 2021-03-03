@@ -3,14 +3,14 @@ import { gql, useQuery } from '@apollo/client';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 
 export function useCurrentUser() {
-  const notLogged = { currentUser: { name: '', permission: '', email: null, id: null } };
+  const noUser = { currentUser: { name: '', permissions: '', email: '', id: '' } };
   const { loading, error, data } = useQuery(CURRENT_USER_QUERY, {});
 
   if (data && data.currentUser === null) {
     return {
       loading,
       error,
-      data: notLogged,
+      data: noUser,
     };
   }
   return { loading, error, data };

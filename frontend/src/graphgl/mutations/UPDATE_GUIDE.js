@@ -17,6 +17,7 @@ const UPDATE_GUIDE = gql`
       description: $description
       photo: $photo
     ) {
+      id
       email
       name
       surname

@@ -5,7 +5,7 @@ import ADD_GUIDE from '../../graphgl/mutations/ADD_GUIDE';
 import ALL_USERS_WITH_PERMISSION_QUERY from '../../graphgl/queries/ALL_USERS_WITH_PERMISSION_QUERY';
 
 export function useAddGuide() {
-  const [add_guide, { loading, error }] = useMutation(ADD_GUIDE, {
+  const [addGuide, { loading, error }] = useMutation(ADD_GUIDE, {
     onCompleted: () => {
       routeToGuidesList();
     },
@@ -16,15 +16,13 @@ export function useAddGuide() {
       cacheAllGuides(cache, data);
     },
   });
-  return [add_guide, { loading, error }];
+  return [addGuide, { loading, error }];
 }
 function cacheAllGuides(cache, data) {
   const dataAll = cache.readQuery({
     query: ALL_USERS_WITH_PERMISSION_QUERY,
     variables: { permissions: permission.guide },
   });
-  console.log(dataAll);
-
   const newUser = {
     ...data.data.createUser,
   };

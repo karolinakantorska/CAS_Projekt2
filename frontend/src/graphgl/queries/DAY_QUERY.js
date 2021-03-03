@@ -25,6 +25,7 @@ const DAY_QUERY = gql`
         nrOfPeople
         description
         guide {
+          id
           name
         }
       }

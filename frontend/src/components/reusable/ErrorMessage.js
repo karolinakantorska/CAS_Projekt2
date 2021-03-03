@@ -1,27 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-
+import { StyledTextErrorInline } from '../styles/StyledText';
 const ErrorMessage = ({ error }) => {
-  if (error) {
-    return (
-      <StyledError className="error_div">
-        {error && <StyledP>{error}</StyledP>}
-      </StyledError>
-    );
-  }
-  return <StyledError className="error_div"></StyledError>;
+  return (
+    <div>
+      <StyledTextErrorInline>{error}</StyledTextErrorInline>
+    </div>
+  );
 };
 
-const StyledError = styled.div`
-  color: var(--colorWarning);
-  background-color: white;
-`;
-const StyledP = styled.p`
-  height: 15px;
-  margin-top: 0px;
-`;
 ErrorMessage.propTypes = {
-  error: PropTypes.string,
+  errors: PropTypes.string,
 };
 export default ErrorMessage;

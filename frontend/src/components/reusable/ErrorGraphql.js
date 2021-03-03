@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const Error = ({ error }) => {
+const ErrorGraphql = ({ error }) => {
   if (!error || !error.message) return null;
   if (
     error.networkError &&
@@ -24,22 +24,20 @@ const Error = ({ error }) => {
   */
   return (
     <React.Fragment>
-      <StyledP data-test="testid-graphql-error">
-        {error.message.replace('GraphQL error: ', '')}
-      </StyledP>
+      <StyledP>{error.message.replace('GraphQL error: ', '')}</StyledP>
     </React.Fragment>
   );
 };
 
-Error.defaultProps = {
+ErrorGraphql.defaultProps = {
   error: {},
 };
 
-Error.propTypes = {
+ErrorGraphql.propTypes = {
   error: PropTypes.object,
 };
 const StyledP = styled.p`
   color: var(--colorWarning);
   background-color: white;
 `;
-export default Error;
+export default ErrorGraphql;

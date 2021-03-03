@@ -71,6 +71,12 @@ export const StyledTextBody1 = styled.p`
   margin: 0px;
   //letter-spacing: 0.03rem;
   font-weight: 400;
+  @media (max-width: 600px) {
+    font-size: 0.9rem;
+  }
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+  }
 `;
 export const StyledTextBody2 = styled.p`
   color: var(--colorPrimary);
@@ -100,6 +106,7 @@ export const StyledTextMenuBlack = styled.a`
     font-size: 0.95rem;
   }
 `;
+
 export const StyledTextButtonBlack = styled.a`
   color: var(--colorPrimary);
   font-size: 1.05rem;
@@ -115,6 +122,7 @@ export const StyledTextButtonBlack = styled.a`
     font-size: 0.9rem;
   }
 `;
+
 export const StyledTextButtonColor = styled.a`
   color: var(--colorWarning);
   font-size: 1.05rem;
@@ -143,5 +151,29 @@ export const StyledTextButtonWhite = styled.a`
   }
   @media (max-width: 460px) {
     font-size: 0.7rem;
+  }
+`;
+export const StyledTextErrorInline = styled.p`
+  color: var(--colorWarning);
+  font-size: 0.9rem;
+  margin: 0px;
+  font-weight: 400;
+  @media (max-width: 600px) {
+    font-size: 0.8rem;
+  }
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+  }
+`;
+export const StyledTextErrorCard = styled.p`
+  color: var(--colorWarning);
+  font-size: 1.06rem;
+  margin: 0px;
+  font-weight: 400;
+  @media (max-width: 600px) {
+    font-size: 0.9rem;
+  }
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
   }
 `;

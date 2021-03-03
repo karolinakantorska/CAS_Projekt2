@@ -10,6 +10,7 @@ const RESERVATION_QUERY = gql`
       nrOfPeople
       description
       relatedDay {
+        id
         year
         month
         day

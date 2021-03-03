@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 // RMWC
 import { Card } from '@rmwc/card';
 // Components
-import Error from '../reusable/Error';
+import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
 import Loading from '../reusable/LoadingBar';
 import ButtonMain from '../reusable/ButtonMain';
 // Utils
-import { useFormInput, usePhotoUpload } from '../../lib/utilsForm';
+import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
+import { useForm, usePhotoUpload } from '../../lib/utilsForm';
 import { useAddGuide } from '../../apollo/mutations/useAddGuide';
-import { handleAddGuide } from '../../lib/utilsAdmin';
+import { permission } from '../../lib/utils';
+//import { handleAddGuide } from '../../lib/utilsAdmin';
+import { urlGuidePhoto, uploadPresetGuide } from '../../lib/configUrl';
 // Queries
 import { StyledContainer } from '../styles/StyledContainer';
 // Components for Styling
@@ -20,88 +23,138 @@ import { StyledTextTitle5 } from '../styles/StyledText';
 import { StyledGuideImage } from '../styles/StyledGuideImage';
 
 const AddGuide = () => {
-  const password = useFormInput('');
-  const email = useFormInput('');
-  const name = useFormInput('');
-  const surname = useFormInput('');
-  const description = useFormInput('');
+  const [showPass, setShowPass] = useState('password');
+  const [addGuide, { loading, error }] = useAddGuide();
+  const {
+    loading: loadingCurrentUser,
+    error: errorCurrentUser,
+    data: dataCurrentUser,
+  } = useCurrentUser();
+  const { inputs, handleChange, handleSubmit, errorInput } = useForm(handleAddGuide, {
+    email: { textValue: '', required: true },
+    password: { textValue: '', required: true },
+    name: { textValue: '', required: true },
+    surname: { textValue: '', required: false },
+    description: { textValue: '', required: false },
+  });
   const { uploadPhoto, result, loadingPhotoUpload, errorPhotoUpload } = usePhotoUpload(
     '',
+    urlGuidePhoto,
+    uploadPresetGuide,
   );
-  const [add_guide, { loading, error }] = useAddGuide();
-  return (
-    <StyledContainer>
-      <StyledCard>
-        <form>
-          <StyledFieldset disabled={loading} aria-busy={loading}>
-            <StyledTextTitle5>Add new MTB Guide</StyledTextTitle5>
-            <StyledSpanErrors>
-              {loadingPhotoUpload && <Loading />}
-              {errorPhotoUpload && <ErrorMessage error={errorPhotoUpload}></ErrorMessage>}
-            </StyledSpanErrors>
-            <StyledInput type="file" id="file" onChange={uploadPhoto} />
-            <label htmlFor="file">
-              <StyledGuideCard>
-                <StyledGuideImage src={result} alt="Upload a photo" />
-              </StyledGuideCard>
-            </label>
-            <ErrorMessage />
-            {error && <Error error={error} />}
-            <TextField
-              {...name}
-              fullwidth
-              placeholder="Name"
-              value={name.value}
-              required={true}
-            />
-            <TextField
-              {...surname}
-              fullwidth
-              placeholder="Surname"
-              value={surname.value}
-              required={true}
-            />
-            <TextField {...email} fullwidth placeholder="Email" value={email.value} />
-            <TextField
-              {...password}
-              fullwidth
-              placeholder="Password"
-              type="password"
-              value={password.value}
-              required={true}
-            />
-            <TextField
-              {...description}
-              fullwidth
-              placeholder="Description"
-              textarea={true}
-              rows={4}
-              maxLength={100}
-              value={description.value}
-            />
-            <span>
-              <ButtonMain
-                loading={loading}
-                text="Add Guide"
-                onClick={(e) => {
-                  handleAddGuide(
-                    e,
-                    password.value,
-                    email.value,
-                    name.value,
-                    surname.value,
-                    description.value,
-                    result,
-                    add_guide,
-                  );
+  function handleAddGuide() {
+    addGuide({
+      variables: {
+        email: inputs.email.textValue,
+        password: inputs.password.textValue,
+        name: inputs.name.textValue,
+        surname: inputs.surname.textValue,
+        description: inputs.description.textValue,
+        photo: result,
+      },
+    });
+  }
+  //dataCurrentUser.currentUser.permissions
+  if (loadingCurrentUser) {
+    return <Loading />;
+  }
+  if (errorCurrentUser) {
+    return (
+      <StyledContainer>
+        {errorCurrentUser && <ErrorGraphql error={errorCurrentUser} />}
+      </StyledContainer>
+    );
+  }
+  if (dataCurrentUser.currentUser.permissions !== permission.admin) {
+    return (
+      <StyledContainer>
+        <StyledCard>
+          <ErrorMessage error={'Please log in with your Admin Account!'}></ErrorMessage>
+        </StyledCard>
+      </StyledContainer>
+    );
+  } else {
+    return (
+      <StyledContainer>
+        <StyledCard>
+          <form>
+            <StyledFieldset disabled={loading} aria-busy={loading}>
+              <StyledTextTitle5>Add new MTB Guide</StyledTextTitle5>
+              <StyledSpanErrors>
+                {loadingPhotoUpload && <Loading />}
+                {errorPhotoUpload && (
+                  <ErrorMessage error={errorPhotoUpload}></ErrorMessage>
+                )}
+              </StyledSpanErrors>
+              <StyledInput type="file" id="file" onChange={uploadPhoto} />
+              <label htmlFor="file">
+                <StyledGuideCard>
+                  <StyledGuideImage src={result} alt="Upload a photo" />
+                </StyledGuideCard>
+              </label>
+              <ErrorMessage />
+              {error && <ErrorGraphql error={error} />}
+              <TextField
+                fullwidth
+                placeholder="Name"
+                name="name"
+                value={inputs.name.textValue || ''}
+                onChange={handleChange}
+                required
+              />
+              {errorInput.name && <ErrorMessage error={errorInput.name} />}
+              <TextField
+                fullwidth
+                placeholder="Surname"
+                name="surname"
+                value={inputs.surname.textValue || ''}
+                onChange={handleChange}
+              />
+              <TextField
+                fullwidth
+                placeholder="Email"
+                name="email"
+                value={inputs.email.textValue || ''}
+                onChange={handleChange}
+                required
+              />
+              {errorInput.email && <ErrorMessage error={errorInput.email} />}
+              <TextField
+                fullwidth
+                placeholder="Password"
+                type={showPass}
+                name="password"
+                value={inputs.password.textValue || ''}
+                onChange={handleChange}
+                required
+                trailingIcon={{
+                  icon: 'visibility',
+                  size: 'xsmall',
+                  onMouseOver: () => setShowPass('text'),
+                  onMouseLeave: () => setShowPass('password'),
                 }}
               />
-            </span>
-          </StyledFieldset>
-        </form>
-      </StyledCard>
-    </StyledContainer>
-  );
+              {errorInput.password && <ErrorMessage error={errorInput.password} />}
+              <TextField
+                fullwidth
+                placeholder="Description"
+                name="description"
+                value={inputs.description.textValue || ''}
+                onChange={handleChange}
+                required={false}
+                textarea={true}
+                rows={4}
+                maxLength={100}
+              />
+              <span>
+                <ButtonMain loading={loading} text="Add Guide" onClick={handleSubmit} />
+              </span>
+            </StyledFieldset>
+          </form>
+        </StyledCard>
+      </StyledContainer>
+    );
+  }
 };
 export const StyledGuideCard = styled(Card)`
   display: grid;

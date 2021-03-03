@@ -1,19 +1,66 @@
 import React, { useState, useEffect } from 'react';
 
-export function useFormInput(initialValue = '') {
-  const [value, setValue] = useState(initialValue);
+// form validation
+const regex = {
+  email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/,
+  password: /^[^ ]{8,32}$/,
+  name: /^.{2,12}$/,
+};
+const formInfo = {
+  email: `It is not a valid email adresse.`,
+  password: `The password should be longer than 8 signs. Space is not allowed.`,
+  name: `The name must be longer than 2 and shorter than 12 signs.`,
+};
+
+function validate(inputs) {
+  let errors = {};
+  for (const [input, value] of Object.entries(inputs)) {
+    if (value.required) {
+      if (value.textValue === '') {
+        errors = { ...errors, [input]: ` ${input} is required` };
+      } else if (regex[input]) {
+        if (!regex[input].test(value.textValue)) {
+          errors = { ...errors, [input]: formInfo[input] };
+        }
+      }
+    }
+  }
+  return errors;
+}
+// Form
+export function useForm(callback, initialInputs) {
+  const [inputs, setInputs] = useState(initialInputs);
+  const [errorInput, setErrorInput] = useState({});
+  const [valid, setValid] = useState(false);
   useEffect(() => {
-    setValue(initialValue);
-  }, [initialValue]);
+    //setInputs(initialInputs);
+  }, [initialInputs]);
+  useEffect(() => {
+    if (Object.keys(errorInput).length === 0 && valid) {
+      callback();
+    }
+  }, [errorInput]);
   function handleChange(e) {
-    setValue(e.target.value);
+    e.persist();
+    setInputs({
+      ...inputs,
+      [e.target.name]: { textValue: e.target.value, required: e.target.required },
+    });
+  }
+  function handleSubmit(e) {
+    if (e) e.preventDefault();
+    setValid(true);
+    setErrorInput(validate(inputs));
   }
   return {
-    value,
-    onChange: handleChange,
+    inputs,
+    handleChange,
+    handleSubmit,
+    errorInput,
   };
 }
-export function usePhotoUpload(initialValue = '') {
+// upload a photo
+export function usePhotoUpload(initialValue = '', urlPhoto, uploadPreset) {
   const [result, setResult] = useState(initialValue);
   const [loadingPhotoUpload, setLoadingPhotoUpload] = useState(false);
   const [errorPhotoUpload, setErrorPhotoUpload] = useState(null);
@@ -27,14 +74,11 @@ export function usePhotoUpload(initialValue = '') {
       setLoadingPhotoUpload(true);
       const data = new FormData();
       data.append('file', e.target.files[0]);
-      data.append('upload_preset', 'MTBregistration');
-      const cloudinaryRes = await fetch(
-        'https://api.cloudinary.com/v1_1/karolinauploads/image/upload',
-        {
-          method: 'POST',
-          body: data,
-        },
-      );
+      data.append('upload_preset', uploadPreset);
+      const cloudinaryRes = await fetch(urlPhoto, {
+        method: 'POST',
+        body: data,
+      });
       const response = await cloudinaryRes.json();
       if (response.error) {
         setErrorPhotoUpload(response.error.message);
@@ -50,50 +94,6 @@ export function usePhotoUpload(initialValue = '') {
   }
   return { result, uploadPhoto, loadingPhotoUpload, errorPhotoUpload };
 }
-// form validation
-export const regexCheckEmail = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
-export const regexCheckPassword = /^[^ ]{8,32}$/;
-export const regexCheckName = /^.{2,12}$/;
-export const messageWrongPassword = `The password should be longer than 8 signs. Space is not alowed.`;
-export const messageWrongName = `The name must be longer than 2 and shorter than 12 signs.`;
-
-export function validateForm(email, name, password = 'correctPass') {
-  console.log('email', email, 'password', password, 'name', name);
-  const errors = [];
-  if (!regexCheckEmail.test(email) || email === '') {
-    errors.push(`The: ${email} is not a valid email adresse.`);
-  }
-  if (!regexCheckPassword.test(password) || password === '') {
-    errors.push(messageWrongPassword);
-  }
-  if (!regexCheckName.test(name) || name === '') {
-    errors.push(messageWrongName);
-  }
-  return errors;
-}
-export function validateSingin(email, password) {
-  console.log('email', password, 'name', name);
-  const errors = [];
-  if (!regexCheckEmail.test(email) || email === '') {
-    errors.push(`The: ${email} is not a valid email adresse.`);
-  }
-  if (!regexCheckPassword.test(password) || password === '') {
-    errors.push(messageWrongPassword);
-  }
-  return errors;
-}
-export function addErrorMessage(errors) {
-  if (errors.length > 0) {
-    const errorContainer = document.querySelector(`.error_div`);
-    errors.map((error) =>
-      errorContainer.insertAdjacentHTML('beforeend', `<p>${error}</p>`),
-    );
-  }
-}
-export function removeErrorMessage() {
-  document.querySelector(`.error_div`).innerHTML = '';
-}
-
 export function validateFormBookingConfirmation(time) {
   if (!time || time === '') {
     return ['Please enter the time.'];

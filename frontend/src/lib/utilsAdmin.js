@@ -1,6 +1,3 @@
-import React, { useState } from 'react';
-import { validateForm, addErrorMessage, removeErrorMessage } from '../lib/utilsForm.js';
-
 export function handleAddGuide(
   e,
   password,
@@ -9,24 +6,23 @@ export function handleAddGuide(
   surname,
   description,
   result,
-  add_guide,
+  errors,
+  addGuide,
 ) {
   e.preventDefault();
-  removeErrorMessage();
-  const errors = validateForm(email, name, password);
-  addErrorMessage(errors);
-  if (errors.length === 0) {
-    add_guide({
-      variables: {
-        password,
-        email,
-        name,
-        surname,
-        description,
-        photo: result,
-      },
-    });
+  if (errors) {
+    return;
   }
+  addGuide({
+    variables: {
+      password,
+      email,
+      name,
+      surname,
+      description,
+      photo: result,
+    },
+  });
 }
 export function handleEditGuide(
   e,
@@ -36,22 +32,21 @@ export function handleEditGuide(
   surname,
   description,
   result,
+  errors,
   updateUser,
 ) {
   e.preventDefault();
-  removeErrorMessage();
-  const errors = validateForm(email, name);
-  addErrorMessage(errors);
-  if (errors.length === 0) {
-    updateUser({
-      variables: {
-        id,
-        email,
-        name,
-        surname,
-        description,
-        photo: result,
-      },
-    });
+  if (errors) {
+    return;
   }
+  updateUser({
+    variables: {
+      id,
+      email,
+      name,
+      surname,
+      description,
+      photo: result,
+    },
+  });
 }

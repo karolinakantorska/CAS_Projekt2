@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import DAY_QUERY from '../../graphgl/queries/DAY_QUERY';
 
-export function useDayQuery(year, month, day) {
+export function useDay(year, month, day) {
   const { loading, error, data } = useQuery(DAY_QUERY, {
     variables: {
       year,

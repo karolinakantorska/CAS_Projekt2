@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Icon } from '@rmwc/icon';
 //Components
 import Loading from '../reusable/LoadingBar';
-import Error from '../reusable/Error';
+import ErrorGraphql from '../reusable/ErrorGraphql';
 import Signout from '../signin_signout/Signout';
 
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
@@ -17,7 +17,7 @@ const Nav = () => {
     return <Loading />;
   }
   if (error) {
-    return <Error error={error} />;
+    return <ErrorGraphql error={error} />;
   }
   if (data) {
     return (

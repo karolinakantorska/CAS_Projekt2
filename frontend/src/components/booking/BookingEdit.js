@@ -1,14 +1,22 @@
 import React from 'react';
-import { useMutation, useQuery } from '@apollo/client';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import { routeToGuidesList } from '../../lib/utilsRouts';
 import { Button } from '@rmwc/button';
 
-import Error from '../reusable/Error';
-import DELETE_RESERVATION from '../../graphgl/mutations/DELETE_RESERVATION';
-import RESERVATION_QUERY from '../../graphgl/queries/RESERVATION_QUERY';
+import ErrorGraphql from '../reusable/ErrorGraphql';
+import Loading from '../reusable/LoadingBar';
+import ButtonLink from '../reusable/ButtonLink';
+
+import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
+import { useReservation } from '../../apollo/querries/useReservation';
+import { useDeleteReservation } from '../../apollo/mutations/useDeleteReservation';
+
+import {
+  handleCloseReservationDetails,
+  handleDeleteReservation,
+} from '../../lib/utilsBooking';
 
 import { StyledCard, StyledSpanPadding } from '../styles/StyledForm';
 import {
@@ -18,62 +26,52 @@ import {
 } from '../styles/StyledText';
 
 const BookingEdit = ({ id }) => {
-  const { error, loading, data } = useQuery(RESERVATION_QUERY, {
-    variables: { id },
-  });
-  const [delete_reservation, { error: errorDeleteReservation }] = useMutation(
-    DELETE_RESERVATION,
-    {
-      onCompleted: () => {
-        routeToGuidesList();
-      },
-      onError: (errorDeleteReservation) => {
-        errorDeleteReservation;
-      },
-    },
-  );
-  function handleClose() {
-    routeToGuidesList();
-  }
-  function handleDelete() {
-    delete_reservation({
-      variables: { id },
-    });
-  }
+  const { loading, error, data } = useReservation(id);
+  const [
+    deleteReservation,
+    { loading: loadingDeleteReservation, error: errorDeleteReservation },
+  ] = useDeleteReservation();
+
   if (loading) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
   if (error) {
-    return <Error error={error} />;
+    return <ErrorGraphql error={error} />;
   }
   if (data) {
-    const { description, nrOfPeople, time, userEmail, userName } = data.reservation;
-    const { day, month, year } = data.reservation.relatedDay;
-    const { id: guideId, name, surname, photo } = data.reservation.guide;
+    const { reservation } = data;
     return (
       <StyledCard>
-        <StyledButtonLinkClose onClick={handleClose} data-test="a-close">
+        <StyledButtonLinkClose
+          disabled={loadingDeleteReservation}
+          onClick={handleCloseReservationDetails}
+        >
           <StyledTextButtonColor>X</StyledTextButtonColor>
         </StyledButtonLinkClose>
         <StyledSpanPadding>
           <StyledTextTitle6>
-            Reservation on {day} {month} {year}
+            Reservation on {reservation.relatedDay.day} {reservation.relatedDay.month}{' '}
+            {reservation.relatedDay.year}
           </StyledTextTitle6>
-          {errorDeleteReservation && <Error error={error} />}
+          {errorDeleteReservation && <ErrorGraphql error={error} />}
           <StyledTextBody1>
-            Booked by: <strong>{userName}</strong>. for , <strong>{nrOfPeople}</strong>{' '}
-            guest(s).
+            Booked by: <strong>{reservation.userName}</strong>. for ,{' '}
+            <strong>{reservation.nrOfPeople}</strong> guest(s).
           </StyledTextBody1>
           <StyledTextBody1>
-            Email: <strong>{userEmail}</strong>.
+            Email: <strong>{reservation.userEmail}</strong>.
           </StyledTextBody1>
           <StyledTextBody1>
-            Tour type: <strong>{time}</strong> tour
+            Tour type: <strong>{reservation.time}</strong> tour
           </StyledTextBody1>
-          {description && <StyledTextBody1>{description}</StyledTextBody1>}
-          <StyledButtonLinkDelete onClick={handleDelete} data-test="a-delete">
-            <StyledTextButtonColor>Delete</StyledTextButtonColor>
-          </StyledButtonLinkDelete>
+          {reservation.description && (
+            <StyledTextBody1>{reservation.description}</StyledTextBody1>
+          )}
+          <ButtonLink
+            loading={loadingDeleteReservation}
+            text="Delete"
+            onClick={() => handleDeleteReservation(reservation.id, deleteReservation)}
+          />
         </StyledSpanPadding>
       </StyledCard>
     );
