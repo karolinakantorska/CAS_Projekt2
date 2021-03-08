@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 // RMWC
 import { Card } from '@rmwc/card';
 // Components
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
+import ErrorCard from '../reusable/ErrorCard';
 import Loading from '../reusable/LoadingBar';
 import ButtonMain from '../reusable/ButtonMain';
+import InputPassword from '../reusable/InputPassword';
+import Input from '../reusable/Input';
 // Utils
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { useForm, usePhotoUpload } from '../../lib/utilsForm';
@@ -23,7 +26,6 @@ import { StyledTextTitle5 } from '../styles/StyledText';
 import { StyledGuideImage } from '../styles/StyledGuideImage';
 
 const AddGuide = () => {
-  const [showPass, setShowPass] = useState('password');
   const [addGuide, { loading, error }] = useAddGuide();
   const {
     loading: loadingCurrentUser,
@@ -54,7 +56,6 @@ const AddGuide = () => {
       },
     });
   }
-  //dataCurrentUser.currentUser.permissions
   if (loadingCurrentUser) {
     return <Loading />;
   }
@@ -66,13 +67,7 @@ const AddGuide = () => {
     );
   }
   if (dataCurrentUser.currentUser.permissions !== permission.admin) {
-    return (
-      <StyledContainer>
-        <StyledCard>
-          <ErrorMessage error={'Please log in with your Admin Account!'}></ErrorMessage>
-        </StyledCard>
-      </StyledContainer>
-    );
+    return <ErrorCard error={'Please log in with your Admin Account!'}></ErrorCard>;
   } else {
     return (
       <StyledContainer>
@@ -92,49 +87,29 @@ const AddGuide = () => {
                   <StyledGuideImage src={result} alt="Upload a photo" />
                 </StyledGuideCard>
               </label>
-              <ErrorMessage />
               {error && <ErrorGraphql error={error} />}
-              <TextField
-                fullwidth
-                placeholder="Name"
+              <Input
+                handleChange={handleChange}
                 name="name"
                 value={inputs.name.textValue || ''}
-                onChange={handleChange}
-                required
+                error={errorInput.name}
               />
-              {errorInput.name && <ErrorMessage error={errorInput.name} />}
-              <TextField
-                fullwidth
-                placeholder="Surname"
+              <Input
+                handleChange={handleChange}
                 name="surname"
                 value={inputs.surname.textValue || ''}
-                onChange={handleChange}
               />
-              <TextField
-                fullwidth
-                placeholder="Email"
+              <Input
+                handleChange={handleChange}
                 name="email"
                 value={inputs.email.textValue || ''}
-                onChange={handleChange}
-                required
+                error={errorInput.email}
               />
-              {errorInput.email && <ErrorMessage error={errorInput.email} />}
-              <TextField
-                fullwidth
-                placeholder="Password"
-                type={showPass}
-                name="password"
+              <InputPassword
                 value={inputs.password.textValue || ''}
-                onChange={handleChange}
-                required
-                trailingIcon={{
-                  icon: 'visibility',
-                  size: 'xsmall',
-                  onMouseOver: () => setShowPass('text'),
-                  onMouseLeave: () => setShowPass('password'),
-                }}
-              />
-              {errorInput.password && <ErrorMessage error={errorInput.password} />}
+                handleChange={handleChange}
+                error={errorInput.pasword}
+              ></InputPassword>
               <TextField
                 fullwidth
                 placeholder="Description"

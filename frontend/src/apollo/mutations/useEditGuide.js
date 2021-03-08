@@ -4,9 +4,11 @@ import UPDATE_GUIDE from '../../graphgl/mutations/UPDATE_GUIDE';
 
 export function useEditGuide() {
   const [updateUser, { loading, error }] = useMutation(UPDATE_GUIDE, {
+    /*
     onCompleted: () => {
       routeToGuidesList();
     },
+    */
     onError: (error) => {
       error;
     },

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 //const primary = '#B71C1C';
-export const StyledTextTitle5 = styled.p`
+export const StyledTextTitle5 = styled.h5`
   color: var(--colorPrimary);
   font-size: 1.4rem;
   font-weight: 400;
@@ -106,6 +106,20 @@ export const StyledTextMenuBlack = styled.a`
     font-size: 0.95rem;
   }
 `;
+export const StyledTextMenuAdmin = styled.a`
+  color: var(--colorPrimary);
+  font-size: 1.12rem;
+  font-weight: 600;
+  @media (max-width: 600px) {
+    font-size: 1rem;
+  }
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+  }
+  @media (max-width: 420px) {
+    font-size: 0.85rem;
+  }
+`;
 
 export const StyledTextButtonBlack = styled.a`
   color: var(--colorPrimary);
@@ -168,7 +182,8 @@ export const StyledTextErrorInline = styled.p`
 export const StyledTextErrorCard = styled.p`
   color: var(--colorWarning);
   font-size: 1.06rem;
-  margin: 0px;
+  //margin: 0px;
+  padding: 40px 40px 20px 40px;
   font-weight: 400;
   @media (max-width: 600px) {
     font-size: 0.9rem;

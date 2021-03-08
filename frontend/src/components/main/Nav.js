@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 
@@ -7,12 +7,15 @@ import { Icon } from '@rmwc/icon';
 import Loading from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import Signout from '../signin_signout/Signout';
+import NavAdmin from '../main/NavAdmin';
 
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { StyledTextMenuBlack, StyledTextBody2 } from '../styles/StyledText';
 
 const Nav = () => {
+  const [show, setShow] = useState(true);
   const { loading, error, data } = useCurrentUser();
+
   if (loading) {
     return <Loading />;
   }
@@ -21,75 +24,77 @@ const Nav = () => {
   }
   if (data) {
     return (
-      <StyledNav>
-        <StyledTextBody2 className="user" data-test="a-userName">
-          {data.currentUser.name ? data.currentUser.name : 'please login'}
-        </StyledTextBody2>
-        <Link href="/">
-          <StyledTextMenuBlack className="home">Home</StyledTextMenuBlack>
-        </Link>
-        <Link href="/guides">
-          <StyledTextMenuBlack className="guides">MTB Guides</StyledTextMenuBlack>
-        </Link>
-        {data.currentUser.permissions === 'ADMIN' && (
-          <Link href="/add_guide">
-            <StyledTextMenuBlack className="add">Add Guide</StyledTextMenuBlack>
+      <>
+        <StyledNav>
+          <StyledTextBody2 className="user">
+            {data.currentUser.name ? data.currentUser.name : 'please login'}
+          </StyledTextBody2>
+          <Link href="/">
+            <StyledTextMenuBlack className="home">Home</StyledTextMenuBlack>
           </Link>
-        )}
-        {data.currentUser.name && (
-          <span className="signin">
-            <Signout />
-          </span>
-        )}
-        {!data.currentUser.name && (
-          <Link href="/signin_page">
-            <StyledTextMenuBlack className="signin">
-              <Icon icon="person_outline" aria-label="Login" />
+          <StyledTextMenuBlack
+            className={`userSpec ${show && 'active'}`}
+            onClick={() => setShow((show) => setShow(!show))}
+          >
+            Info
+          </StyledTextMenuBlack>
+          <Link href="/guides">
+            <StyledTextMenuBlack className="guides">MTB Guides</StyledTextMenuBlack>
+          </Link>
+          {data.currentUser.permissions === 'ADMIN' && (
+            <StyledTextMenuBlack
+              className={`userSpec ${show && 'active'}`}
+              onClick={() => setShow((show) => setShow(!show))}
+            >
+              Add Guide
             </StyledTextMenuBlack>
-          </Link>
-        )}
-      </StyledNav>
+          )}
+          {data.currentUser.name && (
+            <span className="signin">
+              <Signout />
+            </span>
+          )}
+          {!data.currentUser.name && (
+            <Link href="/signin_page">
+              <StyledTextMenuBlack className="signin">
+                <Icon icon="person_outline" aria-label="Login" />
+              </StyledTextMenuBlack>
+            </Link>
+          )}
+        </StyledNav>
+        <StyledSpan>{show && <NavAdmin />}</StyledSpan>
+      </>
     );
   }
 };
 
 const StyledNav = styled.nav`
   cursor: pointer;
-  z-index: 10;
   margin: auto;
   //max-width: var(--maxWidth);
   display: grid;
   justify-items: center;
-  align-content: center;
-  grid-template-rows: 20px 30px;
+  align-items: center;
+  grid-template-rows: 2fr 4fr;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-areas:
     ' none none none user'
-    ' home add guides signin';
+    ' home userSpec guides signin';
   white-space: nowrap;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(255, 255, 255, 0.8) 80%,
-    rgba(255, 255, 255, 0.1) 100%
-  );
-  .home:hover,
-  .add:hover,
-  .guides:hover,
-  .signin:hover {
-    color: #5a5b5c;
-    text-shadow: 0px 0px 10px #c4c4c4;
+  background-color: rgba(255, 255, 255, 1);
+  a:hover,
+  .active {
+    color: var(--colorSecundary);
   }
   .user {
     cursor: auto;
     grid-area: user;
-    align-self: start;
   }
   .home {
     grid-area: home;
   }
-  .add {
-    grid-area: add;
+  .userSpec {
+    grid-area: userSpec;
   }
   .guides {
     grid-area: guides;
@@ -97,5 +102,9 @@ const StyledNav = styled.nav`
   .signin {
     grid-area: signin;
   }
+`;
+const StyledSpan = styled.span`
+  display: grid;
+  grid-template-rows: 30px;
 `;
 export default Nav;
