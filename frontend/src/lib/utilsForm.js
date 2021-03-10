@@ -59,6 +59,47 @@ export function useForm(callback, initialInputs) {
     errorInput,
   };
 }
+export function useGuidesInput(initialValue) {
+  const [guides, setGuides] = useState(initialValue);
+
+  function handleChangeGuide1(e) {
+    const eventText = e.target.value.split(' ');
+    const eventId = eventText[0];
+    const eventName = eventText[1];
+    setGuides({
+      guide1: { id: eventId, name: eventName },
+      guide2: { id: guides.guide2.id, name: guides.guide2.name },
+    });
+  }
+  function handleChangeGuide2(e) {
+    const eventText = e.target.value.split(' ');
+    const eventId = eventText[0];
+    const eventName = eventText[1];
+    setGuides({
+      guide1: { id: guides.guide1.id, name: guides.guide1.name },
+      guide2: { id: eventId, name: eventName },
+    });
+  }
+  return {
+    guides,
+    handleChangeGuide1,
+    handleChangeGuide2,
+  };
+}
+// not sure if i will be using it
+export function useFormInput(initialValue = '') {
+  const [value, setValue] = useState(initialValue);
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+  function handleChange(e) {
+    setValue(e.target.value);
+  }
+  return {
+    value,
+    handleChange,
+  };
+}
 // upload a photo
 export function usePhotoUpload(initialValue = '', urlPhoto, uploadPreset) {
   const [result, setResult] = useState(initialValue);

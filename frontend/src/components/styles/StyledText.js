@@ -15,9 +15,10 @@ export const StyledTextTitle5 = styled.h5`
     font-size: 1.1rem;
   }
 `;
-export const StyledTextTitle6 = styled.h4`
+export const StyledTextTitle6 = styled.h6`
   color: var(--colorPrimary);
   font-size: 1.3rem;
+  margin: 20px 0 10px 0;
   //letter-spacing: 0.001rem;
   font-weight: 600;
   @media (max-width: 600px) {
@@ -29,7 +30,6 @@ export const StyledTextTitle6 = styled.h4`
   @media (max-width: 420px) {
     font-size: 1.05rem;
   }
-  //margin: 0.5rem 0 0.5rem 0;
 `;
 export const StyledTextSubtitle1 = styled.p`
   color: var(--colorSecundary);
@@ -182,8 +182,6 @@ export const StyledTextErrorInline = styled.p`
 export const StyledTextErrorCard = styled.p`
   color: var(--colorWarning);
   font-size: 1.06rem;
-  //margin: 0px;
-  padding: 40px 40px 20px 40px;
   font-weight: 400;
   @media (max-width: 600px) {
     font-size: 0.9rem;

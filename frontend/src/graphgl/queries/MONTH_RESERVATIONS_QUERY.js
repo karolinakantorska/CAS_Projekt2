@@ -18,12 +18,9 @@ const MONTH_RESERVATIONS_QUERY = gql`
           id
           email
           name
-          #surname
-          #photo
         }
       }
     }
   }
 `;
-
 export default MONTH_RESERVATIONS_QUERY;

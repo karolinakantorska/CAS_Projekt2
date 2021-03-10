@@ -8,42 +8,43 @@ import { StyledTextBody2 } from '../styles/StyledText';
 
 const Entry = ({ reservation, currentUser }) => {
   function handleEntrySpanClick() {
-    if (
-      currentUser.permissions === permission.admin ||
-      (currentUser.permissions === permission.guide &&
-        currentUser.id === reservation.guide.id)
-    ) {
-      routeToEditEntry(reservation.id);
-    }
-    return;
+    routeToEditEntry(reservation.id);
   }
-  return (
-    <EntrySpan className={reservation.time} onClick={() => handleEntrySpanClick()}>
-      {currentUser.permissions === permission.user &&
-        // TODO Ids would be better
-        (reservation.userEmail === currentUser.email ? (
-          <div className="grid_column_div own_booking">
-            <span className="your_booking">Your booking!</span>
-          </div>
+  console.log(reservation);
+  if (currentUser.permissions === permission.user) {
+    return (
+      <EntrySpan className={reservation.time}>
+        {/* TODO Ids would be better*/}
+        {reservation.userEmail === currentUser.email ? (
+          <span className="your_booking">Your booking!</span>
         ) : (
-          <div className="grid_column_div ">
-            <span>Booked!</span>
-          </div>
-        ))}
-      {(currentUser.permissions === permission.admin ||
-        currentUser.permissions === permission.guide) &&
-        // TODO Ids would be better
-        (reservation.userEmail === reservation.guide.email ? (
-          <div className="grid_column_div ">
-            <StyledTextBody2 className="holiday">Free!</StyledTextBody2>
-          </div>
+          <span>Booked!</span>
+        )}
+      </EntrySpan>
+    );
+  }
+  if (currentUser.permissions === permission.admin) {
+    return (
+      <EntrySpan className={reservation.time} onClick={() => handleEntrySpanClick()}>
+        <StyledTextBody2>{`Gast: ${reservation.userName}`}</StyledTextBody2>
+        <StyledTextBody2>{`Guide: ${reservation.guide.name}`}</StyledTextBody2>
+      </EntrySpan>
+    );
+  }
+  if (currentUser.permissions === permission.guide) {
+    return (
+      <EntrySpan className={reservation.time} onClick={() => handleEntrySpanClick()}>
+        {/* TODO Ids would be better*/}
+        {reservation.userEmail === reservation.guide.email ? (
+          <StyledTextBody2 className="holiday">Free!</StyledTextBody2>
         ) : (
-          <div className="grid_column_div ">
-            <StyledTextBody2>{`Gast: ${reservation.userName}`}</StyledTextBody2>
-          </div>
-        ))}
-    </EntrySpan>
-  );
+          <StyledTextBody2>{`Gast: ${reservation.userName}`}</StyledTextBody2>
+        )}
+      </EntrySpan>
+    );
+  } else {
+    return <p>booked</p>;
+  }
 };
 Entry.propTypes = {
   reservation: PropTypes.object,
@@ -51,6 +52,7 @@ Entry.propTypes = {
 };
 const EntrySpan = styled.span`
   display: grid;
+  //grid-template-rows: 1fr 1fr;
   max-width: 138px;
   font-size: 0.9rem;
   margin-top: 6px;
@@ -63,19 +65,6 @@ const EntrySpan = styled.span`
   }
   .your_booking {
     color: red;
-  }
-  .grid_column_div {
-    display: grid;
-    grid-auto-flow: column;
-    align-content: center;
-  }
-  .grid_row_div {
-    display: grid;
-    grid-auto-flow: column;
-    align-content: center;
-  }
-  span {
-    align-self: start;
   }
   .AM::before {
     content: 'AM: ';

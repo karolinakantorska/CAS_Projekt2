@@ -18,7 +18,6 @@ const DaySpan = ({
   dayInThePast,
   dayTooMuchInFuture,
 }) => {
-  console.log('dayInThePast', dayInThePast);
   // if there is only one reservation at the day, different than DAY reservation
   if (reservation.length === 1) {
     return (

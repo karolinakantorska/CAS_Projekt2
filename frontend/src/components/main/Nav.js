@@ -8,14 +8,16 @@ import Loading from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import Signout from '../signin_signout/Signout';
 import NavAdmin from '../main/NavAdmin';
+import NavGuide from '../main/NavGuide';
+//Utils
+import { permission } from '../../lib/utils';
 
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { StyledTextMenuBlack, StyledTextBody2 } from '../styles/StyledText';
 
 const Nav = () => {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const { loading, error, data } = useCurrentUser();
-
   if (loading) {
     return <Loading />;
   }
@@ -32,29 +34,36 @@ const Nav = () => {
           <Link href="/">
             <StyledTextMenuBlack className="home">Home</StyledTextMenuBlack>
           </Link>
-          <StyledTextMenuBlack
-            className={`userSpec ${show && 'active'}`}
-            onClick={() => setShow((show) => setShow(!show))}
-          >
-            Info
-          </StyledTextMenuBlack>
-          <Link href="/guides">
-            <StyledTextMenuBlack className="guides">MTB Guides</StyledTextMenuBlack>
-          </Link>
-          {data.currentUser.permissions === 'ADMIN' && (
+          {(data.currentUser.permissions === permission.user ||
+            data.currentUser.permissions === '') && (
+            <Link href="/info">
+              <StyledTextMenuBlack className="userSpec">Info</StyledTextMenuBlack>
+            </Link>
+          )}
+          {data.currentUser.permissions === permission.admin && (
             <StyledTextMenuBlack
               className={`userSpec ${show && 'active'}`}
               onClick={() => setShow((show) => setShow(!show))}
             >
-              Add Guide
+              Admin
             </StyledTextMenuBlack>
           )}
-          {data.currentUser.name && (
+          {data.currentUser.permissions === permission.guide && (
+            <StyledTextMenuBlack
+              className={`userSpec ${show && 'active'}`}
+              onClick={() => setShow((show) => setShow(!show))}
+            >
+              Guide
+            </StyledTextMenuBlack>
+          )}
+          <Link href="/guides">
+            <StyledTextMenuBlack className="guides">MTB Guides</StyledTextMenuBlack>
+          </Link>
+          {data.currentUser.permissions ? (
             <span className="signin">
               <Signout />
             </span>
-          )}
-          {!data.currentUser.name && (
+          ) : (
             <Link href="/signin_page">
               <StyledTextMenuBlack className="signin">
                 <Icon icon="person_outline" aria-label="Login" />
@@ -62,7 +71,12 @@ const Nav = () => {
             </Link>
           )}
         </StyledNav>
-        <StyledSpan>{show && <NavAdmin />}</StyledSpan>
+        {data.currentUser.permissions === permission.admin && (
+          <StyledSpan>{show && <NavAdmin />}</StyledSpan>
+        )}
+        {data.currentUser.permissions === permission.guide && (
+          <StyledSpan>{show && <NavGuide guideId={data.currentUser.id} />}</StyledSpan>
+        )}
       </>
     );
   }

@@ -19,7 +19,8 @@ const RESERVATION_QUERY = gql`
         id
         name
         surname
-        photo
+        #photo
+        email
       }
     }
   }

@@ -22,11 +22,20 @@ export function routeToSignup() {
 }
 export function routeToCalendar(guideId) {
   Router.push({
-    pathname: '/booking_calendar',
+    pathname: '/calendar_booking',
     query: {
       guideId,
     },
   });
+}
+// Not used jet
+export function routeToCalendarIfSignedIn(currentUserPermission, id) {
+  console.log(currentUserPermission);
+  if (currentUserPermission !== '') {
+    routeToCalendar(id);
+  } else {
+    routeToSignin();
+  }
 }
 export function routeToBookingConfirmation(
   day,

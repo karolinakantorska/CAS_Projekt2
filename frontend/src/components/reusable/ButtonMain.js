@@ -28,6 +28,7 @@ export const StyledButton = styled(Button)`
 ButtonMain.propTypes = {
   text: PropTypes.string,
   onClick: PropTypes.func,
+  loading: PropTypes.bool,
 };
 
 export default ButtonMain;

@@ -14,7 +14,7 @@ import ErrorGraphql from '../reusable/ErrorGraphql';
 import { currentDate, weekDaysEN } from '../../lib/utilsCalendar';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 
-const Calendar = ({
+const CalendarAdmin = ({
   guideId,
   reservations,
   handleMonthChange,
@@ -104,7 +104,7 @@ const Calendar = ({
     );
   }
 };
-Calendar.propTypes = {
+CalendarAdmin.propTypes = {
   guideId: PropTypes.string,
   guideName: PropTypes.string,
   guideSurname: PropTypes.string,
@@ -145,4 +145,4 @@ const StyledDayName = styled.div`
     background: var(--calendarColorNumbers);
   }
 `;
-export default Calendar;
+export default CalendarAdmin;

@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
 import { routeToBookingConfirmation, routeToGuidesList } from '../lib/utilsRouts';
-import {
-  validateFormBookingConfirmation,
-  addErrorMessage,
-  removeErrorMessage,
-} from '../lib/utilsForm.js';
 
 export const chooseWholeDay = 'Day Trip from 8.00 to 19.00';
 export const chooseMorning = 'Morning Trip from 8.00 to 12.00';
@@ -91,44 +86,40 @@ export function handleBookingConfirmation(
   updateDay,
 ) {
   e.preventDefault();
-  removeErrorMessage();
-  const errors = validateFormBookingConfirmation(time);
-  addErrorMessage(errors);
   console.log('existingDay', existingDay);
-  if (errors.length === 0) {
-    if (existingDay.length === 0) {
-      console.log('create');
-      createDay({
-        variables: {
-          time,
-          day,
-          month,
-          year,
-          userName,
-          userEmail,
-          nrOfPeople: nrOfPeople.value,
-          description: description.value,
-          id: guideId,
-        },
-      });
-    }
-    // day exist
-    else {
-      console.log('update');
-      console.log('existingDay[0].id', existingDay[0].id);
 
-      updateDay({
-        variables: {
-          time,
-          userName,
-          userEmail,
-          nrOfPeople: nrOfPeople.value,
-          description: description.value,
-          id: guideId,
-          dayId: existingDay[0].id,
-        },
-      });
-    }
+  if (existingDay.length === 0) {
+    console.log('create');
+    createDay({
+      variables: {
+        time,
+        day,
+        month,
+        year,
+        userName,
+        userEmail,
+        nrOfPeople: nrOfPeople.value,
+        description: description.value,
+        id: guideId,
+      },
+    });
+  }
+  // day exist
+  else {
+    console.log('update');
+    console.log('existingDay[0].id', existingDay[0].id);
+
+    updateDay({
+      variables: {
+        time,
+        userName,
+        userEmail,
+        nrOfPeople: nrOfPeople.value,
+        description: description.value,
+        id: guideId,
+        dayId: existingDay[0].id,
+      },
+    });
   }
 }
 export function handleCloseReservationDetails() {

@@ -6,9 +6,9 @@ const ALL_USERS_WITH_PERMISSION_QUERY = gql`
       id
       name
       surname
-      email
-      description
-      photo
+      #email
+      #description
+      #photo
     }
   }
 `;

@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import { TextField } from '@rmwc/textfield';
-import { Select } from '@rmwc/select';
-import { Ripple } from '@rmwc/ripple';
 // Components
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
@@ -27,6 +24,10 @@ import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { useDay } from '../../apollo/querries/useDay';
 import { useUpdateDay } from '../../apollo/mutations/useUpdateDay';
 import { useCreateDay } from '../../apollo/mutations/useCreateDay';
+
+import { TextField } from '@rmwc/textfield';
+import { Select } from '@rmwc/select';
+import { Ripple } from '@rmwc/ripple';
 
 const BookingConfirmation = ({ props }) => {
   const { day, selectedMonth: month, selectedYear: year, guideId, bookedTime } = props;

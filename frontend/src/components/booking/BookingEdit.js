@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import { routeToGuidesList } from '../../lib/utilsRouts';
-import { Button } from '@rmwc/button';
 
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import Loading from '../reusable/LoadingBar';
 import ButtonLink from '../reusable/ButtonLink';
+import ButtonMain from '../reusable/ButtonMain';
+import SelectGuide from './SelectGuide';
 
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { useReservation } from '../../apollo/querries/useReservation';
@@ -24,6 +25,7 @@ import {
   StyledTextTitle6,
   StyledTextButtonColor,
 } from '../styles/StyledText';
+import { Button } from '@rmwc/button';
 
 const BookingEdit = ({ id }) => {
   const { loading, error, data } = useReservation(id);
@@ -39,7 +41,10 @@ const BookingEdit = ({ id }) => {
     return <ErrorGraphql error={error} />;
   }
   if (data) {
+    console.log(data);
     const { reservation } = data;
+    const relatedDayId = reservation.relatedDay.id;
+    console.log('relatedDayId', relatedDayId);
     return (
       <StyledCard>
         <StyledButtonLinkClose
@@ -50,23 +55,41 @@ const BookingEdit = ({ id }) => {
         </StyledButtonLinkClose>
         <StyledSpanPadding>
           <StyledTextTitle6>
-            Reservation on {reservation.relatedDay.day} {reservation.relatedDay.month}{' '}
-            {reservation.relatedDay.year}
+            {`Reservation for ${reservation.relatedDay.day} ${reservation.relatedDay.month} 
+            ${reservation.relatedDay.year}`}
           </StyledTextTitle6>
           {errorDeleteReservation && <ErrorGraphql error={error} />}
           <StyledTextBody1>
-            Booked by: <strong>{reservation.userName}</strong>. for ,{' '}
-            <strong>{reservation.nrOfPeople}</strong> guest(s).
+            Booked by: <strong>{reservation.userName}</strong>
           </StyledTextBody1>
           <StyledTextBody1>
-            Email: <strong>{reservation.userEmail}</strong>.
+            Gast email: <strong>{reservation.userEmail}</strong>.
           </StyledTextBody1>
           <StyledTextBody1>
             Tour type: <strong>{reservation.time}</strong> tour
           </StyledTextBody1>
+          <StyledTextBody1>
+            {reservation.nrOfPeople &&
+              `Trip for${reservation.nrOfPeople}`(
+                reservation.nrOfPeople === '1' ? 'guest.' : 'guests.',
+              )}
+          </StyledTextBody1>
+          <StyledTextBody1>
+            Guide:
+            <strong>
+              `{reservation.guide.name} {reservation.guide.surname}.`
+            </strong>{' '}
+          </StyledTextBody1>
+          <StyledTextBody1>
+            Guide email: <strong>{reservation.guide.email}</strong>.
+          </StyledTextBody1>
           {reservation.description && (
             <StyledTextBody1>{reservation.description}</StyledTextBody1>
           )}
+          {/*if ADMIN*/}
+          <StyledTextTitle6>Other Guides Avaiable:</StyledTextTitle6>
+          <SelectGuide id={reservation.relatedDay.id} />
+          <ButtonMain loading={false} text="Edit" onClick={() => null} />
           <ButtonLink
             loading={loadingDeleteReservation}
             text="Delete"
@@ -85,7 +108,6 @@ export const StyledButtonLinkClose = styled(Button)`
   max-width: 64px;
   justify-self: end;
   align-self: end;
-  //margin: -1rem;
   border-radius: 0px 0px 0px 0px;
 `;
 export const StyledButtonLinkDelete = styled(Button)`

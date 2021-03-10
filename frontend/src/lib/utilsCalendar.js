@@ -16,6 +16,7 @@ export const weekDaysEN = () => {
   }
   return week;
 };
+/*
 export const reservationsDataToArray = (queryResult, guideId) => {
   const reservationsByDays = {};
   queryResult.map((bookings) => {
@@ -25,6 +26,18 @@ export const reservationsDataToArray = (queryResult, guideId) => {
       (reservation) => reservation.guide.id === guideId,
     );
     reservationsByDays[day] = reservationsFromOneGuide;
+  });
+  return reservationsByDays;
+};
+*/
+export const reservationsData = (queryResult, guide1Id, guide2Id = '0') => {
+  const reservationsByDays = {};
+  queryResult.map((bookings) => {
+    const { day, reservations } = bookings;
+    const reservationsFromSelectedGuides = reservations.filter(
+      (reservation) => reservation.guide.id === guide1Id || guide2Id,
+    );
+    reservationsByDays[day] = reservationsFromSelectedGuides;
   });
   return reservationsByDays;
 };
