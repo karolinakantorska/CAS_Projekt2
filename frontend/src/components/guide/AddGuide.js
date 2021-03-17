@@ -26,12 +26,6 @@ import { StyledGuideImage } from '../styles/StyledImage';
 import { H6 } from '../styles/Text';
 
 const AddGuide = () => {
-  //TODO maybe it is not needed
-  const {
-    loading: loadingCurrentUser,
-    error: errorCurrentUser,
-    data: dataCurrentUser,
-  } = useCurrentUser();
   const [addGuide, { loading, error }] = useAddGuide();
   const { inputs, handleChange, handleSubmit, errorInput } = useForm(handleAddGuide, {
     name: { textValue: '' },
@@ -58,78 +52,64 @@ const AddGuide = () => {
       },
     });
   }
-  if (loadingCurrentUser) {
-    return <Loading />;
-  }
 
-  if (errorCurrentUser) {
-    return (
-      <StyledContainer>
-        {errorCurrentUser && <ErrorGraphql error={errorCurrentUser} />}
-      </StyledContainer>
-    );
-  }
-  if (dataCurrentUser.currentUser.permissions !== permission.admin) {
-    return <ErrorCard error={'Please log in with your Admin Account!'}></ErrorCard>;
-  } else {
-    return (
-      <StyledCard>
-        <form onSubmit={handleSubmit} method="post">
-          <StyledFieldset disabled={loading} aria-busy={loading}>
-            <H6 use="headline6">Add new MTB Guide</H6>
-            <StyledSpanErrors>
-              {loadingPhotoUpload && <Loading />}
-              {errorPhotoUpload && <ErrorMessage error={errorPhotoUpload}></ErrorMessage>}
-            </StyledSpanErrors>
-            <StyledInput type="file" id="file" onChange={uploadPhoto} />
-            <label htmlFor="file">
-              <StyledGuideCard>
-                <StyledGuideImage src={result} alt="Upload a photo" />
-              </StyledGuideCard>
-            </label>
-            {error && <ErrorGraphql error={error} />}
-            <Input
-              handleChange={handleChange}
-              name="name"
-              value={inputs.name.textValue || ''}
-              required={true}
-              error={errorInput.name}
-            />
-            <Input
-              handleChange={handleChange}
-              name="surname"
-              required={false}
-              value={inputs.surname.textValue || ''}
-            />
-            <Input
-              handleChange={handleChange}
-              name="email"
-              value={inputs.email.textValue || ''}
-              required={true}
-              error={errorInput.email}
-            />
-            <InputPassword
-              value={inputs.password.textValue || ''}
-              handleChange={handleChange}
-              error={errorInput.password}
-            ></InputPassword>
-            <TextField
-              fullwidth
-              onChange={handleChange}
-              name="description"
-              placeholder={inputs.description.textValue || ''}
-              value={inputs.description.textValue || ''}
-              required={false}
-              textarea={true}
-              rows={5}
-              maxLength={700}
-            />
-            <ButtonMain text="Add Guide" />
-          </StyledFieldset>
-        </form>
-      </StyledCard>
-    );
-  }
+  return (
+    <StyledCard>
+      <form onSubmit={handleSubmit} method="post">
+        <StyledFieldset disabled={loading} aria-busy={loading}>
+          <H6 use="headline6">Add new MTB Guide</H6>
+          <StyledSpanErrors>
+            {loadingPhotoUpload && <Loading />}
+            {errorPhotoUpload && <ErrorMessage error={errorPhotoUpload}></ErrorMessage>}
+          </StyledSpanErrors>
+          <StyledInput type="file" id="file" onChange={uploadPhoto} />
+          <label htmlFor="file">
+            <StyledGuideCard>
+              <StyledGuideImage src={result} alt="Upload a photo" />
+            </StyledGuideCard>
+          </label>
+          {error && <ErrorGraphql error={error} />}
+          <Input
+            handleChange={handleChange}
+            name="name"
+            value={inputs.name.textValue || ''}
+            required={true}
+            error={errorInput.name}
+          />
+          <Input
+            handleChange={handleChange}
+            name="surname"
+            required={false}
+            value={inputs.surname.textValue || ''}
+          />
+          <Input
+            handleChange={handleChange}
+            name="email"
+            value={inputs.email.textValue || ''}
+            required={true}
+            error={errorInput.email}
+          />
+          <InputPassword
+            value={inputs.password.textValue || ''}
+            handleChange={handleChange}
+            error={errorInput.password}
+          ></InputPassword>
+          <TextField
+            fullwidth
+            onChange={handleChange}
+            name="description"
+            placeholder={inputs.description.textValue || ''}
+            value={inputs.description.textValue || ''}
+            required={false}
+            textarea={true}
+            rows={5}
+            maxLength={700}
+          />
+          <ButtonMain text="Add Guide" />
+        </StyledFieldset>
+      </form>
+    </StyledCard>
+  );
 };
 export const StyledGuideCard = styled(Card)`
   display: grid;

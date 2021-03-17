@@ -56,7 +56,6 @@ const CalendarResQuery = ({ guideId }) => {
       setReservations(reservationsData(data.days, guides.guide1.id, guides.guide2.id));
     }
   }, [data]);
-
   if (loadingGuides || loading) {
     return <Loading />;
   }

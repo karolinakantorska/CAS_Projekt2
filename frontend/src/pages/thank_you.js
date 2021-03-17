@@ -1,7 +1,12 @@
 import BookingThankYou from '../components/booking/BookingThankYou';
+import RedirectNotLoggedin from '../components/main/RedirectNotLoggedin';
 
-const thankYou = (props) => {
-  return <BookingThankYou props={props.query} />;
+const thankYou = ({ query }) => {
+  return (
+    <RedirectNotLoggedin>
+      <BookingThankYou props={query} />
+    </RedirectNotLoggedin>
+  );
 };
 
 export default thankYou;

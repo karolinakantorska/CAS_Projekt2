@@ -33,7 +33,6 @@ import '@material/typography/dist/mdc.typography.css';
 import { RMWCProvider } from '@rmwc/provider';
 
 function MyApp({ Component, pageProps, apollo }) {
-  //console.log(apollo);
   return (
     <ApolloProvider client={apollo}>
       <RMWCProvider
@@ -57,12 +56,10 @@ MyApp.getInitialProps = async function ({ Component, ctx }) {
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx);
   }
-
   pageProps.query = ctx.query;
-  console.log('ctx', ctx);
-  console.log('ctx.pathname', ctx.pathname);
-
-  console.log('pageProps', pageProps);
+  //console.log('ctx', ctx);
+  //console.log('ctx.req', ctx.req);
+  //console.log('ctx.pathname', ctx.pathname);
   return { pageProps };
 };
 
