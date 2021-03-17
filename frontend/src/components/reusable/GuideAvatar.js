@@ -1,11 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Avatar } from '@rmwc/avatar';
+
 import LoadingCicle from '../reusable/LoadingCicle';
 import ErrorGraphql from '../reusable/ErrorGraphql';
+
 import { useGuide } from '../../apollo/querries/useGuide';
-import { StyledTextBody2 } from '../styles/StyledText';
+import { routeToGuideDetails } from '../../lib/utilsRouts';
+
+import { Avatar } from '@rmwc/avatar';
+import { Typography } from '@rmwc/typography';
 
 const GuideAvatar = ({ guideId }) => {
   const { loading, error, data } = useGuide(guideId);
@@ -18,8 +22,15 @@ const GuideAvatar = ({ guideId }) => {
   if (data) {
     return (
       <StyledSpan>
-        <StyledAvatar src={data.user.photo} size="xlarge" interactive />
-        <StyledTextBody2>{`${data.user.name} ${data.user.surname}`}</StyledTextBody2>
+        <StyledAvatar
+          src={data.user.photo}
+          size="xlarge"
+          interactive
+          onClick={() => routeToGuideDetails(guideId)}
+        />
+        <Typography use="body2" className="info1">
+          {`${data.user.name} ${data.user.surname}`}
+        </Typography>
       </StyledSpan>
     );
   }
@@ -44,8 +55,10 @@ const StyledAvatar = styled(Avatar)`
   }
 `;
 GuideAvatar.propTypes = {
-  guideId: PropTypes.string.required,
+  guideId: PropTypes.string,
 };
 
 export default GuideAvatar;
-//
+/*
+        
+        */

@@ -1,4 +1,4 @@
-import AddTrip from '../components/guide/AddTrip';
+import AddTrip from '../components/trips/AddTrip';
 
 const add_trip = () => <AddTrip />;
 

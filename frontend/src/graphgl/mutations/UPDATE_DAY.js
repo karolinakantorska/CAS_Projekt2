@@ -33,5 +33,4 @@ const UPDATE_DAY = gql`
     }
   }
 `;
-
 export default UPDATE_DAY;

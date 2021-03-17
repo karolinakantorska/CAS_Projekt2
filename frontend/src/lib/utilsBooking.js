@@ -70,58 +70,7 @@ export function handleBooking(
     routeToBookingConfirmation(day, selectedMonth, selectedYear, guideId, bookedTime);
   }
 }
-export function handleBookingConfirmation(
-  e,
-  time,
-  day,
-  month,
-  year,
-  userName,
-  userEmail,
-  nrOfPeople,
-  description,
-  guideId,
-  existingDay,
-  createDay,
-  updateDay,
-) {
-  e.preventDefault();
-  console.log('existingDay', existingDay);
 
-  if (existingDay.length === 0) {
-    console.log('create');
-    createDay({
-      variables: {
-        time,
-        day,
-        month,
-        year,
-        userName,
-        userEmail,
-        nrOfPeople: nrOfPeople.value,
-        description: description.value,
-        id: guideId,
-      },
-    });
-  }
-  // day exist
-  else {
-    console.log('update');
-    console.log('existingDay[0].id', existingDay[0].id);
-
-    updateDay({
-      variables: {
-        time,
-        userName,
-        userEmail,
-        nrOfPeople: nrOfPeople.value,
-        description: description.value,
-        id: guideId,
-        dayId: existingDay[0].id,
-      },
-    });
-  }
-}
 export function handleCloseReservationDetails() {
   routeToGuidesList();
 }

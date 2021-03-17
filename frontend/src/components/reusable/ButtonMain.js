@@ -2,20 +2,23 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Button } from '@rmwc/button';
+import {Typography} from '@rmwc/typography';
 import { StyledTextButtonBlack } from '../styles/StyledText';
 
-const ButtonMain = ({ text, onClick, loading }) => {
+const ButtonMain = ({ text, onClick }) => {
   return (
     <StyledButton
       onClick={onClick}
-      disabled={loading}
       raised
       theme={['secondaryBg', 'onSecondary']}
     >
-      <StyledTextButtonBlack>{text}</StyledTextButtonBlack>
+      <StyledButtonLinkText use="body1">{text}</StyledButtonLinkText>
     </StyledButton>
   );
 };
+export  const StyledButtonLinkText = styled(Typography)`
+  color: var(--colorPrimary);
+`;
 export const StyledButton = styled(Button)`
   text-transform: capitalize;
   min-width: 100px;

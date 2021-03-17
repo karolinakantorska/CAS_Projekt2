@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyledCardWithPadding } from '../styles/StyledForm';
-import { StyledTextErrorCard } from '../styles/StyledText';
+import { StyledCardWithPadding } from '../styles/StyledCards';
+import { ErrorText } from '../styles/Text';
 const ErrorCard = ({ error }) => {
   return (
     <StyledCardWithPadding>
-      <StyledTextErrorCard>{error}</StyledTextErrorCard>
+      <ErrorText use="body1">{error}</ErrorText>
     </StyledCardWithPadding>
   );
 };

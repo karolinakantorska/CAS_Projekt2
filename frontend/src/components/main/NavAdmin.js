@@ -1,22 +1,21 @@
 import React from 'react';
 import Link from 'next/link';
-import styled from 'styled-components';
-
-import { StyledTextMenuAdmin } from '../styles/StyledText';
+import { StyledNav2 } from '../styles/StyledNav2';
+import { StyledMenu2 } from '../styles/Text';
 
 const NavAdmin = () => {
   return (
-    <StyledNav>
+    <StyledNav2>
       <Link href="/add_guide">
-        <StyledTextMenuAdmin>Add Guide</StyledTextMenuAdmin>
+        <StyledMenu2 use="body">Add Guide</StyledMenu2>
       </Link>
       <Link href="/change_info">
-        <StyledTextMenuAdmin>Change Info</StyledTextMenuAdmin>
+        <StyledMenu2 use="body">Change Info</StyledMenu2>
       </Link>
       <Link href={`/calendar_admin?guideId=0`}>
-        <StyledTextMenuAdmin>Calendar</StyledTextMenuAdmin>
+        <StyledMenu2 use="body">Calendar</StyledMenu2>
       </Link>
-    </StyledNav>
+    </StyledNav2>
   );
 };
 /*
@@ -24,19 +23,5 @@ const NavAdmin = () => {
         <StyledTextMenuAdmin>My Calendar</StyledTextMenuAdmin>
       </Link>;
 */
-export const StyledNav = styled.nav`
-  cursor: pointer;
-  display: grid;
-  justify-items: center;
-  align-items: center;
-  grid-template-columns: repeat(5, 1fr);
-  background-color: rgba(255, 255, 255, 0.5);
-  white-space: nowrap;
-  a {
-    color: var(--colorSecundary);
-  }
-  a:hover {
-    color: var(--colorLight);
-  }
-`;
+
 export default NavAdmin;

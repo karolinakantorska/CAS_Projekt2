@@ -6,33 +6,50 @@ import { CardPrimaryAction } from '@rmwc/card';
 // Components
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
-import ButtonMain from '../reusable/ButtonMain';
-import ButtonLink from '../reusable/ButtonLink';
+import { ButtonMain } from '../reusable/Buttons';
 import Loading from '../reusable/LoadingBar';
+import Input from '../reusable/Input';
 // Utils
-import { useFormInput, usePhotoUpload } from '../../lib/utilsForm';
-import { routeToGuidesList } from '../../lib/utilsRouts';
+import { useForm, usePhotoUpload } from '../../lib/utilsForm';
 import { useGuide } from '../../apollo/querries/useGuide';
 import { useEditGuide } from '../../apollo/mutations/useEditGuide';
-import { handleEditGuide } from '../../lib/utilsAdmin';
+import { urlGuidePhoto, uploadPresetGuide } from '../../lib/utilsPhotoUpload';
 
 // Components for Styling
-import { StyledContainer } from '../styles/StyledContainer';
-import { StyledCard, StyledFieldset, StyledSpanErrors } from '../styles/StyledForm';
+import { StyledCard } from '../styles/StyledCards';
+import { StyledFieldset, StyledSpanErrors } from '../styles/StyledForm';
 import { TextField } from '@rmwc/textfield';
-import { StyledTextTitle6 } from '../styles/StyledText';
-import { StyledGuideImage } from '../styles/StyledGuideImage';
+import { StyledGuideImage } from '../styles/StyledImage';
+import { H6 } from '../styles/Text';
 
-const UpdateGuide = ({ id }) => {
-  const { loading, error, data } = useGuide(id);
-  const [updateUser, { loading: loadingMutation, error: errorMutation }] = useEditGuide();
-  const name = useFormInput(data ? data.user.name : '');
-  const surname = useFormInput(data ? data.user.surname : '');
-  const email = useFormInput(data ? data.user.email : '');
-  const description = useFormInput(data ? data.user.description : '');
+const UpdateGuide = ({ guideId }) => {
+  const { loading, error, data } = useGuide(guideId);
+  const { inputs, handleChange, handleSubmit, errorInput } = useForm(handleEditGuide, {
+    name: { textValue: data ? data.user.name : '' },
+    surname: { textValue: data ? data.user.surname : '' },
+    email: { textValue: data ? data.user.email : '' },
+    description: { textValue: data ? data.user.description : '' },
+  });
+
   const { uploadPhoto, result, loadingPhotoUpload, errorPhotoUpload } = usePhotoUpload(
     data ? data.user.photo : '',
+    urlGuidePhoto,
+    uploadPresetGuide,
   );
+  const [updateUser, { loading: loadingMutation, error: errorMutation }] = useEditGuide();
+  function handleEditGuide() {
+    updateUser({
+      variables: {
+        id: guideId,
+        email: inputs.email.textValue,
+        name: inputs.name.textValue,
+        surname: inputs.surname.textValue,
+        description: inputs.description.textValue,
+        photo: result,
+      },
+    });
+  }
+
   if (loading) {
     return <Loading />;
   }
@@ -40,97 +57,68 @@ const UpdateGuide = ({ id }) => {
     return <ErrorGraphql error={error || errorMutation} />;
   }
   if (data) {
-    console.log('id', id);
     return (
-      <StyledContainer>
-        <StyledCard>
-          <form data-testid="emailInput">
-            <StyledFieldset disabled={loadingMutation} aria-busy={loadingMutation}>
-              <StyledTextTitle6>Edit the MTB Guide</StyledTextTitle6>
-              <StyledSpanErrors>
-                {loadingPhotoUpload && <Loading />}
-                {errorPhotoUpload && (
-                  <ErrorMessage error={errorPhotoUpload}></ErrorMessage>
-                )}
-              </StyledSpanErrors>
-              <StyledInput type="file" id="file" onChange={uploadPhoto} />
-              <label htmlFor="file">
-                <CardPrimaryAction>
-                  <StyledGuideImage
-                    src={result ? result : data.user.photo}
-                    alt="Upload a photo"
-                  />
-                </CardPrimaryAction>
-              </label>
-              <ErrorMessage />
-              {error && <ErrorGraphql error={error} />}
-              <TextField
-                {...name}
-                fullwidth
-                placeholder={data.user.name}
-                value={name.value}
-                required={true}
-              />
-              <TextField
-                {...surname}
-                fullwidth
-                placeholder={data.user.surname}
-                value={surname.value}
-                required={true}
-              />
-              <TextField
-                {...email}
-                fullwidth
-                placeholder={data.user.email}
-                value={email.value}
-                required={false}
-              />
-              <TextField
-                {...description}
-                fullwidth
-                placeholder={data.user.description}
-                textarea={true}
-                rows={4}
-                maxLength={100}
-                value={description.value}
-              />
-              <span>
-                <ButtonMain
-                  loading={loadingMutation}
-                  text="Edit Guide"
-                  onClick={(e) => {
-                    handleEditGuide(
-                      e,
-                      id,
-                      email.value,
-                      name.value,
-                      surname.value,
-                      description.value,
-                      result,
-                      updateUser,
-                    );
-                  }}
-                  data-testid="ButtonEdit"
+      <StyledCard>
+        <form onSubmit={handleSubmit} method="post">
+          <StyledFieldset disabled={loadingMutation} aria-busy={loadingMutation}>
+            <H6 use="headline6">Edit the MTB Guide</H6>
+            <StyledSpanErrors>
+              {loadingPhotoUpload && <Loading />}
+              {errorPhotoUpload && <ErrorMessage error={errorPhotoUpload}></ErrorMessage>}
+            </StyledSpanErrors>
+            <StyledInput type="file" id="file" onChange={uploadPhoto} />
+            <label htmlFor="file">
+              <CardPrimaryAction>
+                <StyledGuideImage
+                  src={result ? result : data.user.photo}
+                  alt="Upload a photo"
                 />
-              </span>
-              <ButtonLink
-                loading={loadingMutation}
-                text="Chancel"
-                onClick={routeToGuidesList}
-              />
-            </StyledFieldset>
-          </form>
-        </StyledCard>
-      </StyledContainer>
+              </CardPrimaryAction>
+            </label>
+            <ErrorMessage />
+            {error && <ErrorGraphql error={error} />}
+            <Input
+              handleChange={handleChange}
+              name="name"
+              value={inputs.name.textValue || ''}
+              required={true}
+              error={errorInput.name}
+            />
+            <Input
+              handleChange={handleChange}
+              name="surname"
+              value={inputs.surname.textValue || ''}
+              required={false}
+            />
+            <Input
+              handleChange={handleChange}
+              name="email"
+              value={inputs.email.textValue || ''}
+              required={true}
+              error={errorInput.email}
+            />
+            <TextField
+              fullwidth
+              onChange={handleChange}
+              name="description"
+              placeholder={inputs.description.textValue || ''}
+              value={inputs.description.textValue || ''}
+              required={false}
+              textarea={true}
+              rows={5}
+              maxLength={700}
+            />
+            <ButtonMain text="Save Changes" />
+          </StyledFieldset>
+        </form>
+      </StyledCard>
     );
   }
 };
 const StyledInput = styled.input`
   display: none;
 `;
-
 UpdateGuide.propTypes = {
-  id: PropTypes.string.isRequired,
+  guideId: PropTypes.string.isRequired,
 };
-
 export default UpdateGuide;

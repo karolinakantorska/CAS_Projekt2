@@ -28,11 +28,10 @@ export function routeToCalendar(guideId) {
     },
   });
 }
-// Not used jet
-export function routeToCalendarIfSignedIn(currentUserPermission, id) {
-  console.log(currentUserPermission);
+
+export function routeToGuideDetailsIfSignedIn(currentUserPermission, id) {
   if (currentUserPermission !== '') {
-    routeToCalendar(id);
+    routeToGuideDetails(id);
   } else {
     routeToSignin();
   }
@@ -70,6 +69,31 @@ export function routeToEditEntry(id) {
     pathname: '/edit_entry',
     query: {
       id,
+    },
+  });
+}
+export function routeToTripDetails(tripId) {
+  Router.push({
+    pathname: `/trip_details`,
+    query: {
+      tripId,
+    },
+  });
+}
+export function routeToTripList(guideId) {
+  Router.push({
+    pathname: '/trips',
+    query: {
+      guideId,
+    },
+  });
+}
+
+export function routeToGuideDetails(guideId) {
+  Router.push({
+    pathname: `/guide_details`,
+    query: {
+      guideId,
     },
   });
 }

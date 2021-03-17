@@ -1,79 +1,71 @@
-import React, { useState } from 'react';
-import { TextField } from '@rmwc/textfield';
+import React from 'react';
 // Components
-import ButtonMain from '../reusable/ButtonMain';
-import ButtonLink from '../reusable/ButtonLink';
+import InputPassword from '../reusable/InputPassword';
+import Input from '../reusable/Input';
+import { ButtonMain, ButtonLink } from '../reusable/Buttons';
 import Loading from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
-import ErrorMessage from '../reusable/ErrorMessage';
 // Utils
 import { useForm } from '../../lib/utilsForm';
 import { routeToSignin } from '../../lib/utilsRouts';
 import { useSignup } from '../../apollo/mutations/useSignup';
 //import { handleSignup } from '../../lib/utilsSign';
 // Styling
-import { StyledContainer } from '../styles/StyledContainer';
-import { StyledCard } from '../styles/StyledForm';
+import { StyledCard } from '../styles/StyledCards';
 import { StyledFieldset } from '../styles/StyledForm';
 import { StyledButtonSpan } from '../styles/StyledButtonSpan';
-import { StyledTextTitle6 } from '../styles/StyledText';
+import { H6 } from '../styles/Text';
 
 const Signup = () => {
-  const { inputs, handleChange, handleSubmit, errorInput } = useForm(handleSignup, {});
+  const { inputs, handleChange, handleSubmit, errorInput } = useForm(handleSignup, {
+    name: { textValue: '' },
+    email: { textValue: '' },
+    password: { textValue: '' },
+  });
   const [signup, { loading, error }] = useSignup();
-
   function handleSignup() {
     signup({
       variables: {
-        email: inputs.email,
-        password: inputs.password,
-        name: inputs.name,
+        email: inputs.email.textValue,
+        password: inputs.password.textValue,
+        name: inputs.name.textValue,
       },
     });
   }
-
   return (
-    <StyledContainer>
-      <StyledCard>
-        <form>
-          {loading && <Loading />}
-          <StyledFieldset disabled={loading} aria-busy={loading}>
-            <StyledTextTitle6>Signup for a account:</StyledTextTitle6>
-            {error && <ErrorGraphql error={error} />}
-            <TextField
-              fullwidth
-              placeholder="Name"
-              name="name"
-              value={inputs.name}
-              onChange={handleChange}
-              required={true}
-            />
-            {errorInput.name && <ErrorMessage error={errorInput.name} />}
-            <TextField
-              fullwidth
-              placeholder="Email"
-              name="email"
-              value={inputs.email}
-              onChange={handleChange}
-            />
-            {errorInput.email && <ErrorMessage error={errorInput.email} />}
-            <TextField
-              fullwidth
-              placeholder="Password"
-              name="password"
-              value={inputs.password}
-              onChange={handleChange}
-              required={true}
-            />
-            {errorInput.password && <ErrorMessage error={errorInput.password} />}
-          </StyledFieldset>
+    <StyledCard>
+      <form onSubmit={handleSubmit} method="post">
+        {loading && <Loading />}
+        <StyledFieldset disabled={loading} aria-busy={loading}>
+          <H6 use="headline6">Signup for a account:</H6>
+          {error && <ErrorGraphql error={error} />}
+          <Input
+            handleChange={handleChange}
+            name="name"
+            value={inputs.name.textValue || ''}
+            required={true}
+            error={errorInput.name}
+          />
+          <Input
+            handleChange={handleChange}
+            name="email"
+            value={inputs.email.textValue || ''}
+            required={true}
+            error={errorInput.email}
+          />
+          <InputPassword
+            value={inputs.password.textValue || ''}
+            handleChange={handleChange}
+            required={true}
+            error={errorInput.password}
+          />
           <StyledButtonSpan>
-            <ButtonMain text="Signup!" onClick={handleSubmit} loading={loading} />
-            <ButtonLink text="Go to Signin!" onClick={routeToSignin} loading={loading} />
+            <ButtonMain text="Signup!" value="Submit" />
+            <ButtonLink text="Go to Signin!" onClick={routeToSignin} />
           </StyledButtonSpan>
-        </form>
-      </StyledCard>
-    </StyledContainer>
+        </StyledFieldset>
+      </form>
+    </StyledCard>
   );
 };
 

@@ -18,7 +18,6 @@ import '@material/ripple/dist/mdc.ripple.css';
 import '@material/floating-label/dist/mdc.floating-label.css';
 import '@material/notched-outline/dist/mdc.notched-outline.css';
 import '@material/line-ripple/dist/mdc.line-ripple.css';
-//
 import '@rmwc/icon/icon.css';
 import '@material/elevation/dist/mdc.elevation.css';
 import '@rmwc/select/select.css';
@@ -30,16 +29,25 @@ import '@material/dialog/dist/mdc.dialog.css';
 import '@material/list/dist/mdc.list.css';
 import '@material/linear-progress/dist/mdc.linear-progress.css';
 import '@rmwc/circular-progress/circular-progress.css';
+import '@material/typography/dist/mdc.typography.css';
+import { RMWCProvider } from '@rmwc/provider';
 
 function MyApp({ Component, pageProps, apollo }) {
   //console.log(apollo);
   return (
     <ApolloProvider client={apollo}>
-      <UserStateProvider>
+      <RMWCProvider
+        typography={{
+          headline6: 'h6',
+          body1: 'p',
+        }}
+      >
+        {/*<UserStateProvider>*/}
         <Page>
           <Component {...pageProps} />
         </Page>
-      </UserStateProvider>
+        {/*</UserStateProvider>*/}
+      </RMWCProvider>
     </ApolloProvider>
   );
 }
@@ -49,7 +57,12 @@ MyApp.getInitialProps = async function ({ Component, ctx }) {
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx);
   }
+
   pageProps.query = ctx.query;
+  console.log('ctx', ctx);
+  console.log('ctx.pathname', ctx.pathname);
+
+  console.log('pageProps', pageProps);
   return { pageProps };
 };
 

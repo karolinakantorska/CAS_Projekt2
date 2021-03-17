@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyledTextErrorInline } from '../styles/StyledText';
+import { ErrorText } from '../styles/Text';
+
 const ErrorMessage = ({ error }) => {
   return (
     <div>
-      <StyledTextErrorInline>{error}</StyledTextErrorInline>
+      <ErrorText use="body2">{error}</ErrorText>
     </div>
   );
 };

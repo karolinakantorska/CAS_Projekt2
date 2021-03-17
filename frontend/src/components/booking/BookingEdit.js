@@ -19,7 +19,8 @@ import {
   handleDeleteReservation,
 } from '../../lib/utilsBooking';
 
-import { StyledCard, StyledSpanPadding } from '../styles/StyledForm';
+import { StyledCardWithPadding } from '../styles/StyledCards';
+import { H6, TextGrayDense } from '../styles/Text';
 import {
   StyledTextBody1,
   StyledTextTitle6,
@@ -46,57 +47,54 @@ const BookingEdit = ({ id }) => {
     const relatedDayId = reservation.relatedDay.id;
     console.log('relatedDayId', relatedDayId);
     return (
-      <StyledCard>
+      <StyledCardWithPadding>
         <StyledButtonLinkClose
           disabled={loadingDeleteReservation}
           onClick={handleCloseReservationDetails}
         >
           <StyledTextButtonColor>X</StyledTextButtonColor>
         </StyledButtonLinkClose>
-        <StyledSpanPadding>
-          <StyledTextTitle6>
-            {`Reservation for ${reservation.relatedDay.day} ${reservation.relatedDay.month} 
-            ${reservation.relatedDay.year}`}
-          </StyledTextTitle6>
-          {errorDeleteReservation && <ErrorGraphql error={error} />}
-          <StyledTextBody1>
-            Booked by: <strong>{reservation.userName}</strong>
-          </StyledTextBody1>
-          <StyledTextBody1>
-            Gast email: <strong>{reservation.userEmail}</strong>.
-          </StyledTextBody1>
-          <StyledTextBody1>
-            Tour type: <strong>{reservation.time}</strong> tour
-          </StyledTextBody1>
-          <StyledTextBody1>
-            {reservation.nrOfPeople &&
-              `Trip for${reservation.nrOfPeople}`(
-                reservation.nrOfPeople === '1' ? 'guest.' : 'guests.',
-              )}
-          </StyledTextBody1>
-          <StyledTextBody1>
-            Guide:
-            <strong>
-              `{reservation.guide.name} {reservation.guide.surname}.`
-            </strong>{' '}
-          </StyledTextBody1>
-          <StyledTextBody1>
-            Guide email: <strong>{reservation.guide.email}</strong>.
-          </StyledTextBody1>
-          {reservation.description && (
-            <StyledTextBody1>{reservation.description}</StyledTextBody1>
-          )}
-          {/*if ADMIN*/}
-          <StyledTextTitle6>Other Guides Avaiable:</StyledTextTitle6>
-          <SelectGuide id={reservation.relatedDay.id} />
-          <ButtonMain loading={false} text="Edit" onClick={() => null} />
-          <ButtonLink
-            loading={loadingDeleteReservation}
-            text="Delete"
-            onClick={() => handleDeleteReservation(reservation.id, deleteReservation)}
-          />
-        </StyledSpanPadding>
-      </StyledCard>
+        <H6 use="headline6">{`Reservation for ${reservation.relatedDay.day} ${reservation.relatedDay.month} 
+            ${reservation.relatedDay.year}`}</H6>
+        {errorDeleteReservation && <ErrorGraphql error={error} />}
+        <TextGrayDense use="body1">
+          Booked by: <strong>{reservation.userName}</strong>
+        </TextGrayDense>
+        <TextGrayDense use="body1">
+          Gast email: <strong>{reservation.userEmail}</strong>.
+        </TextGrayDense>
+        <TextGrayDense use="body1">
+          Tour type: <strong>{reservation.time}</strong> tour
+        </TextGrayDense>
+        <TextGrayDense use="body1">
+          You've reservated a trip for
+          <strong>{` ${reservation.nrOfPeople} `}</strong>
+          {reservation.nrOfPeople === '1' ? 'guest.' : 'guests.'}
+        </TextGrayDense>
+        <TextGrayDense use="body1">
+          Guide:
+          <strong>
+            `{reservation.guide.name} {reservation.guide.surname}.`
+          </strong>{' '}
+        </TextGrayDense>
+        <TextGrayDense use="body1">
+          Guide email: <strong>{reservation.guide.email}</strong>.
+        </TextGrayDense>
+        {reservation.description && (
+          <TextGrayDense use="body1">
+            Description: {reservation.description}
+          </TextGrayDense>
+        )}
+        {/*if ADMIN*/}
+        <H6 use="headline6">Other Guides Avaiable:</H6>
+        <SelectGuide id={reservation.relatedDay.id} />
+        <ButtonMain loading={false} text="Edit" onClick={() => null} />
+        <ButtonLink
+          loading={loadingDeleteReservation}
+          text="Delete"
+          onClick={() => handleDeleteReservation(reservation.id, deleteReservation)}
+        />
+      </StyledCardWithPadding>
     );
   }
 };

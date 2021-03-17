@@ -11,20 +11,16 @@ const formInfo = {
   password: `The password should be longer than 8 signs. Space is not allowed.`,
   name: `The name must be longer than 2 and shorter than 12 signs.`,
 };
-
 function validate(inputs) {
   let errors = {};
   for (const [input, value] of Object.entries(inputs)) {
     if (value.required) {
-      if (value.textValue === '') {
-        errors = { ...errors, [input]: ` ${input} is required` };
-      } else if (regex[input]) {
-        if (!regex[input].test(value.textValue)) {
-          errors = { ...errors, [input]: formInfo[input] };
-        }
+      if (!regex[input].test(value.textValue)) {
+        errors = { ...errors, [input]: formInfo[input] };
       }
     }
   }
+  //console.log(errors);
   return errors;
 }
 // Form
@@ -41,14 +37,15 @@ export function useForm(callback, initialInputs) {
     }
   }, [errorInput]);
   function handleChange(e) {
-    e.persist();
+    //e.persist();
+    //console.log(e);
     setInputs({
       ...inputs,
       [e.target.name]: { textValue: e.target.value, required: e.target.required },
     });
   }
   function handleSubmit(e) {
-    if (e) e.preventDefault();
+    e.preventDefault();
     setValid(true);
     setErrorInput(validate(inputs));
   }
@@ -80,18 +77,22 @@ export function useGuidesInput(initialValue) {
       guide2: { id: eventId, name: eventName },
     });
   }
+
   return {
     guides,
     handleChangeGuide1,
     handleChangeGuide2,
   };
 }
+
 // not sure if i will be using it
-export function useFormInput(initialValue = '') {
+export function useFormInput(initialValue) {
   const [value, setValue] = useState(initialValue);
+  /*
   useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
+  */
   function handleChange(e) {
     setValue(e.target.value);
   }
@@ -101,15 +102,13 @@ export function useFormInput(initialValue = '') {
   };
 }
 // upload a photo
-export function usePhotoUpload(initialValue = '', urlPhoto, uploadPreset) {
+export function usePhotoUpload(initialValue, urlPhoto, uploadPreset) {
   const [result, setResult] = useState(initialValue);
   const [loadingPhotoUpload, setLoadingPhotoUpload] = useState(false);
   const [errorPhotoUpload, setErrorPhotoUpload] = useState(null);
-
-  useEffect(() => {
-    setResult(initialValue);
-  }, [initialValue]);
-
+  //useEffect(() => {
+  // setResult(initialValue);
+  //}, [initialValue]);
   async function uploadPhoto(e) {
     try {
       setLoadingPhotoUpload(true);

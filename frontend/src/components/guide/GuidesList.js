@@ -32,7 +32,7 @@ const GuidesList = () => {
   if (data && dataCurrentUser) {
     return (
       <StyledContainer>
-        <StyledCard>
+        <StyledCardsContainer>
           {data.users.map((guide) => (
             <GuideCard
               data-test="guideCard"
@@ -42,14 +42,14 @@ const GuidesList = () => {
               key={guide.id}
             />
           ))}
-        </StyledCard>
+        </StyledCardsContainer>
       </StyledContainer>
     );
   }
 };
-const StyledCard = styled.div`
+export const StyledCardsContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(352px, 1fr));
   grid-gap: 1% 2%;
   row-gap: 15px;
   justify-content: space-between;

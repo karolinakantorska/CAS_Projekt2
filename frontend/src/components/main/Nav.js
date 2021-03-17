@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
-
-import { Icon } from '@rmwc/icon';
 //Components
 import Loading from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import Signout from '../signin_signout/Signout';
 import NavAdmin from '../main/NavAdmin';
 import NavGuide from '../main/NavGuide';
+import NavUser from '../main/NavUser';
 //Utils
 import { permission } from '../../lib/utils';
-
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
-import { StyledTextMenuBlack, StyledTextBody2 } from '../styles/StyledText';
+// Styling
+import { StyledMenuMain } from '../styles/Text';
+import { Typography } from '@rmwc/typography';
+import { Icon } from '@rmwc/icon';
 
 const Nav = () => {
   const [show, setShow] = useState(false);
@@ -28,36 +29,52 @@ const Nav = () => {
     return (
       <>
         <StyledNav>
-          <StyledTextBody2 className="user">
-            {data.currentUser.name ? data.currentUser.name : 'please login'}
-          </StyledTextBody2>
+          {data.currentUser.name ? (
+            <Typography use="caption" className="user">
+              {data.currentUser.name}
+            </Typography>
+          ) : (
+            <Typography use="caption" className="user">
+              please login
+            </Typography>
+          )}
           <Link href="/">
-            <StyledTextMenuBlack className="home">Home</StyledTextMenuBlack>
+            <StyledMenuMain use="body" className="home">
+              Home
+            </StyledMenuMain>
           </Link>
           {(data.currentUser.permissions === permission.user ||
             data.currentUser.permissions === '') && (
-            <Link href="/info">
-              <StyledTextMenuBlack className="userSpec">Info</StyledTextMenuBlack>
-            </Link>
+            <StyledMenuMain
+              use="body"
+              className={`userSpec ${show && 'active'}`}
+              onClick={() => setShow((show) => setShow(!show))}
+            >
+              My Info
+            </StyledMenuMain>
           )}
           {data.currentUser.permissions === permission.admin && (
-            <StyledTextMenuBlack
+            <StyledMenuMain
+              use="body"
               className={`userSpec ${show && 'active'}`}
               onClick={() => setShow((show) => setShow(!show))}
             >
               Admin
-            </StyledTextMenuBlack>
+            </StyledMenuMain>
           )}
           {data.currentUser.permissions === permission.guide && (
-            <StyledTextMenuBlack
+            <StyledMenuMain
+              use="body"
               className={`userSpec ${show && 'active'}`}
               onClick={() => setShow((show) => setShow(!show))}
             >
               Guide
-            </StyledTextMenuBlack>
+            </StyledMenuMain>
           )}
           <Link href="/guides">
-            <StyledTextMenuBlack className="guides">MTB Guides</StyledTextMenuBlack>
+            <StyledMenuMain use="body" className="guides">
+              MTB Guides
+            </StyledMenuMain>
           </Link>
           {data.currentUser.permissions ? (
             <span className="signin">
@@ -65,9 +82,9 @@ const Nav = () => {
             </span>
           ) : (
             <Link href="/signin_page">
-              <StyledTextMenuBlack className="signin">
+              <StyledMenuMain use="body" className="signin">
                 <Icon icon="person_outline" aria-label="Login" />
-              </StyledTextMenuBlack>
+              </StyledMenuMain>
             </Link>
           )}
         </StyledNav>
@@ -76,6 +93,10 @@ const Nav = () => {
         )}
         {data.currentUser.permissions === permission.guide && (
           <StyledSpan>{show && <NavGuide guideId={data.currentUser.id} />}</StyledSpan>
+        )}
+        {(data.currentUser.permissions === permission.user ||
+          data.currentUser.permissions === '') && (
+          <StyledSpan>{show && <NavUser userId={data.currentUser.id} />}</StyledSpan>
         )}
       </>
     );
@@ -89,7 +110,7 @@ const StyledNav = styled.nav`
   display: grid;
   justify-items: center;
   align-items: center;
-  grid-template-rows: 2fr 4fr;
+  grid-template-rows: 3fr 4fr;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-areas:
     ' none none none user'
@@ -103,6 +124,7 @@ const StyledNav = styled.nav`
   .user {
     cursor: auto;
     grid-area: user;
+    height: 10px;
   }
   .home {
     grid-area: home;
@@ -117,6 +139,7 @@ const StyledNav = styled.nav`
     grid-area: signin;
   }
 `;
+
 const StyledSpan = styled.span`
   display: grid;
   grid-template-rows: 30px;

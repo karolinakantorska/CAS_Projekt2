@@ -13,7 +13,7 @@ const InputPassword = ({ handleChange, value, error }) => {
         name="password"
         value={value || ''}
         onChange={handleChange}
-        required
+        required={true}
         trailingIcon={{
           icon: 'visibility',
           size: 'xsmall',

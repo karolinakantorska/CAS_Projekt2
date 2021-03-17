@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {Typography} from '@rmwc/typography';
 //const primary = '#B71C1C';
 export const StyledTextTitle5 = styled.h5`
   color: var(--colorPrimary);
@@ -31,6 +32,10 @@ export const StyledTextTitle6 = styled.h6`
     font-size: 1.05rem;
   }
 `;
+export const StyledTextTitle6A = styled(Typography)`
+  color: var(--colorPrimary);
+`;
+//export const use="headline6" 
 export const StyledTextSubtitle1 = styled.p`
   color: var(--colorSecundary);
   font-size: 1rem;

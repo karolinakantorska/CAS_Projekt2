@@ -4,6 +4,7 @@ const GlobalStyle = createGlobalStyle`
 
 :root {
   --maxWidth: 1000px;
+  --marginTop: 60px;
   --colorPrimary: #212121;
   --colorSecundary:    #85929e   ;
   --colorNegativ: #ECEFF1;

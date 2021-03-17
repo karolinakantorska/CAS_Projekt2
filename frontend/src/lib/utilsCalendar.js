@@ -30,7 +30,18 @@ export const reservationsDataToArray = (queryResult, guideId) => {
   return reservationsByDays;
 };
 */
-export const reservationsData = (queryResult, guide1Id, guide2Id = '0') => {
+export const filterReservationsData = (queryResult, guide1Id) => {
+  const reservationsByDays = {};
+  queryResult.map((bookings) => {
+    const { day, reservations } = bookings;
+    const reservationsFromSelectedGuides = reservations.filter(
+      (reservation) => reservation.guide.id === guide1Id,
+    );
+    reservationsByDays[day] = reservationsFromSelectedGuides;
+  });
+  return reservationsByDays;
+};
+export const reservationsData = (queryResult, guide1Id, guide2Id) => {
   const reservationsByDays = {};
   queryResult.map((bookings) => {
     const { day, reservations } = bookings;

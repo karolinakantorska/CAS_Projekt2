@@ -16,11 +16,12 @@ import { useForm, usePhotoUpload } from '../../lib/utilsForm';
 import { useAddGuide } from '../../apollo/mutations/useAddGuide';
 import { permission } from '../../lib/utils';
 //import { handleAddGuide } from '../../lib/utilsAdmin';
-import { urlGuidePhoto, uploadPresetGuide } from '../../lib/configUrl';
+import { urlGuidePhoto, uploadPresetGuide } from '../../lib/utilsPhotoUpload';
 // Queries
 import { StyledContainer } from '../styles/StyledContainer';
 // Components for Styling
-import { StyledCard, StyledFieldset, StyledSpanErrors } from '../styles/StyledForm';
+import { StyledCard } from '../styles/StyledCards';
+import { StyledFieldset, StyledSpanErrors } from '../styles/StyledForm';
 import { TextField } from '@rmwc/textfield';
 import { StyledTextTitle5 } from '../styles/StyledText';
 import { StyledGuideImage } from '../styles/StyledGuideImage';

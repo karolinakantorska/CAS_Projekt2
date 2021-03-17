@@ -18,14 +18,14 @@ const StyledNrSpan = styled.span`
   display: grid;
   color: var(--calendarColorNumbersLight);
   font-size: 1.9rem;
-  padding: 0.4rem 0 0 0.2rem;
+  padding: 6px 0 0 3px;
   line-height: 0.6;
   .highlight {
     color: var(--calendarColorWarning);
   }
   @media (max-width: 840px) {
     font-size: 1.6rem;
-    padding: 0.2rem 0 0 0.2rem;
+    padding: 3px 0 0 3px;
     color: var(--colorSecundary);
   }
   @media (max-width: 600px) {

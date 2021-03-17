@@ -11,7 +11,7 @@ import { permission } from '../../lib/utils';
 import {
   useCalendar,
   reservationsDataToArray,
-  reservationsData,
+  filterReservationsData,
 } from '../../lib/utilsCalendar';
 import { useAllUsersWithPermission } from '../../apollo/querries/useAllUsersWithPermission';
 
@@ -50,7 +50,9 @@ const CalendarResQueryUser = ({ guideId }) => {
     );
   }
   if (data && dataGuides) {
-    const reservations = reservationsData(data.days, guideId);
+    console.log('data.days', data.days);
+    const reservations = filterReservationsData(data.days, guideId);
+    console.log('reservations', reservations);
     return (
       <Calendar
         handleMonthChange={handleMonthChange}

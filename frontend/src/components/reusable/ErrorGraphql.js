@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import { ErrorText } from '../styles/Text';
 
 const ErrorGraphql = ({ error }) => {
   if (!error || !error.message) return null;
@@ -11,9 +11,7 @@ const ErrorGraphql = ({ error }) => {
   ) {
     return error.networkError.result.errors.map((error, i) => (
       <div key={i}>
-        <StyledP data-test="testid-graphql-error">
-          {error.message.replace('GraphQL error: ', '')}
-        </StyledP>
+        <ErrorText use="body2">{error.message.replace('GraphQL error: ', '')}</ErrorText>
       </div>
     ));
   }
@@ -24,7 +22,7 @@ const ErrorGraphql = ({ error }) => {
   */
   return (
     <React.Fragment>
-      <StyledP>{error.message.replace('GraphQL error: ', '')}</StyledP>
+      <ErrorText>{error.message.replace('GraphQL error: ', '')}</ErrorText>
     </React.Fragment>
   );
 };
@@ -36,8 +34,4 @@ ErrorGraphql.defaultProps = {
 ErrorGraphql.propTypes = {
   error: PropTypes.object,
 };
-const StyledP = styled.p`
-  color: var(--colorWarning);
-  background-color: white;
-`;
 export default ErrorGraphql;

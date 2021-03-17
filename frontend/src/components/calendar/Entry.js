@@ -10,7 +10,6 @@ const Entry = ({ reservation, currentUser }) => {
   function handleEntrySpanClick() {
     routeToEditEntry(reservation.id);
   }
-  console.log(reservation);
   if (currentUser.permissions === permission.user) {
     return (
       <EntrySpan className={reservation.time}>

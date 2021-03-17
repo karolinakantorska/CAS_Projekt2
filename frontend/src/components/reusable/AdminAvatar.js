@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-
-import { StyledTextBody1 } from '../styles/StyledText';
+import { Typography } from '@rmwc/typography';
 
 const AdminAvatar = () => {
   return (
     <StyledSpan>
-      <StyledTextBody1>Admin</StyledTextBody1>
+      <Typography use="body2" className="info1">
+        Admin
+      </Typography>
     </StyledSpan>
   );
 };
@@ -18,5 +19,4 @@ const StyledSpan = styled.span`
   @media (max-width: 380px) {
   }
 `;
-
 export default AdminAvatar;

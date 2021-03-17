@@ -5,8 +5,8 @@ import LoadingCicle from '../reusable/LoadingCicle';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 // Utils
 import { useSignout } from '../../apollo/mutations/useSignout';
-
-import { StyledTextMenuBlack } from '../styles/StyledText';
+//Styling
+import { StyledMenuMain } from '../styles/Text';
 
 const Signout = () => {
   const [signout, { loading, error }] = useSignout();
@@ -18,9 +18,9 @@ const Signout = () => {
     return <ErrorGraphql error={error} />;
   }
   return (
-    <StyledTextMenuBlack onClick={signout}>
+    <StyledMenuMain use="body" onClick={signout} className="user">
       <Icon icon="person" aria-label="Logout" />
-    </StyledTextMenuBlack>
+    </StyledMenuMain>
   );
 };
 export default Signout;

@@ -5,3 +5,8 @@ export const StyledGuideImage = styled.img`
   width: 344px;
   height: 344px;
 `;
+export const StyledImage = styled.img`
+  justify-self: end;
+  width: 344px;
+  height: 344px;
+`;

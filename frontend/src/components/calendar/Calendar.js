@@ -61,7 +61,6 @@ const Calendar = ({
             <GuideAvatar guideId={guideId} />
           </StyledSpan>
         )}
-
         {weekNames.map((day) => (
           <StyledDayName key={day} className="dayName_span">
             {day}
@@ -104,12 +103,21 @@ const Calendar = ({
     );
   }
 };
+/*
 Calendar.propTypes = {
   guideId: PropTypes.string,
   guideName: PropTypes.string,
   guideSurname: PropTypes.string,
   guidePhoto: PropTypes.string,
+  reservations,
+  handleMonthChange,
+  selectedYear,
+  selectedMonth,
+  emptyCells,
+  daysInMonthArray,
+  selectedDateTimestamp,
 };
+*/
 
 const StyledCalendarContainer = styled.div`
   max-width: var(--maxWidth);
@@ -146,3 +154,10 @@ const StyledDayName = styled.div`
   }
 `;
 export default Calendar;
+/*      
+        
+
+        
+        
+
+        */

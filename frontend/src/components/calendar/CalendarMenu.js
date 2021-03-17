@@ -31,7 +31,11 @@ const CalendarMenu = ({
           )
         }
         <StyledMonthChangeButton>{selectedMonth}</StyledMonthChangeButton>
-        <StyledIconButton icon="arrow_right" onClick={() => handleMonthChange(1)}>
+        <StyledIconButton
+          icon="arrow_right"
+          onClick={() => handleMonthChange(1)}
+          className="right_button"
+        >
           &#8594;
         </StyledIconButton>
       </StyledSpan>
@@ -47,21 +51,16 @@ CalendarMenu.propTypes = {
 };
 const StyledButtonsMenu = styled.div`
   grid-area: month;
-  //grid-column: 2 / span 1;
   display: grid;
-  padding: 1rem 0.8rem 1rem 0.8rem;
-  width: 100%;
-  margin: auto;
+  padding: 16px 8px 25px 8px;
   ::before {
     content: '';
-    width: 100%;
     height: 2px;
     border-radius: 2px;
     background: var(--calendarColorLight);
   }
   ::after {
     content: '';
-    width: 100%;
     height: 2px;
     border-radius: 2px;
     background: var(--calendarColorLight);
@@ -71,6 +70,9 @@ const StyledSpan = styled.span`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   .left_button {
+    justify-self: start;
+  }
+  .right_button {
     justify-self: end;
   }
 `;
@@ -79,12 +81,11 @@ const StyledMonthChangeButton = styled.div`
   text-transform: capitalize;
   font-size: 1.2rem;
   align-self: center;
-  background: var(----colorPrimary);
+  justify-self: center;
 `;
 
 const StyledIconButton = styled(IconButton)`
-  font-size: 2rem;
-  background: var(----colorPrimary);
+  font-size: 48px;
   padding: 0;
 `;
 

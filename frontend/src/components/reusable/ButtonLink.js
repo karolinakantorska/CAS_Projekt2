@@ -2,15 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Button } from '@rmwc/button';
-import { StyledTextButtonColor } from '../styles/StyledText';
+import {Typography} from '@rmwc/typography';
 
-const ButtonLink = ({ text, onClick, loading }) => {
+
+const ButtonLink = ({ text, onClick }) => {
   return (
-    <StyledButtonLink onClick={onClick} disabled={loading}>
-      <StyledTextButtonColor>{text}</StyledTextButtonColor>
+    <StyledButtonLink onClick={onClick} >
+      <StyledButtonLinkText use="button">{text}</StyledButtonLinkText>
     </StyledButtonLink>
   );
 };
+export  const StyledButtonLinkText = styled(Typography)`
+  color: var(--colorWarning);
+`;
 export const StyledButtonLink = styled(Button)`
   text-transform: capitalize;
   width: 100%;
