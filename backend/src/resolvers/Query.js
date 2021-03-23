@@ -26,32 +26,6 @@ const Query = {
   day: forwardTo("db"),
   reservations: forwardTo("db"),
   reservation: forwardTo("db"),
-  /*
-  monthsReservationForAGuide(parent, args, ctx, info) {
-    const allDays = ctx.db.query.days(
-      {
-        where: { year: args.year, month: args.month },
-      },
-      info
-    );
-  },
-  */
-  /*
-  updateUser(parent, args, ctx, info) {
-    hasPermission(ctx, "ADMIN");
-    const updates = { ...args };
-    delete updates.id;
-    return ctx.db.mutation.updateUser(
-      {
-        data: updates,
-        where: {
-          id: args.id,
-        },
-      },
-      info
-    );
-  },
-  */
 };
 
 module.exports = Query;

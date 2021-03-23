@@ -5,11 +5,13 @@ const regex = {
   email: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/,
   password: /^[^ ]{8,32}$/,
   name: /^.{2,12}$/,
+  phone: /(\b(0041|0)|\B\+41)(\s?\(0\))?(\s)?[1-9]{2}(\s)?[0-9]{3}(\s)?[0-9]{2}(\s)?[0-9]{2}\b/,
 };
 const formInfo = {
   email: `It is not a valid email adresse.`,
   password: `The password should be longer than 8 signs. Space is not allowed.`,
   name: `The name must be longer than 2 and shorter than 12 signs.`,
+  phone: `This is not a valid swiss mobile number. Try this pattern: +41 12 345 67 89.`,
 };
 function validate(inputs) {
   let errors = {};
@@ -46,6 +48,7 @@ export function useForm(callback, initialInputs) {
   }
   function handleSubmit(e) {
     e.preventDefault();
+
     setValid(true);
     setErrorInput(validate(inputs));
   }
@@ -56,6 +59,40 @@ export function useForm(callback, initialInputs) {
     errorInput,
   };
 }
+
+export function useSwich(initialValues) {
+  const [switchValues, setSwitchValues] = useState(initialValues);
+  // values:{ebike: true, mtb:false}
+  function handleSwitch(e) {
+    //console.log(e);
+    setSwitchValues({
+      ...switchValues,
+      [e.target.name]: !switchValues[e.target.name],
+    });
+  }
+  return {
+    switchValues,
+    handleSwitch,
+  };
+}
+export function useCheckBoxes(initialValues) {
+  const [checkedOptions, setCheckedOptions] = useState(initialValues);
+  useEffect(() => {
+    //setInputs(initialInputs);
+  }, [initialValues]);
+  function handleChecked(e) {
+    if (e.target.checked) {
+      setCheckedOptions([...checkedOptions, e.target.value]);
+    } else {
+      setCheckedOptions(checkedOptions.filter((item) => item !== e.target.value));
+    }
+  }
+  return {
+    checkedOptions,
+    handleChecked,
+  };
+}
+
 export function useGuidesInput(initialValue) {
   const [guides, setGuides] = useState(initialValue);
 
@@ -85,14 +122,13 @@ export function useGuidesInput(initialValue) {
   };
 }
 
-// not sure if i will be using it
 export function useFormInput(initialValue) {
   const [value, setValue] = useState(initialValue);
-  /*
+
   useEffect(() => {
     setValue(initialValue);
   }, [initialValue]);
-  */
+
   function handleChange(e) {
     setValue(e.target.value);
   }
@@ -101,6 +137,7 @@ export function useFormInput(initialValue) {
     handleChange,
   };
 }
+
 // upload a photo
 export function usePhotoUpload(initialValue, urlPhoto, uploadPreset) {
   const [result, setResult] = useState(initialValue);

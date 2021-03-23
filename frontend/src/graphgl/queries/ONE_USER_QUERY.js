@@ -9,6 +9,12 @@ const ONE_USER_QUERY = gql`
       surname
       description
       photo
+      title
+      ebike
+      mtb
+      phone
+      color
+      specialisations
       #reservations
     }
   }

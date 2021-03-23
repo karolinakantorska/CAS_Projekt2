@@ -24,7 +24,7 @@ import { StyledGuideCard } from '../styles/StyledCards';
 import { StyledGuideImage } from '../styles/StyledImage';
 import { StyledButtonSpan } from '../styles/StyledButtonSpan';
 import { H6, Subtitle, TextLink } from '../styles/Text';
-import { guideAdditionalInfo } from '../../lib/guide';
+
 // RMWC
 import { Typography } from '@rmwc/typography';
 import { CardPrimaryAction } from '@rmwc/card';
@@ -43,6 +43,9 @@ const Guide = ({ currentUserPermission, guideId }) => {
   }
   if (data) {
     const { user } = data;
+    const specialisations = user.specialisations.map((spec) =>
+      ` ${spec}`.replace('_', ' '),
+    );
     return (
       <StyledGuideCard>
         <CardPrimaryAction
@@ -57,18 +60,18 @@ const Guide = ({ currentUserPermission, guideId }) => {
         )}
         <StyledSpan>
           <H6 use="headline6">{`${user.name} ${user.surname}`}</H6>
-          <Subtitle use="subtitle2">{`${guideAdditionalInfo.title}`}</Subtitle>
+          <Subtitle use="subtitle2">{user.title && `${user.title}`}</Subtitle>
           <Typography use="body2">
             <strong>Ebiking: </strong>
-            {` ${guideAdditionalInfo.ebike ? 'YES' : 'NO'}`}
+            {` ${user.ebike ? 'YES' : 'NO'}`}
           </Typography>
           <Typography use="body2">
             <strong>Mountainbike: </strong>
-            {` ${guideAdditionalInfo.mtb ? 'YES' : 'NO'}`}
+            {` ${user.mtb ? 'YES' : 'NO'}`}
           </Typography>
           <Typography use="body2">
             <strong>Specialisation:</strong>
-            {` ${guideAdditionalInfo.specialisations[0]}, ${guideAdditionalInfo.specialisations[2]}, ${guideAdditionalInfo.specialisations[5]}, ${guideAdditionalInfo.specialisations[4]}`}
+            {specialisations.toString()}
           </Typography>
           {currentUserPermission !== '' && (
             <Link href={`/guide_details?guideId=${guideId}`}>
@@ -98,7 +101,7 @@ Guide.propTypes = {
 };
 const StyledSpan = styled.span`
   display: grid;
-  grid-template-rows: 1fr 25px 20px 20px 40px;
+  grid-template-rows: 1fr 25px 20px 20px 70px;
   padding: 8px;
 `;
 const StyledSpanBookMe = styled.span`

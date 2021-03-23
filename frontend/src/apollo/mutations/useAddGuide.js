@@ -6,9 +6,6 @@ import ALL_USERS_WITH_PERMISSION_QUERY from '../../graphgl/queries/ALL_USERS_WIT
 
 export function useAddGuide() {
   const [addGuide, { loading, error }] = useMutation(ADD_GUIDE, {
-    onCompleted: () => {
-      routeToGuidesList();
-    },
     onError: (error) => {
       error;
     },

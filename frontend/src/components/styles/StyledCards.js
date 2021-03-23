@@ -8,6 +8,13 @@ export const StyledGuideCard = styled(Card)`
   margin-top: var(--marginTop);
   width: 344px;
 `;
+export const StyledImagePlacholderCard = styled(Card)`
+  display: grid;
+  align-content: stretch;
+  margin: auto;
+  margin-top: 0;
+  width: 344px;
+`;
 export const StyledCard = styled(Card)`
   display: grid;
   align-content: stretch;

@@ -1,13 +1,5 @@
 #import * from './generated/prisma.graphql'
-type User {
-  id: ID!
-  name: String!
-  email: String!
-  permissions: String!
-  surname: String
-  description: String
-  photo: String
-}
+
 type Query {
   users(where: UserWhereInput): [User!]!
   user(where: UserWhereUniqueInput!): User
@@ -18,22 +10,18 @@ type Query {
   reservation(where: ReservationWhereUniqueInput!): Reservation
 }
 type Mutation {
-  createUser(
-    password: String!
-    email: String!
-    name: String!
-    surname: String
-    description: String
-    photo: String
-  ): User!
-  updateUser(
-    id: ID!
-    email: String #@unique
-    name: String
-    surname: String
-    description: String
-    photo: String
-  ): User!
+  createUser(data: UserCreateInput!): User!
+  updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+
+  #updateUser(
+  #  id: ID!
+  #  email: String #@unique
+  #  name: String
+  #  surname: String
+  #  description: String
+  #  photo: String
+  #): User!
+
   deleteUser(id: ID!): User
   signup(email: String!, password: String!, name: String!): User!
   signin(email: String!, password: String!): User!
@@ -43,6 +31,7 @@ type Mutation {
   createReservation(data: ReservationCreateInput!): Reservation!
   deleteReservation(id: ID!): Reservation
   deleteManyReservations(where: ReservationWhereInput): BatchPayload!
+  updateReservation(data: ReservationUpdateInput!, where: ReservationWhereUniqueInput!): Reservation
 }
 
 type SuccessMesage {

@@ -8,14 +8,30 @@ const ADD_GUIDE = gql`
     $surname: String
     $description: String
     $photo: String
+    $title: String
+    $ebike: Boolean
+    $mtb: Boolean
+    $phone: String
+    $permissions: Permission!
+    $specialisations: [Specialisation!]
+    $color: Color
   ) {
     createUser(
-      email: $email
-      password: $password
-      name: $name
-      surname: $surname
-      description: $description
-      photo: $photo
+      data: {
+        email: $email
+        password: $password
+        name: $name
+        surname: $surname
+        description: $description
+        photo: $photo
+        title: $title
+        ebike: $ebike
+        mtb: $mtb
+        phone: $phone
+        permissions: $permissions
+        specialisations: { set: $specialisations }
+        color: $color
+      }
     ) {
       id
       email
@@ -23,6 +39,12 @@ const ADD_GUIDE = gql`
       surname
       description
       photo
+      title
+      ebike
+      mtb
+      phone
+      specialisations
+      color
     }
   }
 `;

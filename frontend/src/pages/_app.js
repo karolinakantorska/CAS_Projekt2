@@ -30,6 +30,8 @@ import '@material/list/dist/mdc.list.css';
 import '@material/linear-progress/dist/mdc.linear-progress.css';
 import '@rmwc/circular-progress/circular-progress.css';
 import '@material/typography/dist/mdc.typography.css';
+import '@material/switch/dist/mdc.switch.css';
+import '@material/checkbox/dist/mdc.checkbox.css';
 import { RMWCProvider } from '@rmwc/provider';
 
 function MyApp({ Component, pageProps, apollo }) {

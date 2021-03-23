@@ -1,13 +1,19 @@
 type User {
   id: ID! @id
   password: String!
-  email: String! @unique
-  name: String!
+  email: String @unique
+  name: String
   surname: String
   resetToken: String
   resetTokenExpiry: Float
   description: String
   photo: String
+  title: String
+  ebike: Boolean
+  mtb: Boolean
+  phone: String
+  color: Color
+  specialisations: [Specialisation] @scalarList(strategy: RELATION)
   permissions: Permission!
   reservations: [Reservation]
 }
@@ -16,25 +22,82 @@ enum Permission {
   GUIDE
   USER
 }
+#TODO replace with Big Letters:
+enum Specialisation {
+  Trail_riding
+  Singletrack
+  Bikepark
+  Downhill
+  Cross_country
+  All_mountain
+  Enduro
+  Dirt_jumping
+  Freeride
+  MTB_touring
+  Fatbiking
+  Ebikes
+}
+enum Color {
+  Col1
+  Col2
+  Col3
+  Col4
+  Col5
+  Col6
+  Col7
+  Col8
+  Col9
+}
 type Day {
   id: ID! @id
   year: String!
   month: String!
   day: String!
-  reservations: [Reservation]  # to-many
+  reservations: [Reservation] # to-many
 }
 type Reservation {
   id: ID! @id
   time: Time
-  guide: User! #relationship to the User - GUIDE
-  relatedDay: Day! #relationship to the Day # to-one
-  userName: String
-  userEmail: String
+  guide: User #relationship to the User - GUIDE
+  relatedDay: Day #relationship to the Day # to-one
+  userName: String # TODO remove it
+  userEmail: String # TODO remove it
   nrOfPeople: String
   description: String
+  holiday: Boolean
+  confirmed: Boolean
+  guideId: ID # TODO remove it
+  gastId: ID # TODO remove it
+  timeStamp: String
 }
 enum Time {
   AM
   PM
   DAY
+}
+type Info {
+  id: ID! @id
+  text: String
+}
+type Trip {
+  id: ID! @id
+  guide: User
+  title: String
+  special: String
+  description: String
+  difficulty: Difficulty
+  start: String
+  end: String
+  duration: String
+  costs: String
+  ebikes: Boolean
+  photo: String
+}
+enum Difficulty {
+  S0
+  S1
+  S2
+  S3
+  S4
+  S5
 }

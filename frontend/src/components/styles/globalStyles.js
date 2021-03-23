@@ -17,7 +17,17 @@ const GlobalStyle = createGlobalStyle`
   --fontFamilyCalendar: Yanone Kaffeesatz, Arial, sans-serif;
   --fontFamily: Hind, Arial, sans-serif;
   --mdc-theme-primary:  #282b08;
-  --mdc-theme-secondary: #CDDC39
+  --mdc-theme-secondary: #CDDC39;
+  
+  --col1: #BBCC33;
+  --col2: #AAAA00;
+  --col3:#EE8765;
+  --col4: #77AADD;
+  --col5: #EEDD88;
+  --col6:#FFAABB;
+  --col7: #99DDFF;
+  --col8: #44BB99;
+  --col9: #DDDDDD;
 }
 
   html {

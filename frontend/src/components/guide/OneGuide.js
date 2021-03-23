@@ -13,7 +13,6 @@ import { routeToCalendar, routeToTripList } from '../../lib/utilsRouts';
 import { StyledCardWithPadding, StyledOneGuideGrid } from '../styles/StyledCards';
 import { StyledButtonSpan } from '../styles/StyledButtonSpan';
 import { H6, Subtitle } from '../styles/Text';
-import { guideAdditionalInfo } from '../../lib/guide';
 import { StyledImage } from '../styles/StyledImage';
 // RMWC
 import { Typography } from '@rmwc/typography';
@@ -28,27 +27,27 @@ const OneGuide = ({ guideId }) => {
   }
   if (data) {
     const { user } = data;
+    const specialisations = user.specialisations.map((spec) =>
+      ` ${spec}`.replace('_', ' '),
+    );
     return (
       <StyledCardWithPadding>
         <StyledOneGuideGrid>
           <H6 use="headline6" className="title">
             {`${user.name} ${user.surname}`}{' '}
           </H6>
-          <Subtitle
-            use="subtitle2"
-            className="subtitle"
-          >{`${guideAdditionalInfo.title}`}</Subtitle>
+          <Subtitle use="subtitle2" className="subtitle">{`${user.title}`}</Subtitle>
           <Typography use="body2" className="info1">
             <strong>Ebiking: </strong>
-            {` ${guideAdditionalInfo.ebike ? 'YES' : 'NO'}`}
+            {` ${user.ebike ? 'YES' : 'NO'}`}
           </Typography>
           <Typography use="body2" className="info1">
             <strong>Mountainbike: </strong>
-            {` ${guideAdditionalInfo.mtb ? 'YES' : 'NO'}`}
+            {` ${user.mtb ? 'YES' : 'NO'}`}
           </Typography>
           <Typography use="body2" className="info2">
             <strong>Specialisation:</strong>
-            {` ${guideAdditionalInfo.specialisations[0]}, ${guideAdditionalInfo.specialisations[2]}, ${guideAdditionalInfo.specialisations[5]}, ${guideAdditionalInfo.specialisations[4]}`}
+            {specialisations.toString()}
           </Typography>
           <Typography use="body2" className="info3">
             <strong>Email:</strong>

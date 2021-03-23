@@ -8,14 +8,28 @@ const UPDATE_GUIDE = gql`
     $surname: String
     $description: String
     $photo: String
+    $title: String
+    $ebike: Boolean
+    $mtb: Boolean
+    $phone: String
+    $permissions: Permission!
+    $specialisations: [Specialisation!]
   ) {
     updateUser(
-      id: $id
-      email: $email
-      name: $name
-      surname: $surname
-      description: $description
-      photo: $photo
+      data: {
+        email: $email
+        name: $name
+        surname: $surname
+        description: $description
+        photo: $photo
+        title: $title
+        ebike: $ebike
+        mtb: $mtb
+        phone: $phone
+        permissions: $permissions
+        specialisations: { set: $specialisations }
+      }
+      where: { id: $id }
     ) {
       id
       email
@@ -23,8 +37,13 @@ const UPDATE_GUIDE = gql`
       surname
       description
       photo
+      title
+      ebike
+      mtb
+      phone
+      permissions
+      specialisations
     }
   }
 `;
-
 export default UPDATE_GUIDE;
