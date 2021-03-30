@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Checkbox } from '@rmwc/checkbox';
 import { Typography } from '@rmwc/typography';
@@ -25,5 +26,10 @@ const StyledSpan = styled.span`
   white-space: nowrap;
   margin: 0 15px 0 0px;
 `;
-
+MyCheckbox.propTypes = {
+  handleChecked: PropTypes.func,
+  specialisation: PropTypes.string,
+  checked: PropTypes.bool,
+  i: PropTypes.number,
+};
 export default MyCheckbox;

@@ -8,21 +8,30 @@ type Query {
   day(where: DayWhereUniqueInput!): Day
   reservations(where: ReservationWhereInput): [Reservation]!
   reservation(where: ReservationWhereUniqueInput!): Reservation
+  infoes(
+    where: InfoWhereInput
+    orderBy: InfoOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Info]!
+  trips(
+    where: TripWhereInput
+    orderBy: TripOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [Trip]!
+  trip(where: TripWhereUniqueInput!): Trip
 }
 type Mutation {
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
-
-  #updateUser(
-  #  id: ID!
-  #  email: String #@unique
-  #  name: String
-  #  surname: String
-  #  description: String
-  #  photo: String
-  #): User!
-
-  deleteUser(id: ID!): User
+  deleteUser(where: UserWhereUniqueInput!): User
   signup(email: String!, password: String!, name: String!): User!
   signin(email: String!, password: String!): User!
   signout: SuccessMesage
@@ -32,6 +41,11 @@ type Mutation {
   deleteReservation(id: ID!): Reservation
   deleteManyReservations(where: ReservationWhereInput): BatchPayload!
   updateReservation(data: ReservationUpdateInput!, where: ReservationWhereUniqueInput!): Reservation
+  createInfo(data: InfoCreateInput!): Info!
+  updateInfo(data: InfoUpdateInput!, where: InfoWhereUniqueInput!): Info
+  createTrip(data: TripCreateInput!): Trip!
+  updateTrip(data: TripUpdateInput!, where: TripWhereUniqueInput!): Trip
+  deleteTrip(where: TripWhereUniqueInput!): Trip
 }
 
 type SuccessMesage {

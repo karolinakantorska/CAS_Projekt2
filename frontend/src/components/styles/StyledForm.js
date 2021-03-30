@@ -44,3 +44,8 @@ export const StyledSpanButon = styled.span`
   align-content: stretch;
 `;
 */
+export const StyledSelect = styled(Select)`
+  div {
+    background-color: white;
+  }
+`;

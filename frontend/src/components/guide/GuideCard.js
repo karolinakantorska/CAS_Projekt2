@@ -4,12 +4,13 @@ import styled from 'styled-components';
 import Link from 'next/link';
 
 //Components
-import DeleteGuide from './DeleteGuide';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
 import LoadingCicle from '../reusable/LoadingCicle';
 import ErrorGraphql from '../reusable/ErrorGraphql';
+import MyDialog from '../reusable/MyDialog';
 // Utils
 import { useGuide } from '../../apollo/querries/useGuide';
+import { useDeleteGuide } from '../../apollo/mutations/useDeleteGuide';
 import {
   routeToGuideDetailsIfSignedIn,
   routeToCalendar,
@@ -31,6 +32,14 @@ import { CardPrimaryAction } from '@rmwc/card';
 
 const Guide = ({ currentUserPermission, guideId }) => {
   const { loading, error, data } = useGuide(guideId);
+  const [
+    deleteUser,
+    { loading: loadingMutation, error: errorMutation },
+  ] = useDeleteGuide();
+  function handleDeleteUser() {
+    deleteUser({ variables: { id: guideId } });
+  }
+
   if (loading) {
     return (
       <StyledGuideCard>
@@ -86,10 +95,17 @@ const Guide = ({ currentUserPermission, guideId }) => {
           <ButtonLink text="Logg in to book Me!" onClick={() => routeToSignin} />
         )}
         {currentUserPermission === permission.admin && (
-          <StyledButtonSpan>
-            <ButtonLink text="Edit" onClick={() => routeToEditGuide(user.id)} />
-            <DeleteGuide id={user.id} />
-          </StyledButtonSpan>
+          <>
+            {errorMutation && <ErrorGraphql error={errorMutation} />}
+            <StyledButtonSpan>
+              <ButtonLink text="Edit" onClick={() => routeToEditGuide(user.id)} />
+              <MyDialog
+                title="Do you want to delete this Guide?"
+                body="Remember to check if there are any 'uncovered Reservations' after deleting this Guide."
+                handleAction={handleDeleteUser}
+              />
+            </StyledButtonSpan>
+          </>
         )}
       </StyledGuideCard>
     );

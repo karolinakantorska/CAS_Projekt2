@@ -15,11 +15,6 @@ const ErrorGraphql = ({ error }) => {
       </div>
     ));
   }
-  /*
-  if (error.graphQLErrors) {
-    error.graphQLErrors.map((error) => console.log(error.code));
-  }
-  */
   return (
     <React.Fragment>
       <ErrorText>{error.message.replace('GraphQL error: ', '')}</ErrorText>

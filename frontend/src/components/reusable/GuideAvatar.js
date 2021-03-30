@@ -57,8 +57,4 @@ const StyledAvatar = styled(Avatar)`
 GuideAvatar.propTypes = {
   guideId: PropTypes.string,
 };
-
 export default GuideAvatar;
-/*
-        
-        */

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // form validation
 const regex = {
@@ -26,21 +26,19 @@ function validate(inputs) {
   return errors;
 }
 // Form
-export function useForm(callback, initialInputs) {
+export function useForm(callback, initialInputs, loading = false) {
   const [inputs, setInputs] = useState(initialInputs);
   const [errorInput, setErrorInput] = useState({});
   const [valid, setValid] = useState(false);
   useEffect(() => {
-    //setInputs(initialInputs);
-  }, [initialInputs]);
+    setInputs(initialInputs);
+  }, [loading]);
   useEffect(() => {
     if (Object.keys(errorInput).length === 0 && valid) {
       callback();
     }
   }, [errorInput]);
   function handleChange(e) {
-    //e.persist();
-    //console.log(e);
     setInputs({
       ...inputs,
       [e.target.name]: { textValue: e.target.value, required: e.target.required },
@@ -48,7 +46,6 @@ export function useForm(callback, initialInputs) {
   }
   function handleSubmit(e) {
     e.preventDefault();
-
     setValid(true);
     setErrorInput(validate(inputs));
   }
@@ -59,10 +56,11 @@ export function useForm(callback, initialInputs) {
     errorInput,
   };
 }
-
-export function useSwich(initialValues) {
+export function useSwich(initialValues, loading = false) {
   const [switchValues, setSwitchValues] = useState(initialValues);
-  // values:{ebike: true, mtb:false}
+  useEffect(() => {
+    setSwitchValues(initialValues);
+  }, [loading]);
   function handleSwitch(e) {
     //console.log(e);
     setSwitchValues({
@@ -75,11 +73,12 @@ export function useSwich(initialValues) {
     handleSwitch,
   };
 }
-export function useCheckBoxes(initialValues) {
+export function useCheckBoxes(initialValues, loading = false) {
   const [checkedOptions, setCheckedOptions] = useState(initialValues);
   useEffect(() => {
-    //setInputs(initialInputs);
-  }, [initialValues]);
+    setCheckedOptions(initialValues);
+  }, [loading]);
+
   function handleChecked(e) {
     if (e.target.checked) {
       setCheckedOptions([...checkedOptions, e.target.value]);
@@ -92,7 +91,6 @@ export function useCheckBoxes(initialValues) {
     handleChecked,
   };
 }
-
 export function useGuidesInput(initialValue) {
   const [guides, setGuides] = useState(initialValue);
 
@@ -122,12 +120,11 @@ export function useGuidesInput(initialValue) {
   };
 }
 
-export function useFormInput(initialValue) {
+export function useFormInput(initialValue, loading = false) {
   const [value, setValue] = useState(initialValue);
-
   useEffect(() => {
     setValue(initialValue);
-  }, [initialValue]);
+  }, [loading]);
 
   function handleChange(e) {
     setValue(e.target.value);
@@ -171,9 +168,17 @@ export function usePhotoUpload(initialValue, urlPhoto, uploadPreset) {
   }
   return { result, uploadPhoto, loadingPhotoUpload, errorPhotoUpload };
 }
+//TODO do this with required
 export function validateFormBookingConfirmation(time) {
   if (!time || time === '') {
     return ['Please enter the time.'];
   }
   return [];
+}
+export function arrayFromObject(object) {
+  let array = [];
+  for (const [key, value] of Object.entries(object)) {
+    array.push({ [key]: value });
+  }
+  return array;
 }

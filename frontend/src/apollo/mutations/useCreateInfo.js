@@ -1,21 +1,23 @@
 import { gql, useMutation } from '@apollo/client';
-import { routeToGuidesList } from '../../lib/utilsRouts';
-import { permission } from '../../lib/utils';
-import ADD_GUIDE from '../../graphgl/mutations/ADD_GUIDE';
-import ALL_USERS_WITH_PERMISSION_QUERY from '../../graphgl/queries/ALL_USERS_WITH_PERMISSION_QUERY';
+// { routeToGuidesList } from '../../lib/utilsRouts';
+//import { permission } from '../../lib/utils';
+import CREATE_INFO from '../../graphgl/mutations/CREATE_INFO';
+//import ALL_USERS_WITH_PERMISSION_QUERY from '../../graphgl/queries/ALL_USERS_WITH_PERMISSION_QUERY';
 
-export function useAddGuide() {
-  const [addGuide, { loading, error }] = useMutation(ADD_GUIDE, {
+export function useCreateInfo() {
+  const [createInfo, { loading, error, data }] = useMutation(CREATE_INFO, {
     onError: (error) => {
       error;
     },
-
+    /*
     update(cache, data) {
       cacheAllGuides(cache, data);
     },
+    */
   });
-  return [addGuide, { loading, error }];
+  return [createInfo, { loading, error, data }];
 }
+/*
 function cacheAllGuides(cache, data) {
   console.log('data', data);
   const dataAll = cache.readQuery({
@@ -34,3 +36,4 @@ function cacheAllGuides(cache, data) {
     },
   });
 }
+*/

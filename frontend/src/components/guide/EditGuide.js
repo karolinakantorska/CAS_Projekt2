@@ -37,19 +37,27 @@ const UpdateGuide = ({ guideId }) => {
   const { loading, error, data } = useGuide(guideId);
   const { checkedOptions, handleChecked } = useCheckBoxes(
     data ? data.user.specialisations : [],
+    loading,
   );
-  const { switchValues, handleSwitch } = useSwich({
-    ebike: data ? data.user.ebike : true,
-    mtb: data ? data.user.mtb : true,
-  });
-  const { inputs, handleChange, handleSubmit, errorInput } = useForm(handleEditGuide, {
-    name: { textValue: data ? data.user.name : '' },
-    surname: { textValue: data ? data.user.surname : '' },
-    email: { textValue: data ? data.user.email : '' },
-    description: { textValue: data ? data.user.description : '' },
-    title: { textValue: data ? data.user.title : '' },
-    phone: { textValue: data ? data.user.phone : '' },
-  });
+  const { switchValues, handleSwitch } = useSwich(
+    {
+      ebike: data ? data.user.ebike : true,
+      mtb: data ? data.user.mtb : true,
+    },
+    loading,
+  );
+  const { inputs, handleChange, handleSubmit, errorInput } = useForm(
+    handleEditGuide,
+    {
+      name: { textValue: data ? data.user.name : '' },
+      surname: { textValue: data ? data.user.surname : '' },
+      email: { textValue: data ? data.user.email : '' },
+      description: { textValue: data ? data.user.description : '' },
+      title: { textValue: data ? data.user.title : '' },
+      phone: { textValue: data ? data.user.phone : '' },
+    },
+    loading,
+  );
 
   const { uploadPhoto, result, loadingPhotoUpload, errorPhotoUpload } = usePhotoUpload(
     data ? data.user.photo : '',
@@ -79,11 +87,12 @@ const UpdateGuide = ({ guideId }) => {
   if (loading) {
     return <Loading />;
   }
-  if (error || errorMutation) {
-    return <ErrorGraphql error={error || errorMutation} />;
+  if (error) {
+    return <ErrorGraphql error={error} />;
   }
   if (data) {
     console.log(data.user);
+    console.log(data.user.specialisations);
     return (
       <StyledCard>
         <form onSubmit={handleSubmit} method="post">
@@ -91,7 +100,7 @@ const UpdateGuide = ({ guideId }) => {
             <H6 use="headline6">Edit the MTB Guide</H6>
             <StyledSpanErrors>
               {loadingPhotoUpload && <Loading />}
-              {errorPhotoUpload && <ErrorMessage error={errorPhotoUpload}></ErrorMessage>}
+              {errorPhotoUpload && <ErrorMessage error={errorPhotoUpload} />}
             </StyledSpanErrors>
             <StyledInput type="file" id="file" onChange={uploadPhoto} />
             <label htmlFor="file">
@@ -102,8 +111,8 @@ const UpdateGuide = ({ guideId }) => {
                 />
               </CardPrimaryAction>
             </label>
-            <ErrorMessage />
             {error && <ErrorGraphql error={error} />}
+            <TextGrayDense use="body1">Name:</TextGrayDense>
             <Input
               handleChange={handleChange}
               name="name"
@@ -111,12 +120,14 @@ const UpdateGuide = ({ guideId }) => {
               required={true}
               error={errorInput.name}
             />
+            <TextGrayDense use="body1">Surame:</TextGrayDense>
             <Input
               handleChange={handleChange}
               name="surname"
               value={inputs.surname.textValue || ''}
               required={false}
             />
+            <TextGrayDense use="body1">Email:</TextGrayDense>
             <Input
               handleChange={handleChange}
               name="email"
@@ -125,6 +136,7 @@ const UpdateGuide = ({ guideId }) => {
               required={true}
               error={errorInput.email}
             />
+            <TextGrayDense use="body1">Title:</TextGrayDense>
             <Input
               handleChange={handleChange}
               name="title"
@@ -136,13 +148,14 @@ const UpdateGuide = ({ guideId }) => {
               fullwidth
               onChange={handleChange}
               name="description"
-              placeholder={inputs.description.textValue || ''}
+              //placeholder={inputs.description.textValue || ''}
               value={inputs.description.textValue || ''}
               required={false}
               textarea={true}
               rows={5}
               maxLength={700}
             />
+            <TextGrayDense use="body1">Phone Number:</TextGrayDense>
             <Input
               handleChange={handleChange}
               name="phone"
@@ -155,17 +168,17 @@ const UpdateGuide = ({ guideId }) => {
                 name="ebike"
                 text="E-bike"
                 handleSwitch={handleSwitch}
-                checked={switchValues.ebike}
+                checked={switchValues.ebike || ''}
               />
               <MySwitch
                 name="mtb"
                 text="MTB"
                 handleSwitch={handleSwitch}
-                checked={switchValues.mtb}
+                checked={switchValues.mtb || ''}
               />
             </StyledButtonSpan>
             <StyledSpan>
-              {specialsations.map((specialisation, i) => {
+              {specialsations.map((specialisation) => {
                 return (
                   <MyCheckbox
                     key={specialisation}
@@ -176,7 +189,7 @@ const UpdateGuide = ({ guideId }) => {
                 );
               })}
             </StyledSpan>
-
+            {errorMutation && <ErrorGraphql error={errorMutation} />}
             <ButtonMain text="Save Changes" />
             <ButtonLink text="Guide List" onClick={() => routeToGuidesList()} />
           </StyledFieldset>

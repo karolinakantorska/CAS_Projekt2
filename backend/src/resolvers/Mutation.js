@@ -3,28 +3,6 @@ const jwt = require("jsonwebtoken");
 const { isLoggedInn, hasPermission, hasOneOfPermissions, ownReservation } = require("../utils");
 
 const mutations = {
-  // create Guide
-  async createUser(parent, args, ctx, info) {
-    hasPermission(ctx, "ADMIN");
-    const password = await bcrypt.hash(args.data.password, 10);
-    args.data.email = args.data.email.toLowerCase();
-    const updates = { ...args };
-    delete updates.data.password;
-    updates.data.password = password;
-    const userExist = await ctx.db.exists.User({ email: args.data.email });
-    if (userExist) {
-      throw new Error(`
-      There is already an user with this email: ${args.data.email}.`);
-    }
-    const user = await ctx.db.mutation.createUser(
-      {
-        ...updates,
-      },
-      info
-    );
-    return user;
-  },
-
   async signup(parent, args, ctx, info) {
     args.email = args.email.toLowerCase();
     const userExist = await ctx.db.exists.User({ email: args.email });
@@ -51,7 +29,6 @@ const mutations = {
     });
     return user;
   },
-
   async signin(parent, args, ctx, info) {
     const { email, password } = args;
     if (!email) {
@@ -81,7 +58,41 @@ const mutations = {
     ctx.response.clearCookie("token");
     return { message: "Goodbye!" };
   },
-
+  // create Guide
+  async createUser(parent, args, ctx, info) {
+    hasPermission(ctx, "ADMIN");
+    const password = await bcrypt.hash(args.data.password, 10);
+    args.data.email = args.data.email.toLowerCase();
+    const updates = { ...args };
+    delete updates.data.password;
+    updates.data.password = password;
+    const userExist = await ctx.db.exists.User({ email: args.data.email });
+    if (userExist) {
+      throw new Error(`
+      There is already an user with this email: ${args.data.email}.`);
+    }
+    const user = await ctx.db.mutation.createUser(
+      {
+        ...updates,
+      },
+      info
+    );
+    return user;
+  },
+  updateUser(parent, args, ctx, info) {
+    hasPermission(ctx, "ADMIN");
+    return ctx.db.mutation.updateUser(
+      {
+        ...args,
+      },
+      info
+    );
+  },
+  async deleteUser(parent, args, ctx, info) {
+    console.log("args", args);
+    hasPermission(ctx, "ADMIN");
+    return ctx.db.mutation.deleteUser({ ...args });
+  },
   async createDay(parent, args, ctx, info) {
     isLoggedInn(ctx);
     if (args.time === "") {
@@ -102,21 +113,6 @@ const mutations = {
       throw new Error(`This termin is just gone, please try again, or choose another time.`);
     }
   },
-  // update Guide
-  updateUser(parent, args, ctx, info) {
-    hasPermission(ctx, "ADMIN");
-    return ctx.db.mutation.updateUser(
-      {
-        ...args,
-      },
-      info
-    );
-  },
-  async updateReservation(parent, args, ctx, info) {
-    const updates = { ...args };
-    delete updates.id;
-    return ctx.db.mutation.updateReservation(updates);
-  },
   async updateDay(parent, args, ctx, info) {
     isLoggedInn(ctx);
     if (args.time === "") {
@@ -127,9 +123,6 @@ const mutations = {
     const existingReservations = await ctx.db.query.reservations({
       where: { relatedDay: { id: dayId }, guide: { id: guideId } },
     });
-    // if are [time: ...]
-    // if empty day []
-
     if (existingReservations.length > 0) {
       if (existingReservations.length > 1 || existingReservations[0].time === "DAY") {
         throw new Error(
@@ -142,7 +135,11 @@ const mutations = {
     });
     return day;
   },
-
+  async updateReservation(parent, args, ctx, info) {
+    const updates = { ...args };
+    delete updates.id;
+    return ctx.db.mutation.updateReservation(updates);
+  },
   async deleteReservation(parent, args, ctx, info) {
     hasOneOfPermissions(ctx, "ADMIN", "GUIDE");
     const id = args.id;
@@ -158,13 +155,43 @@ const mutations = {
     });
     return deleteReservations;
   },
-  // delete Guide
-  async deleteUser(parent, args, ctx, info) {
+  async createInfo(parent, args, ctx, info) {
     hasPermission(ctx, "ADMIN");
-    const id = args.id;
-    const deleteUser = ctx.db.mutation.deleteUser({ where: { id } }, info);
-    //const transaction = await ctx.db.transaction([deleteReservations, deleteUser]);
-    return deleteUser;
+    //console.log("args", args);
+    const myInfo = ctx.db.mutation.createInfo({
+      ...args,
+    });
+    return myInfo;
+  },
+  async updateInfo(parent, args, ctx, info) {
+    hasPermission(ctx, "ADMIN");
+    //console.log("args", args);
+    const myInfo = ctx.db.mutation.updateInfo({
+      ...args,
+    });
+    return myInfo;
+  },
+  async createTrip(parent, args, ctx, info) {
+    hasPermission(ctx, "GUIDE");
+    //console.log("args", args);
+    const trip = ctx.db.mutation.createTrip({
+      ...args,
+    });
+    return trip;
+  },
+  async updateTrip(parent, args, ctx, info) {
+    hasPermission(ctx, "GUIDE");
+    console.log("args", args);
+    const trip = ctx.db.mutation.updateTrip({
+      ...args,
+    });
+    return trip;
+  },
+  async deleteTrip(parent, args, ctx, info) {
+    const trip = ctx.db.mutation.deleteTrip({
+      ...args,
+    });
+    return info;
   },
 };
 module.exports = mutations;

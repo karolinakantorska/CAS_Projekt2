@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 // Components
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import Loading from '../reusable/LoadingBar';
@@ -34,22 +33,22 @@ const OneGuide = ({ guideId }) => {
       <StyledCardWithPadding>
         <StyledOneGuideGrid>
           <H6 use="headline6" className="title">
-            {`${user.name} ${user.surname}`}{' '}
+            {`${user.name} ${user.surname}`}
           </H6>
           <Subtitle use="subtitle2" className="subtitle">{`${user.title}`}</Subtitle>
           <Typography use="body2" className="info1">
             <strong>Ebiking: </strong>
             {` ${user.ebike ? 'YES' : 'NO'}`}
           </Typography>
-          <Typography use="body2" className="info1">
+          <Typography use="body2" className="info2">
             <strong>Mountainbike: </strong>
             {` ${user.mtb ? 'YES' : 'NO'}`}
           </Typography>
-          <Typography use="body2" className="info2">
+          <Typography use="body2" className="info3">
             <strong>Specialisation:</strong>
             {specialisations.toString()}
           </Typography>
-          <Typography use="body2" className="info3">
+          <Typography use="body2" className="info4">
             <strong>Email:</strong>
             {`${user.email}`}
           </Typography>

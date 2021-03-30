@@ -97,3 +97,9 @@ export function routeToGuideDetails(guideId) {
     },
   });
 }
+export function routeToEditTrip(id) {
+  Router.push({
+    pathname: '/edit_trip',
+    query: { id },
+  });
+}

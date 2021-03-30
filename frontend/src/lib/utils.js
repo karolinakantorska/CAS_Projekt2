@@ -15,6 +15,30 @@ export const specialsations = [
   'Fatbiking',
   'Ebikes',
 ];
+export const specialsations2 = {
+  Trail_riding: 'Trail Riding',
+  Singletrack: 'Singletrack',
+  Bikepark: 'Bikepark',
+  Downhill: 'Downhill',
+  Cross_country: 'Cross Country',
+  All_mountain: 'All Mountain',
+  Enduro: 'Enduro',
+  Dirt_jumping: 'Dirt Jumping',
+  Freeride: 'Freeride',
+  MTB_touring: 'MTB Touring',
+  Fatbiking: 'Fatbiking',
+  Ebikes: 'Ebikes',
+};
+
+export const difficulties = {
+  S0: 'S0 (very easy)',
+  S1: 'S1 (easy)',
+  S2: 'S2 (intermediate)',
+  S3: 'S3 (difficult)',
+  S4: 'S4 (very difficult)',
+  S5: 'S5 (extremely difficult)',
+};
+
 export const colors = [
   'Col1',
   'Col2',
@@ -26,6 +50,6 @@ export const colors = [
   'Col8',
   'Col9',
 ];
-function callback() {
+export function callback() {
   console.log('it is me callback');
 }

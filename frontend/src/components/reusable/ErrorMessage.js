@@ -11,6 +11,6 @@ const ErrorMessage = ({ error }) => {
 };
 
 ErrorMessage.propTypes = {
-  errors: PropTypes.string,
+  error: PropTypes.string,
 };
 export default ErrorMessage;

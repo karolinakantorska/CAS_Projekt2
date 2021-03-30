@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { TextField } from '@rmwc/textfield';
 import ErrorMessage from '../reusable/ErrorMessage';
 
@@ -24,5 +25,10 @@ const InputPassword = ({ handleChange, value, error }) => {
       {error && <ErrorMessage error={error} />}
     </>
   );
+};
+InputPassword.propTypes = {
+  handleChange: PropTypes.func,
+  value: PropTypes.string,
+  error: PropTypes.string,
 };
 export default InputPassword;

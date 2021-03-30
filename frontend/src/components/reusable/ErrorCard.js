@@ -11,6 +11,6 @@ const ErrorCard = ({ error }) => {
 };
 
 ErrorCard.propTypes = {
-  errors: PropTypes.string,
+  error: PropTypes.string,
 };
 export default ErrorCard;

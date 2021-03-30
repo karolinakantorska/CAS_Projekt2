@@ -44,11 +44,12 @@ export const StyledOneGuideGrid = styled.span`
   grid-template-areas:
     ' title title'
     ' subtitle subtitle'
-    ' info1 photo'
-    ' info2 photo'
-    ' info3 photo'
-    ' info4 photo'
-    ' info5 photo'
+    ' info photo'
+    ' info photo'
+    ' info photo'
+    ' info photo'
+    ' info photo'
+    ' info photo'
     ' desc desc'
     ' button button';
   .title {
@@ -81,6 +82,7 @@ export const StyledOneGuideGrid = styled.span`
       ' info3'
       ' info4'
       ' info5'
+      ' info6'
       ' photo'
       ' desc'
       ' button';
