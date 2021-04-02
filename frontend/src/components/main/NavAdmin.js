@@ -12,6 +12,9 @@ const NavAdmin = () => {
       <Link href="/change_info">
         <StyledMenu2 use="body">Change Info</StyledMenu2>
       </Link>
+      <Link href={`/empty_reservations`}>
+        <StyledMenu2 use="body">Empty Reservations</StyledMenu2>
+      </Link>
       <Link href={`/calendar_admin?guideId=0`}>
         <StyledMenu2 use="body">Calendar</StyledMenu2>
       </Link>

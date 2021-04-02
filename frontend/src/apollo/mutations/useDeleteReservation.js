@@ -1,15 +1,17 @@
 import { gql, useMutation } from '@apollo/client';
-import { routeToGuidesList } from '../../lib/utilsRouts';
 import DELETE_RESERVATION from '../../graphgl/mutations/DELETE_RESERVATION';
 
 export function useDeleteReservation() {
   const [deleteReservation, { loading, error }] = useMutation(DELETE_RESERVATION, {
-    onCompleted: () => {
-      routeToGuidesList();
-    },
     onError: (error) => {
       error;
     },
+    update(cache, data) {
+      cacheDeleteGuide(cache, data);
+    },
   });
   return [deleteReservation, { loading, error }];
+}
+function cacheDeleteGuide(cache, data) {
+  cache.evict(cache.identify(data.data.deleteReservation));
 }

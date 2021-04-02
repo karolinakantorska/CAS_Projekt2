@@ -4,8 +4,7 @@ import Link from 'next/link';
 import { StyledNav2 } from '../styles/StyledNav2';
 import { StyledMenu2 } from '../styles/Text';
 
-const NavUser = ({ userId }) => {
-  console.log(userId);
+const NavUser = ({ gastId }) => {
   return (
     <StyledNav2>
       <Link href="/info">
@@ -13,8 +12,8 @@ const NavUser = ({ userId }) => {
           Info
         </StyledMenu2>
       </Link>
-      {userId && (
-        <Link href={`/my_trips?userId=${userId}`}>
+      {gastId && (
+        <Link href={`/my_trips?gastId=${gastId}`}>
           <StyledMenu2 use="body">My Trips</StyledMenu2>
         </Link>
       )}

@@ -1,12 +1,11 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // Components
 import DaySpan from './DaySpan';
 import CalendarMenu from './CalendarMenu';
 import GuideAvatar from '../reusable/GuideAvatar';
-import AdminAvatar from '../reusable/AdminAvatar';
+import NonGuideAvatar from '../reusable/NonGuideAvatar';
 import Year from './Year';
 import Loading from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
@@ -55,7 +54,7 @@ const Calendar = ({
           handleMonthChange={handleMonthChange}
         />
         {guideId === '0' ? (
-          <AdminAvatar />
+          <NonGuideAvatar currentUser={dataCurrentUser.currentUser} />
         ) : (
           <StyledSpan>
             <GuideAvatar guideId={guideId} />
@@ -103,21 +102,17 @@ const Calendar = ({
     );
   }
 };
-/*
+
 Calendar.propTypes = {
   guideId: PropTypes.string,
-  guideName: PropTypes.string,
-  guideSurname: PropTypes.string,
-  guidePhoto: PropTypes.string,
-  reservations,
-  handleMonthChange,
-  selectedYear,
-  selectedMonth,
-  emptyCells,
-  daysInMonthArray,
-  selectedDateTimestamp,
+  reservations: PropTypes.object,
+  handleMonthChange: PropTypes.func,
+  selectedYear: PropTypes.string,
+  selectedMonth: PropTypes.string,
+  emptyCells: PropTypes.array,
+  daysInMonthArray: PropTypes.array,
+  selectedDateTimestamp: PropTypes.string,
 };
-*/
 
 const StyledCalendarContainer = styled.div`
   max-width: var(--maxWidth);
@@ -154,10 +149,3 @@ const StyledDayName = styled.div`
   }
 `;
 export default Calendar;
-/*      
-        
-
-        
-        
-
-        */

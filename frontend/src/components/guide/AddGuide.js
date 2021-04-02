@@ -53,7 +53,6 @@ const AddGuide = () => {
     urlGuidePhoto,
     uploadPresetGuide,
   );
-
   function handleAddGuide() {
     addGuide({
       variables: {
@@ -73,7 +72,6 @@ const AddGuide = () => {
       },
     });
   }
-
   return (
     <StyledCard>
       <form onSubmit={handleSubmit} method="post">

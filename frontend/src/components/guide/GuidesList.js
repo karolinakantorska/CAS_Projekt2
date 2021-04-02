@@ -9,7 +9,7 @@ import { permission } from '../../lib/utils';
 import { useAllUsersWithPermission } from '../../apollo/querries/useAllUsersWithPermission';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 // Components for Styling
-import { StyledContainer } from '../styles/StyledContainer';
+import { StyledContainer, StyledCardsContainer } from '../styles/StyledContainer';
 
 const GuidesList = () => {
   const { loading, error, data } = useAllUsersWithPermission(permission.guide);
@@ -47,12 +47,5 @@ const GuidesList = () => {
     );
   }
 };
-export const StyledCardsContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(352px, 1fr));
-  grid-gap: 1% 2%;
-  row-gap: 15px;
-  justify-content: space-between;
-`;
 
 export default GuidesList;

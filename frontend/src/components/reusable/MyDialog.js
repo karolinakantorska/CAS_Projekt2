@@ -15,6 +15,7 @@ const MyDialog = ({ title, body, handleAction }) => {
           if (evt.detail.action === 'accept') {
             handleAction();
           }
+
           setOpen(false);
         }}
       />

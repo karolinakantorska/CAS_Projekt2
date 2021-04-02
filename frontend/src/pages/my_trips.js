@@ -1,7 +1,7 @@
-import BookedTrips from '../components/booking/BookedTrips';
+import CalendarBookedTrips from '../components/calendar/CalendarBookedTrips';
 
 const my_trips = ({ query }) => {
-  return <BookedTrips userId={query.userId} />;
+  return <CalendarBookedTrips gastId={query.gastId} />;
 };
 
 export default my_trips;

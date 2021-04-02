@@ -9,6 +9,10 @@ const UPDATE_DAY = gql`
     $description: String
     $id: ID
     $dayId: ID
+    $holiday: Boolean
+    $confirmed: Boolean
+    $guideId: ID
+    $gastId: ID
   ) {
     updateDay(
       where: { id: $dayId }
@@ -22,6 +26,10 @@ const UPDATE_DAY = gql`
               userEmail: $userEmail
               nrOfPeople: $nrOfPeople
               description: $description
+              holiday: $holiday
+              confirmed: $confirmed
+              guideId: $guideId
+              gastId: $gastId
               guide: { connect: { id: $id } }
             }
           ]

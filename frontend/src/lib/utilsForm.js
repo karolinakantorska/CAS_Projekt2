@@ -91,6 +91,7 @@ export function useCheckBoxes(initialValues, loading = false) {
     handleChecked,
   };
 }
+/*
 export function useGuidesInput(initialValue) {
   const [guides, setGuides] = useState(initialValue);
 
@@ -103,6 +104,8 @@ export function useGuidesInput(initialValue) {
       guide2: { id: guides.guide2.id, name: guides.guide2.name },
     });
   }
+  */
+/*
   function handleChangeGuide2(e) {
     const eventText = e.target.value.split(' ');
     const eventId = eventText[0];
@@ -119,7 +122,7 @@ export function useGuidesInput(initialValue) {
     handleChangeGuide2,
   };
 }
-
+*/
 export function useFormInput(initialValue, loading = false) {
   const [value, setValue] = useState(initialValue);
   useEffect(() => {
@@ -127,6 +130,7 @@ export function useFormInput(initialValue, loading = false) {
   }, [loading]);
 
   function handleChange(e) {
+    //console.log('e.target.value', e.target.value);
     setValue(e.target.value);
   }
   return {

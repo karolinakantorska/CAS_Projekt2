@@ -25,8 +25,9 @@ import { H6, Subtitle, TextLink } from '../styles/Text';
 // RMWC
 import { Typography } from '@rmwc/typography';
 
-const AddInfo = ({ currentUserPermission, tripId }) => {
+const TripCard = ({ currentUserPermission, tripId }) => {
   const { loading, error, data } = useTrip(tripId);
+
   const [
     deleteTrip,
     { loading: loadingMutation, error: errorMutation },
@@ -36,9 +37,9 @@ const AddInfo = ({ currentUserPermission, tripId }) => {
   }
   if (loading) {
     return (
-      <StyledGuideCard>
+      <StyledTripCard>
         <LoadingCicle size="large" />
-      </StyledGuideCard>
+      </StyledTripCard>
     );
   }
   if (error) {
@@ -91,7 +92,7 @@ const AddInfo = ({ currentUserPermission, tripId }) => {
     );
   }
 };
-AddTrip.propTypes = {
+TripCard.propTypes = {
   tripId: PropTypes.string.isRequired,
   currentUserPermission: PropTypes.string,
 };
@@ -103,4 +104,4 @@ export const StyledTripCard = styled(Card)`
   margin-top: 98px;
   max-width: 344px;
 `;
-export default AddInfo;
+export default TripCard;

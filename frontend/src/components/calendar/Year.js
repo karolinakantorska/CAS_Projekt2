@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 const Year = ({ selectedYear }) => {
   return <StyledSpan className="calendar_font">{selectedYear}</StyledSpan>;
@@ -20,9 +19,5 @@ const StyledSpan = styled.span`
     font-size: 2.5rem;
   }
 `;
-Year.propTypes = {
-  selectedYear: PropTypes.string.required,
-};
 
 export default Year;
-//

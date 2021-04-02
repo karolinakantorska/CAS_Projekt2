@@ -1,5 +1,33 @@
 import React, { useState } from 'react';
-import { routeToBookingConfirmation, routeToGuidesList } from '../lib/utilsRouts';
+import { routeToBookingConfirmation } from '../lib/utilsRouts';
+
+export function checkGuideAvability(data, reservationTime) {
+  if (data) {
+    if (data.reservations.length === 0) {
+      return true;
+    } else {
+      const newArray = [];
+      data.reservations.map((res) => {
+        newArray.push(res.time);
+      });
+      console.log(newArray);
+      if (newArray.includes('DAY')) {
+        console.log('incudesDay');
+        return false;
+      }
+
+      if (newArray.includes('AM' && 'PM')) {
+        console.log('includes AM PM');
+        return false;
+      }
+      if (newArray.includes(reservationTime)) {
+        console.log('includes', time);
+        return false;
+      }
+      return true;
+    }
+  }
+}
 
 export const chooseWholeDay = 'Day Trip from 8.00 to 19.00';
 export const chooseMorning = 'Morning Trip from 8.00 to 12.00';
@@ -69,13 +97,4 @@ export function handleBooking(
   } else {
     routeToBookingConfirmation(day, selectedMonth, selectedYear, guideId, bookedTime);
   }
-}
-
-export function handleCloseReservationDetails() {
-  routeToGuidesList();
-}
-export function handleDeleteReservation(id, deleteReservation) {
-  deleteReservation({
-    variables: { id },
-  });
 }

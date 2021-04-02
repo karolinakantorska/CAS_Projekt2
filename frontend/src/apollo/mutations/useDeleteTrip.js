@@ -1,36 +1,18 @@
 import { gql, useMutation } from '@apollo/client';
 import DELETE_TRIP from '../../graphgl/mutations/DELETE_TRIP';
-import ALL_USERS_WITH_PERMISSION_QUERY from '../../graphgl/queries/ALL_USERS_WITH_PERMISSION_QUERY';
-import { permission } from '../../lib/utils';
 
 export function useDeleteTrip() {
   const [deleteTrip, { loading, error }] = useMutation(DELETE_TRIP, {
     onError: (error) => {
       error;
     },
-    /*
     update(cache, data) {
-      cacheDeleteGuide(cache, data);
+      cacheDeleteTrip(cache, data);
     },
-    */
   });
   return [deleteTrip, { loading, error }];
 }
-/*
-function cacheDeleteGuide(cache, data) {
-  const deletedUserID = data.data.deleteUser.id;
-  console.log(deletedUserID);
-  //cache.evict(cache.identify(deletedUserID));
-  const dataAll = cache.readQuery({
-    query: ALL_USERS_WITH_PERMISSION_QUERY,
-    variables: { permissions: permission.guide },
-  });
-  const newDataAll = { ...dataAll };
-  newDataAll.users = newDataAll.users.filter((user) => user.id !== deletedUserID);
-  cache.writeQuery({
-    query: ALL_USERS_WITH_PERMISSION_QUERY,
-    variables: { permissions: permission.guide },
-    data: { users: [...newDataAll.users] },
-  });
+
+function cacheDeleteTrip(cache, data) {
+  cache.evict(cache.identify(data.data.deleteTrip));
 }
-*/

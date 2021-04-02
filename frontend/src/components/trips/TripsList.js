@@ -3,22 +3,18 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // Components
 import ErrorGraphql from '../reusable/ErrorGraphql';
-import ErrorMessage from '../reusable/ErrorMessage';
 import Loading from '../reusable/LoadingBar';
-import ButtonMain from '../reusable/ButtonMain';
+import { ButtonMain } from '../reusable/Buttons';
 import GuideAvatar from '../reusable/GuideAvatar';
 import TripCard from '../trips/TripCard';
 
-import { trips } from '../../lib/trip';
 // Utils
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { useTripsFromGuide } from '../../apollo/querries/useTrips';
 
 // Components for Styling
-import { StyledContainer } from '../styles/StyledContainer';
-import { StyledTextTitle5 } from '../styles/StyledText';
-// TODO put this element to styles
-import { StyledCardsContainer } from '../guide/GuidesList';
+import { StyledContainer, StyledCardsContainer } from '../styles/StyledContainer';
+import { H6, TextGrayDense } from '../styles/Text';
 
 const AddInfo = ({ guideId }) => {
   const { loading, error, data } = useTripsFromGuide(guideId);
@@ -41,7 +37,8 @@ const AddInfo = ({ guideId }) => {
       <>
         <StyledContainer>
           <StyledSpan>
-            <StyledTextTitle5>Trips added by:</StyledTextTitle5>
+            <H6 use="headline6">Trips added by:</H6>
+
             <GuideAvatar guideId={guideId} />
           </StyledSpan>
           <StyledCardsContainer>

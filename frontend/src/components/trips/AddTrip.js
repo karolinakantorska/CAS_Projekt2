@@ -29,14 +29,12 @@ import { StyledContainer } from '../styles/StyledContainer';
 import { StyledCard } from '../styles/StyledCards';
 import { StyledFieldset, StyledSpanErrors, StyledSelect } from '../styles/StyledForm';
 import { TextField } from '@rmwc/textfield';
-import { StyledTextTitle5 } from '../styles/StyledText';
 import { CardPrimaryAction } from '@rmwc/card';
 import { StyledGuideImage } from '../styles/StyledImage';
 import { H6, TextGrayDense } from '../styles/Text';
-import { Select } from '@rmwc/select';
 
 const AddTrip = () => {
-  const [createTrip, { loading, error }] = useCreateTrip();
+  const [createTrip, { loading, error, data }] = useCreateTrip();
   const {
     loading: loadingCurrentUser,
     error: errorCurrentUser,
@@ -59,8 +57,8 @@ const AddTrip = () => {
     urlGuidePhoto,
     uploadPresetTripSquere,
   );
-
   function handleAddTrip() {
+    //console.log('dataCurrentUser.currentUser.id', dataCurrentUser.currentUser.id);
     createTrip({
       variables: {
         title: inputs.title.textValue,
@@ -84,6 +82,7 @@ const AddTrip = () => {
     return <ErrorGraphql error={errorCurrentUser || error} />;
   }
   if (dataCurrentUser) {
+    console.log('dataCurrentUser.currentUser.id', dataCurrentUser.currentUser.id);
     const difficultiesArray = arrayFromObject(difficulties);
     return (
       <StyledContainer>
@@ -104,10 +103,10 @@ const AddTrip = () => {
                 value={inputs.special.textValue || ''}
                 required={false}
               />
-
               <StyledSelect
                 onChange={handleDifficultyChange}
                 placeholder="Please chose difficulty level"
+                required={true}
               >
                 {difficultiesArray.map((difficulty) => {
                   return (
@@ -169,7 +168,7 @@ const AddTrip = () => {
                 name="ebikes"
                 text="E-bikes"
                 handleSwitch={handleSwitch}
-                checked={switchValues.ebikes}
+                checked={switchValues.ebikes || false}
               />
               <Input
                 handleChange={handleChange}

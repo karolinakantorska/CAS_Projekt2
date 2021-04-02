@@ -5,3 +5,10 @@ export const StyledContainer = styled.span`
   max-width: var(--maxWidth);
   margin: auto;
 `;
+export const StyledCardsContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(352px, 1fr));
+  grid-gap: 1% 2%;
+  row-gap: 15px;
+  justify-content: space-between;
+`;

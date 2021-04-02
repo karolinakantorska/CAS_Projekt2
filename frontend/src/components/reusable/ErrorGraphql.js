@@ -9,6 +9,7 @@ const ErrorGraphql = ({ error }) => {
     error.networkError.result &&
     error.networkError.result.errors.length
   ) {
+    console.log('error', error);
     return error.networkError.result.errors.map((error, i) => (
       <div key={i}>
         <ErrorText use="body2">{error.message.replace('GraphQL error: ', '')}</ErrorText>

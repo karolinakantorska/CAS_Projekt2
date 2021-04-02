@@ -3,6 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import DAY_QUERY from '../../graphgl/queries/DAY_QUERY';
 
 export function useDay(year, month, day) {
+  console.log(year, month, day);
   const { loading, error, data } = useQuery(DAY_QUERY, {
     variables: {
       year,

@@ -29,6 +29,7 @@ const CREATE_TRIP = gql`
         photo: $photo
       }
     ) {
+      id
       title
       guide {
         id

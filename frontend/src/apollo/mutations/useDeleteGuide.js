@@ -16,18 +16,5 @@ export function useDeleteGuide() {
 }
 
 function cacheDeleteGuide(cache, data) {
-  const deletedUserID = data.data.deleteUser.id;
-  console.log(deletedUserID);
-  //cache.evict(cache.identify(deletedUserID));
-  const dataAll = cache.readQuery({
-    query: ALL_USERS_WITH_PERMISSION_QUERY,
-    variables: { permissions: permission.guide },
-  });
-  const newDataAll = { ...dataAll };
-  newDataAll.users = newDataAll.users.filter((user) => user.id !== deletedUserID);
-  cache.writeQuery({
-    query: ALL_USERS_WITH_PERMISSION_QUERY,
-    variables: { permissions: permission.guide },
-    data: { users: [...newDataAll.users] },
-  });
+  cache.evict(cache.identify(data.data.deleteUser));
 }

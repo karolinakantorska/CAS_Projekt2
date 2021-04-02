@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { TextGrayDense } from '../styles/Text';
 import { Switch } from '@rmwc/switch';
 const MySwitch = ({ handleSwitch, name, text, checked }) => {
-  //email=name
   return (
     <label htmlFor={name}>
       <TextGrayDense use="body1">{text}: </TextGrayDense>
@@ -11,7 +10,7 @@ const MySwitch = ({ handleSwitch, name, text, checked }) => {
     </label>
   );
 };
-MyDialog.propTypes = {
+MySwitch.propTypes = {
   handleSwitch: PropTypes.func,
   name: PropTypes.string,
   text: PropTypes.string,

@@ -4,6 +4,9 @@ const DELETE_TRIP = gql`
   mutation DELETE_TRIP($id: ID!) {
     deleteTrip(where: { id: $id }) {
       id
+      guide {
+        id
+      }
     }
   }
 `;

@@ -29,6 +29,7 @@ const UPDATE_TRIP = gql`
       }
       where: { id: $id }
     ) {
+      id
       title
       guide {
         id

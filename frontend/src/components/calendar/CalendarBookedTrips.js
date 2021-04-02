@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 
 import PropTypes from 'prop-types';
-
+import styled from 'styled-components';
 // Components
 import Calendar from './Calendar';
 import Loading from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 // Utils
-import { useCalendar, filterReservationsData } from '../../lib/utilsCalendar';
+import { useUsersMonthReservations } from '../../apollo/querries/useUsersMonthReservations';
+import {
+  useCalendar,
+  filterReservationsData,
+  filterUserReservationsData,
+} from '../../lib/utilsCalendar';
+import { currentDate, weekDaysEN } from '../../lib/utilsCalendar';
+import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 
-import { useGuideMonthReservations } from '../../apollo/querries/useGuideMonthReservations';
-
-const CalendarResQueryUser = ({ guideId }) => {
+const BookedTrips = ({ gastId }) => {
   const {
     handleMonthChange,
     selectedYear,
@@ -20,11 +25,13 @@ const CalendarResQueryUser = ({ guideId }) => {
     daysInMonthArray,
     selectedDateTimestamp,
   } = useCalendar();
-  const { loading, error, data, refetch } = useGuideMonthReservations(
+
+  const { loading, error, data, refetch } = useUsersMonthReservations(
     selectedYear,
     selectedMonth,
-    guideId,
+    gastId,
   );
+
   useEffect(() => {
     refetch();
   }, [selectedMonth]);
@@ -40,7 +47,7 @@ const CalendarResQueryUser = ({ guideId }) => {
   }
   if (data) {
     console.log('data.days', data.days);
-    const reservations = filterReservationsData(data.days, guideId);
+    const reservations = filterUserReservationsData(data.days, gastId);
     console.log('reservations', reservations);
     return (
       <Calendar
@@ -50,14 +57,14 @@ const CalendarResQueryUser = ({ guideId }) => {
         emptyCells={emptyCells}
         daysInMonthArray={daysInMonthArray}
         selectedDateTimestamp={selectedDateTimestamp}
-        guideId={guideId}
+        guideId="0"
         reservations={reservations}
       />
     );
   }
 };
-CalendarResQueryUser.propTypes = {
-  guideId: PropTypes.string,
+BookedTrips.propTypes = {
+  gastId: PropTypes.string,
 };
 
-export default CalendarResQueryUser;
+export default BookedTrips;

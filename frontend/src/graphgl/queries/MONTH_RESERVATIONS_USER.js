@@ -1,10 +1,8 @@
 import { gql } from '@apollo/client';
 
-const MONTH_RESERVATIONS_QUERY = gql`
-  query MONTH_RESERVATIONS_QUERY($year: String, $month: String, $id: ID) {
-    days(
-      where: { year: $year, month: $month, reservations_some: { guide: { id: $id } } }
-    ) {
+const MONTH_RESERVATIONS_USER = gql`
+  query MONTH_RESERVATIONS_USER($year: String, $month: String, $gastId: ID) {
+    days(where: { year: $year, month: $month, reservations_some: { gastId: $gastId } }) {
       id
       year
       month
@@ -36,4 +34,4 @@ const MONTH_RESERVATIONS_QUERY = gql`
     }
   }
 `;
-export default MONTH_RESERVATIONS_QUERY;
+export default MONTH_RESERVATIONS_USER;

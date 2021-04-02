@@ -2,24 +2,30 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Button } from '@rmwc/button';
+import { DialogButton } from '@rmwc/dialog';
 import { Typography } from '@rmwc/typography';
 
-export const ButtonMain = ({ text, onClick }) => {
+export const ButtonMain = ({ text, onClick, disabled = false }) => {
   return (
-    <StyledButton onClick={onClick} raised theme={['secondaryBg', 'onSecondary']}>
+    <StyledButton
+      onClick={onClick}
+      raised
+      theme={['secondaryBg', 'onSecondary']}
+      disabled={disabled}
+    >
       <StyledTextMain use="button">{text}</StyledTextMain>
     </StyledButton>
   );
 };
-export const ButtonLink = ({ text, onClick }) => {
+export const ButtonLink = ({ text, onClick, disabled = false }) => {
   return (
-    <StyledButton onClick={onClick} className="button_link">
+    <StyledButton onClick={onClick} className="button_link" disabled={disabled}>
       <StyledTextLink use="button">{text}</StyledTextLink>
     </StyledButton>
   );
 };
 
-const StyledTextMain = styled(Typography)`
+export const StyledTextMain = styled(Typography)`
   color: var(--colorPrimary);
   text-transform: capitalize;
   font-weight: 600;

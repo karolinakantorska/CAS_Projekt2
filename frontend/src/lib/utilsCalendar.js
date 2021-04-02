@@ -16,28 +16,25 @@ export const weekDaysEN = () => {
   }
   return week;
 };
-/*
-export const reservationsDataToArray = (queryResult, guideId) => {
-  const reservationsByDays = {};
-  queryResult.map((bookings) => {
-    const { day, reservations } = bookings;
-    // filtering out reservations from another guide
-    const reservationsFromOneGuide = reservations.filter(
-      (reservation) => reservation.guide.id === guideId,
-    );
-    reservationsByDays[day] = reservationsFromOneGuide;
-  });
-  return reservationsByDays;
-};
-*/
 export const filterReservationsData = (queryResult, guide1Id) => {
   const reservationsByDays = {};
   queryResult.map((bookings) => {
     const { day, reservations } = bookings;
     const reservationsFromSelectedGuides = reservations.filter(
-      (reservation) => reservation.guide.id === guide1Id,
+      (reservation) => reservation.guide && reservation.guide.id === guide1Id,
     );
     reservationsByDays[day] = reservationsFromSelectedGuides;
+  });
+  return reservationsByDays;
+};
+export const filterUserReservationsData = (queryResult, gastId) => {
+  const reservationsByDays = {};
+  queryResult.map((bookings) => {
+    const { day, reservations } = bookings;
+    const reservationsFromSelectedUser = reservations.filter(
+      (reservation) => reservation.gastId === gastId,
+    );
+    reservationsByDays[day] = reservationsFromSelectedUser;
   });
   return reservationsByDays;
 };
@@ -67,30 +64,10 @@ export function useCalendar() {
   const selectedYear = format(selectedDate, 'y');
   const firstDayOfMonth = format(startOfMonth(selectedDate), 'i');
   const daysInMonth = getDaysInMonth(selectedDate);
-  //const [selectedYear, setSelectedYear] = useState(format(selectedDate, 'y'));
-  //const [selectedMonth, setSelectedMonth] = useState(format(selectedDate, 'MMMM'));
-  //const [firstDayOfMonth, setFirstDayOfMonth] = useState(
-  //  format(startOfMonth(selectedDate), 'i'),
-  //);
-  //const [daysInMonth, setDaysInMonth] = useState(getDaysInMonth(selectedDate));
-  //changing Month
+
   function handleMonthChange(i) {
     setSelectedDate(addMonths(selectedDate, i));
   }
-  /*
-  function updateStateWithSelectedDate() {
-    setSelectedMonth(format(selectedDate, 'MMMM'));
-    setSelectedYear(format(selectedDate, 'y'));
-    setFirstDayOfMonth(format(startOfMonth(selectedDate), 'i'));
-    setDaysInMonth(getDaysInMonth(selectedDate));
-  }
-  */
-  /*
-  useEffect(() => {
-    //updateStateWithSelectedDate();
-    setSelectedDate(selectedDate);
-  }, [selectedDate]);
-  */
   const emptyCells = [];
   for (let i = 1; i < firstDayOfMonth; i++) {
     emptyCells.push(i);

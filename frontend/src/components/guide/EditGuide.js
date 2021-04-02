@@ -91,8 +91,6 @@ const UpdateGuide = ({ guideId }) => {
     return <ErrorGraphql error={error} />;
   }
   if (data) {
-    console.log(data.user);
-    console.log(data.user.specialisations);
     return (
       <StyledCard>
         <form onSubmit={handleSubmit} method="post">

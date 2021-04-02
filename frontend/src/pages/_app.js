@@ -42,6 +42,7 @@ function MyApp({ Component, pageProps, apollo }) {
         typography={{
           headline6: 'h6',
           body1: 'p',
+          body2: 'p',
         }}
       >
         {/*<UserStateProvider>*/}

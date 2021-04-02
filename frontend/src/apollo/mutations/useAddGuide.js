@@ -9,7 +9,6 @@ export function useAddGuide() {
     onError: (error) => {
       error;
     },
-
     update(cache, data) {
       cacheAllGuides(cache, data);
     },

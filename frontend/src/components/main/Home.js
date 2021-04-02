@@ -2,13 +2,13 @@ import React from 'react';
 import Link from 'next/link';
 import styled, { ThemeProvider } from 'styled-components';
 import { Button } from '@rmwc/button';
-import { StyledTextButtonWhite } from '../styles/StyledText';
+import { StyledButtonTextWhite } from '../styles/Text';
 
 const Home = () => (
   <ContainerHomepage>
     <Link href="/guides">
       <StyledButton__Homepage raised>
-        <StyledTextButtonWhite>Find the coolest MTB Guide!</StyledTextButtonWhite>
+        <StyledButtonTextWhite>Find the coolest MTB Guide!</StyledButtonTextWhite>
       </StyledButton__Homepage>
     </Link>
   </ContainerHomepage>

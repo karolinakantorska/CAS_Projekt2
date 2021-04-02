@@ -1,4 +1,4 @@
-import InfoText from '../components/main/InfoText';
+import InfoText from '../components/Info/InfoText';
 
 const Info = () => {
   return <InfoText />;

@@ -11,6 +11,10 @@ const CREATE_DAY = gql`
     $nrOfPeople: String
     $description: String
     $id: ID
+    $holiday: Boolean
+    $confirmed: Boolean
+    $guideId: ID
+    $gastId: ID
   ) {
     createDay(
       data: {
@@ -26,6 +30,10 @@ const CREATE_DAY = gql`
               userEmail: $userEmail
               nrOfPeople: $nrOfPeople
               description: $description
+              holiday: $holiday
+              confirmed: $confirmed
+              guideId: $guideId
+              gastId: $gastId
               guide: { connect: { id: $id } }
             }
           ]
@@ -34,6 +42,23 @@ const CREATE_DAY = gql`
       }
     ) {
       id
+      year
+      month
+      day
+      reservations {
+        time
+        userName
+        userEmail
+        nrOfPeople
+        description
+        holiday
+        confirmed
+        guideId
+        gastId
+        guide {
+          id
+        }
+      }
     }
   }
 `;

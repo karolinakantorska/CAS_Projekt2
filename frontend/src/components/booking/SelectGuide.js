@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { useGuideWithoutReservation } from '../../apollo/querries/useGuidesWithoutReservation';
+import { useAllUsersWithPermission } from '../../apollo/querries/useAllUsersWithPermission';
 import Loading from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
+import { permission } from '../../lib/utils';
 // Components for Styling
 import { Select } from '@rmwc/select';
 
-const SelectGuide = ({ id }) => {
-  const { loading, error, data } = useGuideWithoutReservation(id);
+const SelectGuide = ({ handleGuideChange }) => {
+  //console.log('dayId', dayId);
+  const { loading, error, data } = useAllUsersWithPermission(permission.guide);
   if (loading) {
     return <Loading />;
   }
@@ -16,16 +18,12 @@ const SelectGuide = ({ id }) => {
     return <ErrorGraphql error={error} />;
   }
   if (data) {
-    console.log(data);
     return (
-      <Select
-        disabled={false}
-        //onChange={handleChangeGuide1}
-        label="Guide 1"
-        //placeholder={guides.guide1.name}
-      >
+      <Select disabled={false} label="Find a free guide: " onChange={handleGuideChange}>
         {data.users.map((user) => (
-          <option value={`${user.id} ${user.name}`}>{user.name}</option>
+          <option key={user.id} value={user.id}>
+            {user.name}
+          </option>
         ))}
       </Select>
     );

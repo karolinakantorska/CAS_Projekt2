@@ -1,4 +1,7 @@
 import Router from 'next/router';
+export function routeBack() {
+  Router.back();
+}
 export function routeToGuidesList() {
   Router.push({
     pathname: '/guides',

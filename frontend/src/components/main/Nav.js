@@ -96,7 +96,7 @@ const Nav = () => {
         )}
         {(data.currentUser.permissions === permission.user ||
           data.currentUser.permissions === '') && (
-          <StyledSpan>{show && <NavUser userId={data.currentUser.id} />}</StyledSpan>
+          <StyledSpan>{show && <NavUser gastId={data.currentUser.id} />}</StyledSpan>
         )}
       </>
     );

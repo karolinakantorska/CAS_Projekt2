@@ -45,22 +45,24 @@ const BookingConfirmation = ({ props }) => {
       description: { textValue: "Dear Guide, I can't wait to start the trip!" },
     },
   );
-  // here!
-  //console.log(year, month, day);
+
   const { loading, error, data } = useDay(year, month, day);
   const [updateDay, { loading: loadingUpdateDay, error: errorUpdateDay }] = useUpdateDay(
     time,
     guideId,
   );
-
+  console.log('bookedTime', bookedTime);
   const [createDay, { loading: loadingCreateDay, error: errorCreateDay }] = useCreateDay(
+    year,
+    month,
+    day,
     time,
     guideId,
   );
   function handleBookingConfirmation() {
-    //console.log(' data.days.length', data.days.length);
+    console.log(' data.days.length', data.days.length);
     if (data.days.length === 0) {
-      //console.log('create');
+      console.log('create');
       createDay({
         variables: {
           time,
@@ -72,12 +74,17 @@ const BookingConfirmation = ({ props }) => {
           nrOfPeople,
           description: inputs.description.textValue,
           id: guideId,
+          holiday: guideId === dataCurrentUser.currentUser.id,
+          confirmed: false,
+          guideId: guideId,
+          gastId: dataCurrentUser.currentUser.id,
         },
       });
     }
+
     // day exist
     else {
-      //console.log('update');
+      console.log('update');
       //console.log('data.days[0].id', data.days[0].id);
       updateDay({
         variables: {
@@ -88,6 +95,10 @@ const BookingConfirmation = ({ props }) => {
           description: inputs.description.textValue,
           id: guideId,
           dayId: data.days[0].id,
+          holiday: guideId === dataCurrentUser.currentUser.id,
+          confirmed: false,
+          guideId: guideId,
+          gastId: dataCurrentUser.currentUser.id,
         },
       });
     }
@@ -104,7 +115,7 @@ const BookingConfirmation = ({ props }) => {
     );
   }
   if (dataCurrentUser || data) {
-    //console.log(' data', data);
+    console.log(' data', data);
     //console.log(' data.days.length', data.days.length);
     return (
       <StyledCard>
@@ -184,8 +195,8 @@ const BookingConfirmation = ({ props }) => {
 };
 BookingConfirmation.propTypes = {
   day: PropTypes.string,
-  selectedMonth: PropTypes.string,
-  selectedYear: PropTypes.string,
+  Month: PropTypes.string,
+  Year: PropTypes.string,
   guideId: PropTypes.string,
   guideName: PropTypes.string,
   guideSurname: PropTypes.string,

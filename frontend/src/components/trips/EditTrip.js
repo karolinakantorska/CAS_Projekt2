@@ -10,44 +10,38 @@ import { ButtonMain, ButtonLink } from '../reusable/Buttons';
 import Loading from '../reusable/LoadingBar';
 import Input from '../reusable/Input';
 import MySwitch from '../reusable/MySwitch';
-import MyCheckbox from '../reusable/MyCheckbox';
 // Utils
 import {
   useForm,
   useFormInput,
   useSwich,
-  useCheckBoxes,
   usePhotoUpload,
   arrayFromObject,
 } from '../../lib/utilsForm';
-
-import {
-  permission,
-  specialsations,
-  colors,
-  callback,
-  difficulties,
-} from '../../lib/utils';
+import { difficulties } from '../../lib/utils';
 import { useTrip } from '../../apollo/querries/useTrip';
 import { useEditTrip } from '../../apollo/mutations/useEditTrip';
 import { urlGuidePhoto, uploadPresetTripSquere } from '../../lib/utilsPhotoUpload';
 import { routeToTripList } from '../../lib/utilsRouts';
-
+import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 // Components for Styling
 import { StyledCard } from '../styles/StyledCards';
 import { StyledFieldset, StyledSpanErrors, StyledSelect } from '../styles/StyledForm';
 import { TextField } from '@rmwc/textfield';
 import { StyledGuideImage } from '../styles/StyledImage';
-import { H6, Subtitle, TextLink, TextGrayDense } from '../styles/Text';
-import { StyledButtonSpan } from '../styles/StyledButtonSpan';
+import { H6, TextGrayDense } from '../styles/Text';
 // RMWC
-import { Typography } from '@rmwc/typography';
-import { Select } from '@rmwc/select';
+
 const UpdateTrip = ({ tripId }) => {
   const { loading, error, data } = useTrip(tripId);
+  const {
+    loading: loadingCurrentUser,
+    error: errorCurrentUser,
+    data: dataCurrentUser,
+  } = useCurrentUser();
   const { switchValues, handleSwitch } = useSwich(
     {
-      ebike: data ? data.trip.ebike : true,
+      ebike: data ? data.trip.ebikes : true,
     },
     loading,
   );
@@ -65,10 +59,9 @@ const UpdateTrip = ({ tripId }) => {
     loading,
   );
   const { value: difficulty, handleChange: handleDifficultyChange } = useFormInput(
-    data.trip.difficulty,
+    data ? data.trip.difficulty : '',
     loading,
   );
-
   const { uploadPhoto, result, loadingPhotoUpload, errorPhotoUpload } = usePhotoUpload(
     data ? data.trip.photo : '',
     urlGuidePhoto,
@@ -93,15 +86,15 @@ const UpdateTrip = ({ tripId }) => {
       },
     });
   }
-  if (loading) {
+  if (loading || loadingCurrentUser) {
     return <Loading />;
   }
-  if (error) {
+  if (error || errorCurrentUser) {
     return <ErrorGraphql error={error} />;
   }
-  if (data) {
-    console.log(data.trip);
+  if (data && dataCurrentUser) {
     const { trip } = data;
+    const guideId = dataCurrentUser.currentUser.id;
     const difficultiesArray = arrayFromObject(difficulties);
     return (
       <StyledCard>
@@ -192,7 +185,7 @@ const UpdateTrip = ({ tripId }) => {
               name="ebike"
               text="E-bike"
               handleSwitch={handleSwitch}
-              checked={switchValues.ebike || ''}
+              checked={switchValues.ebike || false}
             />
             <TextGrayDense use="body1">Aditional costs:</TextGrayDense>
             <Input
@@ -205,7 +198,9 @@ const UpdateTrip = ({ tripId }) => {
             <ButtonMain text="Save Changes" />
             <ButtonLink
               text="Go to My Trips"
-              onClick={() => routeToTripList(trip.guide.id)}
+              onClick={() => {
+                routeToTripList(guideId);
+              }}
             />
           </StyledFieldset>
         </form>
