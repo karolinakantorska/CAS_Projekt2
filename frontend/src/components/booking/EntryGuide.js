@@ -47,7 +47,6 @@ const EntryGuide = ({ reservation, currentUser }) => {
         onClose={(e) => {
           setOpen(false);
         }}
-        onClosed={(e) => console.log(e.detail.action)}
       >
         <StyledSpan>
           <DialogTitle>

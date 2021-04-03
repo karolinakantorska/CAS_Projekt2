@@ -21,10 +21,5 @@ const NavAdmin = () => {
     </StyledNav2>
   );
 };
-/*
-      <Link href={`/booking_calendar?guideId=${guideId}`}>
-        <StyledTextMenuAdmin>My Calendar</StyledTextMenuAdmin>
-      </Link>;
-*/
 
 export default NavAdmin;

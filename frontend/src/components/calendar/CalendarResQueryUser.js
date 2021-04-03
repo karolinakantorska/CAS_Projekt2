@@ -39,9 +39,9 @@ const CalendarResQueryUser = ({ guideId }) => {
     );
   }
   if (data) {
-    console.log('data.days', data.days);
+    //console.log('data.days', data.days);
     const reservations = filterReservationsData(data.days, guideId);
-    console.log('reservations', reservations);
+    //console.log('reservations', reservations);
     return (
       <Calendar
         handleMonthChange={handleMonthChange}

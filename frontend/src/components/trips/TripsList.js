@@ -30,7 +30,7 @@ const AddInfo = ({ guideId }) => {
     return <ErrorGraphql error={errorCurrentUser || error} />;
   }
 
-  if (dataCurrentUser || data) {
+  if (dataCurrentUser && data) {
     //console.log(dataCurrentUser.currentUser.permissions);
     //console.log(data.trips);
     return (

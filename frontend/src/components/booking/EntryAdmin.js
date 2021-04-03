@@ -35,7 +35,7 @@ const EntryAdmin = ({ reservation }) => {
     <>
       <EntrySpan
         className={reservation.time}
-        onClick={() => !reservation.holiday && setOpen(true)}
+        onClick={() =>  !reservation.holiday && setOpen(true)}
       >
         <Typography use="caption">
           {`Guide: ${reservation.guide.name}`}

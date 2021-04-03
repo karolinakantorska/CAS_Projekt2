@@ -36,14 +36,14 @@ const ChangeInfo = () => {
   ] = useUpdateInfo();
   function handleEditInfo() {
     if (data.infoes.length === 0) {
-      console.log('create');
+      //console.log('create');
       createInfo({
         variables: {
           text: inputs.text.textValue,
         },
       });
     } else {
-      console.log('update');
+      //console.log('update');
       updateInfo({
         variables: {
           id: data.infoes[0].id,
@@ -59,7 +59,6 @@ const ChangeInfo = () => {
     return <ErrorGraphql error={error} />;
   }
   if (data) {
-    console.log(data);
     return (
       <StyledCardWithPadding>
         <form onSubmit={handleSubmit} method="post">
@@ -69,6 +68,8 @@ const ChangeInfo = () => {
           >
             <H6 use="headline6">Add new Info Text</H6>
             {error && <ErrorGraphql error={error} />}
+            {errorCreateInfo && <ErrorGraphql error={errorCreateInfo} />}
+            {errorUpdateInfo && <ErrorGraphql error={errorUpdateInfo} />}
             <TextField
               fullwidth
               onChange={handleChange}

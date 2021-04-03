@@ -10,7 +10,6 @@ export function checkGuideAvability(data, reservationTime) {
       data.reservations.map((res) => {
         newArray.push(res.time);
       });
-      console.log(newArray);
       if (newArray.includes('DAY')) {
         console.log('incudesDay');
         return false;
@@ -75,26 +74,4 @@ export function useHandleTimeChange(bookedTime) {
     }
   }
   return { time, handleTimeChange };
-}
-export function handleBooking(
-  dayInThePast,
-  dayTooMuchInFuture,
-  day,
-  selectedMonth,
-  selectedYear,
-  guideId,
-  bookedTime,
-) {
-  if (dayInThePast) {
-    alert(`You can't book a day in the past`);
-    return;
-  }
-  if (dayTooMuchInFuture) {
-    alert(
-      `We are sorry but you don't offer bookings for more than tree months in advance`,
-    );
-    return;
-  } else {
-    routeToBookingConfirmation(day, selectedMonth, selectedYear, guideId, bookedTime);
-  }
 }

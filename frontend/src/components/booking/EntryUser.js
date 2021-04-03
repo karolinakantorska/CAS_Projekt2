@@ -25,7 +25,9 @@ const EntryUser = ({ reservation, currentUser }) => {
     <>
       <EntrySpan
         className={reservation.time}
-        onClick={() => currentUser.id === reservation.gastId && setOpen(true)}
+        onClick={() =>
+          currentUser.id === reservation.gastId && setOpen(true)
+        }
       >
         {currentUser.id === reservation.gastId ? (
           <TextSpecial use="caption">

@@ -1,4 +1,4 @@
-import ChangeInfo from '../components/guide/ChangeInfo';
+import ChangeInfo from '../components/Info/ChangeInfo';
 import RedirectWrongPermission from '../components/main/RedirectWrongPermission';
 //Utils
 import { permission } from '../lib/utils';

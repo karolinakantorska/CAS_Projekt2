@@ -91,38 +91,23 @@ export function useCheckBoxes(initialValues, loading = false) {
     handleChecked,
   };
 }
-/*
-export function useGuidesInput(initialValue) {
-  const [guides, setGuides] = useState(initialValue);
 
+export function useGuidesInput(initialValue) {
+  const [guide, setGuide] = useState(initialValue);
   function handleChangeGuide1(e) {
     const eventText = e.target.value.split(' ');
     const eventId = eventText[0];
     const eventName = eventText[1];
-    setGuides({
-      guide1: { id: eventId, name: eventName },
-      guide2: { id: guides.guide2.id, name: guides.guide2.name },
+    setGuide({
+      guide: { id: eventId, name: eventName },
     });
   }
-  */
-/*
-  function handleChangeGuide2(e) {
-    const eventText = e.target.value.split(' ');
-    const eventId = eventText[0];
-    const eventName = eventText[1];
-    setGuides({
-      guide1: { id: guides.guide1.id, name: guides.guide1.name },
-      guide2: { id: eventId, name: eventName },
-    });
-  }
-
   return {
     guides,
-    handleChangeGuide1,
-    handleChangeGuide2,
+    handleChangeGuide,
   };
 }
-*/
+
 export function useFormInput(initialValue, loading = false) {
   const [value, setValue] = useState(initialValue);
   useEffect(() => {

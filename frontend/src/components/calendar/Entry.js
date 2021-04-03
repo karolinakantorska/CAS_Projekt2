@@ -7,22 +7,28 @@ import EntryAdmin from '../booking/EntryAdmin';
 import EntryUser from '../booking/EntryUser';
 import { permission } from '../../lib/utils';
 import { routeToEditEntry } from '../../lib/utilsRouts';
-// Components for Styling
-import { Typography } from '@rmwc/typography';
-import { Icon } from '@rmwc/icon';
+
 const Entry = ({ reservation, currentUser }) => {
-  function handleEntrySpanClick() {
-    routeToEditEntry(reservation.id);
-  }
-  console.log('reservation', reservation);
   if (currentUser.permissions === permission.user) {
-    return <EntryUser reservation={reservation} currentUser={currentUser} />;
+    return (
+      <EntryUser
+        reservation={reservation}
+        currentUser={currentUser}
+        possibleRes={possibleRes}
+      />
+    );
   }
   if (currentUser.permissions === permission.admin) {
     return <EntryAdmin reservation={reservation} />;
   }
   if (currentUser.permissions === permission.guide) {
-    return <EntryGuide reservation={reservation} currentUser={currentUser} />;
+    return (
+      <EntryGuide
+        reservation={reservation}
+        currentUser={currentUser}
+        possibleRes={possibleRes}
+      />
+    );
   } else {
     return <p>booked</p>;
   }

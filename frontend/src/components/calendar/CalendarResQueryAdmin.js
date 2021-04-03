@@ -8,18 +8,15 @@ import Loading from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 // Utils
 import { permission } from '../../lib/utils';
-import { useCalendar, reservationsData } from '../../lib/utilsCalendar';
-import { useGuidesInput } from '../../lib/utilsForm';
+import { useCalendar, filterReservationsData } from '../../lib/utilsCalendar';
+import { useFormInput } from '../../lib/utilsForm';
 import { useAllUsersWithPermission } from '../../apollo/querries/useAllUsersWithPermission';
-
-import { useGuideMonthReservations } from '../../apollo/querries/useGuideMonthReservations';
-import { useManyGuidesMonthReservations } from '../../apollo/querries/useManyGuidesMonthReservations';
+import { useLazyGuideMonthReservations } from '../../apollo/querries/useLazyGuideMonthReservations';
 import { Select } from '@rmwc/select';
 
 const CalendarResQuery = ({ guideId }) => {
-  const { guides, handleChangeGuide1, handleChangeGuide2 } = useGuidesInput({
-    guide1: { id: '0', name: 'Guide 1' },
-    guide2: { id: '0', name: 'Guide 2' },
+  const { value, handleChange } = useFormInput({
+    id: '0',
   });
   const [reservations, setReservations] = useState({});
   const {
@@ -38,24 +35,22 @@ const CalendarResQuery = ({ guideId }) => {
   const [
     monthReservationsLazyQuery,
     { loading, error, data, refetch },
-  ] = useManyGuidesMonthReservations();
+  ] = useLazyGuideMonthReservations();
   useEffect(() => {
-    console.log('go', selectedMonth);
     monthReservationsLazyQuery({
       variables: {
         year: selectedYear,
         month: selectedMonth,
-        id1: guides.guide1.id,
-        id2: guides.guide2.id,
-        id3: '0',
+        id: value,
       },
     });
-  }, [guides, selectedMonth]);
+  }, [value, selectedMonth]);
   useEffect(() => {
     if (data) {
-      setReservations(reservationsData(data.days, guides.guide1.id, guides.guide2.id));
+      setReservations(filterReservationsData(data.days, value));
     }
   }, [data]);
+
   if (loadingGuides || loading) {
     return <Loading />;
   }
@@ -71,22 +66,14 @@ const CalendarResQuery = ({ guideId }) => {
       <>
         <Select
           disabled={false}
-          onChange={handleChangeGuide1}
-          label="Guide 1"
-          placeholder={guides.guide1.name}
+          onChange={handleChange}
+          label="Guide:"
+          placeholder="select Guide:"
         >
           {dataGuides.users.map((user) => (
-            <option value={`${user.id} ${user.name}`}>{user.name}</option>
-          ))}
-        </Select>
-        <Select
-          disabled={false}
-          onChange={handleChangeGuide2}
-          label="Guide 2"
-          placeholder={guides.guide2.name}
-        >
-          {dataGuides.users.map((user) => (
-            <option value={`${user.id} ${user.name}`}>{user.name}</option>
+            <option value={user.id} key={user.id}>
+              {user.name}
+            </option>
           ))}
         </Select>
         <Calendar

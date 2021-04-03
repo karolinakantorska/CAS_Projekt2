@@ -26,29 +26,19 @@ export const filterReservationsData = (queryResult, guide1Id) => {
     reservationsByDays[day] = reservationsFromSelectedGuides;
   });
   return reservationsByDays;
-};
-export const filterUserReservationsData = (queryResult, gastId) => {
-  const reservationsByDays = {};
-  queryResult.map((bookings) => {
-    const { day, reservations } = bookings;
-    const reservationsFromSelectedUser = reservations.filter(
-      (reservation) => reservation.gastId === gastId,
-    );
-    reservationsByDays[day] = reservationsFromSelectedUser;
-  });
-  return reservationsByDays;
-};
-export const reservationsData = (queryResult, guide1Id, guide2Id) => {
+}; /*
+export const filterReservationsDataTwo = (queryResult, guide1Id, guide2Id) => {
   const reservationsByDays = {};
   queryResult.map((bookings) => {
     const { day, reservations } = bookings;
     const reservationsFromSelectedGuides = reservations.filter(
-      (reservation) => reservation.guide.id === guide1Id || guide2Id,
+      (reservation) => reservation.guide !== null && reservation.guide.id === guide1Id,
     );
     reservationsByDays[day] = reservationsFromSelectedGuides;
   });
   return reservationsByDays;
 };
+*/
 export function currentDate() {
   const year = format(new Date(), 'y');
   const month = format(new Date(), 'MMMM');

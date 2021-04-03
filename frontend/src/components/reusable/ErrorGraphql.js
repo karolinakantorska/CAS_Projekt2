@@ -9,12 +9,21 @@ const ErrorGraphql = ({ error }) => {
     error.networkError.result &&
     error.networkError.result.errors.length
   ) {
-    console.log('error', error);
     return error.networkError.result.errors.map((error, i) => (
       <div key={i}>
         <ErrorText use="body2">{error.message.replace('GraphQL error: ', '')}</ErrorText>
       </div>
     ));
+  }
+  if (error.message.includes('ENOTFOUND')) {
+    return (
+      <React.Fragment>
+        <ErrorText>
+          The domain you are tryign to reach is unavailable, please check your internet
+          connection.
+        </ErrorText>
+      </React.Fragment>
+    );
   }
   return (
     <React.Fragment>

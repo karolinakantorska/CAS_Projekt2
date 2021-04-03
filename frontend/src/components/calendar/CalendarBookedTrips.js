@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+
 // Components
 import Calendar from './Calendar';
 import Loading from '../reusable/LoadingBar';
@@ -46,9 +46,9 @@ const BookedTrips = ({ gastId }) => {
     );
   }
   if (data) {
-    console.log('data.days', data.days);
+    //console.log('data.days', data.days);
     const reservations = filterUserReservationsData(data.days, gastId);
-    console.log('reservations', reservations);
+    //console.log('reservations', reservations);
     return (
       <Calendar
         handleMonthChange={handleMonthChange}

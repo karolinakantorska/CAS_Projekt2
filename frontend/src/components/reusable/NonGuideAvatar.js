@@ -4,7 +4,6 @@ import { permission } from '../../lib/utils';
 import { Typography } from '@rmwc/typography';
 
 const NonGuideAvatar = ({ currentUser }) => {
-  console.log('currentUser', currentUser.permissions);
   return (
     <StyledSpan>
       {currentUser.permissions === permission.admin && (

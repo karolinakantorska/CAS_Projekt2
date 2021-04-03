@@ -51,7 +51,6 @@ const BookingConfirmation = ({ props }) => {
     time,
     guideId,
   );
-  console.log('bookedTime', bookedTime);
   const [createDay, { loading: loadingCreateDay, error: errorCreateDay }] = useCreateDay(
     year,
     month,
@@ -60,9 +59,9 @@ const BookingConfirmation = ({ props }) => {
     guideId,
   );
   function handleBookingConfirmation() {
-    console.log(' data.days.length', data.days.length);
+    //console.log(' data.days.length', data.days.length);
     if (data.days.length === 0) {
-      console.log('create');
+      //console.log('create');
       createDay({
         variables: {
           time,
@@ -84,7 +83,7 @@ const BookingConfirmation = ({ props }) => {
 
     // day exist
     else {
-      console.log('update');
+      //console.log('update');
       //console.log('data.days[0].id', data.days[0].id);
       updateDay({
         variables: {
@@ -114,9 +113,7 @@ const BookingConfirmation = ({ props }) => {
       </StyledCard>
     );
   }
-  if (dataCurrentUser || data) {
-    console.log(' data', data);
-    //console.log(' data.days.length', data.days.length);
+  if (dataCurrentUser && data) {
     return (
       <StyledCard>
         <form onSubmit={handleSubmit} method="post">

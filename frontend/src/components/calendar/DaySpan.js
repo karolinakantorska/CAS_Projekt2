@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import DayNr from './DayNr';
 import Entry from './Entry';
 // Utils
-import { handleBooking } from '../../lib/utilsBooking';
+import { routeToBookingConfirmation } from '../../lib/utilsRouts';
 
 const DaySpan = ({
   reservation,
@@ -18,8 +18,33 @@ const DaySpan = ({
   dayInThePast,
   dayTooMuchInFuture,
 }) => {
+  function handleBooking(bookedTime) {
+    if (guideId === '0') {
+      return null;
+    }
+    if (dayInThePast) {
+      alert(`You can't book a day in the past`);
+      return;
+    }
+    if (dayTooMuchInFuture) {
+      alert(
+        `We are sorry but you don't offer bookings for more than tree months in advance`,
+      );
+      return;
+    } else {
+      routeToBookingConfirmation(
+        dayOfMonth,
+        selectedMonth,
+        selectedYear,
+        guideId,
+        bookedTime,
+      );
+    }
+  }
   // if there is only one reservation at the day, different than DAY reservation
   if (reservation.length === 1) {
+    const time = reservation[0].time;
+
     return (
       // if there is 1 reservations at the day
       <DaySpanStyled>
@@ -29,21 +54,11 @@ const DaySpan = ({
           currentUser={currentUser}
           key={reservation[0].id}
         />
-        {reservation[0].time !== 'DAY' && (
+        {time !== 'DAY' && (
           <StyledBookingSpan
             className={(dayInThePast || dayTooMuchInFuture) && 'dayInThePast'}
-            onClick={() =>
-              handleBooking(
-                dayInThePast,
-                dayTooMuchInFuture,
-                dayOfMonth,
-                selectedMonth,
-                selectedYear,
-                guideId,
-                reservation[0].time,
-              )
-            }
-          />
+            onClick={() => handleBooking(time)}
+          ></StyledBookingSpan>
         )}
       </DaySpanStyled>
     );
@@ -74,17 +89,7 @@ const DaySpan = ({
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
         <StyledBookingSpanDay
           className={(dayInThePast || dayTooMuchInFuture) && 'dayInThePast'}
-          onClick={() =>
-            handleBooking(
-              dayInThePast,
-              dayTooMuchInFuture,
-              dayOfMonth,
-              selectedMonth,
-              selectedYear,
-              guideId,
-              time,
-            )
-          }
+          onClick={() => handleBooking(time)}
         />
       </DaySpanStyled>
     );
@@ -102,6 +107,7 @@ DaySpan.propTypes = {
 const DaySpanStyled = styled.span`
   display: grid;
   grid-template-rows: 10px 50px 50px;
+  min-height: 110px;
   justify-content: stretch;
   //background: red;
   grid-template-areas:
@@ -125,6 +131,7 @@ const DaySpanStyled = styled.span`
   }
 `;
 const StyledBookingSpanDay = styled.span`
+
   &:not(.dayInThePast):hover {
     height: 94px;
     margin-top: 6px;
@@ -133,6 +140,7 @@ const StyledBookingSpanDay = styled.span`
     background-color: rgba(21, 21, 21, 0.06);
 `;
 const StyledBookingSpan = styled.span`
+
   &:not(.dayInThePast):hover {
     height: 44px;
     margin-top: 6px;
