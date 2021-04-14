@@ -8,6 +8,7 @@ const InputPassword = ({ handleChange, value, error }) => {
   return (
     <>
       <TextField
+        data-test="input-pass"
         fullwidth
         placeholder="Password"
         type={showPass}
@@ -19,6 +20,7 @@ const InputPassword = ({ handleChange, value, error }) => {
           icon: 'visibility',
           size: 'xsmall',
           onMouseOver: () => setShowPass('text'),
+          onClick: () => setShowPass('text'),
           onMouseLeave: () => setShowPass('password'),
         }}
       />

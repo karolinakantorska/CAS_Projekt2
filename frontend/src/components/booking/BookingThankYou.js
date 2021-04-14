@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 // RMWC
 import { Button } from '@rmwc/button';
 // Components
+import Nav from '../main/Nav';
 import Loading from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import { ButtonLink } from '../reusable/Buttons';
@@ -33,34 +34,37 @@ const BookingThankYou = (props) => {
     const { nrOfPeople, description, time, userName, guide } = day.reservations[0];
     const writeTime = timeToString(time);
     return (
-      <StyledContainer>
-        <StyledCardWithPadding>
-          <H6 use="headline6">Congratulations!</H6>
-          <TextGrayDense use="body1">
-            Your reservation has just been completed.
-          </TextGrayDense>
-          <TextGrayDense use="body1">
-            Thank you for booking MTB Guide:
-            <strong>{` ${guide.name} ${guide.surname}.`}</strong>
-          </TextGrayDense>
-          <TextGrayDense use="body1">
-            For
-            <strong>{` ${day.day} ${day.month} ${day.year}`}</strong>for a{' '}
-            <strong>{` ${writeTime}.`}</strong>
-          </TextGrayDense>
-          <TextGrayDense use="body1">
-            You've reservated a trip for
-            <strong>{` ${nrOfPeople} `}</strong>
-            {nrOfPeople === '1' ? 'guest.' : 'guests.'}
-          </TextGrayDense>
+      <>
+        <Nav />
+        <StyledContainer>
+          <StyledCardWithPadding>
+            <H6 use="headline6">Congratulations!</H6>
+            <TextGrayDense use="body1">
+              Your reservation has just been completed.
+            </TextGrayDense>
+            <TextGrayDense use="body1">
+              Thank you for booking MTB Guide:
+              <strong>{` ${guide.name} ${guide.surname}.`}</strong>
+            </TextGrayDense>
+            <TextGrayDense use="body1">
+              For
+              <strong>{` ${day.day} ${day.month} ${day.year}`}</strong>for a{' '}
+              <strong>{` ${writeTime}.`}</strong>
+            </TextGrayDense>
+            <TextGrayDense use="body1">
+              You've reservated a trip for
+              <strong>{` ${nrOfPeople} `}</strong>
+              {nrOfPeople === '1' ? 'guest.' : 'guests.'}
+            </TextGrayDense>
 
-          {description && (
-            <TextGrayDense use="body1">{`Description: ${description}`}</TextGrayDense>
-          )}
-          <ButtonLink text="Book again!" onClick={() => routeToCalendar(guideId)} />
-          <ButtonLink text="Book another guide!" onClick={routeToGuidesList} />
-        </StyledCardWithPadding>
-      </StyledContainer>
+            {description && (
+              <TextGrayDense use="body1">{`Description: ${description}`}</TextGrayDense>
+            )}
+            <ButtonLink text="Book again!" onClick={() => routeToCalendar(guideId)} />
+            <ButtonLink text="Book another guide!" onClick={routeToGuidesList} />
+          </StyledCardWithPadding>
+        </StyledContainer>
+      </>
     );
   }
 };

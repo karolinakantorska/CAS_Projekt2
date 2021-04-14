@@ -4,6 +4,7 @@ import styled from 'styled-components';
 // RMWC
 import { CardPrimaryAction } from '@rmwc/card';
 // Components
+import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
@@ -19,7 +20,7 @@ import {
   useCheckBoxes,
   usePhotoUpload,
 } from '../../lib/utilsForm';
-import { permission, specialsations, colors } from '../../lib/utils';
+import { permission, specialsations } from '../../lib/utils';
 import { useGuide } from '../../apollo/querries/useGuide';
 import { useEditGuide } from '../../apollo/mutations/useEditGuide';
 import { urlGuidePhoto, uploadPresetGuide } from '../../lib/utilsPhotoUpload';
@@ -92,107 +93,110 @@ const UpdateGuide = ({ guideId }) => {
   }
   if (data) {
     return (
-      <StyledCard>
-        <form onSubmit={handleSubmit} method="post">
-          <StyledFieldset disabled={loadingMutation} aria-busy={loadingMutation}>
-            <H6 use="headline6">Edit the MTB Guide</H6>
-            <StyledSpanErrors>
-              {loadingPhotoUpload && <Loading />}
-              {errorPhotoUpload && <ErrorMessage error={errorPhotoUpload} />}
-            </StyledSpanErrors>
-            <StyledInput type="file" id="file" onChange={uploadPhoto} />
-            <label htmlFor="file">
-              <CardPrimaryAction>
-                <StyledGuideImage
-                  src={result ? result : data.user.photo}
-                  alt="Upload a photo"
-                />
-              </CardPrimaryAction>
-            </label>
-            {error && <ErrorGraphql error={error} />}
-            <TextGrayDense use="body1">Name:</TextGrayDense>
-            <Input
-              handleChange={handleChange}
-              name="name"
-              value={inputs.name.textValue || ''}
-              required={true}
-              error={errorInput.name}
-            />
-            <TextGrayDense use="body1">Surame:</TextGrayDense>
-            <Input
-              handleChange={handleChange}
-              name="surname"
-              value={inputs.surname.textValue || ''}
-              required={false}
-            />
-            <TextGrayDense use="body1">Email:</TextGrayDense>
-            <Input
-              handleChange={handleChange}
-              name="email"
-              type="email"
-              value={inputs.email.textValue || ''}
-              required={true}
-              error={errorInput.email}
-            />
-            <TextGrayDense use="body1">Title:</TextGrayDense>
-            <Input
-              handleChange={handleChange}
-              name="title"
-              value={inputs.title.textValue || ''}
-              required={false}
-            ></Input>
-            <TextGrayDense use="body1">Description:</TextGrayDense>
-            <TextField
-              fullwidth
-              onChange={handleChange}
-              name="description"
-              //placeholder={inputs.description.textValue || ''}
-              value={inputs.description.textValue || ''}
-              required={false}
-              textarea={true}
-              rows={5}
-              maxLength={700}
-            />
-            <TextGrayDense use="body1">Phone Number:</TextGrayDense>
-            <Input
-              handleChange={handleChange}
-              name="phone"
-              value={inputs.phone.textValue || ''}
-              required={true}
-              error={errorInput.phone}
-            ></Input>
-            <StyledButtonSpan>
-              <MySwitch
-                name="ebike"
-                text="E-bike"
-                handleSwitch={handleSwitch}
-                checked={switchValues.ebike || ''}
-              />
-              <MySwitch
-                name="mtb"
-                text="MTB"
-                handleSwitch={handleSwitch}
-                checked={switchValues.mtb || ''}
-              />
-            </StyledButtonSpan>
-            <StyledSpan>
-              {specialsations.map((specialisation) => {
-                return (
-                  <MyCheckbox
-                    key={specialisation}
-                    handleChecked={handleChecked}
-                    specialisation={specialisation}
-                    checked={checkedOptions.includes(specialisation)}
+      <>
+        <Nav />
+        <StyledCard>
+          <form onSubmit={handleSubmit} method="post">
+            <StyledFieldset disabled={loadingMutation} aria-busy={loadingMutation}>
+              <H6 use="headline6">Edit the MTB Guide</H6>
+              <StyledSpanErrors>
+                {loadingPhotoUpload && <Loading />}
+                {errorPhotoUpload && <ErrorMessage error={errorPhotoUpload} />}
+              </StyledSpanErrors>
+              <StyledInput type="file" id="file" onChange={uploadPhoto} />
+              <label htmlFor="file">
+                <CardPrimaryAction>
+                  <StyledGuideImage
+                    src={result ? result : data.user.photo}
+                    alt="Upload a photo"
                   />
-                );
-              })}
-            </StyledSpan>
-            {errorMutation && <ErrorGraphql error={errorMutation} />}
-            <ButtonMain text="Save Changes" />
-            <ButtonLink text="Guide List" onClick={() => routeToGuidesList()} />
-          </StyledFieldset>
-        </form>
-      </StyledCard>
+                </CardPrimaryAction>
+              </label>
+              {error && <ErrorGraphql error={error} />}
+              <TextGrayDense use="body1">Name:</TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="name"
+                value={inputs.name.textValue || ''}
+                required={true}
+                error={errorInput.name}
+              />
+              <TextGrayDense use="body1">Surame:</TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="surname"
+                value={inputs.surname.textValue || ''}
+                required={false}
+              />
+              <TextGrayDense use="body1">Email:</TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="email"
+                type="email"
+                value={inputs.email.textValue || ''}
+                required={true}
+                error={errorInput.email}
+              />
+              <TextGrayDense use="body1">Title:</TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="title"
+                value={inputs.title.textValue || ''}
+                required={false}
+              ></Input>
+              <TextGrayDense use="body1">Description:</TextGrayDense>
+              <TextField
+                fullwidth
+                onChange={handleChange}
+                name="description"
+                //placeholder={inputs.description.textValue || ''}
+                value={inputs.description.textValue || ''}
+                required={false}
+                textarea={true}
+                rows={5}
+                maxLength={700}
+              />
+              <TextGrayDense use="body1">Phone Number:</TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="phone"
+                value={inputs.phone.textValue || ''}
+                required={true}
+                error={errorInput.phone}
+              ></Input>
+              <StyledButtonSpan>
+                <MySwitch
+                  name="ebike"
+                  text="E-bike"
+                  handleSwitch={handleSwitch}
+                  checked={switchValues.ebike || false}
+                />
+                <MySwitch
+                  name="mtb"
+                  text="MTB"
+                  handleSwitch={handleSwitch}
+                  checked={switchValues.mtb || false}
+                />
+              </StyledButtonSpan>
+              <StyledSpan>
+                {specialsations.map((specialisation) => {
+                  return (
+                    <MyCheckbox
+                      key={specialisation}
+                      handleChecked={handleChecked}
+                      specialisation={specialisation}
+                      checked={checkedOptions.includes(specialisation)}
+                    />
+                  );
+                })}
+              </StyledSpan>
+              {errorMutation && <ErrorGraphql error={errorMutation} />}
+              <ButtonMain text="Save Changes" />
+              <ButtonLink text="Guide List" onClick={() => routeToGuidesList()} />
+            </StyledFieldset>
+          </form>
+        </StyledCard>
+      </>
     );
   }
 };

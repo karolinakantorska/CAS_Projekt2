@@ -22,7 +22,6 @@ function validate(inputs) {
       }
     }
   }
-  //console.log(errors);
   return errors;
 }
 // Form
@@ -62,7 +61,6 @@ export function useSwich(initialValues, loading = false) {
     setSwitchValues(initialValues);
   }, [loading]);
   function handleSwitch(e) {
-    //console.log(e);
     setSwitchValues({
       ...switchValues,
       [e.target.name]: !switchValues[e.target.name],
@@ -91,23 +89,6 @@ export function useCheckBoxes(initialValues, loading = false) {
     handleChecked,
   };
 }
-
-export function useGuidesInput(initialValue) {
-  const [guide, setGuide] = useState(initialValue);
-  function handleChangeGuide1(e) {
-    const eventText = e.target.value.split(' ');
-    const eventId = eventText[0];
-    const eventName = eventText[1];
-    setGuide({
-      guide: { id: eventId, name: eventName },
-    });
-  }
-  return {
-    guides,
-    handleChangeGuide,
-  };
-}
-
 export function useFormInput(initialValue, loading = false) {
   const [value, setValue] = useState(initialValue);
   useEffect(() => {
@@ -115,7 +96,6 @@ export function useFormInput(initialValue, loading = false) {
   }, [loading]);
 
   function handleChange(e) {
-    //console.log('e.target.value', e.target.value);
     setValue(e.target.value);
   }
   return {
@@ -129,9 +109,6 @@ export function usePhotoUpload(initialValue, urlPhoto, uploadPreset) {
   const [result, setResult] = useState(initialValue);
   const [loadingPhotoUpload, setLoadingPhotoUpload] = useState(false);
   const [errorPhotoUpload, setErrorPhotoUpload] = useState(null);
-  //useEffect(() => {
-  // setResult(initialValue);
-  //}, [initialValue]);
   async function uploadPhoto(e) {
     try {
       setLoadingPhotoUpload(true);
@@ -157,13 +134,7 @@ export function usePhotoUpload(initialValue, urlPhoto, uploadPreset) {
   }
   return { result, uploadPhoto, loadingPhotoUpload, errorPhotoUpload };
 }
-//TODO do this with required
-export function validateFormBookingConfirmation(time) {
-  if (!time || time === '') {
-    return ['Please enter the time.'];
-  }
-  return [];
-}
+
 export function arrayFromObject(object) {
   let array = [];
   for (const [key, value] of Object.entries(object)) {

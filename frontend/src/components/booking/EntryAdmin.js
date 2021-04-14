@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 //Components
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import Loading from '../reusable/LoadingBar';
-import { ButtonMain, ButtonLink, StyledTextMain } from '../reusable/Buttons';
+import { ButtonLink, StyledTextMain } from '../reusable/Buttons';
 import IconConfirmed from '../reusable/IconConfirmed';
 //Utils
 import { useDeleteReservation } from '../../apollo/mutations/useDeleteReservation';
-import { useGuideWithoutReservation } from '../../apollo/querries/useGuidesWithoutReservation';
 // Components for Styling
 import { H6 } from '../styles/Text';
 import {
@@ -18,7 +17,7 @@ import {
 } from '../styles/StyledEntry';
 // RMWC
 import { Typography } from '@rmwc/typography';
-import { Dialog, DialogTitle, DialogContent } from '@rmwc/dialog';
+import { Dialog } from '@rmwc/dialog';
 const EntryAdmin = ({ reservation }) => {
   const [open, setOpen] = React.useState(false);
   const [
@@ -35,7 +34,7 @@ const EntryAdmin = ({ reservation }) => {
     <>
       <EntrySpan
         className={reservation.time}
-        onClick={() =>  !reservation.holiday && setOpen(true)}
+        onClick={() => !reservation.holiday && setOpen(true)}
       >
         <Typography use="caption">
           {`Guide: ${reservation.guide.name}`}
@@ -50,49 +49,47 @@ const EntryAdmin = ({ reservation }) => {
         }}
       >
         <StyledSpan>
-          <DialogTitle>
-            <H6 use="headline6">{`Reservation for ${reservation.relatedDay.day} ${reservation.relatedDay.month} 
+          <H6 use="headline6">{`Reservation for ${reservation.relatedDay.day} ${reservation.relatedDay.month} 
             ${reservation.relatedDay.year}`}</H6>
-          </DialogTitle>
-          {errorDeleteReservation && <ErrorGraphql error={errorDeleteReservation} />}
-          <DialogContent>
-            <Typography use="body2">
-              Booked by:
-              <strong> {reservation.userName}</strong>
-            </Typography>
-            <Typography use="body2">
-              Gast email: <strong>{reservation.userEmail}</strong>.
-            </Typography>
-            <Typography use="body2">
-              Tour type: <strong>{reservation.time}</strong> tour
-            </Typography>
-            <Typography use="body2">
-              Guide:
-              <strong>
-                `{reservation.guide.name} {reservation.guide.surname}.`
-              </strong>{' '}
-            </Typography>
-            <Typography use="body2">
-              Guide email: <strong>{reservation.guide.email}</strong>.
-            </Typography>
-            <Typography use="body2">
-              You've reservated a trip for
-              <strong>{` ${reservation.nrOfPeople} `}</strong>
-              {reservation.nrOfPeople === '1' ? 'guest.' : 'guests.'}
-            </Typography>
-            {reservation.description && (
-              <Typography use="body2">Description: {reservation.description}</Typography>
-            )}
-            <StyledTypography use="body2">
-              <IconConfirmed confirmed={reservation.confirmed} size="large" />
-            </StyledTypography>
 
-            {loadingDeleteReservation && <Loading />}
-            <ButtonLink text="Delete" onClick={handleDelete} />
-            <StyledButton action="close">
-              <StyledTextMain>Close</StyledTextMain>
-            </StyledButton>
-          </DialogContent>
+          {errorDeleteReservation && <ErrorGraphql error={errorDeleteReservation} />}
+
+          <Typography use="body2">
+            Booked by:
+            <strong> {reservation.userName}</strong>
+          </Typography>
+          <Typography use="body2">
+            Gast email: <strong>{reservation.userEmail}</strong>.
+          </Typography>
+          <Typography use="body2">
+            Tour type: <strong>{reservation.time}</strong> tour
+          </Typography>
+          <Typography use="body2">
+            Guide:
+            <strong>
+              `{reservation.guide.name} {reservation.guide.surname}.`
+            </strong>{' '}
+          </Typography>
+          <Typography use="body2">
+            Guide email: <strong>{reservation.guide.email}</strong>.
+          </Typography>
+          <Typography use="body2">
+            You've reservated a trip for
+            <strong>{` ${reservation.nrOfPeople} `}</strong>
+            {reservation.nrOfPeople === '1' ? 'guest.' : 'guests.'}
+          </Typography>
+          {reservation.description && (
+            <Typography use="body2">Description: {reservation.description}</Typography>
+          )}
+          <StyledTypography use="body2">
+            <IconConfirmed confirmed={reservation.confirmed} size="large" />
+          </StyledTypography>
+
+          {loadingDeleteReservation && <Loading />}
+          <ButtonLink text="Delete" onClick={handleDelete} />
+          <StyledButton action="close">
+            <StyledTextMain>Close</StyledTextMain>
+          </StyledButton>
         </StyledSpan>
       </Dialog>
     </>

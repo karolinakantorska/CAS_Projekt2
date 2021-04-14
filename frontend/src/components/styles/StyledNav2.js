@@ -6,7 +6,7 @@ export const StyledNav2 = styled.nav`
   justify-items: center;
   align-items: center;
   grid-template-columns: repeat(4, 1fr);
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.6);
   white-space: nowrap;
   a {
     color: var(--colorSecundary);

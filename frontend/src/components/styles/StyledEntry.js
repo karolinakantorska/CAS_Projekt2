@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Typography } from '@rmwc/typography';
-import { Dialog, DialogTitle, DialogContent, DialogButton } from '@rmwc/dialog';
+import { DialogButton } from '@rmwc/dialog';
 export const EntrySpan = styled.span`
   display: grid;
   //grid-template-rows: 1fr 1fr;
@@ -8,6 +8,7 @@ export const EntrySpan = styled.span`
   font-size: 0.9rem;
   margin-top: 6px;
   border-radius: 5px;
+
   background: rgba(217, 217, 217, 0.5);
   align-content: center;
   justify-content: center;
@@ -20,6 +21,7 @@ export const EntrySpan = styled.span`
   }
 `;
 export const StyledSpan = styled.span`
+  padding: 40px 40px 20px 40px;
   max-width: 344px;
 `;
 export const StyledTypography = styled(Typography)`

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // Components
+import Nav from '../main/Nav';
 import Calendar from './Calendar';
 import Loading from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
@@ -50,16 +51,19 @@ const BookedTrips = ({ gastId }) => {
     const reservations = filterUserReservationsData(data.days, gastId);
     //console.log('reservations', reservations);
     return (
-      <Calendar
-        handleMonthChange={handleMonthChange}
-        selectedYear={selectedYear}
-        selectedMonth={selectedMonth}
-        emptyCells={emptyCells}
-        daysInMonthArray={daysInMonthArray}
-        selectedDateTimestamp={selectedDateTimestamp}
-        guideId="0"
-        reservations={reservations}
-      />
+      <>
+        <Nav />
+        <Calendar
+          handleMonthChange={handleMonthChange}
+          selectedYear={selectedYear}
+          selectedMonth={selectedMonth}
+          emptyCells={emptyCells}
+          daysInMonthArray={daysInMonthArray}
+          selectedDateTimestamp={selectedDateTimestamp}
+          guideId="0"
+          reservations={reservations}
+        />
+      </>
     );
   }
 };

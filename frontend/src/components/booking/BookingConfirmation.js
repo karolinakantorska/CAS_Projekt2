@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 // Components
+import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
 import Loading from '../reusable/LoadingBar';
@@ -30,8 +31,16 @@ import { Select } from '@rmwc/select';
 import { Ripple } from '@rmwc/ripple';
 
 const BookingConfirmation = ({ props }) => {
-  const { day, selectedMonth: month, selectedYear: year, guideId, bookedTime } = props;
+  const {
+    day,
+    selectedMonth: month,
+    nrOfMonth,
+    selectedYear: year,
+    guideId,
+    bookedTime,
+  } = props;
   const { time, handleTimeChange } = useHandleTimeChange(bookedTime);
+  const timeStamp = year + nrOfMonth + day;
   const {
     loading: loadingCurrentUser,
     error: errorCurrentUser,
@@ -59,9 +68,7 @@ const BookingConfirmation = ({ props }) => {
     guideId,
   );
   function handleBookingConfirmation() {
-    //console.log(' data.days.length', data.days.length);
     if (data.days.length === 0) {
-      //console.log('create');
       createDay({
         variables: {
           time,
@@ -72,19 +79,16 @@ const BookingConfirmation = ({ props }) => {
           userEmail: dataCurrentUser.currentUser.email,
           nrOfPeople,
           description: inputs.description.textValue,
-          id: guideId,
+          guideId,
           holiday: guideId === dataCurrentUser.currentUser.id,
           confirmed: false,
-          guideId: guideId,
           gastId: dataCurrentUser.currentUser.id,
+          timeStamp,
         },
       });
     }
-
     // day exist
     else {
-      //console.log('update');
-      //console.log('data.days[0].id', data.days[0].id);
       updateDay({
         variables: {
           time,
@@ -92,12 +96,12 @@ const BookingConfirmation = ({ props }) => {
           userEmail: dataCurrentUser.currentUser.email,
           nrOfPeople,
           description: inputs.description.textValue,
-          id: guideId,
+          guideId,
           dayId: data.days[0].id,
           holiday: guideId === dataCurrentUser.currentUser.id,
           confirmed: false,
-          guideId: guideId,
           gastId: dataCurrentUser.currentUser.id,
+          timeStamp,
         },
       });
     }
@@ -115,78 +119,81 @@ const BookingConfirmation = ({ props }) => {
   }
   if (dataCurrentUser && data) {
     return (
-      <StyledCard>
-        <form onSubmit={handleSubmit} method="post">
-          <StyledFieldset disabled={loading} aria-busy={loading}>
-            <H6 use="headline6">
-              {`Hallo ${dataCurrentUser.currentUser.name}, confirm your booking details!`}
-            </H6>
-            <ErrorMessage />
-            {errorCreateDay && <ErrorGraphql error={errorCreateDay} />}
-            {errorUpdateDay && <ErrorGraphql error={errorUpdateDay} />}
-            <Typography use="body1">
-              Choosen Day:
-              <strong>
-                {year}/{month}/{day}
-              </strong>
-            </Typography>
-            {bookedTime === 'PM' && (
-              <Typography use="body1" onLoad={handleTimeChange}>
-                {chooseMorning}
+      <>
+        <Nav />
+        <StyledCard>
+          <form onSubmit={handleSubmit} method="post">
+            <StyledFieldset disabled={loading} aria-busy={loading}>
+              <H6 use="headline6">
+                {`Hallo ${dataCurrentUser.currentUser.name}, confirm your booking details!`}
+              </H6>
+              <ErrorMessage />
+              {errorCreateDay && <ErrorGraphql error={errorCreateDay} />}
+              {errorUpdateDay && <ErrorGraphql error={errorUpdateDay} />}
+              <Typography use="body1">
+                Choosen Day:
+                <strong>
+                  {year}/{month}/{day}
+                </strong>
               </Typography>
-            )}
-
-            {bookedTime === 'AM' && (
-              <Typography use="body1" onLoad={handleTimeChange}>
-                {chooseAfternoon}
-              </Typography>
-            )}
-            {bookedTime === '' && (
-              <>
-                <Typography use="body1">
-                  Do you preffer Morning or Aftenoon Trip?
+              {bookedTime === 'PM' && (
+                <Typography use="body1" onLoad={handleTimeChange}>
+                  {chooseMorning}
                 </Typography>
-                <StyledSelect
-                  required={true}
-                  onChange={handleTimeChange}
-                  placeholder="Please chose the time of a day"
-                >
-                  <option value={chooseWholeDay}>{chooseWholeDay}</option>
-                  <option value={chooseMorning}>{chooseMorning}</option>
-                  <option value={chooseAfternoon}>{chooseAfternoon}</option>
-                </StyledSelect>
-              </>
-            )}
-            <Typography use="body1">How big is the group?</Typography>
-            <StyledSelect
-              disabled={loadingUpdateDay || loadingCreateDay}
-              icon="directions_bike"
-              defaultValue="1"
-              onChange={handleChangeNrOfPeople}
-              value={nrOfPeople}
-              options={['1', '2', '3', '4', '5']}
-            />
-            <Typography use="body1">
-              Do you want to arrive latter, stay with us until a late evening? Have some
-              Ideas where would you like to go?
-            </Typography>
-            <Ripple>
-              <TextField
-                fullwidth
-                onChange={handleChange}
-                name="description"
-                placeholder={inputs.description.textValue || ''}
-                value={inputs.description.textValue || ''}
-                required={false}
-                textarea={true}
-                rows={4}
-                maxLength={300}
+              )}
+
+              {bookedTime === 'AM' && (
+                <Typography use="body1" onLoad={handleTimeChange}>
+                  {chooseAfternoon}
+                </Typography>
+              )}
+              {bookedTime === '' && (
+                <>
+                  <Typography use="body1">
+                    Do you preffer Morning or Aftenoon Trip?
+                  </Typography>
+                  <StyledSelect
+                    required={true}
+                    onChange={handleTimeChange}
+                    placeholder="Please chose the time of a day"
+                  >
+                    <option value={chooseWholeDay}>{chooseWholeDay}</option>
+                    <option value={chooseMorning}>{chooseMorning}</option>
+                    <option value={chooseAfternoon}>{chooseAfternoon}</option>
+                  </StyledSelect>
+                </>
+              )}
+              <Typography use="body1">How big is the group?</Typography>
+              <StyledSelect
+                disabled={loadingUpdateDay || loadingCreateDay}
+                icon="directions_bike"
+                defaultValue="1"
+                onChange={handleChangeNrOfPeople}
+                value={nrOfPeople}
+                options={['1', '2', '3', '4', '5']}
               />
-            </Ripple>
-            <ButtonMain text="Confirm and Go!" />
-          </StyledFieldset>
-        </form>
-      </StyledCard>
+              <Typography use="body1">
+                Do you want to arrive latter, stay with us until a late evening? Have some
+                Ideas where would you like to go?
+              </Typography>
+              <Ripple>
+                <TextField
+                  fullwidth
+                  onChange={handleChange}
+                  name="description"
+                  placeholder={inputs.description.textValue || ''}
+                  value={inputs.description.textValue || ''}
+                  required={false}
+                  textarea={true}
+                  rows={4}
+                  maxLength={300}
+                />
+              </Ripple>
+              <ButtonMain text="Confirm and Go!" />
+            </StyledFieldset>
+          </form>
+        </StyledCard>
+      </>
     );
   }
 };
@@ -202,6 +209,10 @@ BookingConfirmation.propTypes = {
 const StyledSelect = styled(Select)`
   div {
     background-color: white;
+  }
+  div.mdc-select__anchor span.mdc-floating-label {
+    color: var(--colorWarning);
+    margin-left: -10px;
   }
 `;
 export default BookingConfirmation;

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // Components
+import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import Loading from '../reusable/LoadingBar';
 import { ButtonMain } from '../reusable/Buttons';
@@ -35,6 +36,7 @@ const AddInfo = ({ guideId }) => {
     //console.log(data.trips);
     return (
       <>
+        <Nav />
         <StyledContainer>
           <StyledSpan>
             <H6 use="headline6">Trips added by:</H6>

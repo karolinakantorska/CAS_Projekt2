@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { isLoggedInn, hasPermission, hasOneOfPermissions, ownReservation } = require("../utils");
+const { isLoggedInn, hasPermission } = require("../utils");
 
 const mutations = {
   async signup(parent, args, ctx, info) {
@@ -89,7 +89,6 @@ const mutations = {
     );
   },
   async deleteUser(parent, args, ctx, info) {
-    console.log("args", args);
     hasPermission(ctx, "ADMIN");
     return ctx.db.mutation.deleteUser({ ...args });
   },
@@ -136,17 +135,15 @@ const mutations = {
     return day;
   },
   async updateReservation(parent, args, ctx, info) {
-    const updates = { ...args };
-    delete updates.id;
-    return ctx.db.mutation.updateReservation(updates);
+    return ctx.db.mutation.updateReservation({ ...args });
+  },
+  async updateReservationAddGuide(parent, args, ctx, info) {
+    return ctx.db.mutation.updateReservation({ ...args });
   },
   async deleteReservation(parent, args, ctx, info) {
-    hasOneOfPermissions(ctx, "ADMIN", "GUIDE");
-    const id = args.id;
+    hasPermission(ctx, "ADMIN");
     return ctx.db.mutation.deleteReservation({
-      where: {
-        id,
-      },
+      ...args,
     });
   },
   async deleteManyReservations(parent, args, ctx, info) {
@@ -157,7 +154,6 @@ const mutations = {
   },
   async createInfo(parent, args, ctx, info) {
     hasPermission(ctx, "ADMIN");
-    //console.log("args", args);
     const myInfo = ctx.db.mutation.createInfo({
       ...args,
     });
@@ -165,7 +161,6 @@ const mutations = {
   },
   async updateInfo(parent, args, ctx, info) {
     hasPermission(ctx, "ADMIN");
-    //console.log("args", args);
     const myInfo = ctx.db.mutation.updateInfo({
       ...args,
     });
@@ -173,7 +168,6 @@ const mutations = {
   },
   async createTrip(parent, args, ctx, info) {
     hasPermission(ctx, "GUIDE");
-    //console.log("args", args);
     const trip = ctx.db.mutation.createTrip({
       ...args,
     });
@@ -181,17 +175,16 @@ const mutations = {
   },
   async updateTrip(parent, args, ctx, info) {
     hasPermission(ctx, "GUIDE");
-    console.log("args", args);
     const trip = ctx.db.mutation.updateTrip({
       ...args,
     });
     return trip;
   },
   async deleteTrip(parent, args, ctx, info) {
-    const trip = ctx.db.mutation.deleteTrip({
+    hasPermission(ctx, "GUIDE");
+    return ctx.db.mutation.deleteTrip({
       ...args,
     });
-    return info;
   },
 };
 module.exports = mutations;

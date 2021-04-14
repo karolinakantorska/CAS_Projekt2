@@ -29,7 +29,6 @@ const MONTH_RESERVATIONS_ALL_GUIDES = gql`
         holiday
         confirmed
         gastId
-        guideId
       }
     }
   }

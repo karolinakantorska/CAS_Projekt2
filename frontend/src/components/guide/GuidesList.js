@@ -1,9 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
 // Components
 import GuideCard from './GuideCard';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import Loading from '../reusable/LoadingBar';
+import Nav from '../main/Nav';
 //utils
 import { permission } from '../../lib/utils';
 import { useAllUsersWithPermission } from '../../apollo/querries/useAllUsersWithPermission';
@@ -31,19 +31,22 @@ const GuidesList = () => {
   }
   if (data && dataCurrentUser) {
     return (
-      <StyledContainer>
-        <StyledCardsContainer>
-          {data.users.map((guide) => (
-            <GuideCard
-              data-test="guideCard"
-              currentUserPermission={dataCurrentUser.currentUser.permissions}
-              guide={guide}
-              guideId={guide.id}
-              key={guide.id}
-            />
-          ))}
-        </StyledCardsContainer>
-      </StyledContainer>
+      <>
+        <Nav />
+        <StyledContainer>
+          <StyledCardsContainer>
+            {data.users.map((guide) => (
+              <GuideCard
+                data-test="guideCard"
+                currentUserPermission={dataCurrentUser.currentUser.permissions}
+                guide={guide}
+                guideId={guide.id}
+                key={guide.id}
+              />
+            ))}
+          </StyledCardsContainer>
+        </StyledContainer>
+      </>
     );
   }
 };

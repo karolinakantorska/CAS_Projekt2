@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // Components
+import Nav from '../main/Nav';
 import Calendar from './Calendar';
 import Loading from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
@@ -16,6 +16,7 @@ const CalendarResQueryUser = ({ guideId }) => {
     handleMonthChange,
     selectedYear,
     selectedMonth,
+    nrOfMonth,
     emptyCells,
     daysInMonthArray,
     selectedDateTimestamp,
@@ -39,20 +40,22 @@ const CalendarResQueryUser = ({ guideId }) => {
     );
   }
   if (data) {
-    //console.log('data.days', data.days);
     const reservations = filterReservationsData(data.days, guideId);
-    //console.log('reservations', reservations);
     return (
-      <Calendar
-        handleMonthChange={handleMonthChange}
-        selectedYear={selectedYear}
-        selectedMonth={selectedMonth}
-        emptyCells={emptyCells}
-        daysInMonthArray={daysInMonthArray}
-        selectedDateTimestamp={selectedDateTimestamp}
-        guideId={guideId}
-        reservations={reservations}
-      />
+      <>
+        <Nav />
+        <Calendar
+          handleMonthChange={handleMonthChange}
+          selectedYear={selectedYear}
+          selectedMonth={selectedMonth}
+          nrOfMonth={nrOfMonth}
+          emptyCells={emptyCells}
+          daysInMonthArray={daysInMonthArray}
+          selectedDateTimestamp={selectedDateTimestamp}
+          guideId={guideId}
+          reservations={reservations}
+        />
+      </>
     );
   }
 };

@@ -49,45 +49,43 @@ const EntryGuide = ({ reservation, currentUser }) => {
         }}
       >
         <StyledSpan>
-          <DialogTitle>
-            <H6 use="headline6">{`Reservation for ${reservation.relatedDay.day} ${reservation.relatedDay.month} 
+          <H6 use="headline6">{`Reservation for ${reservation.relatedDay.day} ${reservation.relatedDay.month} 
             ${reservation.relatedDay.year}`}</H6>
-          </DialogTitle>
+
           {errorUpdateReservation && <ErrorGraphql error={errorUpdateReservation} />}
-          <DialogContent>
-            <Typography use="body2">
-              Booked by:
-              <strong> {reservation.userName}</strong>
-            </Typography>
-            <Typography use="body2">
-              Gast email: <strong>{reservation.userEmail}</strong>.
-            </Typography>
-            <Typography use="body2">
-              Tour type: <strong>{reservation.time}</strong> tour
-            </Typography>
-            <Typography use="body2">
-              You've reservated a trip for
-              <strong>{` ${reservation.nrOfPeople} `}</strong>
-              {reservation.nrOfPeople === '1' ? 'guest.' : 'guests.'}
-            </Typography>
-            {reservation.description && (
-              <Typography use="body2">Description: {reservation.description}</Typography>
-            )}
-            <StyledTypography use="body2">
-              <IconConfirmed confirmed={reservation.confirmed} size="large" />
-            </StyledTypography>
-            {loadingUpdateReservation && <Loading />}
-            {reservation.guide.id === currentUser.id && (
-              <ButtonMain
-                disabled={reservation.confirmed || loadingUpdateReservation}
-                text={reservation.confirmed ? 'Confirmed' : 'Confirm'}
-                onClick={handleConfirm}
-              />
-            )}
-            <StyledButton action="close">
-              <StyledTextMain>Close</StyledTextMain>
-            </StyledButton>
-          </DialogContent>
+
+          <Typography use="body2">
+            Booked by:
+            <strong> {reservation.userName}</strong>
+          </Typography>
+          <Typography use="body2">
+            Gast email: <strong>{reservation.userEmail}</strong>.
+          </Typography>
+          <Typography use="body2">
+            Tour type: <strong>{reservation.time}</strong> tour
+          </Typography>
+          <Typography use="body2">
+            You've reservated a trip for
+            <strong>{` ${reservation.nrOfPeople} `}</strong>
+            {reservation.nrOfPeople === '1' ? 'guest.' : 'guests.'}
+          </Typography>
+          {reservation.description && (
+            <Typography use="body2">Description: {reservation.description}</Typography>
+          )}
+          <StyledTypography use="body2">
+            <IconConfirmed confirmed={reservation.confirmed} size="large" />
+          </StyledTypography>
+          {loadingUpdateReservation && <Loading />}
+          {reservation.guide.id === currentUser.id && (
+            <ButtonMain
+              disabled={reservation.confirmed || loadingUpdateReservation}
+              text={reservation.confirmed ? 'Confirmed' : 'Confirm'}
+              onClick={handleConfirm}
+            />
+          )}
+          <StyledButton action="close">
+            <StyledTextMain>Close</StyledTextMain>
+          </StyledButton>
         </StyledSpan>
       </Dialog>
     </>

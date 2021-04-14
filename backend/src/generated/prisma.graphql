@@ -1,5 +1,5 @@
-# source: https://eu1.prisma.sh/karolina-kantorska/MTBreservation/dev
-# timestamp: Fri Mar 19 2021 15:24:29 GMT+0100 (Central European Standard Time)
+# source: https://mtb-prod-18959df0b4.herokuapp.com/mtb-production/prod
+# timestamp: Wed Apr 14 2021 16:32:52 GMT+0200 (Central European Summer Time)
 
 type AggregateDay {
   count: Int!
@@ -24,18 +24,6 @@ type AggregateUser {
 type BatchPayload {
   """The number of nodes that have been affected by the Batch operation."""
   count: Long!
-}
-
-enum Color {
-  Col1
-  Col2
-  Col3
-  Col4
-  Col5
-  Col6
-  Col7
-  Col8
-  Col9
 }
 
 type Day implements Node {
@@ -652,7 +640,6 @@ type Reservation implements Node {
   description: String
   holiday: Boolean
   confirmed: Boolean
-  guideId: ID
   gastId: ID
   timeStamp: String
 }
@@ -676,7 +663,6 @@ input ReservationCreateInput {
   description: String
   holiday: Boolean
   confirmed: Boolean
-  guideId: ID
   gastId: ID
   timeStamp: String
   guide: UserCreateOneWithoutReservationsInput
@@ -702,7 +688,6 @@ input ReservationCreateWithoutGuideInput {
   description: String
   holiday: Boolean
   confirmed: Boolean
-  guideId: ID
   gastId: ID
   timeStamp: String
   relatedDay: DayCreateOneWithoutReservationsInput
@@ -717,7 +702,6 @@ input ReservationCreateWithoutRelatedDayInput {
   description: String
   holiday: Boolean
   confirmed: Boolean
-  guideId: ID
   gastId: ID
   timeStamp: String
   guide: UserCreateOneWithoutReservationsInput
@@ -749,8 +733,6 @@ enum ReservationOrderByInput {
   holiday_DESC
   confirmed_ASC
   confirmed_DESC
-  guideId_ASC
-  guideId_DESC
   gastId_ASC
   gastId_DESC
   timeStamp_ASC
@@ -766,7 +748,6 @@ type ReservationPreviousValues {
   description: String
   holiday: Boolean
   confirmed: Boolean
-  guideId: ID
   gastId: ID
   timeStamp: String
 }
@@ -998,46 +979,6 @@ input ReservationScalarWhereInput {
 
   """All values that are not equal to given value."""
   confirmed_not: Boolean
-  guideId: ID
-
-  """All values that are not equal to given value."""
-  guideId_not: ID
-
-  """All values that are contained in given list."""
-  guideId_in: [ID!]
-
-  """All values that are not contained in given list."""
-  guideId_not_in: [ID!]
-
-  """All values less than the given value."""
-  guideId_lt: ID
-
-  """All values less than or equal the given value."""
-  guideId_lte: ID
-
-  """All values greater than the given value."""
-  guideId_gt: ID
-
-  """All values greater than or equal the given value."""
-  guideId_gte: ID
-
-  """All values containing the given string."""
-  guideId_contains: ID
-
-  """All values not containing the given string."""
-  guideId_not_contains: ID
-
-  """All values starting with the given string."""
-  guideId_starts_with: ID
-
-  """All values not starting with the given string."""
-  guideId_not_starts_with: ID
-
-  """All values ending with the given string."""
-  guideId_ends_with: ID
-
-  """All values not ending with the given string."""
-  guideId_not_ends_with: ID
   gastId: ID
 
   """All values that are not equal to given value."""
@@ -1167,7 +1108,6 @@ input ReservationUpdateInput {
   description: String
   holiday: Boolean
   confirmed: Boolean
-  guideId: ID
   gastId: ID
   timeStamp: String
   guide: UserUpdateOneWithoutReservationsInput
@@ -1182,7 +1122,6 @@ input ReservationUpdateManyDataInput {
   description: String
   holiday: Boolean
   confirmed: Boolean
-  guideId: ID
   gastId: ID
   timeStamp: String
 }
@@ -1195,7 +1134,6 @@ input ReservationUpdateManyMutationInput {
   description: String
   holiday: Boolean
   confirmed: Boolean
-  guideId: ID
   gastId: ID
   timeStamp: String
 }
@@ -1237,7 +1175,6 @@ input ReservationUpdateWithoutGuideDataInput {
   description: String
   holiday: Boolean
   confirmed: Boolean
-  guideId: ID
   gastId: ID
   timeStamp: String
   relatedDay: DayUpdateOneWithoutReservationsInput
@@ -1251,7 +1188,6 @@ input ReservationUpdateWithoutRelatedDayDataInput {
   description: String
   holiday: Boolean
   confirmed: Boolean
-  guideId: ID
   gastId: ID
   timeStamp: String
   guide: UserUpdateOneWithoutReservationsInput
@@ -1506,46 +1442,6 @@ input ReservationWhereInput {
 
   """All values that are not equal to given value."""
   confirmed_not: Boolean
-  guideId: ID
-
-  """All values that are not equal to given value."""
-  guideId_not: ID
-
-  """All values that are contained in given list."""
-  guideId_in: [ID!]
-
-  """All values that are not contained in given list."""
-  guideId_not_in: [ID!]
-
-  """All values less than the given value."""
-  guideId_lt: ID
-
-  """All values less than or equal the given value."""
-  guideId_lte: ID
-
-  """All values greater than the given value."""
-  guideId_gt: ID
-
-  """All values greater than or equal the given value."""
-  guideId_gte: ID
-
-  """All values containing the given string."""
-  guideId_contains: ID
-
-  """All values not containing the given string."""
-  guideId_not_contains: ID
-
-  """All values starting with the given string."""
-  guideId_starts_with: ID
-
-  """All values not starting with the given string."""
-  guideId_not_starts_with: ID
-
-  """All values ending with the given string."""
-  guideId_ends_with: ID
-
-  """All values not ending with the given string."""
-  guideId_not_ends_with: ID
   gastId: ID
 
   """All values that are not equal to given value."""
@@ -1635,16 +1531,16 @@ input ReservationWhereUniqueInput {
 }
 
 enum Specialisation {
-  Trail_riding
+  Trail_Riding
   Singletrack
   Bikepark
   Downhill
-  Cross_country
-  All_mountain
+  Cross_Country
+  All_Mountain
   Enduro
-  Dirt_jumping
+  Dirt_Jumping
   Freeride
-  MTB_touring
+  MTB_Touring
   Fatbiking
   Ebikes
 }
@@ -2221,7 +2117,6 @@ type User implements Node {
   ebike: Boolean
   mtb: Boolean
   phone: String
-  color: Color
   specialisations: [Specialisation!]!
   permissions: Permission!
   reservations(where: ReservationWhereInput, orderBy: ReservationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reservation!]
@@ -2251,7 +2146,6 @@ input UserCreateInput {
   ebike: Boolean
   mtb: Boolean
   phone: String
-  color: Color
   permissions: Permission!
   specialisations: UserCreatespecialisationsInput
   reservations: ReservationCreateManyWithoutGuideInput
@@ -2285,7 +2179,6 @@ input UserCreateWithoutReservationsInput {
   ebike: Boolean
   mtb: Boolean
   phone: String
-  color: Color
   permissions: Permission!
   specialisations: UserCreatespecialisationsInput
 }
@@ -2326,8 +2219,6 @@ enum UserOrderByInput {
   mtb_DESC
   phone_ASC
   phone_DESC
-  color_ASC
-  color_DESC
   permissions_ASC
   permissions_DESC
 }
@@ -2346,7 +2237,6 @@ type UserPreviousValues {
   ebike: Boolean
   mtb: Boolean
   phone: String
-  color: Color
   specialisations: [Specialisation!]!
   permissions: Permission!
 }
@@ -2403,7 +2293,6 @@ input UserUpdateDataInput {
   ebike: Boolean
   mtb: Boolean
   phone: String
-  color: Color
   permissions: Permission
   specialisations: UserUpdatespecialisationsInput
   reservations: ReservationUpdateManyWithoutGuideInput
@@ -2422,7 +2311,6 @@ input UserUpdateInput {
   ebike: Boolean
   mtb: Boolean
   phone: String
-  color: Color
   permissions: Permission
   specialisations: UserUpdatespecialisationsInput
   reservations: ReservationUpdateManyWithoutGuideInput
@@ -2441,7 +2329,6 @@ input UserUpdateManyMutationInput {
   ebike: Boolean
   mtb: Boolean
   phone: String
-  color: Color
   permissions: Permission
   specialisations: UserUpdatespecialisationsInput
 }
@@ -2481,7 +2368,6 @@ input UserUpdateWithoutReservationsDataInput {
   ebike: Boolean
   mtb: Boolean
   phone: String
-  color: Color
   permissions: Permission
   specialisations: UserUpdatespecialisationsInput
 }
@@ -2935,16 +2821,6 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   phone_not_ends_with: String
-  color: Color
-
-  """All values that are not equal to given value."""
-  color_not: Color
-
-  """All values that are contained in given list."""
-  color_in: [Color!]
-
-  """All values that are not contained in given list."""
-  color_not_in: [Color!]
   permissions: Permission
 
   """All values that are not equal to given value."""

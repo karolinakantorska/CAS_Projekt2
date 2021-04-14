@@ -1,26 +1,23 @@
 import React, { useState } from 'react';
-import { routeToBookingConfirmation } from '../lib/utilsRouts';
 
+// tested:
 export function checkGuideAvability(data, reservationTime) {
   if (data) {
     if (data.reservations.length === 0) {
       return true;
-    } else {
+    }
+    if (data.reservations.length === 2) {
+      return false;
+    }
+    if (data.reservations.length > 0) {
       const newArray = [];
       data.reservations.map((res) => {
         newArray.push(res.time);
       });
       if (newArray.includes('DAY')) {
-        console.log('incudesDay');
-        return false;
-      }
-
-      if (newArray.includes('AM' && 'PM')) {
-        console.log('includes AM PM');
         return false;
       }
       if (newArray.includes(reservationTime)) {
-        console.log('includes', time);
         return false;
       }
       return true;
@@ -47,6 +44,7 @@ export function timeToString(time) {
   }
 }
 export function useHandleTimeChange(bookedTime) {
+  const [time, setTime] = useState(switchBookedTime(bookedTime));
   function switchBookedTime(bookedTime) {
     if (bookedTime === 'AM') {
       return 'PM';
@@ -58,8 +56,6 @@ export function useHandleTimeChange(bookedTime) {
       return '';
     }
   }
-
-  const [time, setTime] = useState(switchBookedTime(bookedTime));
   function handleTimeChange(e) {
     switch (e.target.value) {
       case chooseWholeDay:
@@ -71,6 +67,7 @@ export function useHandleTimeChange(bookedTime) {
       case chooseAfternoon:
         setTime(PM);
         break;
+      default:
     }
   }
   return { time, handleTimeChange };

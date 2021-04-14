@@ -1,15 +1,11 @@
-import { MockedProvider } from '@apollo/client/testing';
 import { mount } from 'enzyme';
-import toJSON from 'enzyme-to-json';
-import wait from 'waait';
 import CalendarMenu from '../../src/components/calendar/CalendarMenu';
-import fakeGuide from '../../src/lib/utils';
 
 const fakeMonthChange = jest.fn();
 const fakeYearChange = jest.fn();
 
 describe('CalendarMenu', () => {
-  xit('renders and displays correctly', () => {
+  it('renders and displays correctly', () => {
     const wrapper = mount(
       <CalendarMenu
         currentYear="2020"
@@ -23,7 +19,7 @@ describe('CalendarMenu', () => {
     //console.log(wrapper.debug());
     expect(wrapper.containsMatchingElement(<div>Januar</div>)).toBeTruthy();
   });
-  xit('renders and displays correctly in current month', () => {
+  it('renders and displays correctly in current month', () => {
     const wrapper = mount(
       <CalendarMenu
         currentYear="2020"

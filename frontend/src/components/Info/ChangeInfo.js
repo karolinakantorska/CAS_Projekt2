@@ -1,6 +1,7 @@
 import React from 'react';
 
 // Components
+import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import Loading from '../reusable/LoadingBar';
 import { ButtonMain } from '../reusable/Buttons';
@@ -60,30 +61,33 @@ const ChangeInfo = () => {
   }
   if (data) {
     return (
-      <StyledCardWithPadding>
-        <form onSubmit={handleSubmit} method="post">
-          <StyledFieldset
-            disabled={loadingCreateInfo || loadingUpdateInfo}
-            aria-busy={loadingCreateInfo || loadingUpdateInfo}
-          >
-            <H6 use="headline6">Add new Info Text</H6>
-            {error && <ErrorGraphql error={error} />}
-            {errorCreateInfo && <ErrorGraphql error={errorCreateInfo} />}
-            {errorUpdateInfo && <ErrorGraphql error={errorUpdateInfo} />}
-            <TextField
-              fullwidth
-              onChange={handleChange}
-              name="text"
-              value={inputs.text.textValue || ''}
-              required={false}
-              textarea={true}
-              rows={12}
-              maxLength={3000}
-            />
-            <ButtonMain text="Change Text" />
-          </StyledFieldset>
-        </form>
-      </StyledCardWithPadding>
+      <>
+        <Nav />
+        <StyledCardWithPadding>
+          <form onSubmit={handleSubmit} method="post">
+            <StyledFieldset
+              disabled={loadingCreateInfo || loadingUpdateInfo}
+              aria-busy={loadingCreateInfo || loadingUpdateInfo}
+            >
+              <H6 use="headline6">Add new Info Text</H6>
+              {error && <ErrorGraphql error={error} />}
+              {errorCreateInfo && <ErrorGraphql error={errorCreateInfo} />}
+              {errorUpdateInfo && <ErrorGraphql error={errorUpdateInfo} />}
+              <TextField
+                fullwidth
+                onChange={handleChange}
+                name="text"
+                value={inputs.text.textValue || ''}
+                required={false}
+                textarea={true}
+                rows={12}
+                maxLength={3000}
+              />
+              <ButtonMain text="Change Text" />
+            </StyledFieldset>
+          </form>
+        </StyledCardWithPadding>
+      </>
     );
   }
 };

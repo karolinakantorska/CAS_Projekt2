@@ -7,18 +7,17 @@ const UPDATE_DAY = gql`
     $userEmail: String
     $nrOfPeople: String
     $description: String
-    $id: ID
     $dayId: ID
     $holiday: Boolean
     $confirmed: Boolean
     $guideId: ID
     $gastId: ID
+    $timeStamp: String
   ) {
     updateDay(
       where: { id: $dayId }
       data: {
         reservations: {
-          #create: {
           create: [
             {
               time: $time
@@ -28,12 +27,11 @@ const UPDATE_DAY = gql`
               description: $description
               holiday: $holiday
               confirmed: $confirmed
-              guideId: $guideId
               gastId: $gastId
-              guide: { connect: { id: $id } }
+              guide: { connect: { id: $guideId } }
+              timeStamp: $timeStamp
             }
           ]
-          #}
         }
       }
     ) {

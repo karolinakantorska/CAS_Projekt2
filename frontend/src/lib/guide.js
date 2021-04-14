@@ -14,7 +14,6 @@ const specialisation = [
 ];
 
 export const guideAdditionalInfo = {
-  // reservations should not be obligatory, no !
   specialisations: specialisation,
   ebike: true,
   mtb: true,

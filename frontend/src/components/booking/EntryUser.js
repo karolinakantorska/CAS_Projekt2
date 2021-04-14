@@ -14,6 +14,7 @@ import {
   StyledTypography,
   StyledButton,
 } from '../styles/StyledEntry';
+
 // RMWC
 import { Typography } from '@rmwc/typography';
 
@@ -25,9 +26,7 @@ const EntryUser = ({ reservation, currentUser }) => {
     <>
       <EntrySpan
         className={reservation.time}
-        onClick={() =>
-          currentUser.id === reservation.gastId && setOpen(true)
-        }
+        onClick={() => currentUser.id === reservation.gastId && setOpen(true)}
       >
         {currentUser.id === reservation.gastId ? (
           <TextSpecial use="caption">
@@ -47,39 +46,36 @@ const EntryUser = ({ reservation, currentUser }) => {
         value="hallo"
       >
         <StyledSpan>
-          <DialogTitle>
-            <H6 use="headline6">{`Reservation for ${reservation.relatedDay.day} ${reservation.relatedDay.month} 
+          <H6 use="headline6">{`Reservation for ${reservation.relatedDay.day} ${reservation.relatedDay.month} 
             ${reservation.relatedDay.year}`}</H6>
-            <StyledSpanAvatar>
-              <GuideAvatar guideId={reservation.guide.id} />
-            </StyledSpanAvatar>
-          </DialogTitle>
-          <DialogContent>
-            <Typography use="body2">
-              Email: <strong>{reservation.guide.email}</strong>.
-            </Typography>
-            <Typography use="body2">
-              Phone: <strong>{reservation.guide.phone}</strong>.
-            </Typography>
-            <Typography use="body2">
-              Tour type: <strong>{reservation.time}</strong> tour
-            </Typography>
-            <Typography use="body2">
-              You've reservated a trip for
-              <strong>{` ${reservation.nrOfPeople} `}</strong>
-              {reservation.nrOfPeople === '1' ? 'guest.' : 'guests.'}
-            </Typography>
-            {reservation.description && (
-              <Typography use="body2">Description: {reservation.description}</Typography>
-            )}
-            <StyledTypography use="body2">
-              <IconConfirmed confirmed={reservation.confirmed} size="large" />
-            </StyledTypography>
+          <StyledSpanAvatar>
+            <GuideAvatar guideId={reservation.guide.id} />
+          </StyledSpanAvatar>
 
-            <StyledButton action="close">
-              <StyledTextMain>Close</StyledTextMain>
-            </StyledButton>
-          </DialogContent>
+          <Typography use="body2">
+            Email: <strong>{reservation.guide.email}</strong>.
+          </Typography>
+          <Typography use="body2">
+            Phone: <strong>{reservation.guide.phone}</strong>.
+          </Typography>
+          <Typography use="body2">
+            Tour type: <strong>{reservation.time}</strong> tour
+          </Typography>
+          <Typography use="body2">
+            You've reservated a trip for
+            <strong>{` ${reservation.nrOfPeople} `}</strong>
+            {reservation.nrOfPeople === '1' ? 'guest.' : 'guests.'}
+          </Typography>
+          {reservation.description && (
+            <Typography use="body2">Description: {reservation.description}</Typography>
+          )}
+          <StyledTypography use="body2">
+            <IconConfirmed confirmed={reservation.confirmed} size="large" />
+          </StyledTypography>
+
+          <StyledButton action="close">
+            <StyledTextMain>Close</StyledTextMain>
+          </StyledButton>
         </StyledSpan>
       </Dialog>
     </>

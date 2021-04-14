@@ -11,13 +11,19 @@ const RESERVATIONS_WITHOUT_GUIDE = gql`
       description
       holiday
       confirmed
-      guideId
       gastId
       relatedDay {
         id
         year
         month
         day
+      }
+      guide {
+        id
+        name
+        surname
+        phone
+        email
       }
     }
   }

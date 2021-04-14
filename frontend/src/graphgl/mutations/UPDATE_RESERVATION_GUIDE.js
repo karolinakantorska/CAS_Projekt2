@@ -2,9 +2,9 @@ import { gql } from '@apollo/client';
 
 const UPDATE_RESERVATION_GUIDE = gql`
   mutation UPDATE_RESERVATION_GUIDE($guideId: ID, $id: ID) {
-    updateReservation(
+    updateReservationAddGuide(
       where: { id: $id }
-      data: { guide: { disconnect: true, connect: { id: $guideId } }, guideId: $guideId }
+      data: { guide: { connect: { id: $guideId } }, guideId: "123" }
     ) {
       id
       time

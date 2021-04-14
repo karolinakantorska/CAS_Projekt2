@@ -1,5 +1,6 @@
 import React from 'react';
 // Components
+import Nav from '../main/Nav';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
 import Loading from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
@@ -31,34 +32,37 @@ const Signin = ({ redirectInfo }) => {
     });
   }
   return (
-    <StyledCard>
-      <form onSubmit={handleSubmit} method="post">
-        {loading && <Loading />}
-        <StyledFieldset disabled={loading} aria-busy={loading}>
-          {redirectInfo && (
-            <ErrorMessage error={redirectInfo}>{redirectInfo}</ErrorMessage>
-          )}
-          <H6 use="headline6">Signin into account:</H6>
-          {error && <ErrorGraphql error={error} />}
-          <Input
-            handleChange={handleChange}
-            name="email"
-            value={inputs.email.textValue || ''}
-            required={true}
-            error={errorInput.email}
-          />
-          <InputPassword
-            value={inputs.password.textValue || ''}
-            handleChange={handleChange}
-            required={true}
-          />
-          <StyledButtonSpan>
-            <ButtonMain text="Signin!" />
-            <ButtonLink text="Create new Account" onClick={routeToSignup} />
-          </StyledButtonSpan>
-        </StyledFieldset>
-      </form>
-    </StyledCard>
+    <>
+      <Nav />
+      <StyledCard>
+        <form onSubmit={handleSubmit} method="post">
+          {loading && <Loading />}
+          <StyledFieldset disabled={loading} aria-busy={loading}>
+            {redirectInfo && (
+              <ErrorMessage error={redirectInfo}>{redirectInfo}</ErrorMessage>
+            )}
+            <H6 use="headline6">Signin into account:</H6>
+            {error && <ErrorGraphql error={error} />}
+            <Input
+              handleChange={handleChange}
+              name="email"
+              value={inputs.email.textValue || ''}
+              required={true}
+              error={errorInput.email}
+            />
+            <InputPassword
+              value={inputs.password.textValue || ''}
+              handleChange={handleChange}
+              required={true}
+            />
+            <StyledButtonSpan>
+              <ButtonMain text="Signin!" />
+              <ButtonLink text="Create new Account" onClick={routeToSignup} />
+            </StyledButtonSpan>
+          </StyledFieldset>
+        </form>
+      </StyledCard>
+    </>
   );
 };
 export default Signin;

@@ -38,8 +38,12 @@ type Mutation {
   createDay(data: DayCreateInput!): Day!
   updateDay(data: DayUpdateInput!, where: DayWhereUniqueInput!): Day
   createReservation(data: ReservationCreateInput!): Reservation!
-  deleteReservation(id: ID!): Reservation
+  deleteReservation(where: ReservationWhereUniqueInput!): Reservation
   deleteManyReservations(where: ReservationWhereInput): BatchPayload!
+  updateReservationAddGuide(
+    data: ReservationUpdateInput!
+    where: ReservationWhereUniqueInput!
+  ): Reservation
   updateReservation(data: ReservationUpdateInput!, where: ReservationWhereUniqueInput!): Reservation
   createInfo(data: InfoCreateInput!): Info!
   updateInfo(data: InfoUpdateInput!, where: InfoWhereUniqueInput!): Info

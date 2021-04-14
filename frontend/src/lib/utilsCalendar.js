@@ -26,19 +26,20 @@ export const filterReservationsData = (queryResult, guide1Id) => {
     reservationsByDays[day] = reservationsFromSelectedGuides;
   });
   return reservationsByDays;
-}; /*
-export const filterReservationsDataTwo = (queryResult, guide1Id, guide2Id) => {
+};
+
+export const filterUserReservationsData = (queryResult, gastId) => {
   const reservationsByDays = {};
   queryResult.map((bookings) => {
     const { day, reservations } = bookings;
-    const reservationsFromSelectedGuides = reservations.filter(
-      (reservation) => reservation.guide !== null && reservation.guide.id === guide1Id,
+    const reservationsFromSelectedUser = reservations.filter(
+      (reservation) => reservation.gastId === gastId,
     );
-    reservationsByDays[day] = reservationsFromSelectedGuides;
+    reservationsByDays[day] = reservationsFromSelectedUser;
   });
   return reservationsByDays;
 };
-*/
+
 export function currentDate() {
   const year = format(new Date(), 'y');
   const month = format(new Date(), 'MMMM');
@@ -51,6 +52,7 @@ export function useCalendar() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const selectedDateTimestamp = format(selectedDate, 't');
   const selectedMonth = format(selectedDate, 'MMMM');
+  const nrOfMonth = format(selectedDate, 'MM');
   const selectedYear = format(selectedDate, 'y');
   const firstDayOfMonth = format(startOfMonth(selectedDate), 'i');
   const daysInMonth = getDaysInMonth(selectedDate);
@@ -70,14 +72,9 @@ export function useCalendar() {
     handleMonthChange,
     selectedYear,
     selectedMonth,
+    nrOfMonth,
     emptyCells,
     daysInMonthArray,
     selectedDateTimestamp,
   };
 }
-
-/*
-  useEffect(() => {
-
-  }, []);
-*/

@@ -30,6 +30,7 @@ export const TextSpecial = styled(Typography)`
 `;
 export const StyledMenuMain = styled(Typography)`
   font-weight: 600;
+  line-height: 90%;
   font-size: 1.2rem;
   color: var(--colorPrimary);
   @media (max-width: 480px) {
@@ -39,8 +40,12 @@ export const StyledMenuMain = styled(Typography)`
     font-size: 1rem;
   }
 `;
+export const StyledTopMenu = styled(Typography)`
+  line-height: 90%;
+`;
 export const StyledMenu2 = styled(Typography)`
   font-weight: 600;
+  line-height: 90%;
   font-size: 1rem;
   color: var(--colorSecundary);
   @media (max-width: 480px) {

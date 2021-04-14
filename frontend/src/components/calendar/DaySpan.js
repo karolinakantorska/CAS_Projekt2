@@ -13,6 +13,7 @@ const DaySpan = ({
   dayOfMonth,
   selectedYear,
   selectedMonth,
+  nrOfMonth,
   highlight,
   currentUser,
   dayInThePast,
@@ -38,6 +39,7 @@ const DaySpan = ({
         selectedYear,
         guideId,
         bookedTime,
+        nrOfMonth,
       );
     }
   }
@@ -56,7 +58,9 @@ const DaySpan = ({
         />
         {time !== 'DAY' && (
           <StyledBookingSpan
-            className={(dayInThePast || dayTooMuchInFuture) && 'dayInThePast'}
+            className={
+              (dayInThePast || dayTooMuchInFuture || guideId === '0') && 'dayInThePast'
+            }
             onClick={() => handleBooking(time)}
           ></StyledBookingSpan>
         )}
@@ -88,7 +92,9 @@ const DaySpan = ({
       <DaySpanStyled>
         <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
         <StyledBookingSpanDay
-          className={(dayInThePast || dayTooMuchInFuture) && 'dayInThePast'}
+          className={
+            (dayInThePast || dayTooMuchInFuture || guideId === '0') && 'dayInThePast'
+          }
           onClick={() => handleBooking(time)}
         />
       </DaySpanStyled>
@@ -131,7 +137,6 @@ const DaySpanStyled = styled.span`
   }
 `;
 const StyledBookingSpanDay = styled.span`
-
   &:not(.dayInThePast):hover {
     height: 94px;
     margin-top: 6px;
@@ -140,7 +145,6 @@ const StyledBookingSpanDay = styled.span`
     background-color: rgba(21, 21, 21, 0.06);
 `;
 const StyledBookingSpan = styled.span`
-
   &:not(.dayInThePast):hover {
     height: 44px;
     margin-top: 6px;

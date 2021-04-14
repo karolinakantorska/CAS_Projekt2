@@ -4,6 +4,7 @@ import styled from 'styled-components';
 // RMWC
 import { CardPrimaryAction } from '@rmwc/card';
 // Components
+import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
@@ -97,114 +98,117 @@ const UpdateTrip = ({ tripId }) => {
     const guideId = dataCurrentUser.currentUser.id;
     const difficultiesArray = arrayFromObject(difficulties);
     return (
-      <StyledCard>
-        <form onSubmit={handleSubmit} method="post">
-          <StyledFieldset disabled={loadingMutation} aria-busy={loadingMutation}>
-            <H6 use="headline6">{`Edit the Trip`}</H6>
-            {error && <ErrorGraphql error={error} />}
-            <TextGrayDense use="body1">Title:</TextGrayDense>
-            <Input
-              handleChange={handleChange}
-              name="title"
-              value={inputs.title.textValue || ''}
-              required={false}
-            />
-            <TextGrayDense use="body1">What's so special?</TextGrayDense>
-            <Input
-              handleChange={handleChange}
-              name="special"
-              value={inputs.special.textValue || ''}
-              required={false}
-            />
-            <TextGrayDense use="body1">Difficulty Level:</TextGrayDense>
-            <StyledSelect
-              onChange={handleDifficultyChange}
-              placeholder="Please chose difficulty level"
-              defaultValue={trip.difficulty}
-            >
-              {difficultiesArray.map((difficulty) => {
-                return (
-                  <option
-                    value={Object.keys(difficulty)}
-                    name="difficulty"
-                    key={Object.keys(difficulty)}
-                  >
-                    {Object.values(difficulty)}
-                  </option>
-                );
-              })}
-            </StyledSelect>
-            <StyledSpanErrors>
-              {loadingPhotoUpload && <Loading />}
-              {errorPhotoUpload && <ErrorMessage error={errorPhotoUpload} />}
-            </StyledSpanErrors>
-            <StyledInput type="file" id="file" onChange={uploadPhoto} />
-            <label htmlFor="file">
-              <CardPrimaryAction>
-                <StyledGuideImage
-                  src={result ? result : data.trip.photo}
-                  alt="Upload a photo"
-                />
-              </CardPrimaryAction>
-            </label>
+      <>
+        <Nav />
+        <StyledCard>
+          <form onSubmit={handleSubmit} method="post">
+            <StyledFieldset disabled={loadingMutation} aria-busy={loadingMutation}>
+              <H6 use="headline6">{`Edit the Trip`}</H6>
+              {error && <ErrorGraphql error={error} />}
+              <TextGrayDense use="body1">Title:</TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="title"
+                value={inputs.title.textValue || ''}
+                required={false}
+              />
+              <TextGrayDense use="body1">What's so special?</TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="special"
+                value={inputs.special.textValue || ''}
+                required={false}
+              />
+              <TextGrayDense use="body1">Difficulty Level:</TextGrayDense>
+              <StyledSelect
+                onChange={handleDifficultyChange}
+                placeholder="Please chose difficulty level"
+                defaultValue={trip.difficulty}
+              >
+                {difficultiesArray.map((difficulty) => {
+                  return (
+                    <option
+                      value={Object.keys(difficulty)}
+                      name="difficulty"
+                      key={Object.keys(difficulty)}
+                    >
+                      {Object.values(difficulty)}
+                    </option>
+                  );
+                })}
+              </StyledSelect>
+              <StyledSpanErrors>
+                {loadingPhotoUpload && <Loading />}
+                {errorPhotoUpload && <ErrorMessage error={errorPhotoUpload} />}
+              </StyledSpanErrors>
+              <StyledInput type="file" id="file" onChange={uploadPhoto} />
+              <label htmlFor="file">
+                <CardPrimaryAction>
+                  <StyledGuideImage
+                    src={result ? result : data.trip.photo}
+                    alt="Upload a photo"
+                  />
+                </CardPrimaryAction>
+              </label>
 
-            <TextGrayDense use="body1">Description:</TextGrayDense>
-            <TextField
-              fullwidth
-              onChange={handleChange}
-              name="description"
-              value={inputs.description.textValue || ''}
-              required={false}
-              textarea={true}
-              rows={5}
-              maxLength={700}
-            />
-            <TextGrayDense use="body1">Start Point:</TextGrayDense>
-            <Input
-              handleChange={handleChange}
-              name="start"
-              value={inputs.start.textValue || ''}
-              required={false}
-            />
-            <TextGrayDense use="body1">End Point:</TextGrayDense>
-            <Input
-              handleChange={handleChange}
-              name="end"
-              value={inputs.end.textValue || ''}
-              required={false}
-            />
-            <TextGrayDense use="body1">Duration:</TextGrayDense>
-            <Input
-              handleChange={handleChange}
-              name="duration"
-              value={inputs.duration.textValue || ''}
-              required={false}
-            />
-            <TextGrayDense use="body1">Are the E-bikes allowed?</TextGrayDense>
-            <MySwitch
-              name="ebike"
-              text="E-bike"
-              handleSwitch={handleSwitch}
-              checked={switchValues.ebike || false}
-            />
-            <TextGrayDense use="body1">Aditional costs:</TextGrayDense>
-            <Input
-              handleChange={handleChange}
-              name="costs"
-              value={inputs.costs.textValue || ''}
-              required={false}
-            />
-            {errorMutation && <ErrorGraphql error={errorMutation} />}
-            <ButtonMain text="Save Changes" />
-            <ButtonLink
-              text="Go to My Trips"
-              onClick={() => {
-                routeToTripList(guideId);
-              }}
-            />
-          </StyledFieldset>
-        </form>
-      </StyledCard>
+              <TextGrayDense use="body1">Description:</TextGrayDense>
+              <TextField
+                fullwidth
+                onChange={handleChange}
+                name="description"
+                value={inputs.description.textValue || ''}
+                required={false}
+                textarea={true}
+                rows={5}
+                maxLength={700}
+              />
+              <TextGrayDense use="body1">Start Point:</TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="start"
+                value={inputs.start.textValue || ''}
+                required={false}
+              />
+              <TextGrayDense use="body1">End Point:</TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="end"
+                value={inputs.end.textValue || ''}
+                required={false}
+              />
+              <TextGrayDense use="body1">Duration:</TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="duration"
+                value={inputs.duration.textValue || ''}
+                required={false}
+              />
+              <TextGrayDense use="body1">Are the E-bikes allowed?</TextGrayDense>
+              <MySwitch
+                name="ebike"
+                text="E-bike"
+                handleSwitch={handleSwitch}
+                checked={switchValues.ebike || false}
+              />
+              <TextGrayDense use="body1">Aditional costs:</TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="costs"
+                value={inputs.costs.textValue || ''}
+                required={false}
+              />
+              {errorMutation && <ErrorGraphql error={errorMutation} />}
+              <ButtonMain text="Save Changes" />
+              <ButtonLink
+                text="Go to My Trips"
+                onClick={() => {
+                  routeToTripList(guideId);
+                }}
+              />
+            </StyledFieldset>
+          </form>
+        </StyledCard>
+      </>
     );
   }
 };

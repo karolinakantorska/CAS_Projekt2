@@ -12,7 +12,6 @@ type User {
   ebike: Boolean
   mtb: Boolean
   phone: String
-  color: Color
   specialisations: [Specialisation] @scalarList(strategy: RELATION)
   permissions: Permission!
   reservations: [Reservation]
@@ -22,52 +21,40 @@ enum Permission {
   GUIDE
   USER
 }
-#TODO replace with Big Letters:
+
 enum Specialisation {
-  Trail_riding
+  Trail_Riding
   Singletrack
   Bikepark
   Downhill
-  Cross_country
-  All_mountain
+  Cross_Country
+  All_Mountain
   Enduro
-  Dirt_jumping
+  Dirt_Jumping
   Freeride
-  MTB_touring
+  MTB_Touring
   Fatbiking
   Ebikes
-}
-enum Color {
-  Col1
-  Col2
-  Col3
-  Col4
-  Col5
-  Col6
-  Col7
-  Col8
-  Col9
 }
 type Day {
   id: ID! @id
   year: String!
   month: String!
   day: String!
-  reservations: [Reservation] # to-many
+  reservations: [Reservation] # relationship to-many
 }
 type Reservation {
   id: ID! @id
   time: Time
   guide: User #relationship to the User - GUIDE
   relatedDay: Day #relationship to the Day # to-one
-  userName: String # TODO remove it
-  userEmail: String # TODO remove it
+  userName: String
+  userEmail: String
   nrOfPeople: String
   description: String
   holiday: Boolean
   confirmed: Boolean
-  guideId: ID # TODO remove it
-  gastId: ID # TODO remove it
+  gastId: ID
   timeStamp: String
 }
 enum Time {

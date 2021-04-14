@@ -1,4 +1,3 @@
-//import App from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import Page from '../components/main/Page';
 import withApollo from '../lib/withApollo';
@@ -8,12 +7,9 @@ import 'fontsource-hind';
 import 'fontsource-yanone-kaffeesatz';
 
 import '@material/button/dist/mdc.button.css';
-// arrows in calendar menu
 import '@material/icon-button/dist/mdc.icon-button.css';
 import '@material/card/dist/mdc.card.css';
-//import '@material/form-field/dist/mdc.form-field.css';
 import '@material/textfield/dist/mdc.textfield.css';
-// for textfield
 import '@material/ripple/dist/mdc.ripple.css';
 import '@material/floating-label/dist/mdc.floating-label.css';
 import '@material/notched-outline/dist/mdc.notched-outline.css';
@@ -61,9 +57,6 @@ MyApp.getInitialProps = async function ({ Component, ctx }) {
     pageProps = await Component.getInitialProps(ctx);
   }
   pageProps.query = ctx.query;
-  //console.log('ctx', ctx);
-  //console.log('ctx.req', ctx.req);
-  //console.log('ctx.pathname', ctx.pathname);
   return { pageProps };
 };
 

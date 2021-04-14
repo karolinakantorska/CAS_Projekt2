@@ -32,23 +32,16 @@ export const StyledCardWithPadding = styled(Card)`
 `;
 /*
 export const StyledSpanPadding = styled.span`
-  display: grid;
-  align-content: stretch;
-  padding: 1rem;
+  padding: 40px 40px 20px 40px;
 `;
 */
 export const StyledOneGuideGrid = styled.span`
   display: grid;
   column-gap: 10px;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-template-areas:
     ' title title'
     ' subtitle subtitle'
-    ' info photo'
-    ' info photo'
-    ' info photo'
-    ' info photo'
-    ' info photo'
     ' info photo'
     ' desc desc'
     ' button button';
@@ -72,17 +65,12 @@ export const StyledOneGuideGrid = styled.span`
   .button {
     grid-area: button;
   }
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 720px) {
+    grid-template-columns: 1fr 1fr;
     grid-template-areas:
       ' title'
       ' subtitle'
-      ' info1'
-      ' info2'
-      ' info3'
-      ' info4'
-      ' info5'
-      ' info6'
+      ' info'
       ' photo'
       ' desc'
       ' button';
@@ -91,10 +79,8 @@ export const StyledOneGuideGrid = styled.span`
       margin: 10px auto 10px auto;
     }
   }
-  /*
-  @media (max-width: 480px) {
-  }
-  @media (max-width: 420px) {
-  }
-  */
+`;
+export const StyledInfoGrid = styled.span`
+  display: grid;
+  grid-template-rows: repeat(auto-fill, minmax(1.5rem, 1fr));
 `;

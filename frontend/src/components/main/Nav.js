@@ -12,15 +12,15 @@ import NavUser from '../main/NavUser';
 import { permission } from '../../lib/utils';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 // Styling
-import { StyledMenuMain } from '../styles/Text';
-import { Typography } from '@rmwc/typography';
+import { StyledMenuMain, StyledTopMenu } from '../styles/Text';
 import { Icon } from '@rmwc/icon';
 
 const Nav = () => {
   const [show, setShow] = useState(false);
   const { loading, error, data } = useCurrentUser();
   if (loading) {
-    return <Loading />;
+    //return <Loading />;
+    return <p>Loading...</p>;
   }
   if (error) {
     return <ErrorGraphql error={error} />;
@@ -30,13 +30,13 @@ const Nav = () => {
       <>
         <StyledNav>
           {data.currentUser.name ? (
-            <Typography use="caption" className="user">
+            <StyledTopMenu use="caption" className="user">
               {data.currentUser.name}
-            </Typography>
+            </StyledTopMenu>
           ) : (
-            <Typography use="caption" className="user">
+            <StyledTopMenu use="caption" className="user">
               please login
-            </Typography>
+            </StyledTopMenu>
           )}
           <Link href="/">
             <StyledMenuMain use="body" className="home">
@@ -116,8 +116,8 @@ const StyledNav = styled.nav`
     ' none none none user'
     ' home userSpec guides signin';
   white-space: nowrap;
+  background-color: rgba(255, 255, 255, 0.8);
 
-  background-color: rgba(255, 255, 255, 0.1);
   a:hover,
   .active {
     color: var(--colorSecundary);

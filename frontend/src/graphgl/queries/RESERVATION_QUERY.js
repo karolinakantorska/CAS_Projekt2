@@ -11,7 +11,6 @@ const RESERVATION_QUERY = gql`
       description
       holiday
       confirmed
-      guideId
       gastId
       relatedDay {
         id

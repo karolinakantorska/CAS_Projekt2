@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
 import PropTypes from 'prop-types';
-
 // Components
+import Nav from '../main/Nav';
 import Calendar from './Calendar';
 import Loading from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
@@ -28,6 +27,7 @@ const CalendarResQuery = ({ guideId }) => {
     handleMonthChange,
     selectedYear,
     selectedMonth,
+    nrOfMonth,
     emptyCells,
     daysInMonthArray,
     selectedDateTimestamp,
@@ -64,6 +64,7 @@ const CalendarResQuery = ({ guideId }) => {
   if (dataGuides) {
     return (
       <>
+        <Nav />
         <Select
           disabled={false}
           onChange={handleChange}
@@ -80,6 +81,7 @@ const CalendarResQuery = ({ guideId }) => {
           handleMonthChange={handleMonthChange}
           selectedYear={selectedYear}
           selectedMonth={selectedMonth}
+          nrOfMonth={nrOfMonth}
           emptyCells={emptyCells}
           daysInMonthArray={daysInMonthArray}
           selectedDateTimestamp={selectedDateTimestamp}

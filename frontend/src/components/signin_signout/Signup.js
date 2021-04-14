@@ -1,5 +1,6 @@
 import React from 'react';
 // Components
+import Nav from '../main/Nav';
 import InputPassword from '../reusable/InputPassword';
 import Input from '../reusable/Input';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
@@ -33,39 +34,42 @@ const Signup = () => {
     });
   }
   return (
-    <StyledCard>
-      <form onSubmit={handleSubmit} method="post">
-        {loading && <Loading />}
-        <StyledFieldset disabled={loading} aria-busy={loading}>
-          <H6 use="headline6">Signup for a account:</H6>
-          {error && <ErrorGraphql error={error} />}
-          <Input
-            handleChange={handleChange}
-            name="name"
-            value={inputs.name.textValue || ''}
-            required={true}
-            error={errorInput.name}
-          />
-          <Input
-            handleChange={handleChange}
-            name="email"
-            value={inputs.email.textValue || ''}
-            required={true}
-            error={errorInput.email}
-          />
-          <InputPassword
-            value={inputs.password.textValue || ''}
-            handleChange={handleChange}
-            required={true}
-            error={errorInput.password}
-          />
-          <StyledButtonSpan>
-            <ButtonMain text="Signup!" value="Submit" />
-            <ButtonLink text="Go to Signin!" onClick={routeToSignin} />
-          </StyledButtonSpan>
-        </StyledFieldset>
-      </form>
-    </StyledCard>
+    <>
+      <Nav />
+      <StyledCard>
+        <form onSubmit={handleSubmit} method="post">
+          {loading && <Loading />}
+          <StyledFieldset disabled={loading} aria-busy={loading}>
+            <H6 use="headline6">Signup for a account:</H6>
+            {error && <ErrorGraphql error={error} />}
+            <Input
+              handleChange={handleChange}
+              name="name"
+              value={inputs.name.textValue || ''}
+              required={true}
+              error={errorInput.name}
+            />
+            <Input
+              handleChange={handleChange}
+              name="email"
+              value={inputs.email.textValue || ''}
+              required={true}
+              error={errorInput.email}
+            />
+            <InputPassword
+              value={inputs.password.textValue || ''}
+              handleChange={handleChange}
+              required={true}
+              error={errorInput.password}
+            />
+            <StyledButtonSpan>
+              <ButtonMain text="Signup!" value="Submit" />
+              <ButtonLink text="Go to Signin!" onClick={routeToSignin} />
+            </StyledButtonSpan>
+          </StyledFieldset>
+        </form>
+      </StyledCard>
+    </>
   );
 };
 

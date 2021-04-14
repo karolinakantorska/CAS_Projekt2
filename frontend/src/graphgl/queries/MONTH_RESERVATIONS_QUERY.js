@@ -31,7 +31,6 @@ const MONTH_RESERVATIONS_QUERY = gql`
         holiday
         confirmed
         gastId
-        guideId
       }
     }
   }

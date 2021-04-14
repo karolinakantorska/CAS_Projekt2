@@ -117,7 +117,7 @@ Guide.propTypes = {
 };
 const StyledSpan = styled.span`
   display: grid;
-  grid-template-rows: 1fr 25px 20px 20px 70px;
+  grid-template-rows: 1fr 25px 20px 20px 80px;
   padding: 8px;
 `;
 const StyledSpanBookMe = styled.span`

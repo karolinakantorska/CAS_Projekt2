@@ -19,6 +19,7 @@ const Calendar = ({
   handleMonthChange,
   selectedYear,
   selectedMonth,
+  nrOfMonth,
   emptyCells,
   daysInMonthArray,
   selectedDateTimestamp,
@@ -30,7 +31,6 @@ const Calendar = ({
     error: errorCurrentUser,
     data: dataCurrentUser,
   } = useCurrentUser();
-
   if (loadingCurrentUser) {
     return <Loading />;
   }
@@ -81,6 +81,7 @@ const Calendar = ({
               dayOfMonth={dayOfMonth}
               selectedYear={selectedYear}
               selectedMonth={selectedMonth}
+              nrOfMonth={nrOfMonth}
               highlight={
                 today.year === selectedYear &&
                 today.month === selectedMonth &&

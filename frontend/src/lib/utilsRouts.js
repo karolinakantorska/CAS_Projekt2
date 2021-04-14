@@ -45,6 +45,7 @@ export function routeToBookingConfirmation(
   selectedYear,
   guideId,
   bookedTime,
+  nrOfMonth,
 ) {
   Router.push({
     pathname: '/confirm_booking',
@@ -54,6 +55,7 @@ export function routeToBookingConfirmation(
       selectedYear,
       guideId,
       bookedTime,
+      nrOfMonth,
     },
   });
 }

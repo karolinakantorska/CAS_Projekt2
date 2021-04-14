@@ -6,7 +6,6 @@ const Query = {
     return ctx.db.query.users({}, info);
   },
   user: forwardTo("db"),
-
   currentUser(parent, args, ctx, info) {
     if (!ctx.request.userId) {
       return null;
@@ -24,6 +23,7 @@ const Query = {
   reservation: forwardTo("db"),
   trips: forwardTo("db"),
   trip: forwardTo("db"),
+  infoes: forwardTo("db"),
 };
 
 module.exports = Query;

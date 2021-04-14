@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { gql, useQuery } from '@apollo/client';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 
@@ -13,5 +13,6 @@ export function useCurrentUser() {
       data: noUser,
     };
   }
+
   return { loading, error, data };
 }

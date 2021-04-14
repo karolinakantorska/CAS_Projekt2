@@ -14,7 +14,6 @@ const ADD_GUIDE = gql`
     $phone: String
     $permissions: Permission!
     $specialisations: [Specialisation!]
-    $color: Color
   ) {
     createUser(
       data: {
@@ -30,7 +29,6 @@ const ADD_GUIDE = gql`
         phone: $phone
         permissions: $permissions
         specialisations: { set: $specialisations }
-        color: $color
       }
     ) {
       id
@@ -44,7 +42,6 @@ const ADD_GUIDE = gql`
       mtb
       phone
       specialisations
-      color
     }
   }
 `;
