@@ -14,6 +14,7 @@ const UPDATE_GUIDE = gql`
     $phone: String
     $permissions: Permission!
     $specialisations: [Specialisation!]
+    $location: String
   ) {
     updateUser(
       data: {
@@ -28,6 +29,7 @@ const UPDATE_GUIDE = gql`
         phone: $phone
         permissions: $permissions
         specialisations: { set: $specialisations }
+        location: $location
       }
       where: { id: $id }
     ) {
@@ -43,6 +45,7 @@ const UPDATE_GUIDE = gql`
       phone
       permissions
       specialisations
+      location
     }
   }
 `;

@@ -12,7 +12,8 @@ import { H6, TextSpecial } from '../styles/Text';
 import {
   EntrySpan,
   StyledSpan,
-  StyledTypography,
+  StyledTypographyRed,
+  StyledTypographyGreen,
   StyledButton,
 } from '../styles/StyledEntry';
 // RMWC
@@ -64,23 +65,41 @@ const EntryGuide = ({ reservation, currentUser }) => {
           <Typography use="body2">
             Tour type: <strong>{reservation.time}</strong> tour
           </Typography>
+
           <Typography use="body2">
-            You've reservated a trip for
-            <strong>{` ${reservation.nrOfPeople} `}</strong>
-            {reservation.nrOfPeople === '1' ? 'guest.' : 'guests.'}
+            Number of guests:
+            <strong>{` ${reservation.nrOfPeople}. `}</strong>
           </Typography>
           {reservation.description && (
             <Typography use="body2">Description: {reservation.description}</Typography>
           )}
-          <StyledTypography use="body2">
-            <IconConfirmed confirmed={reservation.confirmed} size="large" />
-          </StyledTypography>
+          {reservation.trip && (
+            <Typography use="body2">
+              Trip:
+              <strong>{` ${reservation.trip.title} trip.`}</strong>
+            </Typography>
+          )}
+          {reservation.confirmed ? (
+            <StyledTypographyGreen use="body2">
+              <IconConfirmed confirmed={reservation.confirmed} size="large" />
+            </StyledTypographyGreen>
+          ) : (
+            <StyledTypographyRed use="body2">
+              <IconConfirmed confirmed={reservation.confirmed} size="large" />
+            </StyledTypographyRed>
+          )}
           {loadingUpdateReservation && <Loading />}
           {reservation.guide.id === currentUser.id && (
             <ButtonMain
               disabled={reservation.confirmed || loadingUpdateReservation}
               text={reservation.confirmed ? 'Confirmed' : 'Confirm'}
               onClick={handleConfirm}
+            />
+          )}
+          {reservation.trip && (
+            <ButtonLink
+              text="Go to Trip description!"
+              onClick={() => routeToTripDetails(reservation.trip.id)}
             />
           )}
           <StyledButton action="close">

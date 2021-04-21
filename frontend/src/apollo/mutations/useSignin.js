@@ -1,5 +1,5 @@
 import { gql, useMutation } from '@apollo/client';
-import { routeToGuidesList } from '../../lib/utilsRouts';
+import { routeToGuidesList, routeBack } from '../../lib/utilsRouts';
 import SIGNIN_MUTATION from '../../graphgl/mutations/SIGNIN_MUTATION';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 
@@ -8,7 +8,7 @@ export function useSignin() {
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
     awaitRefetchQueries: true,
     onCompleted: () => {
-      routeToGuidesList();
+      routeBack();
     },
     onError: (error) => {
       error;

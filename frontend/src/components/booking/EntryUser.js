@@ -5,13 +5,14 @@ import styled from 'styled-components';
 import GuideAvatar from '../reusable/GuideAvatar';
 import { StyledTextMain } from '../reusable/Buttons';
 import IconConfirmed from '../reusable/IconConfirmed';
-
+import { ButtonLink } from '../reusable/Buttons';
 // Components for Styling
 import { H6, TextSpecial } from '../styles/Text';
 import {
   EntrySpan,
   StyledSpan,
-  StyledTypography,
+  StyledTypographyRed,
+  StyledTypographyGreen,
   StyledButton,
 } from '../styles/StyledEntry';
 
@@ -21,7 +22,7 @@ import { Typography } from '@rmwc/typography';
 import { Dialog, DialogTitle, DialogContent } from '@rmwc/dialog';
 const EntryUser = ({ reservation, currentUser }) => {
   const [open, setOpen] = React.useState(false);
-
+  console.log('reservation', reservation);
   return (
     <>
       <EntrySpan
@@ -51,7 +52,6 @@ const EntryUser = ({ reservation, currentUser }) => {
           <StyledSpanAvatar>
             <GuideAvatar guideId={reservation.guide.id} />
           </StyledSpanAvatar>
-
           <Typography use="body2">
             Email: <strong>{reservation.guide.email}</strong>.
           </Typography>
@@ -61,18 +61,49 @@ const EntryUser = ({ reservation, currentUser }) => {
           <Typography use="body2">
             Tour type: <strong>{reservation.time}</strong> tour
           </Typography>
+          {reservation.trip && (
+            <>
+              <Typography use="body2">
+                You've booked
+                <strong>{` ${reservation.trip.title} trip.`}</strong> with a start point
+                in <strong>{` ${reservation.trip.start}.`}</strong>
+              </Typography>
+              <ButtonLink
+                text="Go to Trip description!"
+                onClick={() => routeToTripDetails(reservation.trip.id)}
+              />
+            </>
+          )}
           <Typography use="body2">
             You've reservated a trip for
             <strong>{` ${reservation.nrOfPeople} `}</strong>
             {reservation.nrOfPeople === '1' ? 'guest.' : 'guests.'}
           </Typography>
           {reservation.description && (
-            <Typography use="body2">Description: {reservation.description}</Typography>
+            <Typography use="body2">
+              Your message to the Guide: {reservation.description}
+            </Typography>
           )}
-          <StyledTypography use="body2">
-            <IconConfirmed confirmed={reservation.confirmed} size="large" />
-          </StyledTypography>
-
+          <StyledTypographyRed use="body2"></StyledTypographyRed>
+          {reservation.confirmed ? (
+            <>
+              <StyledTypographyGreen use="body2">
+                <IconConfirmed confirmed={reservation.confirmed} size="large" />
+              </StyledTypographyGreen>
+              <StyledTypographyGreen use="body2">
+                Reservation confirmed by Guide.
+              </StyledTypographyGreen>
+            </>
+          ) : (
+            <>
+              <StyledTypographyRed use="body2">
+                <IconConfirmed confirmed={reservation.confirmed} size="large" />
+              </StyledTypographyRed>
+              <StyledTypographyRed use="body2">
+                Reservation haven't been confirmed yet.
+              </StyledTypographyRed>
+            </>
+          )}
           <StyledButton action="close">
             <StyledTextMain>Close</StyledTextMain>
           </StyledButton>

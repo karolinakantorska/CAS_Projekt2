@@ -12,7 +12,8 @@ import { H6 } from '../styles/Text';
 import {
   EntrySpan,
   StyledSpan,
-  StyledTypography,
+  StyledTypographyRed,
+  StyledTypographyGreen,
   StyledButton,
 } from '../styles/StyledEntry';
 // RMWC
@@ -51,9 +52,7 @@ const EntryAdmin = ({ reservation }) => {
         <StyledSpan>
           <H6 use="headline6">{`Reservation for ${reservation.relatedDay.day} ${reservation.relatedDay.month} 
             ${reservation.relatedDay.year}`}</H6>
-
           {errorDeleteReservation && <ErrorGraphql error={errorDeleteReservation} />}
-
           <Typography use="body2">
             Booked by:
             <strong> {reservation.userName}</strong>
@@ -73,20 +72,46 @@ const EntryAdmin = ({ reservation }) => {
           <Typography use="body2">
             Guide email: <strong>{reservation.guide.email}</strong>.
           </Typography>
+          {reservation.trip && (
+            <Typography use="body2">
+              Trip:
+              <strong>{` ${reservation.trip.title} trip.`}</strong>
+            </Typography>
+          )}
           <Typography use="body2">
-            You've reservated a trip for
-            <strong>{` ${reservation.nrOfPeople} `}</strong>
-            {reservation.nrOfPeople === '1' ? 'guest.' : 'guests.'}
+            Number of guests:
+            <strong>{` ${reservation.nrOfPeople}. `}</strong>
           </Typography>
           {reservation.description && (
             <Typography use="body2">Description: {reservation.description}</Typography>
           )}
-          <StyledTypography use="body2">
-            <IconConfirmed confirmed={reservation.confirmed} size="large" />
-          </StyledTypography>
-
+          {reservation.confirmed ? (
+            <>
+              <StyledTypographyGreen use="body2">
+                <IconConfirmed confirmed={reservation.confirmed} size="large" />
+              </StyledTypographyGreen>
+              <StyledTypographyGreen use="body2">
+                Reservation confirmed by Guide.
+              </StyledTypographyGreen>
+            </>
+          ) : (
+            <>
+              <StyledTypographyRed use="body2">
+                <IconConfirmed confirmed={reservation.confirmed} size="large" />
+              </StyledTypographyRed>
+              <StyledTypographyRed use="body2">
+                Reservation haven't been confirmed yet.
+              </StyledTypographyRed>
+            </>
+          )}
           {loadingDeleteReservation && <Loading />}
-          <ButtonLink text="Delete" onClick={handleDelete} />
+          <ButtonLink text="Delete" onClick={handleDelete} />{' '}
+          {reservation.trip && (
+            <ButtonLink
+              text="Go to Trip description!"
+              onClick={() => routeToTripDetails(reservation.trip.id)}
+            />
+          )}
           <StyledButton action="close">
             <StyledTextMain>Close</StyledTextMain>
           </StyledButton>

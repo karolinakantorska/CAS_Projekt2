@@ -26,11 +26,7 @@ import { routeToGuidesList } from '../../lib/utilsRouts';
 
 // Components for Styling
 import { StyledCard } from '../styles/StyledCards';
-import {
-  StyledFieldset,
-  StyledSpanErrors,
-  StyledSelectColors,
-} from '../styles/StyledForm';
+import { StyledFieldset, StyledSpanErrors } from '../styles/StyledForm';
 import { TextField } from '@rmwc/textfield';
 import { StyledGuideImage } from '../styles/StyledImage';
 import { StyledButtonSpan } from '../styles/StyledButtonSpan';
@@ -40,7 +36,6 @@ const AddGuide = () => {
   const [addGuide, { loading, error }] = useAddGuide();
   const { checkedOptions, handleChecked } = useCheckBoxes([]);
   const { switchValues, handleSwitch } = useSwich({ ebike: true, mtb: true });
-  const { value: valueColor, handleChange: handleColorChange } = useFormInput('Col9');
   const { inputs, handleChange, handleSubmit, errorInput } = useForm(handleAddGuide, {
     name: { textValue: '' },
     surname: { textValue: '' },
@@ -49,6 +44,7 @@ const AddGuide = () => {
     password: { textValue: '' },
     title: { textValue: '' },
     phone: { textValue: '' },
+    location: { textValue: '' },
   });
   const { uploadPhoto, result, loadingPhotoUpload, errorPhotoUpload } = usePhotoUpload(
     '',
@@ -70,7 +66,7 @@ const AddGuide = () => {
         mtb: switchValues.mtb,
         phone: inputs.phone.textValue,
         specialisations: checkedOptions,
-        color: valueColor,
+        location: inputs.location.textValue,
       },
     });
   }
@@ -91,7 +87,7 @@ const AddGuide = () => {
                 <StyledGuideImage src={result} alt="Upload a photo" />
               </CardPrimaryAction>
             </label>
-            {error && <ErrorGraphql error={error} />}
+
             <Input
               handleChange={handleChange}
               name="name"
@@ -119,12 +115,23 @@ const AddGuide = () => {
               required={true}
               error={errorInput.password}
             ></InputPassword>
+
+            <TextGrayDense use="body1">Short encouraging text:</TextGrayDense>
             <Input
               handleChange={handleChange}
               name="title"
               value={inputs.title.textValue || ''}
               required={false}
             ></Input>
+            <TextGrayDense use="body1">
+              Prefered starting point, when no Trip is choosen:
+            </TextGrayDense>
+            <Input
+              handleChange={handleChange}
+              name="location"
+              type="location"
+              value={inputs.location.textValue || ''}
+            />
             <TextGrayDense use="body1">Description:</TextGrayDense>
             <TextField
               fullwidth
@@ -168,8 +175,8 @@ const AddGuide = () => {
                 />
               ))}
             </StyledSpan>
+            {error && <ErrorGraphql error={error} />}
             <ButtonMain text="Save Guide" />
-            <ButtonLink text="Guide List" onClick={() => routeToGuidesList()} />
           </StyledFieldset>
         </form>
       </StyledCard>

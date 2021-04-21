@@ -6,7 +6,7 @@ import { permission } from '../lib/utils';
 const booking_admin = ({ query }) => {
   return (
     <RedirectWrongPermission requiredRole={permission.admin}>
-      <CalendarResQuery guideId={query.guideId} />
+      <CalendarResQuery guideId={query.guideId} tripId={query.tripId} />
     </RedirectWrongPermission>
   );
 };

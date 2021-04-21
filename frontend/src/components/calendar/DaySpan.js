@@ -10,6 +10,7 @@ import { routeToBookingConfirmation } from '../../lib/utilsRouts';
 const DaySpan = ({
   reservation,
   guideId,
+  tripId,
   dayOfMonth,
   selectedYear,
   selectedMonth,
@@ -38,6 +39,7 @@ const DaySpan = ({
         selectedMonth,
         selectedYear,
         guideId,
+        tripId,
         bookedTime,
         nrOfMonth,
       );
@@ -62,7 +64,9 @@ const DaySpan = ({
               (dayInThePast || dayTooMuchInFuture || guideId === '0') && 'dayInThePast'
             }
             onClick={() => handleBooking(time)}
-          ></StyledBookingSpan>
+          >
+            <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
+          </StyledBookingSpan>
         )}
       </DaySpanStyled>
     );
@@ -90,13 +94,14 @@ const DaySpan = ({
     const time = '';
     return (
       <DaySpanStyled>
-        <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
         <StyledBookingSpanDay
           className={
             (dayInThePast || dayTooMuchInFuture || guideId === '0') && 'dayInThePast'
           }
           onClick={() => handleBooking(time)}
-        />
+        >
+          <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
+        </StyledBookingSpanDay>
       </DaySpanStyled>
     );
   }
@@ -137,6 +142,8 @@ const DaySpanStyled = styled.span`
   }
 `;
 const StyledBookingSpanDay = styled.span`
+
+height: 94px;
   &:not(.dayInThePast):hover {
     height: 94px;
     margin-top: 6px;

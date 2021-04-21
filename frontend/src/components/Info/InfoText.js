@@ -12,7 +12,8 @@ const InfoText = () => {
     <>
       <Nav />
       <StyledCardWithPadding>
-        <H6 use="headline6">Terms and Conditions</H6>
+        <H6 use="headline6">Oberengardin MTB Guides reservation</H6>
+        <Typography use="body">Terms and Conditions</Typography>
         <Typography use="body2" className="info1">
           {` ${text}`}
         </Typography>

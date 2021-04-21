@@ -81,6 +81,6 @@ export const StyledOneGuideGrid = styled.span`
   }
 `;
 export const StyledInfoGrid = styled.span`
-  display: grid;
-  grid-template-rows: repeat(auto-fill, minmax(1.5rem, 1fr));
+  //display: grid;
+  //grid-template-rows: repeat(auto-fill, minmax(1.5rem, 1fr));
 `;

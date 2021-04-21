@@ -22,6 +22,19 @@ const MONTH_RESERVATIONS_ALL_GUIDES = gql`
           month
           day
         }
+        trip {
+          title
+          special
+          description
+          difficulty
+          start
+          end
+          duration
+          costs
+          ebikes
+          photo
+          wholeDay
+        }
         userName
         userEmail
         nrOfPeople

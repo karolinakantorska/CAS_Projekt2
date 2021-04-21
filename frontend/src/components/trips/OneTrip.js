@@ -1,6 +1,8 @@
 import React from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 // Components
+import GuideAvatar from '../reusable/GuideAvatar';
 import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import Loading from '../reusable/LoadingBar';
@@ -43,31 +45,39 @@ const OneTrip = ({ tripId }) => {
               {trip.special}
             </Subtitle>
             <StyledInfoGrid className="info">
+              <StyledDiv>
+                <GuideAvatar guideId={trip.guide.id} />
+              </StyledDiv>
               <Typography use="body2">
                 <strong>Difficoulty Level: </strong>
                 {difficulties[trip.difficulty]}
               </Typography>
-              <br />
+
               <Typography use="body2">
                 <strong>Meeting Point: </strong>
                 {trip.start}
               </Typography>
-              <br />
+
               <Typography use="body2">
                 <strong>End Point: </strong>
                 {trip.end}
               </Typography>
-              <br />
+
               <Typography use="body2">
                 <strong>How long this will take?: </strong>
                 {trip.duration}
               </Typography>
-              <br />
+
+              <Typography use="body2">
+                <strong>Do you need to book a whole day? </strong>
+                {` ${trip.wholeDay ? 'YES' : 'NO'}`}
+              </Typography>
+
               <Typography use="body2">
                 <strong>Aditional costs: </strong>
                 {trip.costs}
               </Typography>
-              <br />
+
               <Typography use="body2">
                 <strong>Are the ebikes Alowed?: </strong>
                 {trip.ebikes ? 'YES' : 'NO'}
@@ -83,13 +93,13 @@ const OneTrip = ({ tripId }) => {
               {trip.description}
             </Typography>
             <StyledButtonSpan className="button">
-              <ButtonLink
+              <ButtonMain
                 text="See All Trips!"
                 onClick={() => routeToTripList(trip.guide.id)}
               />
               <ButtonMain
-                text="Book Me Now!"
-                onClick={() => routeToCalendar(trip.guide.id)}
+                text="Book This Trip!"
+                onClick={() => routeToCalendar(trip.guide.id, trip.id)}
               />
             </StyledButtonSpan>
           </StyledOneGuideGrid>
@@ -101,4 +111,7 @@ const OneTrip = ({ tripId }) => {
 OneTrip.propTypes = {
   tripId: PropTypes.string.isRequired,
 };
+export const StyledDiv = styled.div`
+  margin-top: 20px;
+`;
 export default OneTrip;

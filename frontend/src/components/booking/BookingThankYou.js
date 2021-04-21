@@ -12,7 +12,11 @@ import { ButtonLink } from '../reusable/Buttons';
 // Utils
 import { useDayIdToQueryReservation } from '../../apollo/querries/useDayIdToQueryReservation';
 import { timeToString } from '../../lib/utilsBooking';
-import { routeToGuidesList, routeToCalendar } from '../../lib/utilsRouts';
+import {
+  routeToGuidesList,
+  routeToCalendar,
+  routeToTripDetails,
+} from '../../lib/utilsRouts';
 // Components for Styling
 import { H6, TextGrayDense } from '../styles/Text';
 import { StyledContainer } from '../styles/StyledContainer';
@@ -21,7 +25,6 @@ import { StyledCardWithPadding } from '../styles/StyledCards';
 const BookingThankYou = (props) => {
   const { time, dayId, guideId } = props.props;
   const { loading, error, data } = useDayIdToQueryReservation(dayId, guideId, time);
-
   if (loading) {
     return <Loading />;
   }
@@ -29,10 +32,12 @@ const BookingThankYou = (props) => {
     return <ErrorGraphql error={error} />;
   }
   if (data) {
-    console.log(data.day);
     const { day } = data;
-    const { nrOfPeople, description, time, userName, guide } = day.reservations[0];
+    const { nrOfPeople, description, time, userName, guide, trip } = day.reservations[0];
     const writeTime = timeToString(time);
+    if (trip) {
+      console.log('trip', trip);
+    }
     return (
       <>
         <Nav />
@@ -51,6 +56,19 @@ const BookingThankYou = (props) => {
               <strong>{` ${day.day} ${day.month} ${day.year}`}</strong>for a{' '}
               <strong>{` ${writeTime}.`}</strong>
             </TextGrayDense>
+            {trip && (
+              <>
+                <TextGrayDense use="body1">
+                  You've booked
+                  <strong>{` ${trip.title} trip.`}</strong> with a start point in{' '}
+                  <strong>{` ${trip.start}.`}</strong>
+                </TextGrayDense>
+                <ButtonLink
+                  text="Go to Trip description!"
+                  onClick={() => routeToTripDetails(trip.id)}
+                />
+              </>
+            )}
             <TextGrayDense use="body1">
               You've reservated a trip for
               <strong>{` ${nrOfPeople} `}</strong>
@@ -58,7 +76,7 @@ const BookingThankYou = (props) => {
             </TextGrayDense>
 
             {description && (
-              <TextGrayDense use="body1">{`Description: ${description}`}</TextGrayDense>
+              <TextGrayDense use="body1">{`Your message to the Guide: ${description}`}</TextGrayDense>
             )}
             <ButtonLink text="Book again!" onClick={() => routeToCalendar(guideId)} />
             <ButtonLink text="Book another guide!" onClick={routeToGuidesList} />

@@ -48,4 +48,8 @@ export const StyledSelect = styled(Select)`
   div {
     background-color: white;
   }
+  div.mdc-select__anchor span.mdc-floating-label {
+    color: var(--colorWarning);
+    margin-left: -10px;
+  }
 `;

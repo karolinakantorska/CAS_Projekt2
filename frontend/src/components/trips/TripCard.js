@@ -7,6 +7,7 @@ import { CardPrimaryAction } from '@rmwc/card';
 import { Card } from '@rmwc/card';
 // Components
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
+import GuideAvatar from '../reusable/GuideAvatar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import { difficulties } from '../../lib/utils';
 import LoadingCicle from '../reusable/LoadingCicle';
@@ -15,7 +16,11 @@ import MyDialog from '../reusable/MyDialog';
 // Utils
 import { useTrip } from '../../apollo/querries/useTrip';
 import { useDeleteTrip } from '../../apollo/mutations/useDeleteTrip';
-import { routeToTripDetails, routeToEditTrip } from '../../lib/utilsRouts';
+import {
+  routeToTripDetails,
+  routeToEditTrip,
+  routeToCalendar,
+} from '../../lib/utilsRouts';
 import { permission } from '../../lib/utils';
 // Components for Styling
 import { StyledButtonSpan } from '../styles/StyledButtonSpan';
@@ -27,7 +32,6 @@ import { Typography } from '@rmwc/typography';
 
 const TripCard = ({ currentUserPermission, tripId }) => {
   const { loading, error, data } = useTrip(tripId);
-
   const [
     deleteTrip,
     { loading: loadingMutation, error: errorMutation },
@@ -52,6 +56,10 @@ const TripCard = ({ currentUserPermission, tripId }) => {
         <H6 use="headline6">{trip.title}</H6>
         <Subtitle use="subtitle2">{trip.special}</Subtitle>
         <Typography use="body2">
+          <strong>Guide: </strong>
+          {trip.guide.name} {trip.guide.surname}
+        </Typography>
+        <Typography use="body2">
           <strong>Difficoulty Level: </strong>
           {difficulties[trip.difficulty]}
         </Typography>
@@ -64,16 +72,22 @@ const TripCard = ({ currentUserPermission, tripId }) => {
           {trip.end}
         </Typography>
         <Typography use="body2">
-          <strong>Duration: </strong>
-          {trip.duration}
+          <strong>Do you need to book a whole day? </strong>
+          {` ${trip.wholeDay ? 'YES' : 'NO'}`}
         </Typography>
         <CardPrimaryAction onClick={() => routeToTripDetails(tripId)}>
           <StyledGuideImage src={trip.photo} alt={`Photo of ${trip.title}`} />
         </CardPrimaryAction>
         {currentUserPermission !== '' && (
-          <Link href={`/trip_details?tripId=${tripId}`}>
-            <TextLink use="body2">Read more...</TextLink>
-          </Link>
+          <>
+            <Link href={`/trip_details?tripId=${tripId}`}>
+              <TextLink use="body2">Go to trip details!</TextLink>
+            </Link>
+            <ButtonMain
+              text="Book This Trip!"
+              onClick={() => routeToCalendar(trip.guide.id, trip.id)}
+            />
+          </>
         )}
         {currentUserPermission === permission.guide && (
           <>

@@ -1,5 +1,5 @@
 import { gql, useMutation } from '@apollo/client';
-import { routeToGuidesList } from '../../lib/utilsRouts';
+import { routeToGuidesList, routeToHomePage } from '../../lib/utilsRouts';
 import SIGNUP_MUTATION from '../../graphgl/mutations/SIGNUP_MUTATION';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 
@@ -8,7 +8,7 @@ export function useSignup() {
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
     awaitRefetchQueries: true,
     onCompleted: () => {
-      routeToGuidesList();
+      routeToHomePage();
     },
     onError: (error) => {
       error;

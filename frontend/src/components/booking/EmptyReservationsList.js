@@ -10,6 +10,7 @@ import ReservationCard from './ReservationCard';
 //Utils
 import { useReservationsWithoutGuide } from '../../apollo/querries/useReservationsWithoutGuide';
 // Components for Styling
+import { H6, TextGrayDense } from '../styles/Text';
 import { StyledContainer, StyledCardsContainer } from '../styles/StyledContainer';
 
 const EmptyReservations = () => {
@@ -29,6 +30,10 @@ const EmptyReservations = () => {
       <>
         <Nav />
         <StyledContainer>
+          <StyledSpan>
+            <H6 use="headline6">Reserwations without guide</H6>
+          </StyledSpan>
+
           {data.reservations.map((reservation) => (
             <ReservationCard reservation={reservation} key={reservation.id} />
           ))}
@@ -38,7 +43,7 @@ const EmptyReservations = () => {
   }
 };
 
-const StyledSpanAvatar = styled.div`
-  margin: 50px auto 20px auto;
+const StyledSpan = styled.span`
+  margin: 20px auto 20px auto;
 `;
 export default EmptyReservations;

@@ -21,7 +21,7 @@ const GuideAvatar = ({ guideId }) => {
   }
   if (data) {
     return (
-      <StyledSpan>
+      <StyledSpan className="info">
         <StyledAvatar
           src={data.user.photo}
           size="xlarge"

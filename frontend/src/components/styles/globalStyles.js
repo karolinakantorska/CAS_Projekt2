@@ -9,6 +9,7 @@ const GlobalStyle = createGlobalStyle`
   --colorSecundary:    #5C6267;
   --colorNegativ: #ECEFF1;
   --colorWarning: #B71C1C;
+  --colorAccept: #006600;
   --colorLight: #B0BEC5;
   --calendarColorNumbers: #B0BEC5;
   --calendarColorNumbersLight:#B0BEC5;

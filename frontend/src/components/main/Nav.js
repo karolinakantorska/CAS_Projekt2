@@ -7,7 +7,6 @@ import ErrorGraphql from '../reusable/ErrorGraphql';
 import Signout from '../signin_signout/Signout';
 import NavAdmin from '../main/NavAdmin';
 import NavGuide from '../main/NavGuide';
-import NavUser from '../main/NavUser';
 //Utils
 import { permission } from '../../lib/utils';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
@@ -20,7 +19,7 @@ const Nav = () => {
   const { loading, error, data } = useCurrentUser();
   if (loading) {
     //return <Loading />;
-    return <p>Loading...</p>;
+    return <Loading />;
   }
   if (error) {
     return <ErrorGraphql error={error} />;
@@ -31,28 +30,40 @@ const Nav = () => {
         <StyledNav>
           {data.currentUser.name ? (
             <StyledTopMenu use="caption" className="user">
-              {data.currentUser.name}
+              {data.currentUser.name} / logout
             </StyledTopMenu>
           ) : (
             <StyledTopMenu use="caption" className="user">
-              please login
+              log in / register
             </StyledTopMenu>
           )}
           <Link href="/">
             <StyledMenuMain use="body" className="home">
-              Home
+              <Icon icon="home" aria-label="homepage" />
             </StyledMenuMain>
           </Link>
-          {(data.currentUser.permissions === permission.user ||
-            data.currentUser.permissions === '') && (
-            <StyledMenuMain
-              use="body"
-              className={`userSpec ${show && 'active'}`}
-              onClick={() => setShow((show) => setShow(!show))}
-            >
-              My Info
-            </StyledMenuMain>
+          {data.currentUser.permissions === '' && (
+            <Link href="/info">
+              <StyledMenuMain use="body" className="userSpec">
+                Info
+              </StyledMenuMain>
+            </Link>
           )}
+          {data.currentUser.permissions === permission.user && (
+            <>
+              <Link href="/info">
+                <StyledMenuMain use="body" className="userSpec">
+                  Info
+                </StyledMenuMain>
+              </Link>
+              <Link href={`/my_trips?gastId=${data.currentUser.id}`}>
+                <StyledMenuMain use="body" className="trips">
+                  My Trips
+                </StyledMenuMain>
+              </Link>
+            </>
+          )}
+
           {data.currentUser.permissions === permission.admin && (
             <StyledMenuMain
               use="body"
@@ -94,10 +105,6 @@ const Nav = () => {
         {data.currentUser.permissions === permission.guide && (
           <StyledSpan>{show && <NavGuide guideId={data.currentUser.id} />}</StyledSpan>
         )}
-        {(data.currentUser.permissions === permission.user ||
-          data.currentUser.permissions === '') && (
-          <StyledSpan>{show && <NavUser gastId={data.currentUser.id} />}</StyledSpan>
-        )}
       </>
     );
   }
@@ -111,13 +118,15 @@ const StyledNav = styled.nav`
   justify-items: center;
   align-items: center;
   grid-template-rows: 3fr 4fr;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 2fr 3fr 3fr 1fr;
   grid-template-areas:
-    ' none none none user'
-    ' home userSpec guides signin';
+    '. . . . user'
+    'home userSpec guides trips  signin';
   white-space: nowrap;
   background-color: rgba(255, 255, 255, 0.8);
-
+  span:hover {
+    color: var(--colorSecundary);
+  }
   a:hover,
   .active {
     color: var(--colorSecundary);
@@ -132,6 +141,9 @@ const StyledNav = styled.nav`
   }
   .userSpec {
     grid-area: userSpec;
+  }
+  .trips {
+    grid-area: trips;
   }
   .guides {
     grid-area: guides;

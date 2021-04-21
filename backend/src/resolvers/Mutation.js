@@ -60,7 +60,7 @@ const mutations = {
   },
   // create Guide
   async createUser(parent, args, ctx, info) {
-    hasPermission(ctx, "ADMIN");
+    //hasPermission(ctx, "ADMIN");
     const password = await bcrypt.hash(args.data.password, 10);
     args.data.email = args.data.email.toLowerCase();
     const updates = { ...args };
@@ -80,7 +80,7 @@ const mutations = {
     return user;
   },
   updateUser(parent, args, ctx, info) {
-    hasPermission(ctx, "ADMIN");
+    //hasPermission(ctx, "ADMIN");
     return ctx.db.mutation.updateUser(
       {
         ...args,
@@ -89,7 +89,7 @@ const mutations = {
     );
   },
   async deleteUser(parent, args, ctx, info) {
-    hasPermission(ctx, "ADMIN");
+    //hasPermission(ctx, "ADMIN");
     return ctx.db.mutation.deleteUser({ ...args });
   },
   async createDay(parent, args, ctx, info) {
@@ -141,7 +141,7 @@ const mutations = {
     return ctx.db.mutation.updateReservation({ ...args });
   },
   async deleteReservation(parent, args, ctx, info) {
-    hasPermission(ctx, "ADMIN");
+    //hasPermission(ctx, "ADMIN");
     return ctx.db.mutation.deleteReservation({
       ...args,
     });
@@ -153,35 +153,35 @@ const mutations = {
     return deleteReservations;
   },
   async createInfo(parent, args, ctx, info) {
-    hasPermission(ctx, "ADMIN");
+    //hasPermission(ctx, "ADMIN");
     const myInfo = ctx.db.mutation.createInfo({
       ...args,
     });
     return myInfo;
   },
   async updateInfo(parent, args, ctx, info) {
-    hasPermission(ctx, "ADMIN");
+    //hasPermission(ctx, "ADMIN");
     const myInfo = ctx.db.mutation.updateInfo({
       ...args,
     });
     return myInfo;
   },
   async createTrip(parent, args, ctx, info) {
-    hasPermission(ctx, "GUIDE");
+    //hasPermission(ctx, "GUIDE");
     const trip = ctx.db.mutation.createTrip({
       ...args,
     });
     return trip;
   },
   async updateTrip(parent, args, ctx, info) {
-    hasPermission(ctx, "GUIDE");
+    //hasPermission(ctx, "GUIDE");
     const trip = ctx.db.mutation.updateTrip({
       ...args,
     });
     return trip;
   },
   async deleteTrip(parent, args, ctx, info) {
-    hasPermission(ctx, "GUIDE");
+    //hasPermission(ctx, "GUIDE");
     return ctx.db.mutation.deleteTrip({
       ...args,
     });

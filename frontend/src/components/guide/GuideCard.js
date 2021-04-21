@@ -71,12 +71,12 @@ const Guide = ({ currentUserPermission, guideId }) => {
           <H6 use="headline6">{`${user.name} ${user.surname}`}</H6>
           <Subtitle use="subtitle2">{user.title && `${user.title}`}</Subtitle>
           <Typography use="body2">
-            <strong>Ebiking: </strong>
-            {` ${user.ebike ? 'YES' : 'NO'}`}
+            <strong>Location: </strong>
+            {user.location}
           </Typography>
           <Typography use="body2">
-            <strong>Mountainbike: </strong>
-            {` ${user.mtb ? 'YES' : 'NO'}`}
+            <strong>Ebiking: </strong>
+            {` ${user.ebike ? 'YES' : 'NO'}`}
           </Typography>
           <Typography use="body2">
             <strong>Specialisation:</strong>
@@ -84,11 +84,11 @@ const Guide = ({ currentUserPermission, guideId }) => {
           </Typography>
           {currentUserPermission !== '' && (
             <Link href={`/guide_details?guideId=${guideId}`}>
-              <TextLink use="body2">Read more...</TextLink>
+              <TextLink use="body2">Go to guide page!</TextLink>
             </Link>
           )}
           {currentUserPermission !== '' && (
-            <ButtonLink text="See My Trips" onClick={() => routeToTripList(guideId)} />
+            <ButtonMain text="See My Trips" onClick={() => routeToTripList(guideId)} />
           )}
         </StyledSpan>
         {!currentUserPermission && (

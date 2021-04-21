@@ -11,7 +11,9 @@ const Home = () => (
     <ContainerHomepage>
       <Link href="/guides">
         <StyledButton__Homepage raised>
-          <StyledButtonTextWhite>Find the coolest MTB Guide!</StyledButtonTextWhite>
+          <StyledButtonTextWhite>
+            Find the coolest MTB Guide in Oberengardin!
+          </StyledButtonTextWhite>
         </StyledButton__Homepage>
       </Link>
     </ContainerHomepage>
@@ -23,10 +25,10 @@ const ContainerHomepage = styled.div`
 `;
 const StyledButton__Homepage = styled(Button)`
   && {
-    align-self: center;
+    align-self: end;
     justify-self: center;
     //margin-bottom: -20%;
-    margin-top: 25%;
+    margin-top: 60vh;
     padding: 5px;
     color: white;
     background-color: rgba(33, 33, 33, 0.7);

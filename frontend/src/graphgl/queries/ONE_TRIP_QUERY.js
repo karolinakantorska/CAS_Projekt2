@@ -6,6 +6,8 @@ const ONE_TRIP_QUERY = gql`
       id
       guide {
         id
+        name
+        surname
       }
       title
       special
@@ -17,6 +19,7 @@ const ONE_TRIP_QUERY = gql`
       costs
       ebikes
       photo
+      wholeDay
     }
   }
 `;

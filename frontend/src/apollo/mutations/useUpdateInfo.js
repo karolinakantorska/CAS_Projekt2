@@ -1,11 +1,15 @@
 import { gql, useMutation } from '@apollo/client';
+import { routeToChangeInfo } from '../../lib/utilsRouts';
 import UPDATE_INFO from '../../graphgl/mutations/UPDATE_INFO';
 
 export function useUpdateInfo() {
-  const [updateInfo, { loading, error }] = useMutation(UPDATE_INFO, {
+  const [updateInfo, { loading, error, data }] = useMutation(UPDATE_INFO, {
+    onCompleted: () => {
+      routeToChangeInfo();
+    },
     onError: (error) => {
       error;
     },
   });
-  return [updateInfo, { loading, error }];
+  return [updateInfo, { loading, error, data }];
 }

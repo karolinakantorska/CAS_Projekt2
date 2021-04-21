@@ -13,7 +13,7 @@ import { useAllUsersWithPermission } from '../../apollo/querries/useAllUsersWith
 import { useLazyGuideMonthReservations } from '../../apollo/querries/useLazyGuideMonthReservations';
 import { Select } from '@rmwc/select';
 
-const CalendarResQuery = ({ guideId }) => {
+const CalendarResQuery = ({ guideId, tripId }) => {
   const { value, handleChange } = useFormInput({
     id: '0',
   });
@@ -87,6 +87,7 @@ const CalendarResQuery = ({ guideId }) => {
           selectedDateTimestamp={selectedDateTimestamp}
           guideId={guideId}
           reservations={reservations}
+          tripId={tripId}
         />
         )
       </>

@@ -23,6 +23,7 @@ const Calendar = ({
   emptyCells,
   daysInMonthArray,
   selectedDateTimestamp,
+  tripId,
 }) => {
   const weekNames = weekDaysEN();
   const today = currentDate();
@@ -42,6 +43,7 @@ const Calendar = ({
     );
   }
   if (dataCurrentUser) {
+    console.log('tripId', tripId);
     return (
       <StyledCalendarContainer>
         <Year selectedYear={selectedYear} className="year_component" />
@@ -78,6 +80,7 @@ const Calendar = ({
               key={dayOfMonth}
               reservation={reservations[dayOfMonth] ? reservations[dayOfMonth] : []}
               guideId={guideId}
+              tripId={tripId}
               dayOfMonth={dayOfMonth}
               selectedYear={selectedYear}
               selectedMonth={selectedMonth}

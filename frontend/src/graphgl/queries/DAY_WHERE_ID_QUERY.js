@@ -17,6 +17,20 @@ const DAY_WHERE_ID_QUERY = gql`
           name
           surname
         }
+        trip {
+          id
+          title
+          special
+          description
+          difficulty
+          start
+          end
+          duration
+          costs
+          ebikes
+          photo
+          wholeDay
+        }
       }
     }
   }

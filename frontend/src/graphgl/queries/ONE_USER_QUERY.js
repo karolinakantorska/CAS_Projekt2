@@ -13,9 +13,8 @@ const ONE_USER_QUERY = gql`
       ebike
       mtb
       phone
-      color
       specialisations
-      #reservations
+      location
     }
   }
 `;

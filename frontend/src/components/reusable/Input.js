@@ -14,7 +14,7 @@ const Input = ({ handleChange, name, value, required, error }) => {
         value={value || ''}
         onChange={handleChange}
         required={required}
-        maxLength={40}
+        maxLength={60}
       />
       {error && <ErrorMessage error={error} />}
     </>

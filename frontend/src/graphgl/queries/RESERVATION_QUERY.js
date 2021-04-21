@@ -25,6 +25,19 @@ const RESERVATION_QUERY = gql`
         phone
         email
       }
+      trip {
+        title
+        special
+        description
+        difficulty
+        start
+        end
+        duration
+        costs
+        ebikes
+        photo
+        wholeDay
+      }
     }
   }
 `;

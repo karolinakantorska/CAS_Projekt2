@@ -45,6 +45,10 @@ const OneGuide = ({ guideId }) => {
             <Subtitle use="subtitle2" className="subtitle">{`${user.title}`}</Subtitle>
             <StyledInfoGrid className="info">
               <Typography use="body2">
+                <strong>Home Location: </strong>
+                {`${user.location}`}
+              </Typography>
+              <Typography use="body2">
                 <strong>Ebiking: </strong>
                 {` ${user.ebike ? 'YES' : 'NO'}`}
               </Typography>
@@ -52,7 +56,6 @@ const OneGuide = ({ guideId }) => {
                 <strong>Mountainbike: </strong>
                 {` ${user.mtb ? 'YES' : 'NO'}`}
               </Typography>
-
               <Typography use="body2">
                 <strong>Email:</strong>
                 {`${user.email}`}
@@ -72,7 +75,7 @@ const OneGuide = ({ guideId }) => {
               {`${user.description}`}{' '}
             </Typography>
             <StyledButtonSpan className="button">
-              <ButtonLink text="See My Trips!" onClick={() => routeToTripList(guideId)} />
+              <ButtonMain text="See My Trips!" onClick={() => routeToTripList(guideId)} />
               <ButtonMain text="Book Me!" onClick={() => routeToCalendar(guideId)} />
             </StyledButtonSpan>
           </StyledOneGuideGrid>

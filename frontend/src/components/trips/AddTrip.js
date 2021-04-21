@@ -34,17 +34,11 @@ import { CardPrimaryAction } from '@rmwc/card';
 import { StyledGuideImage } from '../styles/StyledImage';
 import { H6, TextGrayDense } from '../styles/Text';
 
-const AddTrip = () => {
-  const [createTrip, { loading, error, data }] = useCreateTrip();
-  const {
-    loading: loadingCurrentUser,
-    error: errorCurrentUser,
-    data: dataCurrentUser,
-  } = useCurrentUser();
-
+const AddTrip = ({ guideId }) => {
+  const [createTrip, { loading, error, data }] = useCreateTrip(guideId);
   const { inputs, handleChange, handleSubmit, errorInput } = useForm(handleAddTrip, {
     title: { textValue: '', required: false },
-    special: { textValue: '', required: false },
+    highlights: { textValue: '', required: false },
     description: { textValue: '', required: false },
     start: { textValue: '', required: false },
     end: { textValue: '', required: false },
@@ -52,19 +46,19 @@ const AddTrip = () => {
     costs: { textValue: '', required: false },
   });
   const { value: difficulty, handleChange: handleDifficultyChange } = useFormInput('');
-  const { switchValues, handleSwitch } = useSwich({ ebikes: true });
+  const { switchValues, handleSwitch } = useSwich({ ebikes: true, wholeDay: true });
+
   const { uploadPhoto, result, loadingPhotoUpload, errorPhotoUpload } = usePhotoUpload(
     '',
     urlGuidePhoto,
     uploadPresetTripSquere,
   );
   function handleAddTrip() {
-    //console.log('dataCurrentUser.currentUser.id', dataCurrentUser.currentUser.id);
     createTrip({
       variables: {
         title: inputs.title.textValue,
-        guideId: dataCurrentUser.currentUser.id,
-        special: inputs.special.textValue,
+        guideId,
+        special: inputs.highlights.textValue,
         description: inputs.description.textValue,
         difficulty,
         start: inputs.start.textValue,
@@ -73,124 +67,126 @@ const AddTrip = () => {
         costs: inputs.costs.textValue,
         ebikes: switchValues.ebikes,
         photo: result,
+        wholeDay: switchValues.wholeDay,
       },
     });
   }
-  if (loadingCurrentUser) {
-    return <Loading />;
-  }
-  if (errorCurrentUser || error) {
-    return <ErrorGraphql error={errorCurrentUser || error} />;
-  }
-  if (dataCurrentUser) {
-    console.log('dataCurrentUser.currentUser.id', dataCurrentUser.currentUser.id);
-    const difficultiesArray = arrayFromObject(difficulties);
-    return (
-      <>
-        <Nav />
-        <StyledContainer>
-          <StyledCard>
-            <form onSubmit={handleSubmit} method="post">
-              <StyledFieldset disabled={loading} aria-busy={loading}>
-                <H6 use="headline6">Add new Trip</H6>
 
-                <Input
-                  handleChange={handleChange}
-                  name="title"
-                  value={inputs.title.textValue || ''}
-                  required={false}
-                />
-                <Input
-                  handleChange={handleChange}
-                  name="special"
-                  value={inputs.special.textValue || ''}
-                  required={false}
-                />
-                <StyledSelect
-                  onChange={handleDifficultyChange}
-                  placeholder="Please chose difficulty level"
-                  required={true}
-                >
-                  {difficultiesArray.map((difficulty) => {
-                    return (
-                      <option
-                        value={Object.keys(difficulty)}
-                        name="difficulty"
-                        key={Object.keys(difficulty)}
-                      >
-                        {Object.values(difficulty)}
-                      </option>
-                    );
-                  })}
-                </StyledSelect>
-
-                <StyledSpanErrors>
-                  {loadingPhotoUpload && <Loading />}
-                  {errorPhotoUpload && (
-                    <ErrorMessage error={errorPhotoUpload}></ErrorMessage>
-                  )}
-                </StyledSpanErrors>
-                {error && <ErrorGraphql error={error} />}
-                <StyledInput type="file" id="file" onChange={uploadPhoto} />
-                <label htmlFor="file">
-                  <CardPrimaryAction>
-                    <StyledGuideImage src={result} alt="Upload a photo" />
-                  </CardPrimaryAction>
-                </label>
-                <TextGrayDense use="body1">Description:</TextGrayDense>
-                <TextField
-                  fullwidth
-                  onChange={handleChange}
-                  name="description"
-                  placeholder={inputs.description.textValue || ''}
-                  value={inputs.description.textValue || ''}
-                  required={false}
-                  textarea={true}
-                  rows={5}
-                  maxLength={700}
-                />
-                <Input
-                  handleChange={handleChange}
-                  name="start"
-                  value={inputs.start.textValue || ''}
-                  required={false}
-                />
-                <Input
-                  handleChange={handleChange}
-                  name="end"
-                  value={inputs.end.textValue || ''}
-                  required={false}
-                />
-                <Input
-                  handleChange={handleChange}
-                  name="duration"
-                  value={inputs.duration.textValue || ''}
-                  required={false}
-                />
-                <MySwitch
-                  name="ebikes"
-                  text="E-bikes"
-                  handleSwitch={handleSwitch}
-                  checked={switchValues.ebikes || false}
-                />
-                <Input
-                  handleChange={handleChange}
-                  name="costs"
-                  value={inputs.costs.textValue || ''}
-                  required={false}
-                />
-                <ButtonMain text="Save Trip" />
-                <ButtonLink
-                  text="Go to My Trips"
-                  onClick={() => routeToTripList(dataCurrentUser.currentUser.id)}
-                />
-              </StyledFieldset>
-            </form>
-          </StyledCard>
-        </StyledContainer>
-      </>
-    );
-  }
+  const difficultiesArray = arrayFromObject(difficulties);
+  return (
+    <>
+      <Nav />
+      <StyledContainer>
+        <StyledCard>
+          <form onSubmit={handleSubmit} method="post">
+            <StyledFieldset disabled={loading} aria-busy={loading}>
+              <H6 use="headline6">Add new Trip</H6>
+              <TextGrayDense use="body1">Title of the Tip:</TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="title"
+                value={inputs.title.textValue || ''}
+                required={false}
+              />
+              <TextGrayDense use="body1">Why is this Trip so Special:</TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="highlights"
+                value={inputs.highlights.textValue || ''}
+                required={false}
+              />
+              <TextGrayDense use="body1">Difficoulty level:</TextGrayDense>
+              <StyledSelect
+                onChange={handleDifficultyChange}
+                placeholder="Please chose difficulty level"
+                required={true}
+              >
+                {difficultiesArray.map((difficulty) => {
+                  return (
+                    <option
+                      value={Object.keys(difficulty)}
+                      name="difficulty"
+                      key={Object.keys(difficulty)}
+                    >
+                      {Object.values(difficulty)}
+                    </option>
+                  );
+                })}
+              </StyledSelect>
+              <MySwitch
+                name="wholeDay"
+                text="Does it take a whole day?"
+                handleSwitch={handleSwitch}
+                checked={switchValues.wholeDay || false}
+              />
+              <TextGrayDense use="body1">Start Point:</TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="start"
+                value={inputs.start.textValue || ''}
+                required={false}
+              />
+              <TextGrayDense use="body1">End Point:</TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="end"
+                value={inputs.end.textValue || ''}
+                required={false}
+              />
+              <TextGrayDense use="body1">How long is the Trip:</TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="duration"
+                value={inputs.duration.textValue || ''}
+                required={false}
+              />
+              <MySwitch
+                name="ebikes"
+                text="E-bikes"
+                handleSwitch={handleSwitch}
+                checked={switchValues.ebikes || false}
+              />
+              <TextGrayDense use="body1">
+                Additional cost, like a Lifts, Train, Snacks:
+              </TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="costs"
+                value={inputs.costs.textValue || ''}
+                required={false}
+              />
+              <TextGrayDense use="body1">Description:</TextGrayDense>
+              <TextField
+                fullwidth
+                onChange={handleChange}
+                name="description"
+                placeholder={inputs.description.textValue || ''}
+                value={inputs.description.textValue || ''}
+                required={false}
+                textarea={true}
+                rows={5}
+                maxLength={700}
+              />
+              <StyledInput type="file" id="file" onChange={uploadPhoto} />
+              <label htmlFor="file">
+                <CardPrimaryAction>
+                  <StyledGuideImage src={result} alt="Upload a photo" />
+                </CardPrimaryAction>
+              </label>
+              <StyledSpanErrors>
+                {loadingPhotoUpload && <Loading />}
+                {errorPhotoUpload && (
+                  <ErrorMessage error={errorPhotoUpload}></ErrorMessage>
+                )}
+              </StyledSpanErrors>
+              {error && <ErrorGraphql error={error} />}
+              <ButtonMain text="Save Trip" />
+            </StyledFieldset>
+          </form>
+        </StyledCard>
+      </StyledContainer>
+    </>
+  );
 };
 export const StyledGuideCard = styled(Card)`
   display: grid;

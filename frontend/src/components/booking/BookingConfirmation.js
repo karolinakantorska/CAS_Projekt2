@@ -23,7 +23,7 @@ import { useUpdateDay } from '../../apollo/mutations/useUpdateDay';
 import { useCreateDay } from '../../apollo/mutations/useCreateDay';
 //Styling
 import { StyledCard } from '../styles/StyledCards';
-import { StyledFieldset } from '../styles/StyledForm';
+import { StyledFieldset, StyledSelect } from '../styles/StyledForm';
 import { H6 } from '../styles/Text';
 import { Typography } from '@rmwc/typography';
 import { TextField } from '@rmwc/textfield';
@@ -37,8 +37,10 @@ const BookingConfirmation = ({ props }) => {
     nrOfMonth,
     selectedYear: year,
     guideId,
+    tripId,
     bookedTime,
   } = props;
+  console.log('tripId', tripId);
   const { time, handleTimeChange } = useHandleTimeChange(bookedTime);
   const timeStamp = year + nrOfMonth + day;
   const {
@@ -54,11 +56,11 @@ const BookingConfirmation = ({ props }) => {
       description: { textValue: "Dear Guide, I can't wait to start the trip!" },
     },
   );
-
   const { loading, error, data } = useDay(year, month, day);
   const [updateDay, { loading: loadingUpdateDay, error: errorUpdateDay }] = useUpdateDay(
     time,
     guideId,
+    tripId,
   );
   const [createDay, { loading: loadingCreateDay, error: errorCreateDay }] = useCreateDay(
     year,
@@ -66,6 +68,7 @@ const BookingConfirmation = ({ props }) => {
     day,
     time,
     guideId,
+    tripId,
   );
   function handleBookingConfirmation() {
     if (data.days.length === 0) {
@@ -80,6 +83,7 @@ const BookingConfirmation = ({ props }) => {
           nrOfPeople,
           description: inputs.description.textValue,
           guideId,
+          tripId,
           holiday: guideId === dataCurrentUser.currentUser.id,
           confirmed: false,
           gastId: dataCurrentUser.currentUser.id,
@@ -97,6 +101,7 @@ const BookingConfirmation = ({ props }) => {
           nrOfPeople,
           description: inputs.description.textValue,
           guideId,
+          tripId,
           dayId: data.days[0].id,
           holiday: guideId === dataCurrentUser.currentUser.id,
           confirmed: false,
@@ -206,13 +211,4 @@ BookingConfirmation.propTypes = {
   guideSurname: PropTypes.string,
 };
 
-const StyledSelect = styled(Select)`
-  div {
-    background-color: white;
-  }
-  div.mdc-select__anchor span.mdc-floating-label {
-    color: var(--colorWarning);
-    margin-left: -10px;
-  }
-`;
 export default BookingConfirmation;

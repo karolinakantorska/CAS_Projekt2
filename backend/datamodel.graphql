@@ -15,6 +15,7 @@ type User {
   specialisations: [Specialisation] @scalarList(strategy: RELATION)
   permissions: Permission!
   reservations: [Reservation]
+  location: String
 }
 enum Permission {
   ADMIN
@@ -48,6 +49,7 @@ type Reservation {
   time: Time
   guide: User #relationship to the User - GUIDE
   relatedDay: Day #relationship to the Day # to-one
+  trip: Trip #relationship to the Trip # to-one
   userName: String
   userEmail: String
   nrOfPeople: String
@@ -79,6 +81,7 @@ type Trip {
   costs: String
   ebikes: Boolean
   photo: String
+  wholeDay: Boolean
 }
 enum Difficulty {
   S0

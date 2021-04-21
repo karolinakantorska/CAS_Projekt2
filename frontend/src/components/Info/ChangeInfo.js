@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 // Components
 import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
@@ -19,7 +18,8 @@ import { TextField } from '@rmwc/textfield';
 import { H6 } from '../styles/Text';
 
 const ChangeInfo = () => {
-  const { loading, error, data } = useInfoes();
+  //const [hasText, setHasText] = useState(false);
+  const { loading, error, data, refetch } = useInfoes();
   const { inputs, handleChange, handleSubmit, errorInput } = useForm(
     handleEditInfo,
     {
@@ -37,14 +37,15 @@ const ChangeInfo = () => {
   ] = useUpdateInfo();
   function handleEditInfo() {
     if (data.infoes.length === 0) {
-      //console.log('create');
+      console.log('create');
       createInfo({
         variables: {
           text: inputs.text.textValue,
         },
       });
+      refetch();
     } else {
-      //console.log('update');
+      console.log('update');
       updateInfo({
         variables: {
           id: data.infoes[0].id,

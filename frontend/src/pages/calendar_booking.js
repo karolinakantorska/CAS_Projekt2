@@ -4,7 +4,7 @@ import RedirectNotLoggedin from '../components/main/RedirectNotLoggedin';
 const calendar_booking = ({ query }) => {
   return (
     <RedirectNotLoggedin>
-      <CalendarResQueryUser guideId={query.guideId} />
+      <CalendarResQueryUser guideId={query.guideId} tripId={query.tripId} />
     </RedirectNotLoggedin>
   );
 };

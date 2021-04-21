@@ -13,6 +13,7 @@ const CREATE_TRIP = gql`
     $costs: String
     $ebikes: Boolean
     $photo: String
+    $wholeDay: Boolean
   ) {
     createTrip(
       data: {
@@ -27,6 +28,7 @@ const CREATE_TRIP = gql`
         costs: $costs
         ebikes: $ebikes
         photo: $photo
+        wholeDay: $wholeDay
       }
     ) {
       id

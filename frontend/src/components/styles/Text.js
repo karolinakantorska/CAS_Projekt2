@@ -11,6 +11,7 @@ export const Subtitle = styled(Typography)`
   margin: -15px 0px 15px 0px;
 `;
 export const TextLink = styled(Typography)`
+  cursor: pointer;
   color: var(--colorSecundary);
   text-decoration: underline;
   margin-top: 15px;

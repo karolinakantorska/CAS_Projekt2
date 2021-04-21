@@ -56,6 +56,7 @@ const UpdateGuide = ({ guideId }) => {
       description: { textValue: data ? data.user.description : '' },
       title: { textValue: data ? data.user.title : '' },
       phone: { textValue: data ? data.user.phone : '' },
+      location: { textValue: data ? data.user.location : '' },
     },
     loading,
   );
@@ -81,6 +82,7 @@ const UpdateGuide = ({ guideId }) => {
         mtb: switchValues.mtb,
         phone: inputs.phone.textValue,
         specialisations: checkedOptions,
+        location: inputs.location.textValue,
       },
     });
   }
@@ -144,6 +146,15 @@ const UpdateGuide = ({ guideId }) => {
                 value={inputs.title.textValue || ''}
                 required={false}
               ></Input>
+              <TextGrayDense use="body1">
+                Prefered starting point, when no Trip is choosen:
+              </TextGrayDense>
+              <Input
+                handleChange={handleChange}
+                name="location"
+                type="location"
+                value={inputs.location.textValue || ''}
+              />
               <TextGrayDense use="body1">Description:</TextGrayDense>
               <TextField
                 fullwidth

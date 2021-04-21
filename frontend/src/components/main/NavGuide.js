@@ -13,7 +13,7 @@ const NavGuide = ({ guideId }) => {
       <Link href={`/trips?guideId=${guideId}`}>
         <StyledMenu2 use="body">My Trips</StyledMenu2>
       </Link>
-      <Link href="/add_trip">
+      <Link href={`/add_trip?guideId=${guideId}`}>
         <StyledMenu2 use="body">Add Trip</StyledMenu2>
       </Link>
     </StyledNav2>

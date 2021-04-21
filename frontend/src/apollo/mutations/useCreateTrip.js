@@ -1,9 +1,13 @@
 import { gql, useMutation } from '@apollo/client';
+import { routeToTripList } from '../../lib/utilsRouts';
 import CREATE_TRIP from '../../graphgl/mutations/CREATE_TRIP';
 import TRIPS_FROM_GUIDE from '../../graphgl/queries/TRIPS_FROM_GUIDE';
 
-export function useCreateTrip() {
+export function useCreateTrip(guideId) {
   const [createTrip, { loading, error, data }] = useMutation(CREATE_TRIP, {
+    onCompleted: () => {
+      routeToTripList(guideId);
+    },
     onError: (error) => {
       error;
     },
@@ -22,11 +26,22 @@ function cacheTrips(cache, data) {
   const newTrip = {
     ...data.data.createTrip,
   };
-  cache.writeQuery({
-    query: TRIPS_FROM_GUIDE,
-    variables: { id: guideId },
-    data: {
-      trips: [...dataTrips.trips, newTrip],
-    },
-  });
+  if (dataTrips) {
+    cache.writeQuery({
+      query: TRIPS_FROM_GUIDE,
+      variables: { id: guideId },
+      data: {
+        trips: [...dataTrips.trips, newTrip],
+      },
+    });
+  }
+  if (!dataTrips) {
+    cache.writeQuery({
+      query: TRIPS_FROM_GUIDE,
+      variables: { id: guideId },
+      data: {
+        trips: [newTrip],
+      },
+    });
+  }
 }

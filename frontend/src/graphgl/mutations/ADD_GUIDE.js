@@ -14,6 +14,7 @@ const ADD_GUIDE = gql`
     $phone: String
     $permissions: Permission!
     $specialisations: [Specialisation!]
+    $location: String
   ) {
     createUser(
       data: {
@@ -29,6 +30,7 @@ const ADD_GUIDE = gql`
         phone: $phone
         permissions: $permissions
         specialisations: { set: $specialisations }
+        location: $location
       }
     ) {
       id

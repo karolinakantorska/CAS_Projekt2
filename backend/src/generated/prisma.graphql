@@ -1,5 +1,5 @@
-# source: https://mtb-prod-18959df0b4.herokuapp.com/mtb-production/prod
-# timestamp: Wed Apr 14 2021 16:32:52 GMT+0200 (Central European Summer Time)
+# source: https://eu1.prisma.sh/karolina-kantorska/MTBreservation/dev
+# timestamp: Wed Apr 21 2021 13:16:18 GMT+0200 (Central European Summer Time)
 
 type AggregateDay {
   count: Int!
@@ -543,33 +543,33 @@ type Mutation {
   createDay(data: DayCreateInput!): Day!
   createReservation(data: ReservationCreateInput!): Reservation!
   createInfo(data: InfoCreateInput!): Info!
-  createTrip(data: TripCreateInput!): Trip!
   createUser(data: UserCreateInput!): User!
+  createTrip(data: TripCreateInput!): Trip!
   updateDay(data: DayUpdateInput!, where: DayWhereUniqueInput!): Day
   updateReservation(data: ReservationUpdateInput!, where: ReservationWhereUniqueInput!): Reservation
   updateInfo(data: InfoUpdateInput!, where: InfoWhereUniqueInput!): Info
-  updateTrip(data: TripUpdateInput!, where: TripWhereUniqueInput!): Trip
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateTrip(data: TripUpdateInput!, where: TripWhereUniqueInput!): Trip
   deleteDay(where: DayWhereUniqueInput!): Day
   deleteReservation(where: ReservationWhereUniqueInput!): Reservation
   deleteInfo(where: InfoWhereUniqueInput!): Info
-  deleteTrip(where: TripWhereUniqueInput!): Trip
   deleteUser(where: UserWhereUniqueInput!): User
+  deleteTrip(where: TripWhereUniqueInput!): Trip
   upsertDay(where: DayWhereUniqueInput!, create: DayCreateInput!, update: DayUpdateInput!): Day!
   upsertReservation(where: ReservationWhereUniqueInput!, create: ReservationCreateInput!, update: ReservationUpdateInput!): Reservation!
   upsertInfo(where: InfoWhereUniqueInput!, create: InfoCreateInput!, update: InfoUpdateInput!): Info!
-  upsertTrip(where: TripWhereUniqueInput!, create: TripCreateInput!, update: TripUpdateInput!): Trip!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertTrip(where: TripWhereUniqueInput!, create: TripCreateInput!, update: TripUpdateInput!): Trip!
   updateManyDays(data: DayUpdateManyMutationInput!, where: DayWhereInput): BatchPayload!
   updateManyReservations(data: ReservationUpdateManyMutationInput!, where: ReservationWhereInput): BatchPayload!
   updateManyInfoes(data: InfoUpdateManyMutationInput!, where: InfoWhereInput): BatchPayload!
-  updateManyTrips(data: TripUpdateManyMutationInput!, where: TripWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+  updateManyTrips(data: TripUpdateManyMutationInput!, where: TripWhereInput): BatchPayload!
   deleteManyDays(where: DayWhereInput): BatchPayload!
   deleteManyReservations(where: ReservationWhereInput): BatchPayload!
   deleteManyInfoes(where: InfoWhereInput): BatchPayload!
-  deleteManyTrips(where: TripWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyTrips(where: TripWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -609,18 +609,18 @@ type Query {
   days(where: DayWhereInput, orderBy: DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Day]!
   reservations(where: ReservationWhereInput, orderBy: ReservationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reservation]!
   infoes(where: InfoWhereInput, orderBy: InfoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Info]!
-  trips(where: TripWhereInput, orderBy: TripOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Trip]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  trips(where: TripWhereInput, orderBy: TripOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Trip]!
   day(where: DayWhereUniqueInput!): Day
   reservation(where: ReservationWhereUniqueInput!): Reservation
   info(where: InfoWhereUniqueInput!): Info
-  trip(where: TripWhereUniqueInput!): Trip
   user(where: UserWhereUniqueInput!): User
+  trip(where: TripWhereUniqueInput!): Trip
   daysConnection(where: DayWhereInput, orderBy: DayOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DayConnection!
   reservationsConnection(where: ReservationWhereInput, orderBy: ReservationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReservationConnection!
   infoesConnection(where: InfoWhereInput, orderBy: InfoOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): InfoConnection!
-  tripsConnection(where: TripWhereInput, orderBy: TripOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TripConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  tripsConnection(where: TripWhereInput, orderBy: TripOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TripConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -634,6 +634,7 @@ type Reservation implements Node {
   time: Time
   guide: User
   relatedDay: Day
+  trip: Trip
   userName: String
   userEmail: String
   nrOfPeople: String
@@ -667,6 +668,7 @@ input ReservationCreateInput {
   timeStamp: String
   guide: UserCreateOneWithoutReservationsInput
   relatedDay: DayCreateOneWithoutReservationsInput
+  trip: TripCreateOneInput
 }
 
 input ReservationCreateManyWithoutGuideInput {
@@ -691,6 +693,7 @@ input ReservationCreateWithoutGuideInput {
   gastId: ID
   timeStamp: String
   relatedDay: DayCreateOneWithoutReservationsInput
+  trip: TripCreateOneInput
 }
 
 input ReservationCreateWithoutRelatedDayInput {
@@ -705,6 +708,7 @@ input ReservationCreateWithoutRelatedDayInput {
   gastId: ID
   timeStamp: String
   guide: UserCreateOneWithoutReservationsInput
+  trip: TripCreateOneInput
 }
 
 """An edge in a connection."""
@@ -1112,6 +1116,7 @@ input ReservationUpdateInput {
   timeStamp: String
   guide: UserUpdateOneWithoutReservationsInput
   relatedDay: DayUpdateOneWithoutReservationsInput
+  trip: TripUpdateOneInput
 }
 
 input ReservationUpdateManyDataInput {
@@ -1178,6 +1183,7 @@ input ReservationUpdateWithoutGuideDataInput {
   gastId: ID
   timeStamp: String
   relatedDay: DayUpdateOneWithoutReservationsInput
+  trip: TripUpdateOneInput
 }
 
 input ReservationUpdateWithoutRelatedDayDataInput {
@@ -1191,6 +1197,7 @@ input ReservationUpdateWithoutRelatedDayDataInput {
   gastId: ID
   timeStamp: String
   guide: UserUpdateOneWithoutReservationsInput
+  trip: TripUpdateOneInput
 }
 
 input ReservationUpdateWithWhereUniqueWithoutGuideInput {
@@ -1524,6 +1531,7 @@ input ReservationWhereInput {
   timeStamp_not_ends_with: String
   guide: UserWhereInput
   relatedDay: DayWhereInput
+  trip: TripWhereInput
 }
 
 input ReservationWhereUniqueInput {
@@ -1549,8 +1557,8 @@ type Subscription {
   day(where: DaySubscriptionWhereInput): DaySubscriptionPayload
   reservation(where: ReservationSubscriptionWhereInput): ReservationSubscriptionPayload
   info(where: InfoSubscriptionWhereInput): InfoSubscriptionPayload
-  trip(where: TripSubscriptionWhereInput): TripSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  trip(where: TripSubscriptionWhereInput): TripSubscriptionPayload
 }
 
 enum Time {
@@ -1572,6 +1580,7 @@ type Trip implements Node {
   costs: String
   ebikes: Boolean
   photo: String
+  wholeDay: Boolean
 }
 
 """A connection to a list of items."""
@@ -1596,7 +1605,13 @@ input TripCreateInput {
   costs: String
   ebikes: Boolean
   photo: String
+  wholeDay: Boolean
   guide: UserCreateOneInput
+}
+
+input TripCreateOneInput {
+  create: TripCreateInput
+  connect: TripWhereUniqueInput
 }
 
 """An edge in a connection."""
@@ -1631,6 +1646,8 @@ enum TripOrderByInput {
   ebikes_DESC
   photo_ASC
   photo_DESC
+  wholeDay_ASC
+  wholeDay_DESC
 }
 
 type TripPreviousValues {
@@ -1645,6 +1662,7 @@ type TripPreviousValues {
   costs: String
   ebikes: Boolean
   photo: String
+  wholeDay: Boolean
 }
 
 type TripSubscriptionPayload {
@@ -1686,6 +1704,21 @@ input TripSubscriptionWhereInput {
   node: TripWhereInput
 }
 
+input TripUpdateDataInput {
+  title: String
+  special: String
+  description: String
+  difficulty: Difficulty
+  start: String
+  end: String
+  duration: String
+  costs: String
+  ebikes: Boolean
+  photo: String
+  wholeDay: Boolean
+  guide: UserUpdateOneInput
+}
+
 input TripUpdateInput {
   title: String
   special: String
@@ -1697,6 +1730,7 @@ input TripUpdateInput {
   costs: String
   ebikes: Boolean
   photo: String
+  wholeDay: Boolean
   guide: UserUpdateOneInput
 }
 
@@ -1711,6 +1745,21 @@ input TripUpdateManyMutationInput {
   costs: String
   ebikes: Boolean
   photo: String
+  wholeDay: Boolean
+}
+
+input TripUpdateOneInput {
+  create: TripCreateInput
+  connect: TripWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: TripUpdateDataInput
+  upsert: TripUpsertNestedInput
+}
+
+input TripUpsertNestedInput {
+  update: TripUpdateDataInput!
+  create: TripCreateInput!
 }
 
 input TripWhereInput {
@@ -2096,6 +2145,10 @@ input TripWhereInput {
 
   """All values not ending with the given string."""
   photo_not_ends_with: String
+  wholeDay: Boolean
+
+  """All values that are not equal to given value."""
+  wholeDay_not: Boolean
   guide: UserWhereInput
 }
 
@@ -2120,6 +2173,7 @@ type User implements Node {
   specialisations: [Specialisation!]!
   permissions: Permission!
   reservations(where: ReservationWhereInput, orderBy: ReservationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reservation!]
+  location: String
 }
 
 """A connection to a list of items."""
@@ -2147,6 +2201,7 @@ input UserCreateInput {
   mtb: Boolean
   phone: String
   permissions: Permission!
+  location: String
   specialisations: UserCreatespecialisationsInput
   reservations: ReservationCreateManyWithoutGuideInput
 }
@@ -2180,6 +2235,7 @@ input UserCreateWithoutReservationsInput {
   mtb: Boolean
   phone: String
   permissions: Permission!
+  location: String
   specialisations: UserCreatespecialisationsInput
 }
 
@@ -2221,6 +2277,8 @@ enum UserOrderByInput {
   phone_DESC
   permissions_ASC
   permissions_DESC
+  location_ASC
+  location_DESC
 }
 
 type UserPreviousValues {
@@ -2239,6 +2297,7 @@ type UserPreviousValues {
   phone: String
   specialisations: [Specialisation!]!
   permissions: Permission!
+  location: String
 }
 
 type UserSubscriptionPayload {
@@ -2294,6 +2353,7 @@ input UserUpdateDataInput {
   mtb: Boolean
   phone: String
   permissions: Permission
+  location: String
   specialisations: UserUpdatespecialisationsInput
   reservations: ReservationUpdateManyWithoutGuideInput
 }
@@ -2312,6 +2372,7 @@ input UserUpdateInput {
   mtb: Boolean
   phone: String
   permissions: Permission
+  location: String
   specialisations: UserUpdatespecialisationsInput
   reservations: ReservationUpdateManyWithoutGuideInput
 }
@@ -2330,6 +2391,7 @@ input UserUpdateManyMutationInput {
   mtb: Boolean
   phone: String
   permissions: Permission
+  location: String
   specialisations: UserUpdatespecialisationsInput
 }
 
@@ -2369,6 +2431,7 @@ input UserUpdateWithoutReservationsDataInput {
   mtb: Boolean
   phone: String
   permissions: Permission
+  location: String
   specialisations: UserUpdatespecialisationsInput
 }
 
@@ -2831,6 +2894,46 @@ input UserWhereInput {
 
   """All values that are not contained in given list."""
   permissions_not_in: [Permission!]
+  location: String
+
+  """All values that are not equal to given value."""
+  location_not: String
+
+  """All values that are contained in given list."""
+  location_in: [String!]
+
+  """All values that are not contained in given list."""
+  location_not_in: [String!]
+
+  """All values less than the given value."""
+  location_lt: String
+
+  """All values less than or equal the given value."""
+  location_lte: String
+
+  """All values greater than the given value."""
+  location_gt: String
+
+  """All values greater than or equal the given value."""
+  location_gte: String
+
+  """All values containing the given string."""
+  location_contains: String
+
+  """All values not containing the given string."""
+  location_not_contains: String
+
+  """All values starting with the given string."""
+  location_starts_with: String
+
+  """All values not starting with the given string."""
+  location_not_starts_with: String
+
+  """All values ending with the given string."""
+  location_ends_with: String
+
+  """All values not ending with the given string."""
+  location_not_ends_with: String
   reservations_every: ReservationWhereInput
   reservations_some: ReservationWhereInput
   reservations_none: ReservationWhereInput

@@ -11,7 +11,7 @@ import { useCalendar, filterReservationsData } from '../../lib/utilsCalendar';
 
 import { useGuideMonthReservations } from '../../apollo/querries/useGuideMonthReservations';
 
-const CalendarResQueryUser = ({ guideId }) => {
+const CalendarResQueryUser = ({ guideId, tripId }) => {
   const {
     handleMonthChange,
     selectedYear,
@@ -53,6 +53,7 @@ const CalendarResQueryUser = ({ guideId }) => {
           daysInMonthArray={daysInMonthArray}
           selectedDateTimestamp={selectedDateTimestamp}
           guideId={guideId}
+          tripId={tripId}
           reservations={reservations}
         />
       </>

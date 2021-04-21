@@ -24,8 +24,12 @@ export const StyledSpan = styled.span`
   padding: 40px 40px 20px 40px;
   max-width: 344px;
 `;
-export const StyledTypography = styled(Typography)`
+export const StyledTypographyRed = styled(Typography)`
   color: var(--colorWarning);
+  text-align: center;
+`;
+export const StyledTypographyGreen = styled(Typography)`
+  color: var(--colorAccept);
   text-align: center;
 `;
 export const StyledButton = styled(DialogButton)`

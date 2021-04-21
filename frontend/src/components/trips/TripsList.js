@@ -5,8 +5,7 @@ import styled from 'styled-components';
 import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import Loading from '../reusable/LoadingBar';
-import { ButtonMain } from '../reusable/Buttons';
-import GuideAvatar from '../reusable/GuideAvatar';
+
 import TripCard from '../trips/TripCard';
 
 // Utils
@@ -30,19 +29,11 @@ const AddInfo = ({ guideId }) => {
   if (errorCurrentUser || error) {
     return <ErrorGraphql error={errorCurrentUser || error} />;
   }
-
   if (dataCurrentUser && data) {
-    //console.log(dataCurrentUser.currentUser.permissions);
-    //console.log(data.trips);
     return (
       <>
         <Nav />
         <StyledContainer>
-          <StyledSpan>
-            <H6 use="headline6">Trips added by:</H6>
-
-            <GuideAvatar guideId={guideId} />
-          </StyledSpan>
           <StyledCardsContainer>
             {data.trips.map((trip) => (
               <TripCard
@@ -60,9 +51,7 @@ const AddInfo = ({ guideId }) => {
   }
 };
 const StyledSpan = styled.span`
-  display: grid;
-  margin-left: 100px;
-  justify-content: start;
+  margin: 50px auto 0px auto;
 `;
 AddInfo.propTypes = {
   guideId: PropTypes.string.isRequired,

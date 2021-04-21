@@ -1,10 +1,22 @@
 import Router from 'next/router';
+//import { useRouter } from 'next/router';
+
 export function routeBack() {
   Router.back();
+}
+export function routeToHomePage() {
+  Router.push({
+    pathname: '/',
+  });
 }
 export function routeToGuidesList() {
   Router.push({
     pathname: '/guides',
+  });
+}
+export function routeToChangeInfo() {
+  Router.push({
+    pathname: '/change_info',
   });
 }
 export function routeToEditGuide(id) {
@@ -23,11 +35,12 @@ export function routeToSignup() {
     pathname: '/signup_page',
   });
 }
-export function routeToCalendar(guideId) {
+export function routeToCalendar(guideId, tripId = '0') {
   Router.push({
     pathname: '/calendar_booking',
     query: {
       guideId,
+      tripId,
     },
   });
 }
@@ -44,6 +57,7 @@ export function routeToBookingConfirmation(
   selectedMonth,
   selectedYear,
   guideId,
+  tripId,
   bookedTime,
   nrOfMonth,
 ) {
@@ -54,6 +68,7 @@ export function routeToBookingConfirmation(
       selectedMonth,
       selectedYear,
       guideId,
+      tripId,
       bookedTime,
       nrOfMonth,
     },
@@ -93,7 +108,6 @@ export function routeToTripList(guideId) {
     },
   });
 }
-
 export function routeToGuideDetails(guideId) {
   Router.push({
     pathname: `/guide_details`,

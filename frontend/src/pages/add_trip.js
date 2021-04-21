@@ -3,9 +3,9 @@ import RedirectWrongPermission from '../components/main/RedirectWrongPermission'
 //Utils
 import { permission } from '../lib/utils';
 
-const add_trip = () => (
+const add_trip = ({ query }) => (
   <RedirectWrongPermission requiredRole={permission.guide}>
-    <AddTrip />
+    <AddTrip guideId={query.guideId} />
   </RedirectWrongPermission>
 );
 
