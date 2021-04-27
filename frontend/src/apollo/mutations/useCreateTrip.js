@@ -5,9 +5,17 @@ import TRIPS_FROM_GUIDE from '../../graphgl/queries/TRIPS_FROM_GUIDE';
 
 export function useCreateTrip(guideId) {
   const [createTrip, { loading, error, data }] = useMutation(CREATE_TRIP, {
+    refetchQueries: [
+      {
+        query: TRIPS_FROM_GUIDE,
+        variables: { id: guideId },
+      },
+    ],
+    /*
     onCompleted: () => {
       routeToTripList(guideId);
     },
+    */
     onError: (error) => {
       error;
     },
@@ -17,6 +25,7 @@ export function useCreateTrip(guideId) {
   });
   return [createTrip, { loading, error, data }];
 }
+/*
 function cacheTrips(cache, data) {
   const guideId = cache.data.data.ROOT_QUERY.currentUser.__ref.replace('User:', '');
   const dataTrips = cache.readQuery({
@@ -26,7 +35,6 @@ function cacheTrips(cache, data) {
   const newTrip = {
     ...data.data.createTrip,
   };
-  if (dataTrips) {
     cache.writeQuery({
       query: TRIPS_FROM_GUIDE,
       variables: { id: guideId },
@@ -34,14 +42,5 @@ function cacheTrips(cache, data) {
         trips: [...dataTrips.trips, newTrip],
       },
     });
-  }
-  if (!dataTrips) {
-    cache.writeQuery({
-      query: TRIPS_FROM_GUIDE,
-      variables: { id: guideId },
-      data: {
-        trips: [newTrip],
-      },
-    });
-  }
 }
+*/

@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from 'react';
-
 import PropTypes from 'prop-types';
-
 // Components
 import Nav from '../main/Nav';
 import Calendar from './Calendar';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 // Utils
 import { useUsersMonthReservations } from '../../apollo/querries/useUsersMonthReservations';
-import {
-  useCalendar,
-  filterReservationsData,
-  filterUserReservationsData,
-} from '../../lib/utilsCalendar';
-import { currentDate, weekDaysEN } from '../../lib/utilsCalendar';
-import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
+import { useCalendar, filterUserReservationsData } from '../../lib/utilsCalendar';
+import { noTripChoosen } from '../../apollo/querries/useTripsToFindOneTrip';
 
-const BookedTrips = ({ gastId }) => {
+const CalendarBookedTrips = ({ gastId }) => {
   const {
     handleMonthChange,
     selectedYear,
@@ -26,18 +19,17 @@ const BookedTrips = ({ gastId }) => {
     daysInMonthArray,
     selectedDateTimestamp,
   } = useCalendar();
-
   const { loading, error, data, refetch } = useUsersMonthReservations(
     selectedYear,
     selectedMonth,
     gastId,
   );
-
+  const trip = noTripChoosen;
   useEffect(() => {
     refetch();
   }, [selectedMonth]);
   if (loading) {
-    return <Loading />;
+    return <LoadingBar />;
   }
   if (error) {
     return (
@@ -47,9 +39,8 @@ const BookedTrips = ({ gastId }) => {
     );
   }
   if (data) {
-    //console.log('data.days', data.days);
     const reservations = filterUserReservationsData(data.days, gastId);
-    //console.log('reservations', reservations);
+    console.log('reservations', reservations);
     return (
       <>
         <Nav />
@@ -62,13 +53,14 @@ const BookedTrips = ({ gastId }) => {
           selectedDateTimestamp={selectedDateTimestamp}
           guideId="0"
           reservations={reservations}
+          trip={trip}
         />
       </>
     );
   }
 };
-BookedTrips.propTypes = {
+CalendarBookedTrips.propTypes = {
   gastId: PropTypes.string,
 };
 
-export default BookedTrips;
+export default CalendarBookedTrips;

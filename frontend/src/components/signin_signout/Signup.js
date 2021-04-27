@@ -4,13 +4,12 @@ import Nav from '../main/Nav';
 import InputPassword from '../reusable/InputPassword';
 import Input from '../reusable/Input';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 // Utils
 import { useForm } from '../../lib/utilsForm';
 import { routeToSignin } from '../../lib/utilsRouts';
 import { useSignup } from '../../apollo/mutations/useSignup';
-//import { handleSignup } from '../../lib/utilsSign';
 // Styling
 import { StyledCard } from '../styles/StyledCards';
 import { StyledFieldset } from '../styles/StyledForm';
@@ -38,7 +37,7 @@ const Signup = () => {
       <Nav />
       <StyledCard>
         <form onSubmit={handleSubmit} method="post">
-          {loading && <Loading />}
+          {loading && <LoadingBar />}
           <StyledFieldset disabled={loading} aria-busy={loading}>
             <H6 use="headline6">Signup for a account:</H6>
             {error && <ErrorGraphql error={error} />}

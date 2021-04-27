@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import GuideAvatar from '../reusable/GuideAvatar';
 import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
 // Utils
 import { useTrip } from '../../apollo/querries/useTrip';
@@ -26,7 +26,7 @@ import { Typography } from '@rmwc/typography';
 const OneTrip = ({ tripId }) => {
   const { loading, error, data } = useTrip(tripId);
   if (loading) {
-    return <Loading />;
+    return <LoadingBar />;
   }
   if (error) {
     return <ErrorGraphql error={error} />;
@@ -99,7 +99,7 @@ const OneTrip = ({ tripId }) => {
               />
               <ButtonMain
                 text="Book This Trip!"
-                onClick={() => routeToCalendar(trip.guide.id, trip.id)}
+                onClick={() => routeToCalendar(trip.guide.id, tripId)}
               />
             </StyledButtonSpan>
           </StyledOneGuideGrid>

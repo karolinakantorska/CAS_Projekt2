@@ -10,7 +10,7 @@ import { routeToBookingConfirmation } from '../../lib/utilsRouts';
 const DaySpan = ({
   reservation,
   guideId,
-  tripId,
+  trip,
   dayOfMonth,
   selectedYear,
   selectedMonth,
@@ -24,14 +24,7 @@ const DaySpan = ({
     if (guideId === '0') {
       return null;
     }
-    if (dayInThePast) {
-      alert(`You can't book a day in the past`);
-      return;
-    }
-    if (dayTooMuchInFuture) {
-      alert(
-        `We are sorry but you don't offer bookings for more than tree months in advance`,
-      );
+    if (dayInThePast || dayTooMuchInFuture) {
       return;
     } else {
       routeToBookingConfirmation(
@@ -39,7 +32,7 @@ const DaySpan = ({
         selectedMonth,
         selectedYear,
         guideId,
-        tripId,
+        trip.id,
         bookedTime,
         nrOfMonth,
       );
@@ -48,7 +41,6 @@ const DaySpan = ({
   // if there is only one reservation at the day, different than DAY reservation
   if (reservation.length === 1) {
     const time = reservation[0].time;
-
     return (
       // if there is 1 reservations at the day
       <DaySpanStyled>
@@ -58,7 +50,7 @@ const DaySpan = ({
           currentUser={currentUser}
           key={reservation[0].id}
         />
-        {time !== 'DAY' && (
+        {time !== 'DAY' && !trip.wholeDay && (
           <StyledBookingSpan
             className={
               (dayInThePast || dayTooMuchInFuture || guideId === '0') && 'dayInThePast'
@@ -71,26 +63,8 @@ const DaySpan = ({
       </DaySpanStyled>
     );
   }
-  // if there are 2 reservations at the day
-  else if (reservation.length === 2) {
-    return (
-      <DaySpanStyled>
-        <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
-        {reservation.map((res) => {
-          return (
-            <Entry
-              key={res.time}
-              reservation={res}
-              currentUser={currentUser}
-              key={res.id}
-            />
-          );
-        })}
-      </DaySpanStyled>
-    );
-  }
   // if there are no reservations at the day
-  else {
+  else if (reservation.length === 0) {
     const time = '';
     return (
       <DaySpanStyled>
@@ -102,6 +76,26 @@ const DaySpan = ({
         >
           <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
         </StyledBookingSpanDay>
+      </DaySpanStyled>
+    );
+  }
+  // if there are 2 or more reservations at the day
+  else {
+    return (
+      <DaySpanStyled>
+        <DayNr dayOfMonth={dayOfMonth} highlight={highlight} />
+        <span>
+          {reservation.map((res) => {
+            return (
+              <Entry
+                key={res.time}
+                reservation={res}
+                currentUser={currentUser}
+                key={res.id}
+              />
+            );
+          })}
+        </span>
       </DaySpanStyled>
     );
   }
@@ -120,7 +114,6 @@ const DaySpanStyled = styled.span`
   grid-template-rows: 10px 50px 50px;
   min-height: 110px;
   justify-content: stretch;
-  //background: red;
   grid-template-areas:
     'dayNr '
     'bookingAM '
@@ -130,11 +123,12 @@ const DaySpanStyled = styled.span`
   }
   .AM {
     grid-area: bookingAM;
-    height: 44px;
+    align-self: start;
+    //max-height: 44px;
   }
   .PM {
     grid-area: bookingPM;
-    height: 44px;
+    //height: 44px;
     align-self: end;
   }
   .DAY {
@@ -142,22 +136,38 @@ const DaySpanStyled = styled.span`
   }
 `;
 const StyledBookingSpanDay = styled.span`
-
-height: 94px;
+  //height: 94px;
   &:not(.dayInThePast):hover {
     height: 94px;
     margin-top: 6px;
     border-radius: 5px;
-    transition: 0.2s background-color;
-    background-color: rgba(21, 21, 21, 0.06);
+    transition: 0.2s;
+    background-color: rgba(21, 21, 21, 0.3);
+  }
+  &:not(.dayInThePast) {
+    height: 94px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: rgba(0, 255, 0, 0.15);
+
+    //background-color: rgba(0, 255, 0, 0.06);
+  }
 `;
 const StyledBookingSpan = styled.span`
   &:not(.dayInThePast):hover {
     height: 44px;
     margin-top: 6px;
     border-radius: 5px;
-    transition: 0.2s background-color;
-    background-color: rgba(21, 21, 21, 0.06);
+    transition: 0.2s;
+    background-color: rgba(21, 21, 21, 0.03);
+  }
+  &:not(.dayInThePast) {
+    height: 34px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: rgba(0, 255, 0, 0.15);
+    //background-color: rgba(21, 21, 21, 0.03);
+  }
 `;
 
 export default DaySpan;

@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { useAllUsersWithPermission } from '../../apollo/querries/useAllUsersWithPermission';
-import Loading from '../reusable/LoadingBar';
+// Components
 import ErrorGraphql from '../reusable/ErrorGraphql';
+import LoadingBar from '../reusable/LoadingBar';
+// Utils
+import { useAllUsersWithPermission } from '../../apollo/querries/useAllUsersWithPermission';
 import { permission } from '../../lib/utils';
 // Components for Styling
 import { Select } from '@rmwc/select';
@@ -12,7 +12,7 @@ const SelectGuide = ({ handleGuideChange }) => {
   //console.log('dayId', dayId);
   const { loading, error, data } = useAllUsersWithPermission(permission.guide);
   if (loading) {
-    return <Loading />;
+    return <LoadingBar />;
   }
   if (error) {
     return <ErrorGraphql error={error} />;

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { gql, useMutation } from '@apollo/client';
-import { routeToEditGuide, routeToSignin, routeToCalendar } from '../../lib/utilsRouts';
+import React from 'react';
+import { useMutation } from '@apollo/client';
+import { routeToSignin } from '../../lib/utilsRouts';
 import SIGN_OUT_MUTATION from '../../graphgl/mutations/SIGN_OUT_MUTATION';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 

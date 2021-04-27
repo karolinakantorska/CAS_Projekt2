@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 // Components
 import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import { ButtonMain } from '../reusable/Buttons';
-
 // Utils
 import { useForm } from '../../lib/utilsForm';
 import { useInfoes } from '../../apollo/querries/useInfoes';
@@ -55,7 +54,7 @@ const ChangeInfo = () => {
     }
   }
   if (loading) {
-    return <Loading />;
+    return <LoadingBar />;
   }
   if (error) {
     return <ErrorGraphql error={error} />;

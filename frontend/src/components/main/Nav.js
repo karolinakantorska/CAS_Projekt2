@@ -10,13 +10,16 @@ import NavGuide from '../main/NavGuide';
 //Utils
 import { permission } from '../../lib/utils';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
+import { useSignout } from '../../apollo/mutations/useSignout';
 // Styling
+import { StyledNav2User } from '../styles/StyledNav2';
 import { StyledMenuMain, StyledTopMenu } from '../styles/Text';
+import { StyledMenu2 } from '../styles/Text';
 import { Icon } from '@rmwc/icon';
 
 const Nav = () => {
-  const [show, setShow] = useState(false);
   const { loading, error, data } = useCurrentUser();
+  const [signout] = useSignout();
   if (loading) {
     //return <Loading />;
     return <Loading />;
@@ -29,81 +32,76 @@ const Nav = () => {
       <>
         <StyledNav>
           {data.currentUser.name ? (
-            <StyledTopMenu use="caption" className="user">
+            <StyledTopMenu use="caption" className="user" onClick={signout}>
               {data.currentUser.name} / logout
             </StyledTopMenu>
           ) : (
-            <StyledTopMenu use="caption" className="user">
-              log in / register
-            </StyledTopMenu>
+            <Link href="/signin_page">
+              <StyledTopMenu use="caption" className="user">
+                log in / register
+              </StyledTopMenu>
+            </Link>
           )}
           <Link href="/">
             <StyledMenuMain use="body" className="home">
               <Icon icon="home" aria-label="homepage" />
             </StyledMenuMain>
           </Link>
-          {data.currentUser.permissions === '' && (
-            <Link href="/info">
-              <StyledMenuMain use="body" className="userSpec">
-                Info
-              </StyledMenuMain>
-            </Link>
-          )}
-          {data.currentUser.permissions === permission.user && (
+
+          <Link href="/info">
+            <StyledMenuMain use="body" className="info">
+              Info
+            </StyledMenuMain>
+          </Link>
+          {data.currentUser.permissions !== '' && (
             <>
-              <Link href="/info">
-                <StyledMenuMain use="body" className="userSpec">
-                  Info
+              <Link href={`/allTrips`}>
+                <StyledMenuMain use="body" className="trips">
+                  Trips
                 </StyledMenuMain>
               </Link>
               <Link href={`/my_trips?gastId=${data.currentUser.id}`}>
-                <StyledMenuMain use="body" className="trips">
-                  My Trips
+                <StyledMenuMain use="body" className="myBookings">
+                  My Bookings
                 </StyledMenuMain>
               </Link>
             </>
           )}
-
-          {data.currentUser.permissions === permission.admin && (
-            <StyledMenuMain
-              use="body"
-              className={`userSpec ${show && 'active'}`}
-              onClick={() => setShow((show) => setShow(!show))}
-            >
-              Admin
-            </StyledMenuMain>
-          )}
-          {data.currentUser.permissions === permission.guide && (
-            <StyledMenuMain
-              use="body"
-              className={`userSpec ${show && 'active'}`}
-              onClick={() => setShow((show) => setShow(!show))}
-            >
-              Guide
-            </StyledMenuMain>
-          )}
           <Link href="/guides">
             <StyledMenuMain use="body" className="guides">
-              MTB Guides
+              Guides
             </StyledMenuMain>
           </Link>
           {data.currentUser.permissions ? (
-            <span className="signin">
-              <Signout />
-            </span>
+            <StyledMenuMain use="body" onClick={signout} className="signin">
+              <Icon icon="logout" aria-label="Logout" />
+            </StyledMenuMain>
           ) : (
             <Link href="/signin_page">
               <StyledMenuMain use="body" className="signin">
-                <Icon icon="person_outline" aria-label="Login" />
+                <Icon icon="login" aria-label="Login" />
               </StyledMenuMain>
             </Link>
           )}
         </StyledNav>
+        {data.currentUser.permissions === permission.user && (
+          <StyledNav2User className="nav_bottom_user">
+            <Link href={`/my_trips?gastId=${data.currentUser.id}`}>
+              <StyledMenu2 use="body" className="nav_bottom_user">
+                My Bookings
+              </StyledMenu2>
+            </Link>
+          </StyledNav2User>
+        )}
         {data.currentUser.permissions === permission.admin && (
-          <StyledSpan>{show && <NavAdmin />}</StyledSpan>
+          <StyledSpan>
+            <NavAdmin />
+          </StyledSpan>
         )}
         {data.currentUser.permissions === permission.guide && (
-          <StyledSpan>{show && <NavGuide guideId={data.currentUser.id} />}</StyledSpan>
+          <StyledSpan>
+            <NavGuide guideId={data.currentUser.id} />
+          </StyledSpan>
         )}
       </>
     );
@@ -113,15 +111,14 @@ const Nav = () => {
 const StyledNav = styled.nav`
   cursor: pointer;
   margin: auto;
-  //max-width: var(--maxWidth);
   display: grid;
   justify-items: center;
   align-items: center;
   grid-template-rows: 3fr 4fr;
-  grid-template-columns: 1fr 2fr 3fr 3fr 1fr;
+  grid-template-columns: 1fr 2fr 2fr 2fr 3fr 1fr;
   grid-template-areas:
-    '. . . . user'
-    'home userSpec guides trips  signin';
+    '. . . . . user'
+    'home info guides trips myBookings signin';
   white-space: nowrap;
   background-color: rgba(255, 255, 255, 0.8);
   span:hover {
@@ -139,17 +136,29 @@ const StyledNav = styled.nav`
   .home {
     grid-area: home;
   }
-  .userSpec {
-    grid-area: userSpec;
-  }
-  .trips {
-    grid-area: trips;
+  .info {
+    grid-area: info;
   }
   .guides {
     grid-area: guides;
   }
+  .trips {
+    grid-area: trips;
+  }
+  .myBookings {
+    grid-area: myBookings;
+  }
   .signin {
     grid-area: signin;
+  }
+  @media (max-width: 400px) {
+    grid-template-columns: 1fr 2fr 2fr 2fr 1fr;
+    grid-template-areas:
+      '. . . .  user'
+      'home info guides trips signin';
+    .myBookings {
+      display: none;
+    }
   }
 `;
 

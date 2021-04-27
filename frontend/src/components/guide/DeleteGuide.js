@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import PropTypes from 'prop-types';
-
 //Components
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ButtonLink from '../reusable/ButtonLink';

@@ -19,7 +19,7 @@ const Signout = () => {
   }
   return (
     <StyledMenuMain use="body" onClick={signout} className="user">
-      <Icon icon="person" aria-label="Logout" />
+      <Icon icon="logout" aria-label="Logout" />
     </StyledMenuMain>
   );
 };

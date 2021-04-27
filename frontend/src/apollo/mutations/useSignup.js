@@ -1,5 +1,5 @@
 import { gql, useMutation } from '@apollo/client';
-import { routeToGuidesList, routeToHomePage } from '../../lib/utilsRouts';
+import { routeToHomePage } from '../../lib/utilsRouts';
 import SIGNUP_MUTATION from '../../graphgl/mutations/SIGNUP_MUTATION';
 import CURRENT_USER_QUERY from '../../graphgl/queries/CURRENT_USER_QUERY';
 

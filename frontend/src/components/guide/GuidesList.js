@@ -3,7 +3,7 @@ import styled from 'styled-components';
 // Components
 import GuideCard from './GuideCard';
 import ErrorGraphql from '../reusable/ErrorGraphql';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import Nav from '../main/Nav';
 //utils
 import { permission } from '../../lib/utils';
@@ -11,7 +11,11 @@ import { useAllUsersWithPermission } from '../../apollo/querries/useAllUsersWith
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 // Components for Styling
 import { H6 } from '../styles/Text';
-import { StyledContainer, StyledCardsContainer } from '../styles/StyledContainer';
+import {
+  StyledContainer,
+  StyledSpan,
+  StyledCardsContainer,
+} from '../styles/StyledContainer';
 
 const GuidesList = () => {
   const { loading, error, data } = useAllUsersWithPermission(permission.guide);
@@ -21,7 +25,7 @@ const GuidesList = () => {
     data: dataCurrentUser,
   } = useCurrentUser();
   if (loading || loadingCurrentUser) {
-    return <Loading />;
+    return <LoadingBar />;
   }
   if (error || errorCurrentUser) {
     return (
@@ -55,10 +59,5 @@ const GuidesList = () => {
     );
   }
 };
-const StyledSpan = styled.span`
-  margin: auto;
-  //display: grid;
-  //margin-left: 100px;
-  //justify-content: start;
-`;
+
 export default GuidesList;

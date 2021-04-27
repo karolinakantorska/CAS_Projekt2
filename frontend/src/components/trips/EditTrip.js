@@ -8,7 +8,7 @@ import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import Input from '../reusable/Input';
 import MySwitch from '../reusable/MySwitch';
 // Utils
@@ -33,7 +33,7 @@ import { StyledGuideImage } from '../styles/StyledImage';
 import { H6, TextGrayDense } from '../styles/Text';
 // RMWC
 
-const UpdateTrip = ({ tripId }) => {
+const EditTrip = ({ tripId }) => {
   const { loading, error, data } = useTrip(tripId);
   const {
     loading: loadingCurrentUser,
@@ -88,7 +88,7 @@ const UpdateTrip = ({ tripId }) => {
     });
   }
   if (loading || loadingCurrentUser) {
-    return <Loading />;
+    return <LoadingBar />;
   }
   if (error || errorCurrentUser) {
     return <ErrorGraphql error={error} />;
@@ -138,7 +138,7 @@ const UpdateTrip = ({ tripId }) => {
                 })}
               </StyledSelect>
               <StyledSpanErrors>
-                {loadingPhotoUpload && <Loading />}
+                {loadingPhotoUpload && <LoadingBar />}
                 {errorPhotoUpload && <ErrorMessage error={errorPhotoUpload} />}
               </StyledSpanErrors>
               <StyledInput type="file" id="file" onChange={uploadPhoto} />
@@ -215,8 +215,8 @@ const UpdateTrip = ({ tripId }) => {
 const StyledInput = styled.input`
   display: none;
 `;
-UpdateTrip.propTypes = {
+EditTrip.propTypes = {
   tripId: PropTypes.string.isRequired,
 };
 
-export default UpdateTrip;
+export default EditTrip;

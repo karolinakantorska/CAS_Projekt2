@@ -2,7 +2,7 @@ import React from 'react';
 // Components
 import Nav from '../main/Nav';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
 import InputPassword from '../reusable/InputPassword';
@@ -36,7 +36,7 @@ const Signin = ({ redirectInfo }) => {
       <Nav />
       <StyledCard>
         <form onSubmit={handleSubmit} method="post">
-          {loading && <Loading />}
+          {loading && <LoadingBar />}
           <StyledFieldset disabled={loading} aria-busy={loading}>
             {redirectInfo && (
               <ErrorMessage error={redirectInfo}>{redirectInfo}</ErrorMessage>

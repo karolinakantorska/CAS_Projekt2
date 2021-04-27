@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-
 // Components
 import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import { ButtonMain } from '../reusable/Buttons';
-
 // utils
 import {
   chooseWholeDay,
@@ -21,13 +18,14 @@ import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { useDay } from '../../apollo/querries/useDay';
 import { useUpdateDay } from '../../apollo/mutations/useUpdateDay';
 import { useCreateDay } from '../../apollo/mutations/useCreateDay';
+import { useTripsToFindOneTrip } from '../../apollo/querries/useTripsToFindOneTrip';
 //Styling
-import { StyledCard } from '../styles/StyledCards';
+import { StyledCard, StyledCardWithPadding } from '../styles/StyledCards';
 import { StyledFieldset, StyledSelect } from '../styles/StyledForm';
 import { H6 } from '../styles/Text';
 import { Typography } from '@rmwc/typography';
 import { TextField } from '@rmwc/textfield';
-import { Select } from '@rmwc/select';
+//import { Select } from '@rmwc/select';
 import { Ripple } from '@rmwc/ripple';
 
 const BookingConfirmation = ({ props }) => {
@@ -40,7 +38,11 @@ const BookingConfirmation = ({ props }) => {
     tripId,
     bookedTime,
   } = props;
-  console.log('tripId', tripId);
+  const {
+    loading: loadingTrip,
+    error: errorTrip,
+    data: dataTrip,
+  } = useTripsToFindOneTrip(tripId);
   const { time, handleTimeChange } = useHandleTimeChange(bookedTime);
   const timeStamp = year + nrOfMonth + day;
   const {
@@ -111,18 +113,19 @@ const BookingConfirmation = ({ props }) => {
       });
     }
   }
-  if (loadingCurrentUser || loading) {
-    return <Loading />;
+  if (loadingCurrentUser || loading || loadingTrip) {
+    return <LoadingBar />;
   }
-  if (errorCurrentUser || error) {
+  if (errorCurrentUser || error || errorTrip) {
     return (
-      <StyledCard>
+      <StyledCardWithPadding>
         {errorCurrentUser && <ErrorGraphql error={errorCurrentUser} />}
         {error && <ErrorGraphql error={error} />}
-      </StyledCard>
+      </StyledCardWithPadding>
     );
   }
-  if (dataCurrentUser && data) {
+  if (dataCurrentUser && data && dataTrip) {
+    const trip = dataTrip.trips[0];
     return (
       <>
         <Nav />
@@ -135,24 +138,32 @@ const BookingConfirmation = ({ props }) => {
               <ErrorMessage />
               {errorCreateDay && <ErrorGraphql error={errorCreateDay} />}
               {errorUpdateDay && <ErrorGraphql error={errorUpdateDay} />}
+              {trip.title && (
+                <Typography use="body1">
+                  Trip:
+                  <strong>{` ${trip.title}`}</strong>
+                </Typography>
+              )}
               <Typography use="body1">
                 Choosen Day:
-                <strong>
-                  {year}/{month}/{day}
-                </strong>
+                <strong>{` ${year}/${month}/${day}`}</strong>
               </Typography>
               {bookedTime === 'PM' && (
                 <Typography use="body1" onLoad={handleTimeChange}>
                   {chooseMorning}
                 </Typography>
               )}
-
               {bookedTime === 'AM' && (
                 <Typography use="body1" onLoad={handleTimeChange}>
                   {chooseAfternoon}
                 </Typography>
               )}
-              {bookedTime === '' && (
+              {bookedTime === '' && trip.wholeDay && (
+                <Typography use="body1" onLoad={handleTimeChange}>
+                  {chooseWholeDay}
+                </Typography>
+              )}
+              {bookedTime === '' && !trip.wholeDay && (
                 <>
                   <Typography use="body1">
                     Do you preffer Morning or Aftenoon Trip?

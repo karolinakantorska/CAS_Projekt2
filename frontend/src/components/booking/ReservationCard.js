@@ -4,7 +4,7 @@ import styled from 'styled-components';
 // Components
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
 import ErrorGraphql from '../reusable/ErrorGraphql';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import SelectGuide from './SelectGuide';
 //Utils
 import { checkGuideAvability } from '../../lib/utilsBooking';
@@ -105,8 +105,8 @@ const ReservationCard = ({ reservation }) => {
             disabled={loadingDeleteReservation || loadingUpdateGuide}
             aria-busy={loadingDeleteReservation || loadingUpdateGuide}
           >
-            {loading && <Loading />}
-            {loadingUpdateGuide && <Loading />}
+            {loading && <LoadingBar />}
+            {loadingUpdateGuide && <LoadingBar />}
             {error && <ErrorGraphql error={error} />}
             {errorUpdateGuide && <ErrorGraphql error={errorUpdateGuide} />}
             <SelectGuide handleGuideChange={(e) => handleGuideChange(e)} />
@@ -115,7 +115,7 @@ const ReservationCard = ({ reservation }) => {
             ) : (
               Boolean(newGuide) && <TextSpecial>not free</TextSpecial>
             )}
-            {loadingDeleteReservation && <Loading />}
+            {loadingDeleteReservation && <LoadingBar />}
             <StyledButtonSpan className="button">
               <ButtonMain
                 text="Change Guide"

@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-
 // Components
 import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
 import InputPassword from '../reusable/InputPassword';
 import Input from '../reusable/Input';
@@ -19,11 +18,10 @@ import {
   useCheckBoxes,
   usePhotoUpload,
 } from '../../lib/utilsForm';
-import { useAddGuide } from '../../apollo/mutations/useAddGuide';
+import { useCreateGuide } from '../../apollo/mutations/useCreateGuide';
 import { permission, specialsations } from '../../lib/utils';
 import { urlGuidePhoto, uploadPresetGuide } from '../../lib/utilsPhotoUpload';
 import { routeToGuidesList } from '../../lib/utilsRouts';
-
 // Components for Styling
 import { StyledCard } from '../styles/StyledCards';
 import { StyledFieldset, StyledSpanErrors } from '../styles/StyledForm';
@@ -33,7 +31,7 @@ import { StyledButtonSpan } from '../styles/StyledButtonSpan';
 import { H6, TextGrayDense } from '../styles/Text';
 import { CardPrimaryAction } from '@rmwc/card';
 const AddGuide = () => {
-  const [addGuide, { loading, error }] = useAddGuide();
+  const [addGuide, { loading, error }] = useCreateGuide();
   const { checkedOptions, handleChecked } = useCheckBoxes([]);
   const { switchValues, handleSwitch } = useSwich({ ebike: true, mtb: true });
   const { inputs, handleChange, handleSubmit, errorInput } = useForm(handleAddGuide, {
@@ -78,7 +76,7 @@ const AddGuide = () => {
           <StyledFieldset disabled={loading} aria-busy={loading}>
             <H6 use="headline6">Add new MTB Guide</H6>
             <StyledSpanErrors>
-              {loadingPhotoUpload && <Loading />}
+              {loadingPhotoUpload && <LoadingBar />}
               {errorPhotoUpload && <ErrorMessage error={errorPhotoUpload}></ErrorMessage>}
             </StyledSpanErrors>
             <StyledInput type="file" id="file" onChange={uploadPhoto} />
@@ -87,7 +85,6 @@ const AddGuide = () => {
                 <StyledGuideImage src={result} alt="Upload a photo" />
               </CardPrimaryAction>
             </label>
-
             <Input
               handleChange={handleChange}
               name="name"
@@ -115,7 +112,6 @@ const AddGuide = () => {
               required={true}
               error={errorInput.password}
             ></InputPassword>
-
             <TextGrayDense use="body1">Short encouraging text:</TextGrayDense>
             <Input
               handleChange={handleChange}

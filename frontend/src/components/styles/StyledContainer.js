@@ -12,3 +12,6 @@ export const StyledCardsContainer = styled.div`
   row-gap: 15px;
   justify-content: space-between;
 `;
+export const StyledSpan = styled.span`
+  margin: auto;
+`;

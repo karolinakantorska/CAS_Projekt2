@@ -4,7 +4,7 @@ const UPDATE_RESERVATION_GUIDE = gql`
   mutation UPDATE_RESERVATION_GUIDE($guideId: ID, $id: ID) {
     updateReservationAddGuide(
       where: { id: $id }
-      data: { guide: { connect: { id: $guideId } }, guideId: "123" }
+      data: { guide: { connect: { id: $guideId } } }
     ) {
       id
       time
@@ -20,7 +20,6 @@ const UPDATE_RESERVATION_GUIDE = gql`
       description
       holiday
       confirmed
-      guideId
       gastId
     }
   }

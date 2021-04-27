@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { gql, useQuery } from '@apollo/client';
-import TRIPS_FROM_GUIDE from '../../graphgl/queries/TRIPS_FROM_GUIDE';
+import TRIPS from '../../graphgl/queries/TRIPS';
 
-export function useTripsFromGuide(id) {
-  const { loading, error, data } = useQuery(TRIPS_FROM_GUIDE, {
-    variables: {
-      id,
-    },
+export function useTrips() {
+  const { loading, error, data } = useQuery(TRIPS, {
     onError: (error) => {
       error;
     },

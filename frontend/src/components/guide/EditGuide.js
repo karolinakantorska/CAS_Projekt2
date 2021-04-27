@@ -8,7 +8,7 @@ import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import Input from '../reusable/Input';
 import MySwitch from '../reusable/MySwitch';
 import MyCheckbox from '../reusable/MyCheckbox';
@@ -34,7 +34,7 @@ import { StyledGuideImage } from '../styles/StyledImage';
 import { H6, TextGrayDense } from '../styles/Text';
 import { StyledButtonSpan } from '../styles/StyledButtonSpan';
 
-const UpdateGuide = ({ guideId }) => {
+const EditGuide = ({ guideId }) => {
   const { loading, error, data } = useGuide(guideId);
   const { checkedOptions, handleChecked } = useCheckBoxes(
     data ? data.user.specialisations : [],
@@ -88,7 +88,7 @@ const UpdateGuide = ({ guideId }) => {
   }
 
   if (loading) {
-    return <Loading />;
+    return <LoadingBar />;
   }
   if (error) {
     return <ErrorGraphql error={error} />;
@@ -102,7 +102,7 @@ const UpdateGuide = ({ guideId }) => {
             <StyledFieldset disabled={loadingMutation} aria-busy={loadingMutation}>
               <H6 use="headline6">Edit the MTB Guide</H6>
               <StyledSpanErrors>
-                {loadingPhotoUpload && <Loading />}
+                {loadingPhotoUpload && <LoadingBar />}
                 {errorPhotoUpload && <ErrorMessage error={errorPhotoUpload} />}
               </StyledSpanErrors>
               <StyledInput type="file" id="file" onChange={uploadPhoto} />
@@ -211,6 +211,9 @@ const UpdateGuide = ({ guideId }) => {
     );
   }
 };
+EditGuide.propTypes = {
+  guideId: PropTypes.string.isRequired,
+};
 const StyledInput = styled.input`
   display: none;
 `;
@@ -219,7 +222,5 @@ const StyledSpan = styled.span`
   grid-template-columns: repeat(3, 1fr);
   width: 344px;
 `;
-UpdateGuide.propTypes = {
-  guideId: PropTypes.string.isRequired,
-};
-export default UpdateGuide;
+
+export default EditGuide;

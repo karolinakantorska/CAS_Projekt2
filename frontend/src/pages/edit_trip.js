@@ -1,12 +1,12 @@
 import EditTrip from '../components/trips/EditTrip';
-import RedirectWrongPermission from '../components/main/RedirectWrongPermission';
+import RedirectWrongId from '../components/main/RedirectWrongId';
 //Utils
 import { permission } from '../lib/utils';
 
 const edit_trip = ({ query }) => (
-  <RedirectWrongPermission requiredRole={permission.guide}>
+  <RedirectWrongId requiredId={query.guideId}>
     <EditTrip tripId={query.id} />
-  </RedirectWrongPermission>
+  </RedirectWrongId>
 );
 
 export default edit_trip;

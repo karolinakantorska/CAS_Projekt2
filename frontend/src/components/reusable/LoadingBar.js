@@ -1,7 +1,7 @@
 import React from 'react';
 import { LinearProgress } from '@rmwc/linear-progress';
 
-const Loading = () => {
+const LoadingBar = () => {
   return <LinearProgress />;
 };
-export default Loading;
+export default LoadingBar;

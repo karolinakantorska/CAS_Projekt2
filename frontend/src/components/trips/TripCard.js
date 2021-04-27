@@ -7,12 +7,10 @@ import { CardPrimaryAction } from '@rmwc/card';
 import { Card } from '@rmwc/card';
 // Components
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
-import GuideAvatar from '../reusable/GuideAvatar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import { difficulties } from '../../lib/utils';
 import LoadingCicle from '../reusable/LoadingCicle';
 import MyDialog from '../reusable/MyDialog';
-
 // Utils
 import { useTrip } from '../../apollo/querries/useTrip';
 import { useDeleteTrip } from '../../apollo/mutations/useDeleteTrip';
@@ -24,13 +22,13 @@ import {
 import { permission } from '../../lib/utils';
 // Components for Styling
 import { StyledButtonSpan } from '../styles/StyledButtonSpan';
-import { StyledGuideCard } from '../styles/StyledCards';
 import { StyledGuideImage } from '../styles/StyledImage';
+import { StyledTripCard } from '../styles/StyledCards';
 import { H6, Subtitle, TextLink } from '../styles/Text';
 // RMWC
 import { Typography } from '@rmwc/typography';
 
-const TripCard = ({ currentUserPermission, tripId }) => {
+const TripCard = ({ currentUser, tripId }) => {
   const { loading, error, data } = useTrip(tripId);
   const [
     deleteTrip,
@@ -78,7 +76,7 @@ const TripCard = ({ currentUserPermission, tripId }) => {
         <CardPrimaryAction onClick={() => routeToTripDetails(tripId)}>
           <StyledGuideImage src={trip.photo} alt={`Photo of ${trip.title}`} />
         </CardPrimaryAction>
-        {currentUserPermission !== '' && (
+        {currentUser.permissions !== '' && (
           <>
             <Link href={`/trip_details?tripId=${tripId}`}>
               <TextLink use="body2">Go to trip details!</TextLink>
@@ -89,11 +87,14 @@ const TripCard = ({ currentUserPermission, tripId }) => {
             />
           </>
         )}
-        {currentUserPermission === permission.guide && (
+        {currentUser.id === data.trip.guide.id && (
           <>
             {errorMutation && <ErrorGraphql error={errorMutation} />}
             <StyledButtonSpan>
-              <ButtonLink text="Edit" onClick={() => routeToEditTrip(tripId)} />
+              <ButtonLink
+                text="Edit"
+                onClick={() => routeToEditTrip(tripId, data.trip.guide.id)}
+              />
               <MyDialog
                 title="Do you want to delete this Trip?"
                 body="Are you sure?"
@@ -108,14 +109,7 @@ const TripCard = ({ currentUserPermission, tripId }) => {
 };
 TripCard.propTypes = {
   tripId: PropTypes.string.isRequired,
-  currentUserPermission: PropTypes.string,
+  currentUser: PropTypes.object,
 };
-export const StyledTripCard = styled(Card)`
-  display: grid;
-  padding: 8px;
-  align-content: stretch;
-  margin: auto;
-  margin-top: 98px;
-  max-width: 344px;
-`;
+
 export default TripCard;

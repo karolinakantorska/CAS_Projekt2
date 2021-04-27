@@ -15,14 +15,11 @@ import {
   StyledTypographyGreen,
   StyledButton,
 } from '../styles/StyledEntry';
-
 // RMWC
 import { Typography } from '@rmwc/typography';
-
 import { Dialog, DialogTitle, DialogContent } from '@rmwc/dialog';
 const EntryUser = ({ reservation, currentUser }) => {
   const [open, setOpen] = React.useState(false);
-  console.log('reservation', reservation);
   return (
     <>
       <EntrySpan

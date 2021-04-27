@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Button } from '@rmwc/button';
 // Components
 import Nav from '../main/Nav';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import { ButtonLink } from '../reusable/Buttons';
 
@@ -26,7 +26,7 @@ const BookingThankYou = (props) => {
   const { time, dayId, guideId } = props.props;
   const { loading, error, data } = useDayIdToQueryReservation(dayId, guideId, time);
   if (loading) {
-    return <Loading />;
+    return <LoadingBar />;
   }
   if (error) {
     return <ErrorGraphql error={error} />;

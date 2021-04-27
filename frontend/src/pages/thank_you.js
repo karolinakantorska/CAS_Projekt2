@@ -8,5 +8,4 @@ const thankYou = ({ query }) => {
     </RedirectNotLoggedin>
   );
 };
-
 export default thankYou;

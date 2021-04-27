@@ -7,7 +7,7 @@ import CalendarMenu from './CalendarMenu';
 import GuideAvatar from '../reusable/GuideAvatar';
 import NonGuideAvatar from '../reusable/NonGuideAvatar';
 import Year from './Year';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 // Utils
 import { currentDate, weekDaysEN } from '../../lib/utilsCalendar';
@@ -23,7 +23,7 @@ const Calendar = ({
   emptyCells,
   daysInMonthArray,
   selectedDateTimestamp,
-  tripId,
+  trip,
 }) => {
   const weekNames = weekDaysEN();
   const today = currentDate();
@@ -33,7 +33,7 @@ const Calendar = ({
     data: dataCurrentUser,
   } = useCurrentUser();
   if (loadingCurrentUser) {
-    return <Loading />;
+    return <LoadingBar />;
   }
   if (errorCurrentUser) {
     return (
@@ -43,7 +43,6 @@ const Calendar = ({
     );
   }
   if (dataCurrentUser) {
-    console.log('tripId', tripId);
     return (
       <StyledCalendarContainer>
         <Year selectedYear={selectedYear} className="year_component" />
@@ -80,7 +79,7 @@ const Calendar = ({
               key={dayOfMonth}
               reservation={reservations[dayOfMonth] ? reservations[dayOfMonth] : []}
               guideId={guideId}
-              tripId={tripId}
+              trip={trip}
               dayOfMonth={dayOfMonth}
               selectedYear={selectedYear}
               selectedMonth={selectedMonth}
@@ -102,6 +101,9 @@ const Calendar = ({
             ></DaySpan>
           );
         })}
+        <StyledSpan2>
+          <p>-</p>
+        </StyledSpan2>
       </StyledCalendarContainer>
     );
   }
@@ -118,15 +120,19 @@ Calendar.propTypes = {
   selectedDateTimestamp: PropTypes.string,
 };
 
+const StyledSpan2 = styled.span`
+  grid-column: 1 / span 2;
+`;
 const StyledCalendarContainer = styled.div`
   max-width: var(--maxWidth);
   background-color: white;
   margin: auto;
   display: grid;
+  grid-template-rows: 1fr;
   grid-template-columns: repeat(7, 1fr);
   grid-template-areas: ' year year month month month guide guide';
   padding: 25px 10px 15px 10px;
-  margin-top: 4rem;
+  margin-top: var(--marginTop);
   border-radius: 10px;
   justify-content: center;
   grid-gap: 1% 0.5%;

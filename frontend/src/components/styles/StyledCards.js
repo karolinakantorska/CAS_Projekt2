@@ -1,18 +1,19 @@
 import styled from 'styled-components';
 import { Card } from '@rmwc/card';
 
+export const StyledTripCard = styled(Card)`
+  display: grid;
+  padding: 8px;
+  align-content: stretch;
+  margin: auto;
+  margin-top: var(--marginTop);
+  max-width: 344px;
+`;
 export const StyledGuideCard = styled(Card)`
   display: grid;
   align-content: stretch;
   margin: auto;
   margin-top: var(--marginTop);
-  width: 344px;
-`;
-export const StyledImagePlacholderCard = styled(Card)`
-  display: grid;
-  align-content: stretch;
-  margin: auto;
-  margin-top: 0;
   width: 344px;
 `;
 export const StyledCard = styled(Card)`
@@ -21,6 +22,13 @@ export const StyledCard = styled(Card)`
   margin: auto;
   margin-top: var(--marginTop);
   width: 364px;
+`;
+export const StyledImagePlacholderCard = styled(Card)`
+  display: grid;
+  align-content: stretch;
+  margin: auto;
+  margin-top: 0;
+  width: 344px;
 `;
 export const StyledCardWithPadding = styled(Card)`
   display: grid;
@@ -80,7 +88,4 @@ export const StyledOneGuideGrid = styled.span`
     }
   }
 `;
-export const StyledInfoGrid = styled.span`
-  //display: grid;
-  //grid-template-rows: repeat(auto-fill, minmax(1.5rem, 1fr));
-`;
+export const StyledInfoGrid = styled.span``;

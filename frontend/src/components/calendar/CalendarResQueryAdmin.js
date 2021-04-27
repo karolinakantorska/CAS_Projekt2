@@ -3,17 +3,18 @@ import PropTypes from 'prop-types';
 // Components
 import Nav from '../main/Nav';
 import Calendar from './Calendar';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 // Utils
 import { permission } from '../../lib/utils';
 import { useCalendar, filterReservationsData } from '../../lib/utilsCalendar';
 import { useFormInput } from '../../lib/utilsForm';
 import { useAllUsersWithPermission } from '../../apollo/querries/useAllUsersWithPermission';
+import { noTripChoosen } from '../../apollo/querries/useTripsToFindOneTrip';
 import { useLazyGuideMonthReservations } from '../../apollo/querries/useLazyGuideMonthReservations';
 import { Select } from '@rmwc/select';
 
-const CalendarResQuery = ({ guideId, tripId }) => {
+const CalendarResQueryAdmin = ({ guideId, tripId }) => {
   const { value, handleChange } = useFormInput({
     id: '0',
   });
@@ -23,6 +24,7 @@ const CalendarResQuery = ({ guideId, tripId }) => {
     error: errorGuides,
     data: dataGuides,
   } = useAllUsersWithPermission(permission.guide);
+  const trip = noTripChoosen;
   const {
     handleMonthChange,
     selectedYear,
@@ -52,7 +54,7 @@ const CalendarResQuery = ({ guideId, tripId }) => {
   }, [data]);
 
   if (loadingGuides || loading) {
-    return <Loading />;
+    return <LoadingBar />;
   }
   if (errorGuides || error) {
     return (
@@ -87,15 +89,15 @@ const CalendarResQuery = ({ guideId, tripId }) => {
           selectedDateTimestamp={selectedDateTimestamp}
           guideId={guideId}
           reservations={reservations}
-          tripId={tripId}
+          trip={trip}
         />
         )
       </>
     );
   }
 };
-CalendarResQuery.propTypes = {
+CalendarResQueryAdmin.propTypes = {
   guideId: PropTypes.string,
 };
 
-export default CalendarResQuery;
+export default CalendarResQueryAdmin;

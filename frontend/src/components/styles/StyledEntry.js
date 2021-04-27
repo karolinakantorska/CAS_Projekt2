@@ -2,13 +2,14 @@ import styled from 'styled-components';
 import { Typography } from '@rmwc/typography';
 import { DialogButton } from '@rmwc/dialog';
 export const EntrySpan = styled.span`
+  cursor: pointer;
   display: grid;
   //grid-template-rows: 1fr 1fr;
+
   max-width: 138px;
   font-size: 0.9rem;
   margin-top: 6px;
   border-radius: 5px;
-
   background: rgba(217, 217, 217, 0.5);
   align-content: center;
   justify-content: center;

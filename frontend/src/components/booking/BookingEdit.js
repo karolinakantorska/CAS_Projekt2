@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 //Components
-import { routeBack } from '../../lib/utilsRouts';
 import ErrorGraphql from '../reusable/ErrorGraphql';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
 import SelectGuide from './SelectGuide';
 // Utils
 import { permission } from '../../lib/utils';
+import { routeBack } from '../../lib/utilsRouts';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { useReservation } from '../../apollo/querries/useReservation';
 import { useDeleteReservation } from '../../apollo/mutations/useDeleteReservation';
@@ -42,13 +42,13 @@ const BookingEdit = ({ id }) => {
   function handleConfirm() {
     updateReservation({ variables: { id, confirmed: true } });
   }
-    function handleDelete() {
-      deleteReservation({
-        variables: { id },
-      });
-    }
+  function handleDelete() {
+    deleteReservation({
+      variables: { id },
+    });
+  }
   if (loading || loadingCurrentUser) {
-    return <Loading />;
+    return <LoadingBar />;
   }
   if (error || errorCurrentUser) {
     return <ErrorGraphql error={error} />;
@@ -128,6 +128,5 @@ export const StyledTypography = styled(Typography)`
   color: var(--colorWarning);
   text-align: center;
 `;
-
 
 export default BookingEdit;

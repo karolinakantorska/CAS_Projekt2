@@ -49,6 +49,9 @@ export const StyledMenu2 = styled(Typography)`
   line-height: 90%;
   font-size: 1rem;
   color: var(--colorSecundary);
+  :hover {
+    color: var(--colorLight);
+  }
   @media (max-width: 480px) {
     font-size: 0.95rem;
   }

@@ -8,13 +8,17 @@ import LoadingBar from '../reusable/LoadingBar';
 import TripCard from '../trips/TripCard';
 // Utils
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
-import { useTripsFromGuide } from '../../apollo/querries/useTripsFromGuide';
+import { useTrips } from '../../apollo/querries/useTrips';
 // Components for Styling
-import { StyledContainer, StyledCardsContainer } from '../styles/StyledContainer';
+import {
+  StyledContainer,
+  StyledSpan,
+  StyledCardsContainer,
+} from '../styles/StyledContainer';
 import { H6, TextGrayDense } from '../styles/Text';
 
-const TripList = ({ guideId }) => {
-  const { loading, error, data } = useTripsFromGuide(guideId);
+const AllTripsList = () => {
+  const { loading, error, data } = useTrips();
   const {
     loading: loadingCurrentUser,
     error: errorCurrentUser,
@@ -31,6 +35,9 @@ const TripList = ({ guideId }) => {
       <>
         <Nav />
         <StyledContainer>
+          <StyledSpan>
+            <H6 use="headline6">Trips offered by our MTB Guides:</H6>
+          </StyledSpan>
           <StyledCardsContainer>
             {data.trips.map((trip) => (
               <TripCard
@@ -48,7 +55,4 @@ const TripList = ({ guideId }) => {
   }
 };
 
-TripList.propTypes = {
-  guideId: PropTypes.string.isRequired,
-};
-export default TripList;
+export default AllTripsList;

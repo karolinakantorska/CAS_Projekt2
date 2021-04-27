@@ -6,7 +6,7 @@ import { Card } from '@rmwc/card';
 import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
 import Input from '../reusable/Input';
 import MySwitch from '../reusable/MySwitch';
@@ -174,7 +174,7 @@ const AddTrip = ({ guideId }) => {
                 </CardPrimaryAction>
               </label>
               <StyledSpanErrors>
-                {loadingPhotoUpload && <Loading />}
+                {loadingPhotoUpload && <LoadingBar />}
                 {errorPhotoUpload && (
                   <ErrorMessage error={errorPhotoUpload}></ErrorMessage>
                 )}

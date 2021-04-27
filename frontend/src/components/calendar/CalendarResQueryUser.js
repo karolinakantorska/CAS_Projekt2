@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 // Components
 import Nav from '../main/Nav';
 import Calendar from './Calendar';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 // Utils
 import { useCalendar, filterReservationsData } from '../../lib/utilsCalendar';
-
+import { useTripsToFindOneTrip } from '../../apollo/querries/useTripsToFindOneTrip';
 import { useGuideMonthReservations } from '../../apollo/querries/useGuideMonthReservations';
+
+import { StyledContainer } from '../styles/StyledContainer';
 
 const CalendarResQueryUser = ({ guideId, tripId }) => {
   const {
@@ -26,21 +27,28 @@ const CalendarResQueryUser = ({ guideId, tripId }) => {
     selectedMonth,
     guideId,
   );
+  const {
+    loading: loadingTrip,
+    error: errorTrip,
+    data: dataTrip,
+  } = useTripsToFindOneTrip(tripId);
   useEffect(() => {
     refetch();
   }, [selectedMonth]);
-  if (loading) {
-    return <Loading />;
+  if (loading || loadingTrip) {
+    return <LoadingBar />;
   }
-  if (error) {
+  if (error || errorTrip) {
     return (
       <StyledContainer>
-        {errorCurrentUser && <ErrorGraphql error={errorCurrentUser} />}
+        {errorTrip && <ErrorGraphql error={errorTrip} />}
+        {error && <ErrorGraphql error={error} />}
       </StyledContainer>
     );
   }
-  if (data) {
+  if (data && dataTrip) {
     const reservations = filterReservationsData(data.days, guideId);
+    const trip = dataTrip.trips[0];
     return (
       <>
         <Nav />
@@ -53,7 +61,7 @@ const CalendarResQueryUser = ({ guideId, tripId }) => {
           daysInMonthArray={daysInMonthArray}
           selectedDateTimestamp={selectedDateTimestamp}
           guideId={guideId}
-          tripId={tripId}
+          trip={trip}
           reservations={reservations}
         />
       </>

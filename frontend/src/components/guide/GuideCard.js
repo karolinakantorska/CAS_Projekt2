@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
-
 //Components
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
 import LoadingCicle from '../reusable/LoadingCicle';
@@ -19,18 +18,16 @@ import {
   routeToTripList,
 } from '../../lib/utilsRouts';
 import { permission } from '../../lib/utils';
-
 // Components for Styling
 import { StyledGuideCard } from '../styles/StyledCards';
 import { StyledGuideImage } from '../styles/StyledImage';
 import { StyledButtonSpan } from '../styles/StyledButtonSpan';
 import { H6, Subtitle, TextLink } from '../styles/Text';
-
 // RMWC
 import { Typography } from '@rmwc/typography';
 import { CardPrimaryAction } from '@rmwc/card';
 
-const Guide = ({ currentUserPermission, guideId }) => {
+const GuideCard = ({ currentUserPermission, guideId }) => {
   const { loading, error, data } = useGuide(guideId);
   const [
     deleteUser,
@@ -92,7 +89,7 @@ const Guide = ({ currentUserPermission, guideId }) => {
           )}
         </StyledSpan>
         {!currentUserPermission && (
-          <ButtonLink text="Logg in to book Me!" onClick={() => routeToSignin} />
+          <ButtonLink text="Logg in to book Me!" onClick={() => routeToSignin()} />
         )}
         {currentUserPermission === permission.admin && (
           <>
@@ -111,7 +108,7 @@ const Guide = ({ currentUserPermission, guideId }) => {
     );
   }
 };
-Guide.propTypes = {
+GuideCard.propTypes = {
   currentUserPermission: PropTypes.string,
   guideId: PropTypes.string,
 };
@@ -127,6 +124,6 @@ const StyledSpanBookMe = styled.span`
   margin-top: -70px;
 `;
 
-export default Guide;
+export default GuideCard;
 /*
  */

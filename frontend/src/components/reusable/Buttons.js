@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Button } from '@rmwc/button';
-import { DialogButton } from '@rmwc/dialog';
 import { Typography } from '@rmwc/typography';
 
 export const ButtonMain = ({ text, onClick, disabled = false }) => {
@@ -24,7 +23,6 @@ export const ButtonLink = ({ text, onClick, disabled = false }) => {
     </StyledButton>
   );
 };
-
 export const StyledTextMain = styled(Typography)`
   color: var(--colorPrimary);
   text-transform: capitalize;
@@ -32,6 +30,7 @@ export const StyledTextMain = styled(Typography)`
 `;
 const StyledTextLink = styled(Typography)`
   color: var(--colorWarning);
+  line-height: 20px;
   text-transform: capitalize;
 `;
 const StyledButton = styled(Button)`

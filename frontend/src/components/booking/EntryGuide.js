@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 //Components
 import ErrorGraphql from '../reusable/ErrorGraphql';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import { ButtonMain, ButtonLink, StyledTextMain } from '../reusable/Buttons';
 import IconConfirmed from '../reusable/IconConfirmed';
 //Utils
@@ -88,7 +88,7 @@ const EntryGuide = ({ reservation, currentUser }) => {
               <IconConfirmed confirmed={reservation.confirmed} size="large" />
             </StyledTypographyRed>
           )}
-          {loadingUpdateReservation && <Loading />}
+          {loadingUpdateReservation && <LoadingBar />}
           {reservation.guide.id === currentUser.id && (
             <ButtonMain
               disabled={reservation.confirmed || loadingUpdateReservation}

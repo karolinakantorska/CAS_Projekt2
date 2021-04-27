@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 //Components
 import ErrorGraphql from '../reusable/ErrorGraphql';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import { ButtonLink, StyledTextMain } from '../reusable/Buttons';
 import IconConfirmed from '../reusable/IconConfirmed';
 //Utils
@@ -104,7 +104,10 @@ const EntryAdmin = ({ reservation }) => {
               </StyledTypographyRed>
             </>
           )}
-          {loadingDeleteReservation && <Loading />}
+          <StyledButton action="close">
+            <StyledTextMain>Close</StyledTextMain>
+          </StyledButton>
+          {loadingDeleteReservation && <LoadingBar />}
           <ButtonLink text="Delete" onClick={handleDelete} />{' '}
           {reservation.trip && (
             <ButtonLink
@@ -112,9 +115,6 @@ const EntryAdmin = ({ reservation }) => {
               onClick={() => routeToTripDetails(reservation.trip.id)}
             />
           )}
-          <StyledButton action="close">
-            <StyledTextMain>Close</StyledTextMain>
-          </StyledButton>
         </StyledSpan>
       </Dialog>
     </>

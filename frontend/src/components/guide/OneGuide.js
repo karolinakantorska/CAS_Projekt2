@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 // Components
 import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
-import Loading from '../reusable/LoadingBar';
+import LoadingBar from '../reusable/LoadingBar';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
-
 // Utils
 import { useGuide } from '../../apollo/querries/useGuide';
 import { routeToCalendar, routeToTripList } from '../../lib/utilsRouts';
@@ -24,7 +23,7 @@ import { Typography } from '@rmwc/typography';
 const OneGuide = ({ guideId }) => {
   const { loading, error, data } = useGuide(guideId);
   if (loading) {
-    return <Loading />;
+    return <LoadingBar />;
   }
   if (error) {
     return <ErrorGraphql error={error} />;
