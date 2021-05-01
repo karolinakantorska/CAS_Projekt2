@@ -46,6 +46,8 @@ const mutations = {
       { userId: user.id, userPermission: user.permissions },
       process.env.APP_SECRET
     );
+
+    
     ctx.response.cookie("token", token, {
       path: "/",
       httpOnly: true,

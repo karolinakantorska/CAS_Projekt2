@@ -17,6 +17,7 @@ const TRIPS_WITH_ID = gql`
       costs
       ebikes
       photo
+      wholeDay
     }
   }
 `;

@@ -99,7 +99,7 @@ const EditTrip = ({ tripId }) => {
     const difficultiesArray = arrayFromObject(difficulties);
     return (
       <>
-        <Nav />
+        {/*<Nav />*/}
         <StyledCard>
           <form onSubmit={handleSubmit} method="post">
             <StyledFieldset disabled={loadingMutation} aria-busy={loadingMutation}>

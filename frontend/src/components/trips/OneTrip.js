@@ -35,7 +35,7 @@ const OneTrip = ({ tripId }) => {
     const { trip } = data;
     return (
       <>
-        <Nav />
+        {/*<Nav />*/}
         <StyledCardWithPadding>
           <StyledOneGuideGrid>
             <H6 use="headline6" className="title">

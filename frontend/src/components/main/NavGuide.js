@@ -7,7 +7,7 @@ import { StyledMenu2 } from '../styles/Text';
 const NavGuide = ({ guideId }) => {
   return (
     <StyledNav2>
-      <Link href={`/calendar_booking?guideId=${guideId}`}>
+      <Link href={`/my_calendar?guideId=${guideId}`}>
         <StyledMenu2 use="body">My Calendar</StyledMenu2>
       </Link>
       <Link href={`/trips?guideId=${guideId}`}>

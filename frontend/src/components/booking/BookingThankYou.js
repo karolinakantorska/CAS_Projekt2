@@ -35,12 +35,8 @@ const BookingThankYou = (props) => {
     const { day } = data;
     const { nrOfPeople, description, time, userName, guide, trip } = day.reservations[0];
     const writeTime = timeToString(time);
-    if (trip) {
-      console.log('trip', trip);
-    }
     return (
       <>
-        <Nav />
         <StyledContainer>
           <StyledCardWithPadding>
             <H6 use="headline6">Congratulations!</H6>

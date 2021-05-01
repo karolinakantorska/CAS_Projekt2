@@ -10,6 +10,8 @@ import { useUsersMonthReservations } from '../../apollo/querries/useUsersMonthRe
 import { useCalendar, filterUserReservationsData } from '../../lib/utilsCalendar';
 import { noTripChoosen } from '../../apollo/querries/useTripsToFindOneTrip';
 
+import { StyledContainer } from '../styles/StyledContainer';
+
 const CalendarBookedTrips = ({ gastId }) => {
   const {
     handleMonthChange,
@@ -40,10 +42,8 @@ const CalendarBookedTrips = ({ gastId }) => {
   }
   if (data) {
     const reservations = filterUserReservationsData(data.days, gastId);
-    console.log('reservations', reservations);
     return (
       <>
-        <Nav />
         <Calendar
           handleMonthChange={handleMonthChange}
           selectedYear={selectedYear}

@@ -66,7 +66,6 @@ const CalendarResQueryAdmin = ({ guideId, tripId }) => {
   if (dataGuides) {
     return (
       <>
-        <Nav />
         <Select
           disabled={false}
           onChange={handleChange}

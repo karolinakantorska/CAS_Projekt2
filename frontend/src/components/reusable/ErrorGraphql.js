@@ -15,6 +15,15 @@ const ErrorGraphql = ({ error }) => {
       </div>
     ));
   }
+
+  if (error.message.includes('ECONNRESET')) {
+    return (
+      <React.Fragment>
+        <ErrorText>Problem with connection to database, please try again.</ErrorText>
+      </React.Fragment>
+    );
+  }
+
   if (error.message.includes('ENOTFOUND')) {
     return (
       <React.Fragment>

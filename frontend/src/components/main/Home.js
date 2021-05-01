@@ -7,7 +7,7 @@ import { StyledButtonTextWhite } from '../styles/Text';
 
 const Home = () => (
   <div className="backgroungImage">
-    <Nav />
+    {/*<Nav />*/}
     <ContainerHomepage>
       <Link href="/guides">
         <StyledButton__Homepage raised>

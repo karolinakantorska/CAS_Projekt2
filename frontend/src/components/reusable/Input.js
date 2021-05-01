@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { TextField } from '@rmwc/textfield';
 import ErrorMessage from '../reusable/ErrorMessage';
 
-const Input = ({ handleChange, name, value, required, error }) => {
+const Input = ({ handleChange, name, value, required, error, autoComplete }) => {
   return (
     <>
       <TextField
@@ -15,6 +15,7 @@ const Input = ({ handleChange, name, value, required, error }) => {
         onChange={handleChange}
         required={required}
         maxLength={60}
+        autoComplete={autoComplete}
       />
       {error && <ErrorMessage error={error} />}
     </>

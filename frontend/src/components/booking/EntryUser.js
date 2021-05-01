@@ -6,35 +6,47 @@ import GuideAvatar from '../reusable/GuideAvatar';
 import { StyledTextMain } from '../reusable/Buttons';
 import IconConfirmed from '../reusable/IconConfirmed';
 import { ButtonLink } from '../reusable/Buttons';
+//Utils
+import { routeToTripDetails } from '../../lib/utilsRouts';
 // Components for Styling
-import { H6, TextSpecial } from '../styles/Text';
 import {
-  EntrySpan,
-  StyledSpan,
+  H6,
+  TextSpecial,
   StyledTypographyRed,
   StyledTypographyGreen,
+} from '../styles/Text';
+import {
+  EntrySpan,
+  EntrySpanNoClick,
+  StyledSpan,
   StyledButton,
 } from '../styles/StyledEntry';
 // RMWC
 import { Typography } from '@rmwc/typography';
 import { Dialog, DialogTitle, DialogContent } from '@rmwc/dialog';
+
 const EntryUser = ({ reservation, currentUser }) => {
   const [open, setOpen] = React.useState(false);
   return (
     <>
-      <EntrySpan
-        className={reservation.time}
-        onClick={() => currentUser.id === reservation.gastId && setOpen(true)}
-      >
-        {currentUser.id === reservation.gastId ? (
+      {currentUser.id === reservation.gastId ? (
+        <EntrySpan
+          className={`${reservation.time}`}
+          onClick={() => currentUser.id === reservation.gastId && setOpen(true)}
+        >
           <TextSpecial use="caption">
             Your booking!
             <IconConfirmed confirmed={reservation.confirmed} size="xsmall" />
           </TextSpecial>
-        ) : (
+        </EntrySpan>
+      ) : (
+        <EntrySpanNoClick
+          className={reservation.time}
+          onClick={() => currentUser.id === reservation.gastId && setOpen(true)}
+        >
           <Typography use="caption">Booked!</Typography>
-        )}
-      </EntrySpan>
+        </EntrySpanNoClick>
+      )}
 
       <Dialog
         open={open}

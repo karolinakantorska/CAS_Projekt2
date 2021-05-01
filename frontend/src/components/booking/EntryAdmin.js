@@ -6,16 +6,11 @@ import LoadingBar from '../reusable/LoadingBar';
 import { ButtonLink, StyledTextMain } from '../reusable/Buttons';
 import IconConfirmed from '../reusable/IconConfirmed';
 //Utils
+import { routeToTripDetails } from '../../lib/utilsRouts';
 import { useDeleteReservation } from '../../apollo/mutations/useDeleteReservation';
 // Components for Styling
-import { H6 } from '../styles/Text';
-import {
-  EntrySpan,
-  StyledSpan,
-  StyledTypographyRed,
-  StyledTypographyGreen,
-  StyledButton,
-} from '../styles/StyledEntry';
+import { H6, StyledTypographyRed, StyledTypographyGreen } from '../styles/Text';
+import { EntrySpan, StyledSpan, StyledButton } from '../styles/StyledEntry';
 // RMWC
 import { Typography } from '@rmwc/typography';
 import { Dialog } from '@rmwc/dialog';
@@ -73,10 +68,15 @@ const EntryAdmin = ({ reservation }) => {
             Guide email: <strong>{reservation.guide.email}</strong>.
           </Typography>
           {reservation.trip && (
-            <Typography use="body2">
-              Trip:
-              <strong>{` ${reservation.trip.title} trip.`}</strong>
-            </Typography>
+            <>
+              <Typography use="body2">
+                Trip:
+                <strong>{` ${reservation.trip.title} trip.`}</strong>
+              </Typography>
+              <Typography use="body2">
+                <strong>{` ${reservation.trip.id}`}</strong>
+              </Typography>
+            </>
           )}
           <Typography use="body2">
             Number of guests:

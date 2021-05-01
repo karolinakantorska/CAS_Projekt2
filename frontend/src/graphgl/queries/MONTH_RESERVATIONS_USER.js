@@ -23,6 +23,7 @@ const MONTH_RESERVATIONS_USER = gql`
           day
         }
         trip {
+          id
           title
           special
           description

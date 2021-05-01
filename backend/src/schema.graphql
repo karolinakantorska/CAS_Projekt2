@@ -1,5 +1,4 @@
 #import * from './generated/prisma.graphql'
-
 type Query {
   users(where: UserWhereInput): [User!]!
   user(where: UserWhereUniqueInput!): User
@@ -51,7 +50,6 @@ type Mutation {
   updateTrip(data: TripUpdateInput!, where: TripWhereUniqueInput!): Trip
   deleteTrip(where: TripWhereUniqueInput!): Trip
 }
-
 type SuccessMesage {
   message: String
 }

@@ -128,17 +128,22 @@ const BookingConfirmation = ({ props }) => {
     const trip = dataTrip.trips[0];
     return (
       <>
-        <Nav />
         <StyledCard>
           <form onSubmit={handleSubmit} method="post">
             <StyledFieldset disabled={loading} aria-busy={loading}>
-              <H6 use="headline6">
-                {`Hallo ${dataCurrentUser.currentUser.name}, confirm your booking details!`}
-              </H6>
+              {dataCurrentUser.currentUser.id === guideId && (
+                <H6 use="headline6">{`Reserve yourself a day off !`}</H6>
+              )}
+              {dataCurrentUser.currentUser.id !== guideId && (
+                <H6 use="headline6">
+                  {`Hallo ${dataCurrentUser.currentUser.name}, confirm your booking details!`}
+                </H6>
+              )}
+
               <ErrorMessage />
               {errorCreateDay && <ErrorGraphql error={errorCreateDay} />}
               {errorUpdateDay && <ErrorGraphql error={errorUpdateDay} />}
-              {trip.title && (
+              {dataCurrentUser.currentUser.id !== guideId && trip.title && (
                 <Typography use="body1">
                   Trip:
                   <strong>{` ${trip.title}`}</strong>
@@ -160,13 +165,17 @@ const BookingConfirmation = ({ props }) => {
               )}
               {bookedTime === '' && trip.wholeDay && (
                 <Typography use="body1" onLoad={handleTimeChange}>
-                  {chooseWholeDay}
+                  <strong>{chooseWholeDay}</strong>
                 </Typography>
               )}
               {bookedTime === '' && !trip.wholeDay && (
                 <>
                   <Typography use="body1">
-                    Do you preffer Morning or Aftenoon Trip?
+                    {`${
+                      dataCurrentUser.currentUser.id !== guideId
+                        ? 'Do you preffer Morning or Aftenoon Trip?'
+                        : 'Chose a time of the day'
+                    }`}
                   </Typography>
                   <StyledSelect
                     required={true}
@@ -179,33 +188,40 @@ const BookingConfirmation = ({ props }) => {
                   </StyledSelect>
                 </>
               )}
-              <Typography use="body1">How big is the group?</Typography>
-              <StyledSelect
-                disabled={loadingUpdateDay || loadingCreateDay}
-                icon="directions_bike"
-                defaultValue="1"
-                onChange={handleChangeNrOfPeople}
-                value={nrOfPeople}
-                options={['1', '2', '3', '4', '5']}
-              />
-              <Typography use="body1">
-                Do you want to arrive latter, stay with us until a late evening? Have some
-                Ideas where would you like to go?
-              </Typography>
-              <Ripple>
-                <TextField
-                  fullwidth
-                  onChange={handleChange}
-                  name="description"
-                  placeholder={inputs.description.textValue || ''}
-                  value={inputs.description.textValue || ''}
-                  required={false}
-                  textarea={true}
-                  rows={4}
-                  maxLength={300}
-                />
-              </Ripple>
-              <ButtonMain text="Confirm and Go!" />
+              {dataCurrentUser.currentUser.id !== guideId && (
+                <>
+                  <Typography use="body1">How big is the group?</Typography>
+                  <StyledSelect
+                    disabled={loadingUpdateDay || loadingCreateDay}
+                    icon="directions_bike"
+                    defaultValue="1"
+                    onChange={handleChangeNrOfPeople}
+                    value={nrOfPeople}
+                    options={['1', '2', '3', '4', '5']}
+                  />
+                  <Typography use="body1">
+                    Do you want to arrive latter, stay with us until a late evening? Have
+                    some Ideas where would you like to go?
+                  </Typography>
+                  <Ripple>
+                    <TextField
+                      fullwidth
+                      onChange={handleChange}
+                      name="description"
+                      placeholder={inputs.description.textValue || ''}
+                      value={inputs.description.textValue || ''}
+                      required={false}
+                      textarea={true}
+                      rows={4}
+                      maxLength={300}
+                    />
+                  </Ripple>
+                  <ButtonMain text="Confirm and Go!" />
+                </>
+              )}
+              {dataCurrentUser.currentUser.id === guideId && (
+                <ButtonMain text="Confirm Your Day Off !" />
+              )}
             </StyledFieldset>
           </form>
         </StyledCard>

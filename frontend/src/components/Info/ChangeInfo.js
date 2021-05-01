@@ -32,7 +32,7 @@ const ChangeInfo = () => {
   ] = useCreateInfo();
   const [
     updateInfo,
-    { loading: loadingUpdateInfo, error: errorUpdateInfo },
+    { loading: loadingUpdateInfo, error: errorUpdateInfo, data: dataCreateInfo },
   ] = useUpdateInfo();
   function handleEditInfo() {
     if (data.infoes.length === 0) {
@@ -62,7 +62,7 @@ const ChangeInfo = () => {
   if (data) {
     return (
       <>
-        <Nav />
+        {/*<Nav />*/}
         <StyledCardWithPadding>
           <form onSubmit={handleSubmit} method="post">
             <StyledFieldset
@@ -83,6 +83,7 @@ const ChangeInfo = () => {
                 rows={12}
                 maxLength={3000}
               />
+              {dataCreateInfo && <p>Text Updated!</p>}
               <ButtonMain text="Change Text" />
             </StyledFieldset>
           </form>

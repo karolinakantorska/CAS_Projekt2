@@ -6,14 +6,19 @@ import LoadingBar from '../reusable/LoadingBar';
 import { ButtonMain, ButtonLink, StyledTextMain } from '../reusable/Buttons';
 import IconConfirmed from '../reusable/IconConfirmed';
 //Utils
+import { routeToTripDetails } from '../../lib/utilsRouts';
 import { useConfirmReservation } from '../../apollo/mutations/useConfirmReservation';
 // Components for Styling
-import { H6, TextSpecial } from '../styles/Text';
 import {
-  EntrySpan,
-  StyledSpan,
+  H6,
+  TextSpecial,
   StyledTypographyRed,
   StyledTypographyGreen,
+} from '../styles/Text';
+import {
+  EntrySpan,
+  EntrySpanNoClick,
+  StyledSpan,
   StyledButton,
 } from '../styles/StyledEntry';
 // RMWC
@@ -30,19 +35,25 @@ const EntryGuide = ({ reservation, currentUser }) => {
   }
   return (
     <>
-      <EntrySpan
-        className={reservation.time}
-        onClick={() => !reservation.holiday && setOpen(true)}
-      >
-        {reservation.holiday ? (
+      {reservation.holiday ? (
+        <EntrySpanNoClick
+          className={reservation.time}
+          onClick={() => !reservation.holiday && setOpen(true)}
+        >
           <TextSpecial className="holiday">Free!</TextSpecial>
-        ) : (
+        </EntrySpanNoClick>
+      ) : (
+        <EntrySpan
+          className={reservation.time}
+          onClick={() => !reservation.holiday && setOpen(true)}
+        >
           <Typography use="caption">
             {`Gast: ${reservation.userName} `}
             <IconConfirmed confirmed={reservation.confirmed} size="xsmall" />
           </Typography>
-        )}
-      </EntrySpan>
+        </EntrySpan>
+      )}
+
       <Dialog
         open={open}
         onClose={(e) => {

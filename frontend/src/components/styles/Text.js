@@ -70,3 +70,11 @@ export const StyledButtonTextWhite = styled(Typography)`
     font-size: 0.9rem;
   }
 `;
+export const StyledTypographyRed = styled(Typography)`
+  color: var(--colorWarning);
+  text-align: center;
+`;
+export const StyledTypographyGreen = styled(Typography)`
+  color: var(--colorAccept);
+  text-align: center;
+`;

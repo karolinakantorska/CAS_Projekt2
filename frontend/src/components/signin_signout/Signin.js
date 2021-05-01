@@ -33,11 +33,12 @@ const Signin = ({ redirectInfo }) => {
   }
   return (
     <>
-      <Nav />
+      {/*<Nav />*/}
       <StyledCard>
         <form onSubmit={handleSubmit} method="post">
           {loading && <LoadingBar />}
-          <StyledFieldset disabled={loading} aria-busy={loading}>
+          <StyledFieldset disabled={loading}>
+            {/*<StyledFieldset disabled={loading} aria-busy={loading}>*/}
             {redirectInfo && (
               <ErrorMessage error={redirectInfo}>{redirectInfo}</ErrorMessage>
             )}
@@ -49,6 +50,7 @@ const Signin = ({ redirectInfo }) => {
               value={inputs.email.textValue || ''}
               required={true}
               error={errorInput.email}
+              autoComplete="username"
             />
             <InputPassword
               value={inputs.password.textValue || ''}

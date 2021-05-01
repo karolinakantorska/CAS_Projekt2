@@ -63,8 +63,6 @@ const GlobalStyle = createGlobalStyle`
     background-image: url('https://res.cloudinary.com/karolinauploads/image/upload/v1608111608/backgroundBikerBW1600x900.png');
   }
   }
-
-  
   a {
     text-decoration: none;
   }

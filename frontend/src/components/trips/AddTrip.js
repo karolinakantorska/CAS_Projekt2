@@ -75,7 +75,7 @@ const AddTrip = ({ guideId }) => {
   const difficultiesArray = arrayFromObject(difficulties);
   return (
     <>
-      <Nav />
+      {/*<Nav />*/}
       <StyledContainer>
         <StyledCard>
           <form onSubmit={handleSubmit} method="post">

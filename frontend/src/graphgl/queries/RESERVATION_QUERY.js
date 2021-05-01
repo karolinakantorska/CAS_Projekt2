@@ -26,6 +26,7 @@ const RESERVATION_QUERY = gql`
         email
       }
       trip {
+        id
         title
         special
         description

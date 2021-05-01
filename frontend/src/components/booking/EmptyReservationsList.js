@@ -27,7 +27,6 @@ const EmptyReservationsList = () => {
   if (data) {
     return (
       <>
-        <Nav />
         <StyledContainer>
           <StyledSpan>
             <H6 use="headline6">Reserwations without guide</H6>

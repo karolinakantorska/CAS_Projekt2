@@ -51,7 +51,6 @@ const CalendarResQueryUser = ({ guideId, tripId }) => {
     const trip = dataTrip.trips[0];
     return (
       <>
-        <Nav />
         <Calendar
           handleMonthChange={handleMonthChange}
           selectedYear={selectedYear}

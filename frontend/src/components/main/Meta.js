@@ -1,5 +1,5 @@
 import Head from 'next/head';
-
+/*
 const Meta = () => (
   <Head>
     <title>MTB Engardin</title>
@@ -17,3 +17,4 @@ const Meta = () => (
   </Head>
 );
 export default Meta;
+*/

@@ -3,6 +3,8 @@ import Page from '../components/main/Page';
 import withApollo from '../lib/withApollo';
 import { UserStateProvider } from '../lib/userState';
 
+import GlobalStyle from '../components/styles/globalStyles';
+
 import 'fontsource-hind';
 import 'fontsource-yanone-kaffeesatz';
 
@@ -41,6 +43,7 @@ function MyApp({ Component, pageProps, apollo }) {
           body2: 'p',
         }}
       >
+        <GlobalStyle />
         {/*<UserStateProvider>*/}
         <Page>
           <Component {...pageProps} />
@@ -61,3 +64,15 @@ MyApp.getInitialProps = async function ({ Component, ctx }) {
 };
 
 export default withApollo(MyApp);
+/*
+MyApp.getInitialProps = async function ({ Component, ctx }) {
+  let pageProps = {};
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
+  pageProps.query = ctx.query;
+  return { pageProps };
+};
+
+export default withApollo(MyApp);
+*/

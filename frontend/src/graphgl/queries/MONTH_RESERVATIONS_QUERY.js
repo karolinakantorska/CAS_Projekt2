@@ -25,6 +25,7 @@ const MONTH_RESERVATIONS_QUERY = gql`
           day
         }
         trip {
+          id
           title
           special
           description

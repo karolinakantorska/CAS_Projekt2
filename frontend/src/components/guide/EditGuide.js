@@ -96,7 +96,7 @@ const EditGuide = ({ guideId }) => {
   if (data) {
     return (
       <>
-        <Nav />
+        {/*<Nav />*/}
         <StyledCard>
           <form onSubmit={handleSubmit} method="post">
             <StyledFieldset disabled={loadingMutation} aria-busy={loadingMutation}>

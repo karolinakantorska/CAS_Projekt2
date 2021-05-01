@@ -25,7 +25,7 @@ const InfoText = () => {
   if (data) {
     return (
       <>
-        <Nav />
+        {/*<Nav />*/}
         <StyledCardWithPadding>
           <H6 use="headline6">Oberengardin MTB Guides reservation</H6>
           <Typography use="body">Terms and Conditions</Typography>

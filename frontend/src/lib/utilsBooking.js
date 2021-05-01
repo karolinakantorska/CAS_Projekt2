@@ -53,7 +53,7 @@ export function useHandleTimeChange(bookedTime) {
       return 'AM';
     }
     if (bookedTime === '') {
-      return '';
+      return 'DAY';
     }
   }
   function handleTimeChange(e) {

@@ -11,17 +11,19 @@ export function useCreateTrip(guideId) {
         variables: { id: guideId },
       },
     ],
-    /*
+
     onCompleted: () => {
       routeToTripList(guideId);
     },
-    */
+
     onError: (error) => {
       error;
     },
+    /*
     update(cache, data) {
       cacheTrips(cache, data);
     },
+    */
   });
   return [createTrip, { loading, error, data }];
 }

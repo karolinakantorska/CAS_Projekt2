@@ -44,7 +44,14 @@ export function routeToCalendar(guideId, tripId = '0') {
     },
   });
 }
-
+export function routeToMyCalendar(guideId) {
+  Router.push({
+    pathname: '/my_calendar',
+    query: {
+      guideId,
+    },
+  });
+}
 export function routeToGuideDetailsIfSignedIn(currentUserPermission, id) {
   if (currentUserPermission !== '') {
     routeToGuideDetails(id);

@@ -11,6 +11,7 @@ import NavGuide from '../main/NavGuide';
 import { permission } from '../../lib/utils';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { useSignout } from '../../apollo/mutations/useSignout';
+import { useInfoes } from '../../apollo/querries/useInfoes';
 // Styling
 import { StyledNav2User } from '../styles/StyledNav2';
 import { StyledMenuMain, StyledTopMenu } from '../styles/Text';
@@ -21,11 +22,10 @@ const Nav = () => {
   const { loading, error, data } = useCurrentUser();
   const [signout] = useSignout();
   if (loading) {
-    //return <Loading />;
-    return <Loading />;
+    return <p>Loading</p>;
   }
   if (error) {
-    return <ErrorGraphql error={error} />;
+    return <p>error</p>;
   }
   if (data) {
     return (
@@ -47,7 +47,6 @@ const Nav = () => {
               <Icon icon="home" aria-label="homepage" />
             </StyledMenuMain>
           </Link>
-
           <Link href="/info">
             <StyledMenuMain use="body" className="info">
               Info
@@ -79,7 +78,7 @@ const Nav = () => {
           ) : (
             <Link href="/signin_page">
               <StyledMenuMain use="body" className="signin">
-                <Icon icon="login" aria-label="Login" />
+                {<Icon icon="login" aria-label="Login" />}
               </StyledMenuMain>
             </Link>
           )}
@@ -167,3 +166,6 @@ const StyledSpan = styled.span`
   grid-template-rows: 30px;
 `;
 export default Nav;
+/*
+
+      */

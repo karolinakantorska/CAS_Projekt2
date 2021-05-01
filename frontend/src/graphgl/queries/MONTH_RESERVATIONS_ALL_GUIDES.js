@@ -23,6 +23,7 @@ const MONTH_RESERVATIONS_ALL_GUIDES = gql`
           day
         }
         trip {
+          id
           title
           special
           description

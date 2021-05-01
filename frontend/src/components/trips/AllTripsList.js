@@ -33,7 +33,7 @@ const AllTripsList = () => {
   if (dataCurrentUser && data) {
     return (
       <>
-        <Nav />
+        {/*<Nav />*/}
         <StyledContainer>
           <StyledSpan>
             <H6 use="headline6">Trips offered by our MTB Guides:</H6>

@@ -23,6 +23,7 @@ const InputPassword = ({ handleChange, value, error }) => {
           onClick: () => setShowPass('text'),
           onMouseLeave: () => setShowPass('password'),
         }}
+        autoComplete="current-password"
       />
       {error && <ErrorMessage error={error} />}
     </>

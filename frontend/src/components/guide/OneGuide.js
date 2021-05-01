@@ -35,7 +35,7 @@ const OneGuide = ({ guideId }) => {
     );
     return (
       <>
-        <Nav />
+        {/*<Nav />*/}
         <StyledCardWithPadding>
           <StyledOneGuideGrid>
             <H6 use="headline6" className="title">

@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 // Components
-import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
 import LoadingBar from '../reusable/LoadingBar';
@@ -70,7 +69,6 @@ const AddGuide = () => {
   }
   return (
     <>
-      <Nav />
       <StyledCard>
         <form onSubmit={handleSubmit} method="post">
           <StyledFieldset disabled={loading} aria-busy={loading}>
@@ -91,12 +89,14 @@ const AddGuide = () => {
               value={inputs.name.textValue || ''}
               required={true}
               error={errorInput.name}
+              autoComplete="username"
             />
             <Input
               handleChange={handleChange}
               name="surname"
               required={false}
               value={inputs.surname.textValue || ''}
+              autoComplete="family-name"
             />
             <Input
               handleChange={handleChange}
@@ -105,6 +105,7 @@ const AddGuide = () => {
               value={inputs.email.textValue || ''}
               required={true}
               error={errorInput.email}
+              autoComplete="email"
             />
             <InputPassword
               handleChange={handleChange}
@@ -146,6 +147,7 @@ const AddGuide = () => {
               value={inputs.phone.textValue || ''}
               required={true}
               error={errorInput.phone}
+              autoComplete="tel"
             ></Input>
             <StyledButtonSpan>
               <MySwitch

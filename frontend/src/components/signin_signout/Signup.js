@@ -34,7 +34,7 @@ const Signup = () => {
   }
   return (
     <>
-      <Nav />
+      {/*<Nav />*/}
       <StyledCard>
         <form onSubmit={handleSubmit} method="post">
           {loading && <LoadingBar />}
@@ -47,6 +47,7 @@ const Signup = () => {
               value={inputs.name.textValue || ''}
               required={true}
               error={errorInput.name}
+              autoComplete="username"
             />
             <Input
               handleChange={handleChange}
@@ -54,6 +55,7 @@ const Signup = () => {
               value={inputs.email.textValue || ''}
               required={true}
               error={errorInput.email}
+              autoComplete="email"
             />
             <InputPassword
               value={inputs.password.textValue || ''}
