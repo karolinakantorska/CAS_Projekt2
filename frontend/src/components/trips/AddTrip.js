@@ -11,7 +11,6 @@ import { ButtonMain, ButtonLink } from '../reusable/Buttons';
 import Input from '../reusable/Input';
 import MySwitch from '../reusable/MySwitch';
 // Utils
-import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import {
   useForm,
   usePhotoUpload,
@@ -19,7 +18,6 @@ import {
   useSwich,
   arrayFromObject,
 } from '../../lib/utilsForm';
-import { routeToTripList } from '../../lib/utilsRouts';
 import { useCreateTrip } from '../../apollo/mutations/useCreateTrip';
 import { permission, difficulties } from '../../lib/utils';
 //import { handleAddGuide } from '../../lib/utilsAdmin';

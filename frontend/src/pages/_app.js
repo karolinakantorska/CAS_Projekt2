@@ -46,7 +46,7 @@ function MyApp({ Component, pageProps, apollo }) {
         <GlobalStyle />
         {/*<UserStateProvider>*/}
         <Page>
-          <Component {...pageProps} />
+          <Component {...pageProps} {...apollo} />
         </Page>
         {/*</UserStateProvider>*/}
       </RMWCProvider>
@@ -64,15 +64,3 @@ MyApp.getInitialProps = async function ({ Component, ctx }) {
 };
 
 export default withApollo(MyApp);
-/*
-MyApp.getInitialProps = async function ({ Component, ctx }) {
-  let pageProps = {};
-  if (Component.getInitialProps) {
-    pageProps = await Component.getInitialProps(ctx);
-  }
-  pageProps.query = ctx.query;
-  return { pageProps };
-};
-
-export default withApollo(MyApp);
-*/

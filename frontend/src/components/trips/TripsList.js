@@ -29,7 +29,6 @@ const TripList = ({ guideId }) => {
   if (dataCurrentUser && data) {
     return (
       <>
-        {/*<Nav />*/}
         <StyledContainer>
           <StyledCardsContainer>
             {data.trips.map((trip) => (

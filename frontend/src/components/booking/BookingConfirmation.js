@@ -25,7 +25,6 @@ import { StyledFieldset, StyledSelect } from '../styles/StyledForm';
 import { H6 } from '../styles/Text';
 import { Typography } from '@rmwc/typography';
 import { TextField } from '@rmwc/textfield';
-//import { Select } from '@rmwc/select';
 import { Ripple } from '@rmwc/ripple';
 
 const BookingConfirmation = ({ props }) => {
@@ -38,6 +37,11 @@ const BookingConfirmation = ({ props }) => {
     tripId,
     bookedTime,
   } = props;
+    const {
+    loading: loadingCurrentUser,
+    error: errorCurrentUser,
+    data: dataCurrentUser,
+  } = useCurrentUser();
   const {
     loading: loadingTrip,
     error: errorTrip,
@@ -45,11 +49,6 @@ const BookingConfirmation = ({ props }) => {
   } = useTripsToFindOneTrip(tripId);
   const { time, handleTimeChange } = useHandleTimeChange(bookedTime);
   const timeStamp = year + nrOfMonth + day;
-  const {
-    loading: loadingCurrentUser,
-    error: errorCurrentUser,
-    data: dataCurrentUser,
-  } = useCurrentUser();
   // forms
   const { value: nrOfPeople, handleChange: handleChangeNrOfPeople } = useFormInput('1');
   const { inputs, handleChange, handleSubmit, errorInput } = useForm(

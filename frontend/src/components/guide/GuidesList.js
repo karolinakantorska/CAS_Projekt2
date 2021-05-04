@@ -38,7 +38,6 @@ const GuidesList = () => {
   if (data && dataCurrentUser) {
     return (
       <>
-        {/*<Nav />*/}
         <StyledContainer>
           <StyledSpan>
             <H6 use="headline6">Oberengardin MTB Guides</H6>
