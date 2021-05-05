@@ -43,6 +43,7 @@ const Calendar = ({
     );
   }
   if (dataCurrentUser) {
+    console.log('guideId', guideId);
     return (
       <StyledCalendarContainer>
         <Year selectedYear={selectedYear} className="year_component" />

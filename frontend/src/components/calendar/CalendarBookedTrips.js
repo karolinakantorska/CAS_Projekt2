@@ -13,6 +13,7 @@ import { noTripChoosen } from '../../apollo/querries/useTripsToFindOneTrip';
 import { StyledContainer } from '../styles/StyledContainer';
 
 const CalendarBookedTrips = ({ gastId }) => {
+  console.log('gastId', gastId);
   const {
     handleMonthChange,
     selectedYear,

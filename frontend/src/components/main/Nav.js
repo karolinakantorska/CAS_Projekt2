@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styled from 'styled-components';
 //Components
-import Loading from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
-import Signout from '../signin_signout/Signout';
+import NavNoUser from '../main/NavNoUser';
 import NavAdmin from '../main/NavAdmin';
 import NavGuide from '../main/NavGuide';
+import LoadingBar from '../reusable/LoadingBar';
 //Utils
 import { permission } from '../../lib/utils';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { useSignout } from '../../apollo/mutations/useSignout';
-import { useInfoes } from '../../apollo/querries/useInfoes';
 // Styling
 import { StyledNav2User } from '../styles/StyledNav2';
 import { StyledMenuMain, StyledTopMenu } from '../styles/Text';
@@ -21,90 +20,70 @@ import { Icon } from '@rmwc/icon';
 const Nav = () => {
   const { loading, error, data } = useCurrentUser();
   const [signout] = useSignout();
-  if (loading) {
-    return <p>Loading</p>;
-  }
-  if (error) {
-    return <p>error</p>;
-  }
-  if (data) {
-    return (
-      <>
-        <StyledNav>
-          {data.currentUser.name ? (
-            <StyledTopMenu use="caption" className="user" onClick={signout}>
-              {data.currentUser.name} / logout
+  return (
+    <>
+      <StyledNav>
+        {error && <ErrorGraphql error={error} />}
+        <NavNoUser />
+        {data && data.currentUser.name ? (
+          <StyledTopMenu use="caption" className="user" onClick={signout}>
+            {data.currentUser.name} / logout
+          </StyledTopMenu>
+        ) : (
+          <Link href="/signin_page">
+            <StyledTopMenu use="caption" className="user">
+              log in / register
             </StyledTopMenu>
-          ) : (
-            <Link href="/signin_page">
-              <StyledTopMenu use="caption" className="user">
-                log in / register
-              </StyledTopMenu>
-            </Link>
-          )}
-          <Link href="/">
-            <StyledMenuMain use="body" className="home">
-              <Icon icon="home" aria-label="homepage" />
-            </StyledMenuMain>
           </Link>
-          <Link href="/info">
-            <StyledMenuMain use="body" className="info">
-              Info
-            </StyledMenuMain>
-          </Link>
-          {data.currentUser.permissions !== '' && (
-            <>
-              <Link href={`/allTrips`}>
-                <StyledMenuMain use="body" className="trips">
-                  Trips
-                </StyledMenuMain>
-              </Link>
-              <Link href={`/my_trips?gastId=${data.currentUser.id}`}>
-                <StyledMenuMain use="body" className="myBookings">
-                  My Bookings
-                </StyledMenuMain>
-              </Link>
-            </>
-          )}
-          <Link href="/guides">
-            <StyledMenuMain use="body" className="guides">
-              Guides
-            </StyledMenuMain>
-          </Link>
-          {data.currentUser.permissions ? (
-            <StyledMenuMain use="body" onClick={signout} className="signin">
-              <Icon icon="logout" aria-label="Logout" />
-            </StyledMenuMain>
-          ) : (
-            <Link href="/signin_page">
-              <StyledMenuMain use="body" className="signin">
-                {<Icon icon="login" aria-label="Login" />}
+        )}
+        {data && data.currentUser.permissions !== '' && (
+          <>
+            <Link href={`/allTrips`}>
+              <StyledMenuMain use="body" className="trips">
+                Trips
               </StyledMenuMain>
             </Link>
-          )}
-        </StyledNav>
-        {data.currentUser.permissions === permission.user && (
-          <StyledNav2User className="nav_bottom_user">
             <Link href={`/my_trips?gastId=${data.currentUser.id}`}>
-              <StyledMenu2 use="body" className="nav_bottom_user">
+              <StyledMenuMain use="body" className="myBookings">
                 My Bookings
-              </StyledMenu2>
+              </StyledMenuMain>
             </Link>
-          </StyledNav2User>
+          </>
         )}
-        {data.currentUser.permissions === permission.admin && (
-          <StyledSpan>
-            <NavAdmin />
-          </StyledSpan>
+        {data && data.currentUser.permissions ? (
+          <StyledMenuMain use="body" onClick={signout} className="signin">
+            <Icon icon="logout" aria-label="Logout" />
+          </StyledMenuMain>
+        ) : (
+          <Link href="/signin_page">
+            <StyledMenuMain use="body" className="signin">
+              {<Icon icon="login" aria-label="Login" />}
+            </StyledMenuMain>
+          </Link>
         )}
-        {data.currentUser.permissions === permission.guide && (
-          <StyledSpan>
-            <NavGuide guideId={data.currentUser.id} />
-          </StyledSpan>
-        )}
-      </>
-    );
-  }
+      </StyledNav>
+      {/*loading && <LoadingBar />*/}
+      {data && data.currentUser.permissions === permission.user && (
+        <StyledNav2User className="nav_bottom_user">
+          <Link href={`/my_trips?gastId=${data.currentUser.id}`}>
+            <StyledMenu2 use="body" className="nav_bottom_user">
+              My Bookings
+            </StyledMenu2>
+          </Link>
+        </StyledNav2User>
+      )}
+      {data && data.currentUser.permissions === permission.admin && (
+        <StyledSpan>
+          <NavAdmin />
+        </StyledSpan>
+      )}
+      {data && data.currentUser.permissions === permission.guide && (
+        <StyledSpan>
+          <NavGuide guideId={data.currentUser.id} />
+        </StyledSpan>
+      )}
+    </>
+  );
 };
 
 const StyledNav = styled.nav`

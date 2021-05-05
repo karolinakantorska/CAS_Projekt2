@@ -4,6 +4,7 @@ import RedirectWrongPermission from '../components/main/RedirectWrongPermission'
 import { permission } from '../lib/utils';
 
 const booking_admin = ({ query }) => {
+  console.log('query', query);
   return (
     <RedirectWrongPermission requiredRole={permission.admin}>
       <CalendarResQueryAdmin guideId={query.guideId} tripId={query.tripId} />

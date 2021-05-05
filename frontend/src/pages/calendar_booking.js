@@ -2,6 +2,7 @@ import CalendarResQueryUser from '../components/calendar/CalendarResQueryUser';
 import RedirectNotLoggedin from '../components/main/RedirectNotLoggedin';
 
 const calendar_booking = ({ query }) => {
+  console.log('query', query);
   return (
     <RedirectNotLoggedin>
       <CalendarResQueryUser guideId={query.guideId} tripId={query.tripId} />

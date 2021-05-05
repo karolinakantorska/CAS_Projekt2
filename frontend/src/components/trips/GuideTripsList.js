@@ -1,18 +1,23 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 // Components
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import LoadingBar from '../reusable/LoadingBar';
 import TripList from './TripList';
-import { useHydratationFix } from '../../lib/utils';
 // Utils
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
-import { useTrips } from '../../apollo/querries/useTrips';
+import { useTripsFromGuide } from '../../apollo/querries/useTripsFromGuide';
+import { useHydratationFix } from '../../lib/utils';
 // Components for Styling
-import { StyledContainer, StyledSpan } from '../styles/StyledContainer';
+import {
+  StyledContainer,
+  StyledSpan,
+  StyledCardsContainer,
+} from '../styles/StyledContainer';
 import { H6 } from '../styles/Text';
 
-const AllTripsList = () => {
-  const { loading, error, data } = useTrips();
+const GuideTripsList = ({ guideId }) => {
+  const { loading, error, data } = useTripsFromGuide(guideId);
   const {
     loading: loadingCurrentUser,
     error: errorCurrentUser,
@@ -25,7 +30,7 @@ const AllTripsList = () => {
   return (
     <StyledContainer>
       <StyledSpan>
-        <H6 use="headline6">Trips offered by our MTB Guides:</H6>
+        <H6 use="headline6">Trips from: {guideId}</H6>
       </StyledSpan>
       {loading && <LoadingBar />}
       {error && <ErrorGraphql error={error} />}
@@ -37,4 +42,7 @@ const AllTripsList = () => {
   );
 };
 
-export default AllTripsList;
+GuideTripsList.propTypes = {
+  guideId: PropTypes.string.isRequired,
+};
+export default GuideTripsList;

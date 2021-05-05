@@ -11,6 +11,7 @@ import Input from '../reusable/Input';
 import { useForm } from '../../lib/utilsForm';
 import { routeToSignup } from '../../lib/utilsRouts';
 import { useSignin } from '../../apollo/mutations/useSignin';
+import { useHydratationFix } from '../../lib/utils';
 // Styling
 import { StyledCard } from '../styles/StyledCards';
 import { StyledFieldset } from '../styles/StyledForm';
@@ -31,40 +32,40 @@ const Signin = ({ redirectInfo }) => {
       },
     });
   }
+  const hasMounted = useHydratationFix();
+  if (!hasMounted) {
+    return null;
+  }
   return (
-    <>
-      {/*<Nav />*/}
-      <StyledCard>
-        <form onSubmit={handleSubmit} method="post">
-          {loading && <LoadingBar />}
-          <StyledFieldset disabled={loading}>
-            {/*<StyledFieldset disabled={loading} aria-busy={loading}>*/}
-            {redirectInfo && (
-              <ErrorMessage error={redirectInfo}>{redirectInfo}</ErrorMessage>
-            )}
-            <H6 use="headline6">Signin into account:</H6>
-            {error && <ErrorGraphql error={error} />}
-            <Input
-              handleChange={handleChange}
-              name="email"
-              value={inputs.email.textValue || ''}
-              required={true}
-              error={errorInput.email}
-              autoComplete="username"
-            />
-            <InputPassword
-              value={inputs.password.textValue || ''}
-              handleChange={handleChange}
-              required={true}
-            />
-            <StyledButtonSpan>
-              <ButtonMain text="Signin!" />
-              <ButtonLink text="Create new Account" onClick={routeToSignup} />
-            </StyledButtonSpan>
-          </StyledFieldset>
-        </form>
-      </StyledCard>
-    </>
+    <StyledCard>
+      <form onSubmit={handleSubmit} method="post">
+        {loading && <LoadingBar />}
+        <StyledFieldset disabled={loading} aria-busy={loading}>
+          {redirectInfo && (
+            <ErrorMessage error={redirectInfo}>{redirectInfo}</ErrorMessage>
+          )}
+          <H6 use="headline6">Signin into account:</H6>
+          {error && <ErrorGraphql error={error} />}
+          <Input
+            handleChange={handleChange}
+            name="email"
+            value={inputs.email.textValue || ''}
+            required={true}
+            error={errorInput.email}
+            autoComplete="username"
+          />
+          <InputPassword
+            value={inputs.password.textValue || ''}
+            handleChange={handleChange}
+            required={true}
+          />
+          <StyledButtonSpan>
+            <ButtonMain text="Signin!" />
+            <ButtonLink text="Create new Account" onClick={routeToSignup} />
+          </StyledButtonSpan>
+        </StyledFieldset>
+      </form>
+    </StyledCard>
   );
 };
 export default Signin;

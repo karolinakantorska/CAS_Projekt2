@@ -20,7 +20,7 @@ import {
 import { useCreateGuide } from '../../apollo/mutations/useCreateGuide';
 import { permission, specialsations } from '../../lib/utils';
 import { urlGuidePhoto, uploadPresetGuide } from '../../lib/utilsPhotoUpload';
-import { routeToGuidesList } from '../../lib/utilsRouts';
+//import { useHydratationFix } from '../../lib/utils';
 // Components for Styling
 import { StyledCard } from '../styles/StyledCards';
 import { StyledFieldset, StyledSpanErrors } from '../styles/StyledForm';
@@ -67,118 +67,122 @@ const AddGuide = () => {
       },
     });
   }
+  /*
+  const hasMounted = useHydratationFix();
+  if (!hasMounted) {
+    return null;
+  }
+  */
   return (
-    <>
-      <StyledCard>
-        <form onSubmit={handleSubmit} method="post">
-          <StyledFieldset disabled={loading} aria-busy={loading}>
-            <H6 use="headline6">Add new MTB Guide</H6>
-            <StyledSpanErrors>
-              {loadingPhotoUpload && <LoadingBar />}
-              {errorPhotoUpload && <ErrorMessage error={errorPhotoUpload}></ErrorMessage>}
-            </StyledSpanErrors>
-            <StyledInput type="file" id="file" onChange={uploadPhoto} />
-            <label htmlFor="file">
-              <CardPrimaryAction>
-                <StyledGuideImage src={result} alt="Upload a photo" />
-              </CardPrimaryAction>
-            </label>
-            <Input
-              handleChange={handleChange}
-              name="name"
-              value={inputs.name.textValue || ''}
-              required={true}
-              error={errorInput.name}
-              autoComplete="username"
+    <StyledCard>
+      <form onSubmit={handleSubmit} method="post">
+        <StyledFieldset disabled={loading} aria-busy={loading}>
+          <H6 use="headline6">Add new MTB Guide</H6>
+          <StyledSpanErrors>
+            {loadingPhotoUpload && <LoadingBar />}
+            {errorPhotoUpload && <ErrorMessage error={errorPhotoUpload}></ErrorMessage>}
+          </StyledSpanErrors>
+          <StyledInput type="file" id="file" onChange={uploadPhoto} />
+          <label htmlFor="file">
+            <CardPrimaryAction>
+              <StyledGuideImage src={result} alt="Upload a photo" />
+            </CardPrimaryAction>
+          </label>
+          <Input
+            handleChange={handleChange}
+            name="name"
+            value={inputs.name.textValue || ''}
+            required={true}
+            error={errorInput.name}
+            autoComplete="username"
+          />
+          <Input
+            handleChange={handleChange}
+            name="surname"
+            required={false}
+            value={inputs.surname.textValue || ''}
+            autoComplete="family-name"
+          />
+          <Input
+            handleChange={handleChange}
+            name="email"
+            type="email"
+            value={inputs.email.textValue || ''}
+            required={true}
+            error={errorInput.email}
+            autoComplete="email"
+          />
+          <InputPassword
+            handleChange={handleChange}
+            value={inputs.password.textValue || ''}
+            required={true}
+            error={errorInput.password}
+          ></InputPassword>
+          <TextGrayDense use="body1">Short encouraging text:</TextGrayDense>
+          <Input
+            handleChange={handleChange}
+            name="title"
+            value={inputs.title.textValue || ''}
+            required={false}
+          ></Input>
+          <TextGrayDense use="body1">
+            Prefered starting point, when no Trip is choosen:
+          </TextGrayDense>
+          <Input
+            handleChange={handleChange}
+            name="location"
+            type="location"
+            value={inputs.location.textValue || ''}
+          />
+          <TextGrayDense use="body1">Description:</TextGrayDense>
+          <TextField
+            fullwidth
+            onChange={handleChange}
+            name="description"
+            placeholder={inputs.description.textValue || ''}
+            value={inputs.description.textValue || ''}
+            required={false}
+            textarea={true}
+            rows={5}
+            maxLength={700}
+          />
+          <Input
+            handleChange={handleChange}
+            name="phone"
+            value={inputs.phone.textValue || ''}
+            required={true}
+            error={errorInput.phone}
+            autoComplete="tel"
+          ></Input>
+          <StyledButtonSpan>
+            <MySwitch
+              name="ebike"
+              text="E-bike"
+              handleSwitch={handleSwitch}
+              checked={switchValues.ebike}
             />
-            <Input
-              handleChange={handleChange}
-              name="surname"
-              required={false}
-              value={inputs.surname.textValue || ''}
-              autoComplete="family-name"
+            <MySwitch
+              name="mtb"
+              text="MTB"
+              handleSwitch={handleSwitch}
+              checked={switchValues.mtb}
             />
-            <Input
-              handleChange={handleChange}
-              name="email"
-              type="email"
-              value={inputs.email.textValue || ''}
-              required={true}
-              error={errorInput.email}
-              autoComplete="email"
-            />
-            <InputPassword
-              handleChange={handleChange}
-              value={inputs.password.textValue || ''}
-              required={true}
-              error={errorInput.password}
-            ></InputPassword>
-            <TextGrayDense use="body1">Short encouraging text:</TextGrayDense>
-            <Input
-              handleChange={handleChange}
-              name="title"
-              value={inputs.title.textValue || ''}
-              required={false}
-            ></Input>
-            <TextGrayDense use="body1">
-              Prefered starting point, when no Trip is choosen:
-            </TextGrayDense>
-            <Input
-              handleChange={handleChange}
-              name="location"
-              type="location"
-              value={inputs.location.textValue || ''}
-            />
-            <TextGrayDense use="body1">Description:</TextGrayDense>
-            <TextField
-              fullwidth
-              onChange={handleChange}
-              name="description"
-              placeholder={inputs.description.textValue || ''}
-              value={inputs.description.textValue || ''}
-              required={false}
-              textarea={true}
-              rows={5}
-              maxLength={700}
-            />
-            <Input
-              handleChange={handleChange}
-              name="phone"
-              value={inputs.phone.textValue || ''}
-              required={true}
-              error={errorInput.phone}
-              autoComplete="tel"
-            ></Input>
-            <StyledButtonSpan>
-              <MySwitch
-                name="ebike"
-                text="E-bike"
-                handleSwitch={handleSwitch}
-                checked={switchValues.ebike}
+          </StyledButtonSpan>
+          <StyledSpan>
+            {specialsations.map((specialisation) => (
+              <MyCheckbox
+                key={specialisation}
+                handleChecked={handleChecked}
+                specialisation={specialisation}
+                checked={checkedOptions.includes(specialisation)}
               />
-              <MySwitch
-                name="mtb"
-                text="MTB"
-                handleSwitch={handleSwitch}
-                checked={switchValues.mtb}
-              />
-            </StyledButtonSpan>
-            <StyledSpan>
-              {specialsations.map((specialisation) => (
-                <MyCheckbox
-                  key={specialisation}
-                  handleChecked={handleChecked}
-                  specialisation={specialisation}
-                  checked={checkedOptions.includes(specialisation)}
-                />
-              ))}
-            </StyledSpan>
-            {error && <ErrorGraphql error={error} />}
-            <ButtonMain text="Save Guide" />
-          </StyledFieldset>
-        </form>
-      </StyledCard>
-    </>
+            ))}
+          </StyledSpan>
+          {error && <ErrorGraphql error={error} />}
+          <ButtonMain text="Save Guide" />
+        </StyledFieldset>
+      </form>
+    </StyledCard>
   );
 };
 const StyledInput = styled.input`

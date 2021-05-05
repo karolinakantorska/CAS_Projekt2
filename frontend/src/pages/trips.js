@@ -1,7 +1,7 @@
-import TripsList from '../components/trips/TripsList';
+import GuideTripsList from '../components/trips/GuideTripsList';
 
 const Trips = ({ query }) => {
-  return <TripsList guideId={query.guideId} />;
+  return <GuideTripsList guideId={query.guideId} />;
 };
 
 export default Trips;

@@ -14,7 +14,8 @@ import { noTripChoosen } from '../../apollo/querries/useTripsToFindOneTrip';
 import { useLazyGuideMonthReservations } from '../../apollo/querries/useLazyGuideMonthReservations';
 import { Select } from '@rmwc/select';
 
-const CalendarResQueryAdmin = ({ guideId, tripId }) => {
+const CalendarResQueryAdmin = ({ guideId }) => {
+  console.log('guideId', guideId);
   const { value, handleChange } = useFormInput({
     id: '0',
   });
