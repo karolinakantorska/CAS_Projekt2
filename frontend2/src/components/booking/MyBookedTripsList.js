@@ -27,9 +27,7 @@ const MyBookedTripsList = ({ gastId }) => {
     return null;
   }
   if (data) {
-    console.log('data',data)
     filtered = filterReservationsForUser(data.days, gastId, selectedDateTimestamp);
-    console.log('filtered', filtered);
   }
     return (
       <StyledContainer>

@@ -5,7 +5,6 @@ import { permission } from '../../lib/utils';
 import { useHydratationFix } from '../../lib/useHydratationFix';
 
 export default function edit_guide({ query }) {
-  console.log('query.id', query.id);
     const hasMounted = useHydratationFix();
     if (!hasMounted) {
       return null;
