@@ -15,7 +15,7 @@ export const StyledCardsContainer = styled.div`
 export const StyledSpan = styled.span`
 padding-top:80px;
 padding-left: 4px;
-  margin: auto;
+margin: auto;
 `;
 export const StyledSpanLong = styled.span`
   padding-top: 80px;

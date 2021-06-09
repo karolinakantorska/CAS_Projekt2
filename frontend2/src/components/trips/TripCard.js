@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import Link from 'next/link';
 //MWRC
 import { CardPrimaryAction } from '@rmwc/card';
-import { Card } from '@rmwc/card';
 // Components
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
 import ErrorGraphql from '../reusable/ErrorGraphql';
@@ -90,33 +88,33 @@ const TripCard = ({ currentUser, tripId }) => {
             </Link>
             {trip.guide && (
               <ButtonMain
-                text={
-                  currentUser.id === trip.guide.id
-                    ? 'Booking Inactive'
-                    : 'Book This Trip!'
-                }
+                text={currentUser.id === trip.guide.id ? 'Your Trip' : 'Book This Trip!'}
                 onClick={() => routeToCalendar(trip.guide.id, trip.id)}
                 disabled={currentUser.id === trip.guide.id ? true : false}
               />
             )}
           </>
         )}
-        {trip.guide && currentUser.id === trip.guide.id && (
-          <>
-            {errorMutation && <ErrorGraphql error={errorMutation} />}
-            <StyledButtonSpan>
-              <ButtonLink
-                text="Edit"
-                onClick={() => routeToEditTrip(tripId, trip.guide.id)}
-              />
-              <MyDialog
-                title="Do you want to delete this Trip?"
-                body="Are you sure?"
-                handleAction={handleDeleteTrip}
-              />
-            </StyledButtonSpan>
-          </>
-        )}
+        {trip.guide &&
+          currentUser.permissions===permission.guide && (
+            <>
+              {errorMutation && <ErrorGraphql error={errorMutation} />}
+              <StyledButtonSpan>
+                <ButtonLink
+                  text="Edit"
+                  text={currentUser.id === trip.guide.id ? '' : 'Edit'}
+                  onClick={() => routeToEditTrip(tripId, trip.guide.id)}
+                  disabled={currentUser.id === trip.guide.id ? true : false}
+                />
+                <MyDialog
+                  title="Do you want to delete this Trip?"
+                  body="Are you sure?"
+                  handleAction={handleDeleteTrip}
+                  wrightGuide={currentUser.id === trip.guide.id ? true : false}
+                />
+              </StyledButtonSpan>
+            </>
+          )}
       </StyledTripCard>
     );
   }

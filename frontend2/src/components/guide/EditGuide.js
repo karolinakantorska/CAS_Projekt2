@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // RMWC
 import { CardPrimaryAction } from '@rmwc/card';
 // Components
-import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
@@ -27,14 +26,16 @@ import { urlGuidePhoto, uploadPresetGuide } from '../../lib/utilsPhotoUpload';
 import { routeBack } from '../../lib/utilsRouts';
 
 // Components for Styling
+import { StyledContainer } from '../../styles/StyledContainer';
 import { StyledCard } from '../../styles/StyledCards';
 import { StyledFieldset, StyledSpanErrors } from '../../styles/StyledForm';
 import { TextField } from '@rmwc/textfield';
 import { StyledGuideImage } from '../../styles/StyledImage';
-import { H6, TextGrayDense } from '../../styles/Text';
+import { H6, TextGrayDense, StyledTypographyGreen } from '../../styles/Text';
 import { StyledButtonSpan } from '../../styles/StyledButtonSpan';
 
 const EditGuide = ({ guideId }) => {
+  const [succesText, setSuccesText] = useState(false);
   const { loading, error, data } = useGuide(guideId);
   const { checkedOptions, handleChecked } = useCheckBoxes(
     data ? data.user.specialisations : [],
@@ -66,7 +67,7 @@ const EditGuide = ({ guideId }) => {
     urlGuidePhoto,
     uploadPresetGuide,
   );
-  const [updateUser, { loading: loadingMutation, error: errorMutation }] = useEditGuide();
+  const [updateUser, { loading: loadingMutation, error: errorMutation, data:dataMutation }] = useEditGuide();
   function handleEditGuide() {
     updateUser({
       variables: {
@@ -86,7 +87,11 @@ const EditGuide = ({ guideId }) => {
       },
     });
   }
-
+  useEffect(() => {
+    if (dataMutation) {
+      setSuccesText(true);
+    }
+  }, [dataMutation]);
   if (loading) {
     return <LoadingBar />;
   }
@@ -95,10 +100,13 @@ const EditGuide = ({ guideId }) => {
   }
   if (data) {
     return (
-      <>
-        {/*<Nav />*/}
+      <StyledContainer>
         <StyledCard>
-          <form onSubmit={handleSubmit} method="post">
+          <form
+            onSubmit={handleSubmit}
+            method="post"
+            onClick={() => setSuccesText(false)}
+          >
             <StyledFieldset disabled={loadingMutation} aria-busy={loadingMutation}>
               <H6 use="headline6">Edit the MTB Guide</H6>
               <StyledSpanErrors>
@@ -201,13 +209,18 @@ const EditGuide = ({ guideId }) => {
                   );
                 })}
               </StyledSpan>
+              <StyledSpanErrors>
+                {succesText && (
+                  <StyledTypographyGreen>The changes has been saved!</StyledTypographyGreen>
+                )}
+              </StyledSpanErrors>
               {errorMutation && <ErrorGraphql error={errorMutation} />}
               <ButtonMain text="Save Changes" />
             </StyledFieldset>
           </form>
           <ButtonLink text="Chancel" onClick={() => routeBack()} />
         </StyledCard>
-      </>
+      </StyledContainer>
     );
   }
 };

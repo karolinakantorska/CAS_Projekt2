@@ -18,7 +18,3 @@ export const StyledSelect = styled(Select)`
     margin-left: -10px;
   }
 `;
-/*
- export const StyledTextField=styled()`
- `
- */

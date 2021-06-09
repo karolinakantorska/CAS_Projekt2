@@ -22,12 +22,12 @@ import { useTripsToFindOneTrip } from '../../apollo/querries/useTripsToFindOneTr
 import { routeBack } from '../../lib/utilsRouts';
 //Styling
 import { StyledCard, StyledCardWithPadding } from '../../styles/StyledCards';
+import {  StyledContainer} from '../../styles/StyledContainer';
 import { StyledFieldset, StyledSelect } from '../../styles/StyledForm';
 import { H6 } from '../../styles/Text';
 import { Typography } from '@rmwc/typography';
 import { TextField } from '@rmwc/textfield';
 import { Ripple } from '@rmwc/ripple';
-import { StyledButtonSpan } from '../../styles/StyledButtonSpan';
 
 const BookingConfirmation = ({ props }) => {
   const {
@@ -78,6 +78,7 @@ const BookingConfirmation = ({ props }) => {
     dataCurrentUser.currentUser.id,
   );
   function handleBookingConfirmation() {
+    
     if (data.days.length === 0) {
       createDay({
         variables: {
@@ -132,7 +133,7 @@ const BookingConfirmation = ({ props }) => {
   if (dataCurrentUser && data && dataTrip) {
     const trip = dataTrip.trips[0];
     return (
-      <>
+      <StyledContainer >
         <StyledCard>
           <form onSubmit={handleSubmit} method="post">
             <StyledFieldset
@@ -227,7 +228,7 @@ const BookingConfirmation = ({ props }) => {
           </form>
           <ButtonLink text="Chancel" onClick={() => routeBack()} />
         </StyledCard>
-      </>
+      </StyledContainer>
     );
   }
 };

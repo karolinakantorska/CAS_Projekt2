@@ -20,6 +20,7 @@ const CalendarResQueryAdmin = ({ guideId }) => {
     id: '0',
   });
   const [reservations, setReservations] = useState({});
+
   const {
     loading: loadingGuides,
     error: errorGuides,
@@ -39,6 +40,7 @@ const CalendarResQueryAdmin = ({ guideId }) => {
     monthReservationsLazyQuery,
     { loading, error, data, refetch },
   ] = useLazyGuideMonthReservations();
+
   useEffect(() => {
     monthReservationsLazyQuery({
       variables: {
@@ -48,10 +50,12 @@ const CalendarResQueryAdmin = ({ guideId }) => {
       },
     });
   }, [value, selectedMonth]);
+
   useEffect(() => {
     if (data) {
       setReservations(filterReservationsData(data.days, value));
     }
+    return ()=> setReservations({})
   }, [data]);
 
   return (

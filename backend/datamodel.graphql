@@ -42,6 +42,7 @@ type Day {
   year: String!
   month: String!
   day: String!
+  timeStamp: Int
   reservations: [Reservation] # relationship to-many
 }
 type Reservation {
@@ -57,7 +58,7 @@ type Reservation {
   holiday: Boolean
   confirmed: Boolean
   gastId: ID
-  timeStamp: String
+  timeStamp: Int
 }
 enum Time {
   AM

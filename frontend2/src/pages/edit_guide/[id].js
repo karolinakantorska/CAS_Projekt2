@@ -14,5 +14,4 @@ export default function edit_guide({ query }) {
       <EditGuide guideId={query.id} />
     </RedirectWrongPermission>
   );
- 
 }

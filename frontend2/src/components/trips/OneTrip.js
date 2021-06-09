@@ -23,7 +23,7 @@ import { H6, Subtitle } from '../../styles/Text';
 import { StyledImage } from '../../styles/StyledImage';
 // RMWC
 import { Typography } from '@rmwc/typography';
-
+import { StyledContainer } from '../../styles/StyledContainer';
 const OneTrip = ({ tripId }) => {
   const { loading, error, data } = useTrip(tripId);
   const hasMounted = useHydratationFix();
@@ -39,80 +39,82 @@ const OneTrip = ({ tripId }) => {
   if (data) {
     const { trip } = data;
     return (
-      <StyledCardWithPadding>
-        <StyledOneGuideGrid>
-          <H6 use="headline6" className="title">
-            {trip.title}
-          </H6>
-          <Subtitle use="subtitle2" className="subtitle">
-            {trip.special}
-          </Subtitle>
-          <StyledInfoGrid className="info">
-            {trip.guide && (
-              <>
-                <Typography use="body2">
-                  <strong>Trip added by:</strong>
-                </Typography>
-                <StyledDiv>
-                  <GuideAvatar guideId={trip.guide.id} />
-                </StyledDiv>
-              </>
-            )}
-            <Typography use="body2">
-              <strong>Difficoulty Level: </strong>
-              {difficulties[trip.difficulty]}
-            </Typography>
+      <StyledContainer>
+        <StyledCardWithPadding>
+          <StyledOneGuideGrid>
+            <H6 use="headline6" className="title">
+              {trip.title}
+            </H6>
+            <Subtitle use="subtitle2" className="subtitle">
+              {trip.special}
+            </Subtitle>
+            <StyledInfoGrid className="info">
+              {trip.guide && (
+                <>
+                  <Typography use="body2">
+                    <strong>Trip added by:</strong>
+                  </Typography>
+                  <StyledDiv>
+                    <GuideAvatar guideId={trip.guide.id} />
+                  </StyledDiv>
+                </>
+              )}
+              <Typography use="body2">
+                <strong>Difficoulty Level: </strong>
+                {difficulties[trip.difficulty]}
+              </Typography>
 
-            <Typography use="body2">
-              <strong>Meeting Point: </strong>
-              {trip.start}
-            </Typography>
+              <Typography use="body2">
+                <strong>Meeting Point: </strong>
+                {trip.start}
+              </Typography>
 
-            <Typography use="body2">
-              <strong>End Point: </strong>
-              {trip.end}
-            </Typography>
+              <Typography use="body2">
+                <strong>End Point: </strong>
+                {trip.end}
+              </Typography>
 
-            <Typography use="body2">
-              <strong>How long this will take?: </strong>
-              {trip.duration}
-            </Typography>
+              <Typography use="body2">
+                <strong>How long this will take?: </strong>
+                {trip.duration}
+              </Typography>
 
-            <Typography use="body2">
-              <strong>Do you need to book a whole day? </strong>
-              {` ${trip.wholeDay ? 'YES' : 'NO'}`}
-            </Typography>
+              <Typography use="body2">
+                <strong>Do you need to book a whole day? </strong>
+                {` ${trip.wholeDay ? 'YES' : 'NO'}`}
+              </Typography>
 
-            <Typography use="body2">
-              <strong>Aditional costs: </strong>
-              {trip.costs}
-            </Typography>
+              <Typography use="body2">
+                <strong>Aditional costs: </strong>
+                {trip.costs}
+              </Typography>
 
-            <Typography use="body2">
-              <strong>Are the ebikes Alowed?: </strong>
-              {trip.ebikes ? 'YES' : 'NO'}
-            </Typography>
-          </StyledInfoGrid>
-          <StyledImage
-            src={trip.photo}
-            alt={`Photo of ${trip.title}`}
-            className="photo"
-          />
-          <Typography use="body2" className="desc">
-            {trip.description}
-          </Typography>
-          <StyledButtonSpan className="button">
-            <ButtonMain
-              text="See All Trips!"
-              onClick={() => routeToTripList(trip.guide.id)}
+              <Typography use="body2">
+                <strong>Are the ebikes Alowed?: </strong>
+                {trip.ebikes ? 'YES' : 'NO'}
+              </Typography>
+            </StyledInfoGrid>
+            <StyledImage
+              src={trip.photo}
+              alt={`Photo of ${trip.title}`}
+              className="photo"
             />
-            <ButtonMain
-              text="Book This Trip!"
-              onClick={() => routeToCalendar(trip.guide.id, tripId)}
-            />
-          </StyledButtonSpan>
-        </StyledOneGuideGrid>
-      </StyledCardWithPadding>
+            <Typography use="body2" className="desc">
+              {trip.description}
+            </Typography>
+            <StyledButtonSpan className="button">
+              <ButtonMain
+                text="See All Trips!"
+                onClick={() => routeToTripList(trip.guide.id)}
+              />
+              <ButtonMain
+                text="Book This Trip!"
+                onClick={() => routeToCalendar(trip.guide.id, tripId)}
+              />
+            </StyledButtonSpan>
+          </StyledOneGuideGrid>
+        </StyledCardWithPadding>
+      </StyledContainer>
     );
   }
 };

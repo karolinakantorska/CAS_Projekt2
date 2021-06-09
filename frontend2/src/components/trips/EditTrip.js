@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 // RMWC
 import { CardPrimaryAction } from '@rmwc/card';
 // Components
-import Nav from '../main/Nav';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
@@ -12,7 +11,6 @@ import LoadingBar from '../reusable/LoadingBar';
 import Input from '../reusable/Input';
 import MySwitch from '../reusable/MySwitch';
 // Utils
-
 import {
   useForm,
   useFormInput,
@@ -32,10 +30,11 @@ import { StyledCard } from '../../styles/StyledCards';
 import { StyledFieldset, StyledSpanErrors, StyledSelect } from '../../styles/StyledForm';
 import { TextField } from '@rmwc/textfield';
 import { StyledGuideImage } from '../../styles/StyledImage';
-import { H6, TextGrayDense } from '../../styles/Text';
+import { H6, TextGrayDense, StyledTypographyGreen } from '../../styles/Text';
 // RMWC
 
 const EditTrip = ({ tripId }) => {
+  const [succesText, setSuccesText] = useState(false);
   const { loading, error, data } = useTrip(tripId);
   const {
     loading: loadingCurrentUser,
@@ -71,7 +70,7 @@ const EditTrip = ({ tripId }) => {
     urlGuidePhoto,
     uploadPresetTripSquere,
   );
-  const [updateTrip, { loading: loadingMutation, error: errorMutation }] = useEditTrip(
+  const [updateTrip, { loading: loadingMutation, error: errorMutation, data: dataMutation }] = useEditTrip(
     dataCurrentUser.id,
   );
   function handleEditTrip() {
@@ -93,6 +92,11 @@ const EditTrip = ({ tripId }) => {
       },
     });
   }
+  useEffect(() => {
+    if (dataMutation) {
+      setSuccesText(true);
+    }
+  }, [dataMutation]);
   if (loading || loadingCurrentUser) {
     return <LoadingBar />;
   }
@@ -106,7 +110,11 @@ const EditTrip = ({ tripId }) => {
     return (
       <StyledContainer>
         <StyledCard>
-          <form onSubmit={handleSubmit} method="post">
+          <form
+            onSubmit={handleSubmit}
+            method="post"
+            onClick={() => setSuccesText(false)}
+          >
             <StyledFieldset disabled={loadingMutation} aria-busy={loadingMutation}>
               <H6 use="headline6">{`Edit the Trip`}</H6>
               {error && <ErrorGraphql error={error} />}
@@ -209,6 +217,13 @@ const EditTrip = ({ tripId }) => {
                 value={inputs.costs.textValue || ''}
                 required={false}
               />
+              <StyledSpanErrors>
+                {succesText && (
+                  <StyledTypographyGreen>
+                    The changes has been saved!
+                  </StyledTypographyGreen>
+                )}
+              </StyledSpanErrors>
               {errorMutation && <ErrorGraphql error={errorMutation} />}
               <ButtonMain text="Save Changes" />
             </StyledFieldset>

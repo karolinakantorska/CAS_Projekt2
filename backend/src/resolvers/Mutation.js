@@ -36,7 +36,7 @@ const mutations = {
     }
     const user = await ctx.db.query.user({ where: { email: args.email } });
     if (!user) {
-      throw new Error(`There is no user with this email: ${email}`);
+      throw new Error(`The email or password does't match.`);
     }
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
@@ -47,7 +47,6 @@ const mutations = {
       process.env.APP_SECRET
     );
 
-    
     ctx.response.cookie("token", token, {
       path: "/",
       httpOnly: true,
@@ -116,19 +115,21 @@ const mutations = {
   },
   async updateDay(parent, args, ctx, info) {
     isLoggedInn(ctx);
-    if (args.time === "") {
-      throw new Error(`Please choose a time of a day`);
-    }
     const dayId = args.where.id;
+    const choosenTime = args.data.reservations.create[0].time;
     const guideId = args.data.reservations.create[0].guide.connect.id;
     const existingReservations = await ctx.db.query.reservations({
       where: { relatedDay: { id: dayId }, guide: { id: guideId } },
     });
+
     if (existingReservations.length > 0) {
-      if (existingReservations.length > 1 || existingReservations[0].time === "DAY") {
-        throw new Error(
-          `Termin just has been booked by another person! Please book an another termin`
-        );
+      if (
+        existingReservations.length > 1 ||
+        existingReservations[0].time === "DAY" ||
+        existingReservations[0].time === choosenTime ||
+        (existingReservations.length === 1 && choosenTime === "DAY")
+      ) {
+        throw new Error(`Termin just has been booked! Please book an another termin`);
       }
     }
     const day = await ctx.db.mutation.updateDay({
@@ -143,7 +144,6 @@ const mutations = {
     return ctx.db.mutation.updateReservation({ ...args });
   },
   async deleteReservation(parent, args, ctx, info) {
-    //hasPermission(ctx, "ADMIN");
     return ctx.db.mutation.deleteReservation({
       ...args,
     });

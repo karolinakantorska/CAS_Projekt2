@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/karolina-kantorska/MTBreservation/dev
-# timestamp: Wed Apr 21 2021 13:16:18 GMT+0200 (Central European Summer Time)
+# timestamp: Wed May 12 2021 22:26:08 GMT+0200 (Central European Summer Time)
 
 type AggregateDay {
   count: Int!
@@ -31,6 +31,7 @@ type Day implements Node {
   year: String!
   month: String!
   day: String!
+  timeStamp: Int
   reservations(where: ReservationWhereInput, orderBy: ReservationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reservation!]
 }
 
@@ -49,6 +50,7 @@ input DayCreateInput {
   year: String!
   month: String!
   day: String!
+  timeStamp: Int
   reservations: ReservationCreateManyWithoutRelatedDayInput
 }
 
@@ -62,6 +64,7 @@ input DayCreateWithoutReservationsInput {
   year: String!
   month: String!
   day: String!
+  timeStamp: Int
 }
 
 """An edge in a connection."""
@@ -82,6 +85,8 @@ enum DayOrderByInput {
   month_DESC
   day_ASC
   day_DESC
+  timeStamp_ASC
+  timeStamp_DESC
 }
 
 type DayPreviousValues {
@@ -89,6 +94,7 @@ type DayPreviousValues {
   year: String!
   month: String!
   day: String!
+  timeStamp: Int
 }
 
 type DaySubscriptionPayload {
@@ -134,6 +140,7 @@ input DayUpdateInput {
   year: String
   month: String
   day: String
+  timeStamp: Int
   reservations: ReservationUpdateManyWithoutRelatedDayInput
 }
 
@@ -141,6 +148,7 @@ input DayUpdateManyMutationInput {
   year: String
   month: String
   day: String
+  timeStamp: Int
 }
 
 input DayUpdateOneWithoutReservationsInput {
@@ -156,6 +164,7 @@ input DayUpdateWithoutReservationsDataInput {
   year: String
   month: String
   day: String
+  timeStamp: Int
 }
 
 input DayUpsertWithoutReservationsInput {
@@ -332,6 +341,28 @@ input DayWhereInput {
 
   """All values not ending with the given string."""
   day_not_ends_with: String
+  timeStamp: Int
+
+  """All values that are not equal to given value."""
+  timeStamp_not: Int
+
+  """All values that are contained in given list."""
+  timeStamp_in: [Int!]
+
+  """All values that are not contained in given list."""
+  timeStamp_not_in: [Int!]
+
+  """All values less than the given value."""
+  timeStamp_lt: Int
+
+  """All values less than or equal the given value."""
+  timeStamp_lte: Int
+
+  """All values greater than the given value."""
+  timeStamp_gt: Int
+
+  """All values greater than or equal the given value."""
+  timeStamp_gte: Int
   reservations_every: ReservationWhereInput
   reservations_some: ReservationWhereInput
   reservations_none: ReservationWhereInput
@@ -642,7 +673,7 @@ type Reservation implements Node {
   holiday: Boolean
   confirmed: Boolean
   gastId: ID
-  timeStamp: String
+  timeStamp: Int
 }
 
 """A connection to a list of items."""
@@ -665,7 +696,7 @@ input ReservationCreateInput {
   holiday: Boolean
   confirmed: Boolean
   gastId: ID
-  timeStamp: String
+  timeStamp: Int
   guide: UserCreateOneWithoutReservationsInput
   relatedDay: DayCreateOneWithoutReservationsInput
   trip: TripCreateOneInput
@@ -691,7 +722,7 @@ input ReservationCreateWithoutGuideInput {
   holiday: Boolean
   confirmed: Boolean
   gastId: ID
-  timeStamp: String
+  timeStamp: Int
   relatedDay: DayCreateOneWithoutReservationsInput
   trip: TripCreateOneInput
 }
@@ -706,7 +737,7 @@ input ReservationCreateWithoutRelatedDayInput {
   holiday: Boolean
   confirmed: Boolean
   gastId: ID
-  timeStamp: String
+  timeStamp: Int
   guide: UserCreateOneWithoutReservationsInput
   trip: TripCreateOneInput
 }
@@ -753,7 +784,7 @@ type ReservationPreviousValues {
   holiday: Boolean
   confirmed: Boolean
   gastId: ID
-  timeStamp: String
+  timeStamp: Int
 }
 
 input ReservationScalarWhereInput {
@@ -1023,46 +1054,28 @@ input ReservationScalarWhereInput {
 
   """All values not ending with the given string."""
   gastId_not_ends_with: ID
-  timeStamp: String
+  timeStamp: Int
 
   """All values that are not equal to given value."""
-  timeStamp_not: String
+  timeStamp_not: Int
 
   """All values that are contained in given list."""
-  timeStamp_in: [String!]
+  timeStamp_in: [Int!]
 
   """All values that are not contained in given list."""
-  timeStamp_not_in: [String!]
+  timeStamp_not_in: [Int!]
 
   """All values less than the given value."""
-  timeStamp_lt: String
+  timeStamp_lt: Int
 
   """All values less than or equal the given value."""
-  timeStamp_lte: String
+  timeStamp_lte: Int
 
   """All values greater than the given value."""
-  timeStamp_gt: String
+  timeStamp_gt: Int
 
   """All values greater than or equal the given value."""
-  timeStamp_gte: String
-
-  """All values containing the given string."""
-  timeStamp_contains: String
-
-  """All values not containing the given string."""
-  timeStamp_not_contains: String
-
-  """All values starting with the given string."""
-  timeStamp_starts_with: String
-
-  """All values not starting with the given string."""
-  timeStamp_not_starts_with: String
-
-  """All values ending with the given string."""
-  timeStamp_ends_with: String
-
-  """All values not ending with the given string."""
-  timeStamp_not_ends_with: String
+  timeStamp_gte: Int
 }
 
 type ReservationSubscriptionPayload {
@@ -1113,7 +1126,7 @@ input ReservationUpdateInput {
   holiday: Boolean
   confirmed: Boolean
   gastId: ID
-  timeStamp: String
+  timeStamp: Int
   guide: UserUpdateOneWithoutReservationsInput
   relatedDay: DayUpdateOneWithoutReservationsInput
   trip: TripUpdateOneInput
@@ -1128,7 +1141,7 @@ input ReservationUpdateManyDataInput {
   holiday: Boolean
   confirmed: Boolean
   gastId: ID
-  timeStamp: String
+  timeStamp: Int
 }
 
 input ReservationUpdateManyMutationInput {
@@ -1140,7 +1153,7 @@ input ReservationUpdateManyMutationInput {
   holiday: Boolean
   confirmed: Boolean
   gastId: ID
-  timeStamp: String
+  timeStamp: Int
 }
 
 input ReservationUpdateManyWithoutGuideInput {
@@ -1181,7 +1194,7 @@ input ReservationUpdateWithoutGuideDataInput {
   holiday: Boolean
   confirmed: Boolean
   gastId: ID
-  timeStamp: String
+  timeStamp: Int
   relatedDay: DayUpdateOneWithoutReservationsInput
   trip: TripUpdateOneInput
 }
@@ -1195,7 +1208,7 @@ input ReservationUpdateWithoutRelatedDayDataInput {
   holiday: Boolean
   confirmed: Boolean
   gastId: ID
-  timeStamp: String
+  timeStamp: Int
   guide: UserUpdateOneWithoutReservationsInput
   trip: TripUpdateOneInput
 }
@@ -1489,46 +1502,28 @@ input ReservationWhereInput {
 
   """All values not ending with the given string."""
   gastId_not_ends_with: ID
-  timeStamp: String
+  timeStamp: Int
 
   """All values that are not equal to given value."""
-  timeStamp_not: String
+  timeStamp_not: Int
 
   """All values that are contained in given list."""
-  timeStamp_in: [String!]
+  timeStamp_in: [Int!]
 
   """All values that are not contained in given list."""
-  timeStamp_not_in: [String!]
+  timeStamp_not_in: [Int!]
 
   """All values less than the given value."""
-  timeStamp_lt: String
+  timeStamp_lt: Int
 
   """All values less than or equal the given value."""
-  timeStamp_lte: String
+  timeStamp_lte: Int
 
   """All values greater than the given value."""
-  timeStamp_gt: String
+  timeStamp_gt: Int
 
   """All values greater than or equal the given value."""
-  timeStamp_gte: String
-
-  """All values containing the given string."""
-  timeStamp_contains: String
-
-  """All values not containing the given string."""
-  timeStamp_not_contains: String
-
-  """All values starting with the given string."""
-  timeStamp_starts_with: String
-
-  """All values not starting with the given string."""
-  timeStamp_not_starts_with: String
-
-  """All values ending with the given string."""
-  timeStamp_ends_with: String
-
-  """All values not ending with the given string."""
-  timeStamp_not_ends_with: String
+  timeStamp_gte: Int
   guide: UserWhereInput
   relatedDay: DayWhereInput
   trip: TripWhereInput

@@ -48,7 +48,6 @@ export const StyledCardReservation = styled(Card)`
   min-width: 250px;
   max-width: 800px;
 `;
-
 export const StyledOneGuideGrid = styled.span`
   display: grid;
   column-gap: 10px;

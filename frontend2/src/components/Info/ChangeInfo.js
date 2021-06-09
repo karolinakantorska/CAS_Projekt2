@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // Components
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import LoadingBar from '../reusable/LoadingBar';
@@ -12,12 +12,12 @@ import { useCreateInfo } from '../../apollo/mutations/useCreateInfo';
 // Components for Styling
 import { StyledContainer } from '../../styles/StyledContainer';
 import { StyledCardWithPadding } from '../../styles/StyledCards';
-import { StyledFieldset } from '../../styles/StyledForm';
+import { StyledFieldset, StyledSpanErrors } from '../../styles/StyledForm';
 import { TextField } from '@rmwc/textfield';
-import { H6 } from '../../styles/Text';
+import { H6, StyledTypographyGreen } from '../../styles/Text';
 
 const ChangeInfo = () => {
-  //const [hasText, setHasText] = useState(false);
+  const [succesText, setSuccesText] = useState(false);
   const { loading, error, data, refetch } = useInfoes();
   const { inputs, handleChange, handleSubmit, errorInput } = useForm(
     handleEditInfo,
@@ -36,7 +36,6 @@ const ChangeInfo = () => {
   ] = useUpdateInfo();
   function handleEditInfo() {
     if (data.infoes.length === 0) {
-      console.log('create');
       createInfo({
         variables: {
           text: inputs.text.textValue,
@@ -44,7 +43,6 @@ const ChangeInfo = () => {
       });
       refetch();
     } else {
-      console.log('update');
       updateInfo({
         variables: {
           id: data.infoes[0].id,
@@ -53,6 +51,11 @@ const ChangeInfo = () => {
       });
     }
   }
+  useEffect(() => {
+    if (dataCreateInfo){
+      setSuccesText(true);
+    } 
+  }, [dataCreateInfo]);
   if (loading) {
     return <LoadingBar />;
   }
@@ -60,6 +63,7 @@ const ChangeInfo = () => {
     return <ErrorGraphql error={error} />;
   }
   if (data) {
+    console.log('succesText', succesText);
     return (
       <StyledContainer>
         <StyledCardWithPadding>
@@ -75,6 +79,7 @@ const ChangeInfo = () => {
               <TextField
                 fullwidth
                 onChange={handleChange}
+                onClick={() => setSuccesText(false)}
                 name="text"
                 value={inputs.text.textValue || ''}
                 required={false}
@@ -82,7 +87,11 @@ const ChangeInfo = () => {
                 rows={12}
                 maxLength={3000}
               />
-              {dataCreateInfo && <p>Text Updated!</p>}
+              <StyledSpanErrors>
+                {succesText && (
+                  <StyledTypographyGreen>Text Updated!</StyledTypographyGreen>
+                )}
+              </StyledSpanErrors>
               <ButtonMain text="Change Text" />
             </StyledFieldset>
           </form>

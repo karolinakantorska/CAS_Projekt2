@@ -2,6 +2,7 @@ import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import Loading from '../reusable/LoadingBar';
 import Signin from '../signin_signout/Signin';
+import { StyledContainer } from '../../styles/StyledContainer';
 
 export default function RedirectNotLoggedin({ children }) {
   const { loading, error, data } = useCurrentUser();
@@ -13,7 +14,11 @@ export default function RedirectNotLoggedin({ children }) {
   }
   if (data) {
     if (!data.currentUser.permissions) {
-      return <Signin redirectInfo={`Please login with proper account:`} />;
+      return (
+      <StyledContainer>
+        <Signin redirectInfo={`Please login with proper account:`} />
+      </StyledContainer>)
+      
     } else {
       return children;
     }

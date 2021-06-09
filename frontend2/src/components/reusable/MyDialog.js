@@ -2,11 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
 import { SimpleDialog } from '@rmwc/dialog';
-const MyDialog = ({ title, body, handleAction }) => {
+const MyDialog = ({ title, body, handleAction, wrightGuide }) => {
   const [open, setOpen] = React.useState(false);
   return (
     <>
-      <ButtonLink text="Delete" onClick={() => setOpen(true)} />
+      <ButtonLink
+        text={wrightGuide ? '' : 'Delete'}
+        onClick={() => setOpen(true)}
+        disabled={wrightGuide ? true : false}
+      />
       <SimpleDialog
         title={title}
         body={body}

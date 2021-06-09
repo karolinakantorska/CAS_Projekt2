@@ -9,6 +9,7 @@ export function useDay(year, month, day) {
       month,
       day,
     },
+    fetchPolicy: "network-only",
     onError: (error) => {
       error;
     },

@@ -2,6 +2,7 @@ import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import Loading from '../reusable/LoadingBar';
 import Signin from '../signin_signout/Signin';
+import { StyledContainer } from '../../styles/StyledContainer';
 
 export default function RedirectWrongPermission({ requiredRole, children }) {
   const { loading, error, data } = useCurrentUser();
@@ -14,7 +15,9 @@ export default function RedirectWrongPermission({ requiredRole, children }) {
   if (data) {
     if (data.currentUser.permissions !== requiredRole) {
       return (
-        <Signin redirectInfo={`Please login with proper ${requiredRole} account:`} />
+        <StyledContainer>
+          <Signin redirectInfo={`Please login with proper ${requiredRole} account:`} />
+        </StyledContainer>
       );
     } else {
       return children;

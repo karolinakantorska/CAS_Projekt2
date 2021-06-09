@@ -3,7 +3,7 @@ type Query {
   users(where: UserWhereInput): [User!]!
   user(where: UserWhereUniqueInput!): User
   currentUser: User
-  days(where: DayWhereInput): [Day]!
+  days(where: DayWhereInput, orderBy: DayOrderByInput): [Day]!
   day(where: DayWhereUniqueInput!): Day
   reservations(where: ReservationWhereInput): [Reservation]!
   reservation(where: ReservationWhereUniqueInput!): Reservation
