@@ -1,5 +1,8 @@
 export const permission = { admin: 'ADMIN', guide: 'GUIDE', user: 'USER' };
 export const noUser = { currentUser: { name: '', permissions: '', email: '', id: '' } };
+export const noTripChoosen = {
+ id: '0', wholeDay: false, title: 'No special Trip Selected' 
+};
 export const specialsations = [
   'Trail_Riding',
   'Singletrack',

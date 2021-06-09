@@ -14,6 +14,7 @@ export function useTripsToFindOneTrip(id) {
       error;
     },
   });
+  /*
   if (data && data.trips.length === 0) {
     return {
       loading,
@@ -21,5 +22,6 @@ export function useTripsToFindOneTrip(id) {
       data: noTripChoosen,
     };
   }
+  */
   return { loading, error, data };
 }

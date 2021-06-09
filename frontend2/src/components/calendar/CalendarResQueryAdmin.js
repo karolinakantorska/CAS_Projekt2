@@ -16,16 +16,15 @@ import { Select } from '@rmwc/select';
 import { StyledContainer, StyledSpanLong } from '../../styles/StyledContainer';
 
 const CalendarResQueryAdmin = ({ guideId }) => {
-  const { value, handleChange } = useFormInput({
-    id: '0',
-  });
+  const { value, handleChange } = useFormInput('0');
   const [reservations, setReservations] = useState({});
-
+  
   const {
     loading: loadingGuides,
     error: errorGuides,
     data: dataGuides,
   } = useAllUsersWithPermission(permission.guide);
+  
   const trip = noTripChoosen;
   const {
     handleMonthChange,
@@ -42,6 +41,7 @@ const CalendarResQueryAdmin = ({ guideId }) => {
   ] = useLazyGuideMonthReservations();
 
   useEffect(() => {
+    if (value !== '0'){
     monthReservationsLazyQuery({
       variables: {
         year: selectedYear,
@@ -49,15 +49,14 @@ const CalendarResQueryAdmin = ({ guideId }) => {
         id: value,
       },
     });
+    }
   }, [value, selectedMonth]);
-
+  
   useEffect(() => {
     if (data) {
       setReservations(filterReservationsData(data.days, value));
     }
-    return ()=> setReservations({})
   }, [data]);
-
   return (
     <StyledContainer>
       <StyledSpanLong>
@@ -75,6 +74,7 @@ const CalendarResQueryAdmin = ({ guideId }) => {
             ))}
         </Select>
         {loadingGuides && <LoadingBar />}
+        {loading && <LoadingBar />}
         {errorGuides && <ErrorGraphql error={errorGuides} />}
         {error && <ErrorGraphql error={error} />}
       </StyledSpanLong>

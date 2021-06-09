@@ -7,6 +7,7 @@ import { useHydratationFix } from '../../lib/useHydratationFix';
 // Utils
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { useTrips } from '../../apollo/querries/useTrips';
+import { noUser } from '../../lib/utils';
 // Components for Styling
 import { StyledContainer, StyledSpan } from '../../styles/StyledContainer';
 import { H6 } from '../../styles/Text';
@@ -22,19 +23,31 @@ const AllTripsList = () => {
   if (!hasMounted) {
     return null;
   }
+    if (loadingCurrentUser || loading) {
+      return <LoadingBar />;
+    }
+  if (errorCurrentUser|| error) {
+    return (
+      <StyledContainer>
+        {errorCurrentUser && <ErrorGraphql error={errorCurrentUser} />}
+        {error && <ErrorGraphql error={error} />}
+      </StyledContainer>
+    );
+  }
+  if (dataCurrentUser&&data) {
+      const currentUser = dataCurrentUser.currentUser
+        ? dataCurrentUser.currentUser
+        : noUser;
   return (
     <StyledContainer>
       <StyledSpan>
         <H6 use="headline6">Trips offered by our MTB Guides:</H6>
       </StyledSpan>
-      {loading && <LoadingBar />}
-      {error && <ErrorGraphql error={error} />}
-      {errorCurrentUser && <ErrorGraphql error={errorCurrentUser} />}
-      {data && dataCurrentUser && (
-        <TripList data={data.trips} dataUser={dataCurrentUser} />
-      )}
+      
+      <TripList data={data.trips} dataUser={currentUser} />
     </StyledContainer>
   );
+      }
 };
 
 export default AllTripsList;

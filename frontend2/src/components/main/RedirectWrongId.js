@@ -3,6 +3,7 @@ import ErrorGraphql from '../reusable/ErrorGraphql';
 import Loading from '../reusable/LoadingBar';
 import NotAllowedToEnter from '../main/NotAllowedToEnter';
 import { StyledContainer } from '../../styles/StyledContainer';
+import { noUser } from '../../lib/utils';
 
 export default function RedirectWrongId({ requiredId, children }) {
   const { loading, error, data } = useCurrentUser();
@@ -13,7 +14,8 @@ export default function RedirectWrongId({ requiredId, children }) {
     return <ErrorGraphql error={error} />;
   }
   if (data) {
-    if (data.currentUser.id !== requiredId) {
+        const currentUser = data.currentUser ? data.currentUser : noUser;
+    if (currentUser.id !== requiredId) {
       return (
         <StyledContainer>
           <NotAllowedToEnter

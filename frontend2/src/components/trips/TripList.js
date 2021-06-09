@@ -9,7 +9,7 @@ const TripList = ({ data, dataUser }) => {
   return (
     <StyledCardsContainer>
       {data.map((trip) => (
-        <TripCard key={trip.id} tripId={trip.id} currentUser={dataUser.currentUser}>
+        <TripCard key={trip.id} tripId={trip.id} currentUser={dataUser}>
           trip
         </TripCard>
       ))}

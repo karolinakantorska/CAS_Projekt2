@@ -9,6 +9,7 @@ import { useGuide } from '../../apollo/querries/useGuide';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { useTripsFromGuide } from '../../apollo/querries/useTripsFromGuide';
 import { useHydratationFix } from '../../lib/useHydratationFix';
+import { noUser } from '../../lib/utils';
 // Components for Styling
 import {
   StyledContainer,
@@ -29,21 +30,32 @@ const GuideTripsList = ({ guideId }) => {
   if (!hasMounted) {
     return null;
   }
+    if (loadingCurrentUser) {
+    return <LoadingBar />;
+  }
+  if (errorCurrentUser||error) {
+    return (
+      <StyledContainer>
+        {errorCurrentUser && <ErrorGraphql error={errorCurrentUser} />}
+        {error && <ErrorGraphql error={error} />}
+      </StyledContainer>
+    );
+  }
+  if (dataCurrentUser&&data) {
+    const currentUser = dataCurrentUser.currentUser
+      ? dataCurrentUser.currentUser
+      : noUser;
   return (
     <StyledContainer>
       <StyledSpan>
         {dataGuide && <H6 use="headline6">Trips from: {dataGuide.user.name}</H6>}
       </StyledSpan>
       {loading && <LoadingBar />}
-      {error && <ErrorGraphql error={error} />}
-      {errorCurrentUser && <ErrorGraphql error={errorCurrentUser} />}
-      {data && dataCurrentUser && (
-        <TripList data={data.trips} dataUser={dataCurrentUser} />
-      )}
+      <TripList data={data.trips} dataUser={currentUser} />
     </StyledContainer>
   );
-};
-
+      }
+}
 GuideTripsList.propTypes = {
   guideId: PropTypes.string.isRequired,
 };

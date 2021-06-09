@@ -11,14 +11,12 @@ import {
   filterReservationsForUser,
   filterReservationsByTimestamp,
 } from '../../lib/utilsBooking';
-
 import { useHydratationFix } from '../../lib/useHydratationFix';
-import { StyledCardReservation } from '../../styles/StyledCards';
+
 import { H6} from '../../styles/Text';
 import { StyledContainer,StyledSpan } from '../../styles/StyledContainer';
 
 const MyBookedTripsList = ({ gastId }) => {
-  
   const { selectedDateTimestamp } = useCalendar();
   const { loading, error, data } = useReservationsUser(gastId);
   let filtered = [];

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 // Components
 import DaySpan from './DaySpan';
 import CalendarMenu from './CalendarMenu';
@@ -10,6 +9,7 @@ import Year from './Year';
 import LoadingBar from '../reusable/LoadingBar';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 // Utils
+import { noUser} from '../../lib/utils';
 import { currentDate, weekDaysEN } from '../../lib/utilsCalendar';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 //Styles
@@ -27,7 +27,6 @@ const Calendar = ({
   nrOfMonth,
   emptyCells,
   daysInMonthArray,
-  //selectedDateTimestamp,
   trip,
 }) => {
   const weekNames = weekDaysEN();
@@ -48,6 +47,9 @@ const Calendar = ({
     );
   }
   if (dataCurrentUser) {
+        const currentUser = dataCurrentUser.currentUser
+          ? dataCurrentUser.currentUser
+          : noUser;
     return (
       <StyledCalendarContainer>
         <Year selectedYear={selectedYear} className="year_component" />
@@ -60,7 +62,7 @@ const Calendar = ({
           handleMonthChange={handleMonthChange}
         />
         {guideId === '0' ? (
-          <NonGuideAvatar currentUser={dataCurrentUser.currentUser} />
+          <NonGuideAvatar currentUser={currentUser} />
         ) : (
           <StyledSpan>
             <GuideAvatar guideId={guideId} />
@@ -94,7 +96,7 @@ const Calendar = ({
                 today.month === selectedMonth &&
                 today.day === dayOfMonth
               }
-              currentUser={dataCurrentUser.currentUser}
+              currentUser={currentUser}
               dayInThePast={
                 today.year === selectedYear &&
                 today.month === selectedMonth &&
@@ -102,14 +104,12 @@ const Calendar = ({
               }
               dayTooMuchInFuture={
                 false
-                //today.todayTreeMonthsLaterTimestamp < selectedDateTimestamp
               }
               timeStamp={
                 dayOfMonth.length === 1
                   ? selectedYear + nrOfMonth + 0 + dayOfMonth
                   : selectedYear + nrOfMonth + dayOfMonth
               }
-              //selectedDateTimestamp={selectedDateTimestamp}
             ></DaySpan>
           );
         })}

@@ -14,7 +14,7 @@ import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { useReservation } from '../../apollo/querries/useReservation';
 import { useDeleteReservation } from '../../apollo/mutations/useDeleteReservation';
 import { useConfirmReservation } from '../../apollo/mutations/useConfirmReservation';
-
+import { noUser } from '../../lib/utils';
 // Components for Styling
 import { StyledFieldset } from '../../styles/StyledForm';
 import { StyledCard } from '../../styles/StyledCards';
@@ -54,8 +54,10 @@ const BookingEdit = ({ id }) => {
     return <ErrorGraphql error={error} />;
   }
   if (data && dataCurrentUser) {
-    console.log(data);
     const { reservation } = data;
+        const currentUser = dataCurrentUser.currentUser
+          ? dataCurrentUser.currentUser
+          : noUser;
     return (
       <StyledCard>
         <StyledFieldset
@@ -101,14 +103,14 @@ const BookingEdit = ({ id }) => {
             )}
           </StyledTypography>
 
-          {dataCurrentUser.currentUser.permissions === permission.guide && (
+          {currentUser.permissions === permission.guide && (
             <ButtonMain
               disabled={reservation.confirmed}
               text={reservation.confirmed ? 'Confirmed' : 'Confirm'}
               onClick={handleConfirm}
             />
           )}
-          {dataCurrentUser.currentUser.permissions === permission.admin && (
+          {currentUser.permissions === permission.admin && (
             <>
               <H6 use="headline6">Other Guides Avaiable:</H6>
               <SelectGuide id={reservation.relatedDay.id} />

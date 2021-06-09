@@ -7,6 +7,7 @@ import ErrorMessage from '../reusable/ErrorMessage';
 import LoadingBar from '../reusable/LoadingBar';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
 // utils
+import { noUser, noTripChoosen } from '../../lib/utils';
 import {
   chooseWholeDay,
   chooseMorning,
@@ -65,7 +66,7 @@ const BookingConfirmation = ({ props }) => {
     month,
     time,
     guideId,
-    tripId,
+    tripId? tripId:'0',
     dataCurrentUser.currentUser.id,
   );
   const [createDay, { loading: loadingCreateDay, error: errorCreateDay }] = useCreateDay(
@@ -74,11 +75,10 @@ const BookingConfirmation = ({ props }) => {
     day,
     time,
     guideId,
-    tripId,
+    tripId? tripId:'0',
     dataCurrentUser.currentUser.id,
   );
   function handleBookingConfirmation() {
-    
     if (data.days.length === 0) {
       createDay({
         variables: {
@@ -91,7 +91,7 @@ const BookingConfirmation = ({ props }) => {
           nrOfPeople,
           description: inputs.description.textValue,
           guideId,
-          tripId,
+          tripId: tripId? tripId:'0',
           holiday: guideId === dataCurrentUser.currentUser.id,
           confirmed: false,
           gastId: dataCurrentUser.currentUser.id,
@@ -131,7 +131,13 @@ const BookingConfirmation = ({ props }) => {
     );
   }
   if (dataCurrentUser && data && dataTrip) {
-    const trip = dataTrip.trips[0];
+    //const trip = dataTrip.trips[0];
+    console.log('trip', trip);
+    const trip = dataTrip.trips[0] ? dataTrip.trips[0] : noTripChoosen;
+    const currentUser = dataCurrentUser.currentUser
+          ? dataCurrentUser.currentUser
+          : noUser;
+    console.log('trip',trip)
     return (
       <StyledContainer >
         <StyledCard>
@@ -140,18 +146,18 @@ const BookingConfirmation = ({ props }) => {
               disabled={loadingUpdateDay || loadingCreateDay}
               aria-busy={loadingUpdateDay || loadingCreateDay}
             >
-              {dataCurrentUser.currentUser.id === guideId && (
+              {currentUser.id === guideId && (
                 <H6 use="headline6">{`Reserve yourself a day off !`}</H6>
               )}
-              {dataCurrentUser.currentUser.id !== guideId && (
+              {currentUser.id !== guideId && (
                 <H6 use="headline6">
-                  {`Hallo ${dataCurrentUser.currentUser.name}, confirm your booking details!`}
+                  {`Hallo ${currentUser.name}, confirm your booking details!`}
                 </H6>
               )}
               <ErrorMessage />
               {errorCreateDay && <ErrorGraphql error={errorCreateDay} />}
               {errorUpdateDay && <ErrorGraphql error={errorUpdateDay} />}
-              {dataCurrentUser.currentUser.id !== guideId && trip.title && (
+              {currentUser.id !== guideId && trip.title && (
                 <Typography use="body1">
                   Trip:
                   <strong>{` ${trip.title}`}</strong>
@@ -190,7 +196,7 @@ const BookingConfirmation = ({ props }) => {
                   </StyledSelect>
                 </>
               )}
-              {dataCurrentUser.currentUser.id !== guideId && (
+              {currentUser.id !== guideId && (
                 <>
                   <Typography use="body1">How big is the group?</Typography>
                   <StyledSelect
@@ -221,7 +227,7 @@ const BookingConfirmation = ({ props }) => {
                   <ButtonMain text="Confirm and Go!" />
                 </>
               )}
-              {dataCurrentUser.currentUser.id === guideId && (
+              {currentUser.id === guideId && (
                 <ButtonMain text="Confirm Your Day Off !" />
               )}
             </StyledFieldset>

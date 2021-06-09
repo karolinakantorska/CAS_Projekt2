@@ -63,7 +63,6 @@ const ChangeInfo = () => {
     return <ErrorGraphql error={error} />;
   }
   if (data) {
-    console.log('succesText', succesText);
     return (
       <StyledContainer>
         <StyledCardWithPadding>

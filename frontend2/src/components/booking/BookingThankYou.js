@@ -12,6 +12,7 @@ import { ButtonLink } from '../reusable/Buttons';
 import { useDayIdToQueryReservation } from '../../apollo/querries/useDayIdToQueryReservation';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { routeToCalendar } from '../../lib/utilsRouts';
+import { noUser } from '../../lib/utils';
 // Components for Styling
 import { H6 } from '../../styles/Text';
 import { StyledContainer } from '../../styles/StyledContainer';
@@ -35,7 +36,9 @@ const BookingThankYou = (props) => {
   if (data && dataCurrentUser) {
     const { day } = data;
     const { guide } = day.reservations[0];
-    const { currentUser } = dataCurrentUser;
+        const currentUser = dataCurrentUser.currentUser
+          ? dataCurrentUser.currentUser
+          : noUser;
     return (
       <>
         <StyledContainer>

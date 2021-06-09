@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-
 // Components
 import GuideCard from './GuideCard';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import LoadingBar from '../reusable/LoadingBar';
 //utils
-import { permission } from '../../lib/utils';
+import { noUser,permission } from '../../lib/utils';
 import { useAllUsersWithPermission } from '../../apollo/querries/useAllUsersWithPermission';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { useHydratationFix } from '../../lib/useHydratationFix';
+
 // Components for Styling
 import { H6 } from '../../styles/Text';
 import {
@@ -28,6 +28,20 @@ const GuidesList = () => {
   if (!hasMounted) {
     return null;
   }
+    if (loadingCurrentUser) {
+    return <LoadingBar />;
+  }
+  if (errorCurrentUser) {
+    return (
+      <StyledContainer>
+        {errorCurrentUser && <ErrorGraphql error={errorCurrentUser} />}
+      </StyledContainer>
+    );
+  }
+  if (dataCurrentUser) {
+      const currentUser = dataCurrentUser.currentUser
+        ? dataCurrentUser.currentUser
+        : noUser;
   return (
     <StyledContainer>
       {loading && <LoadingBar />}
@@ -42,7 +56,7 @@ const GuidesList = () => {
           data.users.map((guide) => (
             <GuideCard
               data-test="guideCard"
-              currentUserPermission={dataCurrentUser.currentUser.permissions}
+              currentUserPermission={currentUser.permissions}
               guide={guide}
               guideId={guide.id}
               key={guide.id}
@@ -51,5 +65,6 @@ const GuidesList = () => {
       </StyledCardsContainer>
     </StyledContainer>
   );
+          }
 };
 export default GuidesList;

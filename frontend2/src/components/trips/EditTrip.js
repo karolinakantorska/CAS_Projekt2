@@ -24,6 +24,7 @@ import { useEditTrip } from '../../apollo/mutations/useEditTrip';
 import { urlGuidePhoto, uploadPresetTripSquere } from '../../lib/utilsPhotoUpload';
 import { routeBack } from '../../lib/utilsRouts';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
+import { noUser } from '../../lib/utils';
 // Components for Styling
 import { StyledContainer } from '../../styles/StyledContainer';
 import { StyledCard } from '../../styles/StyledCards';
@@ -105,7 +106,10 @@ const EditTrip = ({ tripId }) => {
   }
   if (data && dataCurrentUser) {
     const { trip } = data;
-    const guideId = dataCurrentUser.currentUser.id;
+        const currentUser = dataCurrentUser.currentUser
+          ? dataCurrentUser.currentUser
+          : noUser;
+    const guideId = currentUser.id;
     const difficultiesArray = arrayFromObject(difficulties);
     return (
       <StyledContainer>

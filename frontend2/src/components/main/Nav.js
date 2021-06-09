@@ -7,7 +7,7 @@ import NavAdmin from '../main/NavAdmin';
 import NavGuide from '../main/NavGuide';
 import LoadingBar from '../reusable/LoadingBar';
 //Utils
-import { permission } from '../../lib/utils';
+import { noUser, permission } from '../../lib/utils';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { useSignout } from '../../apollo/mutations/useSignout';
 // Styling
@@ -15,23 +15,33 @@ import { StyledNav, StyledDiv, StyledFab,StyledSpan } from '../../styles/StyledN
 import {
   StyledMenuMain,
   StyledTopMenu,
-  StyledTypographyDense,
+
   StyledButtonTextWhite,
 } from '../../styles/Text';
 import MediaQuery from 'react-responsive';
 import { Icon } from '@rmwc/icon';
-
-
 const Nav = () => {
   const { loading, error, data } = useCurrentUser();
   const [signout] = useSignout();
-  return (
+    if (loading) {
+    return <LoadingBar />;
+  }
+  if (error) {
+    return (
+      <StyledContainer>
+        {error && <ErrorGraphql error={error} />}
+      </StyledContainer>
+    );
+  }
+  if (data) { 
+    const currentUser = data.currentUser? data.currentUser: noUser;
+    return (
     <>
       <StyledNav>
         {error && <ErrorGraphql error={error} />}
         {loading && <LoadingBar />}
         <NavNoUser />
-        {data && data.currentUser.name ? (
+        {currentUser.name ? (
           <StyledTopMenu use="caption" className="user" onClick={signout}>
             <MediaQuery minDeviceWidth={401}>
               {data.currentUser.name} / log out
@@ -45,21 +55,21 @@ const Nav = () => {
             </StyledTopMenu>
           </Link>
         )}
-        {data && data.currentUser.permissions !== '' && (
+        {currentUser.permissions !== '' && (
           <>
             <Link href={`/allTrips`}>
               <StyledMenuMain use="body" className="trips">
                 Trips
               </StyledMenuMain>
             </Link>
-            <Link href={`/my_trips/${data.currentUser.id}`}>
+            <Link href={`/my_trips/${currentUser.id}`}>
               <StyledMenuMain use="body" className="myBookings">
                 Your Bookings
               </StyledMenuMain>
             </Link>
           </>
         )}
-        {data && data.currentUser.permissions ? (
+        {currentUser.permissions ? (
           <StyledMenuMain use="body" onClick={signout} className="signin">
             <Icon icon="logout" aria-label="Logout" />
           </StyledMenuMain>
@@ -72,23 +82,24 @@ const Nav = () => {
         )}
       </StyledNav>
 
-      {data && data.currentUser.permissions === permission.admin && <NavAdmin />}
-      {data && data.currentUser.permissions === permission.guide && (
-        <NavGuide guideId={data.currentUser.id} />
+      {currentUser.permissions === permission.admin && <NavAdmin />}
+      {currentUser.permissions === permission.guide && (
+        <NavGuide guideId={currentUser.id} />
       )}
-      {data && data.currentUser.permissions !== '' && (
+      {currentUser.permissions !== '' && (
         <StyledDiv>
           <MediaQuery maxDeviceWidth={400}>
             <StyledFab className="bookingChip">
               <StyledSpan>
-<StyledButtonTextWhite use="body">My Booking</StyledButtonTextWhite>
+                <StyledButtonTextWhite use="body">My Booking</StyledButtonTextWhite>
               </StyledSpan>
             </StyledFab>
           </MediaQuery>
         </StyledDiv>
       )}
     </>
-  );
+  )}
+
 };
 
 

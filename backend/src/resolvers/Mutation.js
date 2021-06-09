@@ -40,7 +40,7 @@ const mutations = {
     }
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
-      throw new Error(`Invalid Password`);
+      throw new Error(`The email or password does't match.`);
     }
     const token = jwt.sign(
       { userId: user.id, userPermission: user.permissions },

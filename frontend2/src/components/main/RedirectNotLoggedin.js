@@ -13,7 +13,7 @@ export default function RedirectNotLoggedin({ children }) {
     return <ErrorGraphql error={error} />;
   }
   if (data) {
-    if (!data.currentUser.permissions) {
+    if (!data) {
       return (
       <StyledContainer>
         <Signin redirectInfo={`Please login with proper account:`} />

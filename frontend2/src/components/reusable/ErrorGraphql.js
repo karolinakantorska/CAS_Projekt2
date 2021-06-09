@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ErrorText } from '../../styles/Text';
+import { StyledContainer, StyledSpan } from '../../styles/StyledContainer';
 
 const ErrorGraphql = ({ error }) => {
   if (!error || !error.message) return null;
@@ -18,26 +19,26 @@ const ErrorGraphql = ({ error }) => {
 
   if (error.message.includes('ECONNRESET')) {
     return (
-      <React.Fragment>
+      <>
         <ErrorText>Problem with connection to database, please try again.</ErrorText>
-      </React.Fragment>
+      </>
     );
   }
 
   if (error.message.includes('ENOTFOUND')) {
     return (
-      <React.Fragment>
+      <>
         <ErrorText>
           The domain you are tryign to reach is unavailable, please check your internet
           connection.
         </ErrorText>
-      </React.Fragment>
+      </>
     );
   }
   return (
-    <React.Fragment>
+    <>
       <ErrorText>{error.message.replace('GraphQL error: ', '')}</ErrorText>
-    </React.Fragment>
+    </>
   );
 };
 
