@@ -11,6 +11,7 @@ import { noUser, permission } from '../../lib/utils';
 import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { useSignout } from '../../apollo/mutations/useSignout';
 // Styling
+import { StyledContainer, StyledSpanLong } from '../../styles/StyledContainer';
 import { StyledNav, StyledDiv, StyledFab,StyledSpan } from '../../styles/StyledNav';
 import {
   StyledMenuMain,
