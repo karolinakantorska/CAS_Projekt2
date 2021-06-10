@@ -8,6 +8,8 @@ import ErrorGraphql from '../reusable/ErrorGraphql';
 import LoadingBar from '../reusable/LoadingBar';
 import { ButtonMain, ButtonLink } from '../reusable/Buttons';
 // Utils
+import { noUser } from '../../lib/utils';
+import { useCurrentUser } from '../../apollo/querries/useCurrentUser';
 import { useTrip } from '../../apollo/querries/useTrip';
 import { difficulties } from '../../lib/utils';
 import { routeToCalendar, routeToTripList } from '../../lib/utilsRouts';
@@ -26,6 +28,11 @@ import { Typography } from '@rmwc/typography';
 import { StyledContainer } from '../../styles/StyledContainer';
 const OneTrip = ({ tripId }) => {
   const { loading, error, data } = useTrip(tripId);
+    const {
+      loading: loadingCurrentUser,
+      error: errorCurrentUser,
+      data: dataCurrentUser,
+    } = useCurrentUser();
   const hasMounted = useHydratationFix();
   if (!hasMounted) {
     return null;
@@ -38,6 +45,9 @@ const OneTrip = ({ tripId }) => {
   }
   if (data) {
     const { trip } = data;
+        const currentUser = dataCurrentUser.currentUser
+          ? dataCurrentUser.currentUser
+          : noUser;
     return (
       <StyledContainer>
         <StyledCardWithPadding>
@@ -108,8 +118,9 @@ const OneTrip = ({ tripId }) => {
                 onClick={() => routeToTripList(trip.guide.id)}
               />
               <ButtonMain
-                text="Book This Trip!"
+                text={currentUser.id === trip.guide.id ? 'Your Trip' : 'Book This Trip!'}
                 onClick={() => routeToCalendar(trip.guide.id, tripId)}
+                disabled={currentUser.id === trip.guide.id ? true : false}
               />
             </StyledButtonSpan>
           </StyledOneGuideGrid>

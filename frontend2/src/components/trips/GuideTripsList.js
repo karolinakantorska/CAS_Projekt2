@@ -30,10 +30,10 @@ const GuideTripsList = ({ guideId }) => {
   if (!hasMounted) {
     return null;
   }
-    if (loadingCurrentUser) {
-    return <LoadingBar />;
-  }
-  if (errorCurrentUser||error) {
+    if (loadingCurrentUser || loadingGuide|| loading) {
+      return <LoadingBar />;
+    }
+  if (errorCurrentUser||error||errorGuide) {
     return (
       <StyledContainer>
         {errorCurrentUser && <ErrorGraphql error={errorCurrentUser} />}
@@ -41,7 +41,7 @@ const GuideTripsList = ({ guideId }) => {
       </StyledContainer>
     );
   }
-  if (dataCurrentUser&&data) {
+  if (dataCurrentUser&&data&&dataGuide) {
     const currentUser = dataCurrentUser.currentUser
       ? dataCurrentUser.currentUser
       : noUser;

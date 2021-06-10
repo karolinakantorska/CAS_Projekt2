@@ -91,7 +91,7 @@ const TripCard = ({ currentUser, tripId }) => {
                 text={currentUser.id === trip.guide.id ? 'Your Trip' : 'Book This Trip!'}
                 onClick={() => routeToCalendar(trip.guide.id, trip.id)}
                 disabled={currentUser.id === trip.guide.id ? true : false}
-              />
+              /> 
             )}
           </>
         )}
@@ -102,16 +102,16 @@ const TripCard = ({ currentUser, tripId }) => {
               <StyledButtonSpan>
                 <ButtonLink
                   text="Edit"
-                  text={currentUser.id === trip.guide.id ? '' : 'Edit'}
+                  text={currentUser.id === trip.guide.id ? 'Edit' : ''}
                   onClick={() => routeToEditTrip(tripId, trip.guide.id)}
-                  disabled={currentUser.id === trip.guide.id ? true : false}
+                  disabled={currentUser.id === trip.guide.id ? false : true}
                 />
                 <MyDialog
                   title="Do you want to delete this Trip?"
                   body="Are you sure?"
                   handleAction={handleDeleteTrip}
                   wrightGuide={currentUser.id === trip.guide.id ? true : false}
-                />
+                /> 
               </StyledButtonSpan>
             </>
           )}

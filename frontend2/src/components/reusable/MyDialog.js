@@ -7,9 +7,9 @@ const MyDialog = ({ title, body, handleAction, wrightGuide }) => {
   return (
     <>
       <ButtonLink
-        text={wrightGuide ? '' : 'Delete'}
+        text={wrightGuide ? 'Delete' : ''}
         onClick={() => setOpen(true)}
-        disabled={wrightGuide ? true : false}
+        disabled={wrightGuide ? false : true}
       />
       <SimpleDialog
         title={title}

@@ -23,7 +23,7 @@ import { StyledGuideCard } from '../../styles/StyledCards';
 import { StyledGuideImage } from '../../styles/StyledImage';
 import { StyledButtonSpan } from '../../styles/StyledButtonSpan';
 import { H6, Subtitle, TextLink } from '../../styles/Text';
-// RMWC
+// RMWC 
 import { Typography } from '@rmwc/typography';
 import { CardPrimaryAction } from '@rmwc/card';
 
@@ -79,12 +79,12 @@ const GuideCard = ({ currentUserPermission, guideId }) => {
             <strong>Specialisation:</strong>
             {specialisations.toString()}
           </Typography>
-          {currentUserPermission !== '' && (
+          {currentUserPermission  && (
             <Link href={`/guide/${guideId}`}>
               <TextLink use="body2">Go to guide page!</TextLink>
             </Link>
           )}
-          {currentUserPermission !== '' && (
+          {currentUserPermission  && (
             <ButtonMain text="See My Trips" onClick={() => routeToTripList(guideId)} />
           )}
         </StyledSpan>
@@ -100,6 +100,7 @@ const GuideCard = ({ currentUserPermission, guideId }) => {
                 title="Do you want to delete this Guide?"
                 body="Remember to check if there are any 'uncovered Reservations' after deleting this Guide."
                 handleAction={handleDeleteUser}
+                wrightGuide={true}
               />
             </StyledButtonSpan>
           </>

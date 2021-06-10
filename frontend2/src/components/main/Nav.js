@@ -36,6 +36,7 @@ const Nav = () => {
   }
   if (data) { 
     const currentUser = data.currentUser? data.currentUser: noUser;
+    console.log("currentUser", currentUser);
     return (
     <>
       <StyledNav>
@@ -56,7 +57,7 @@ const Nav = () => {
             </StyledTopMenu>
           </Link>
         )}
-        {currentUser.permissions !== '' && (
+        {currentUser.permissions && (
           <>
             <Link href={`/allTrips`}>
               <StyledMenuMain use="body" className="trips">
