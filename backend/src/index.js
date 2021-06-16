@@ -21,6 +21,14 @@ server.express.use((req, res, next) => {
   }
   next();
 });
+server.express.use(function(req, res, next) {
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://cas-projekt2-hs40qvw30-karolinakantorska.vercel.app/"
+  );
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 server.start(
   {
     cors: {
