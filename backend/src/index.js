@@ -13,6 +13,12 @@ server.express.use(cookieParser());
 // decode JWT to get user Id on each request
 server.express.use((req, res, next) => {
   const { token } = req.cookies;
+  res.header(
+    "Access-Control-Allow-Origin",
+    "*"
+    //"https://cas-projekt2-hs40qvw30-karolinakantorska.vercel.app/"
+  );
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   if (token) {
     const { userId, userPermission } = jwt.verify(token, process.env.APP_SECRET);
     // put userId onto the request
@@ -21,6 +27,7 @@ server.express.use((req, res, next) => {
   }
   next();
 });
+/*
 server.express.use(function(req, res, next) {
   res.header(
     "Access-Control-Allow-Origin",
@@ -29,6 +36,7 @@ server.express.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+*/
 server.start(
   {
     cors: {
