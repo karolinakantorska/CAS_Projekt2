@@ -22,9 +22,12 @@ server.express.use((req, res, next) => {
   next();
 });
 server.express.use(function(req, res, next) {
-  //res.header("Access-Control-Allow-Origin", "https://cas-projekt2-hs40qvw30-karolinakantorska.vercel.app/");
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://cas-projekt2-3a6c4nfnr-karolinakantorska.vercel.app"
+  );
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Origin", "*");
+  //res.header("Access-Control-Allow-Origin", "*");
   console.log("res", res);
   console.log("req", req);
   next();
@@ -33,8 +36,8 @@ server.start(
   {
     cors: {
       credentials: true,
-      //origin: [process.env.FRONTEND_URL],
-      origin: process.env.FRONTEND_URL || process.env.FRONTEND_URL_VERCEL,
+      origin: [process.env.FRONTEND_URL_VERCEL],
+      //origin: process.env.FRONTEND_URL || process.env.FRONTEND_URL_VERCEL,
     },
   },
   (deets) => {
