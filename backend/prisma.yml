@@ -1,5 +1,6 @@
 #endpoint: ${env:PRISMA_ENDPOINT}
-endpoint: https://mtb-prod-ac999d9b09.herokuapp.com/ntb-prod/prod
+#endpoint: https://mtb-prod-ac999d9b09.herokuapp.com/ntb-prod/prod
+endpoint: https://prod-server-01ce681a23.herokuapp.com/prod-service/prod
 
 datamodel: datamodel.graphql
 secret: ${env:PRISMA_SECRET}

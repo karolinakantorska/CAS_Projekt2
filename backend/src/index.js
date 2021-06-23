@@ -22,7 +22,7 @@ server.express.use((req, res, next) => {
   next();
 });
 server.express.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://cas-projekt2.vercel.app");
+  res.header("Access-Control-Allow-Origin", "https://mtb.vercel.app");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   //res.header("Access-Control-Allow-Origin", "*");
   console.log("res", res);
@@ -34,7 +34,6 @@ server.start(
     cors: {
       credentials: true,
       origin: [process.env.FRONTEND_URL_VERCEL],
-      //origin: process.env.FRONTEND_URL || process.env.FRONTEND_URL_VERCEL,
     },
   },
   (deets) => {
