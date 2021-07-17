@@ -23,16 +23,16 @@ server.express.use((req, res, next) => {
 });
 server.express.use(function(req, res, next) {
   // for deployment
-  //res.header("Access-Control-Allow-Origin", "https://mtb.vercel.app");
+  res.header("Access-Control-Allow-Origin", "https://mtb.vercel.app");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header("Access-Control-Allow-Origin", "*");
+  //res.header("Access-Control-Allow-Origin", "*");
   next();
 });
 server.start(
   {
     cors: {
       credentials: true,
-      origin: [process.env.FRONTEND_URL_VERCEL,process.env.FRONTEND_URL],
+      origin: [process.env.FRONTEND_URL_VERCEL, process.env.FRONTEND_URL],
     },
   },
   (deets) => {
