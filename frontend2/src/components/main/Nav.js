@@ -36,7 +36,6 @@ const Nav = () => {
   }
   if (data) { 
     const currentUser = data.currentUser? data.currentUser: noUser;
-    console.log("currentUser", currentUser);
     return (
     <>
       <StyledNav>

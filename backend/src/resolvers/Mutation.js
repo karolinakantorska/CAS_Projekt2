@@ -46,7 +46,6 @@ const mutations = {
       { userId: user.id, userPermission: user.permissions },
       process.env.APP_SECRET
     );
-
     ctx.response.cookie("token", token, {
       path: "/",
       httpOnly: true,
@@ -56,7 +55,12 @@ const mutations = {
     return user;
   },
   signout(parent, args, ctx, info) {
-    ctx.response.clearCookie("token");
+    ctx.response.clearCookie("token", {
+      path: "/",
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
+    });
     return { message: "Goodbye!" };
   },
   // create Guide

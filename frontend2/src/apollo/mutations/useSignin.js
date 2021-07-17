@@ -8,6 +8,7 @@ export function useSignin() {
     refetchQueries: [{ query: CURRENT_USER_QUERY }],
     awaitRefetchQueries: true,
     onCompleted: () => {
+      console.log(window)
       routeToGuidesList();
     },
     onError: (error) => {

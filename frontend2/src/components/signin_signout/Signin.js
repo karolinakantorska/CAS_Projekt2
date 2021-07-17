@@ -33,12 +33,7 @@ const Signin = ({ redirectInfo }) => {
       },
     });
   }
-  /*
-  const hasMounted = useHydratationFix();
-  if (!hasMounted) {
-    return null;
-  }
-  */
+
   return (
 <StyledContainer>
     <StyledCard>
