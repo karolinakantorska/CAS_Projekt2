@@ -16,7 +16,7 @@ import {
   StyledSpan,
   StyledCardsContainer,
 } from '../../styles/StyledContainer';
-
+ 
 const GuidesList = () => {
   const { loading, error, data } = useAllUsersWithPermission(permission.guide);
   const {
@@ -39,9 +39,10 @@ const GuidesList = () => {
     );
   }
   if (dataCurrentUser) {
+    
       const currentUser = dataCurrentUser.currentUser
         ? dataCurrentUser.currentUser
-        : noUser;
+        : noUser.currentUser;
   return (
     <StyledContainer>
       {loading && <LoadingBar />}

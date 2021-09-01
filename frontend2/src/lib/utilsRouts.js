@@ -49,10 +49,10 @@ export function routeToMyCalendar(guideId) {
   });
 }
 export function routeToGuideDetailsIfSignedIn(currentUserPermission, id) {
-  if (currentUserPermission !== '') {
-    routeToGuideDetails(id);
-  } else {
+  if (currentUserPermission === '') {
     routeToSignin();
+  } else {
+    routeToGuideDetails(id);
   }
 }
 export function routeToBookingConfirmation(
