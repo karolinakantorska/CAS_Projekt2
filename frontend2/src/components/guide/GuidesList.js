@@ -39,7 +39,6 @@ const GuidesList = () => {
     );
   }
   if (dataCurrentUser) {
-    
       const currentUser = dataCurrentUser.currentUser
         ? dataCurrentUser.currentUser
         : noUser.currentUser;

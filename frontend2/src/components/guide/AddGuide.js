@@ -4,7 +4,7 @@ import React from 'react';
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
 import LoadingBar from '../reusable/LoadingBar';
-import { ButtonMain, ButtonLink } from '../reusable/Buttons';
+import { ButtonMain } from '../reusable/Buttons';
 
 import InputPassword from '../reusable/InputPassword';
 import Input from '../reusable/Input';
@@ -13,7 +13,6 @@ import MyCheckbox from '../reusable/MyCheckbox';
 // Utils
 import {
   useForm,
-  useFormInput,
   useSwich,
   useCheckBoxes,
   usePhotoUpload,
@@ -51,7 +50,6 @@ const AddGuide = () => {
     uploadPresetGuide,
   );
   function handleAddGuide() {
-    console.log('submitting')
     addGuide({
       variables: {
         email: inputs.email.textValue,

@@ -29,24 +29,26 @@ function validate(inputs) {
 export function useForm(callback, initialInputs, loading = false) {
   const [inputs, setInputs] = useState(initialInputs);
   const [errorInput, setErrorInput] = useState({});
-  const [valid, setValid] = useState(false);
+
   useEffect(() => {
     setInputs(initialInputs);
   }, [loading]);
+
   useEffect(() => {
-    if (Object.keys(errorInput).length === 0 && valid) {
+    if (Object.keys(errorInput).length === 0) {
       callback();
     }
   }, [errorInput]);
+
   function handleChange(e) {
     setInputs({
       ...inputs,
       [e.target.name]: { textValue: e.target.value, required: e.target.required },
     });
   }
+  
   function handleSubmit(e) {
     e.preventDefault();
-    setValid(true);
     setErrorInput(validate(inputs));
   }
   return {
@@ -56,6 +58,7 @@ export function useForm(callback, initialInputs, loading = false) {
     errorInput,
   };
 }
+
 export function useSwich(initialValues, loading = false) {
   const [switchValues, setSwitchValues] = useState(initialValues);
   useEffect(() => {
