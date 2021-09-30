@@ -60,6 +60,7 @@ const BookingConfirmation = ({ props }) => {
       description: { textValue: "Dear Guide, I can't wait to start the trip!" },
     },
   );
+  
   const { loading, error, data } = useDay(year, month, day);
   const [updateDay, { loading: loadingUpdateDay, error: errorUpdateDay }] = useUpdateDay(
     year,
@@ -78,8 +79,9 @@ const BookingConfirmation = ({ props }) => {
     tripId? tripId:'0',
     dataCurrentUser.currentUser.id,
   );
+  
   function handleBookingConfirmation() {
-    if (data.days.length === 0) {
+    if (data && data.days.length === 0) {
       createDay({
         variables: {
           time,
@@ -100,7 +102,7 @@ const BookingConfirmation = ({ props }) => {
       });
     }
     // day exist
-    else {
+    else if (data){
       updateDay({
         variables: {
           time,
@@ -119,6 +121,7 @@ const BookingConfirmation = ({ props }) => {
       });
     }
   }
+  
   if (loadingCurrentUser || loading || loadingTrip) {
     return <LoadingBar />;
   }
@@ -130,16 +133,15 @@ const BookingConfirmation = ({ props }) => {
       </StyledCardWithPadding>
     );
   }
+ 
   if (dataCurrentUser && data && dataTrip) {
-    //const trip = dataTrip.trips[0];
-    console.log('trip', trip);
     const trip = dataTrip.trips[0] ? dataTrip.trips[0] : noTripChoosen;
     const currentUser = dataCurrentUser.currentUser
           ? dataCurrentUser.currentUser
           : noUser;
     console.log('trip',trip)
     return (
-      <StyledContainer >
+      <StyledContainer>
         <StyledCard>
           <form onSubmit={handleSubmit} method="post">
             <StyledFieldset
@@ -227,9 +229,7 @@ const BookingConfirmation = ({ props }) => {
                   <ButtonMain text="Confirm and Go!" />
                 </>
               )}
-              {currentUser.id === guideId && (
-                <ButtonMain text="Confirm Your Day Off !" />
-              )}
+              {currentUser.id === guideId && <ButtonMain text="Confirm Your Day Off !" />}
             </StyledFieldset>
           </form>
           <ButtonLink text="Chancel" onClick={() => routeBack()} />
@@ -248,3 +248,7 @@ BookingConfirmation.propTypes = {
 };
 
 export default BookingConfirmation;
+
+/*
+
+        */
