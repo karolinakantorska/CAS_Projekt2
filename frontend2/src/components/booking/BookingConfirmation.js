@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // Components
-
 import ErrorGraphql from '../reusable/ErrorGraphql';
 import ErrorMessage from '../reusable/ErrorMessage';
 import LoadingBar from '../reusable/LoadingBar';
